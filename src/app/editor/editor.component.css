@@ -13,7 +13,7 @@ html {
 body {
     background: #3a3a3a;
     color: #fff;
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 
 /* Header section */
@@ -117,6 +117,10 @@ body {
     outline: none;
 }
 
+.CodeMirror {
+    white-space: normal;
+}
+
 .output-section {
     border-radius: 15px;
     padding-top: 5px;
@@ -142,12 +146,6 @@ body {
 .right ul .submenu {
     display: none;
 }
-
-.code-editor {
-    height: 200px;
-    border: 1px solid #ccc;
-}
-
   
 /* CSS for small screen */
 @media only screen and (max-width: 750px) {

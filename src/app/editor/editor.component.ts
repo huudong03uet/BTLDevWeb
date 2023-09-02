@@ -22,24 +22,31 @@ export class EditorComponent implements AfterViewInit {
     this.htmlEditor = CodeMirror.fromTextArea(this.htmlTextarea.nativeElement, {
       mode: 'xml',
       lineNumbers: true,
+      lineWrapping: true,
       theme: 'monokai',
-      autoCloseTags: true  // Bật chức năng autoCloseTags
+      autoCloseBrackets: true,
+      autoCloseTags: true
     });
     this.htmlEditor.on('change', () => this.run());
 
     this.cssEditor = CodeMirror.fromTextArea(this.cssTextarea.nativeElement, {
       mode: 'css',
       lineNumbers: true,
+      lineWrapping: true,
       theme: 'monokai',
-      autoCloseTags: true  // Bật chức năng autoCloseTags
+      autoCloseBrackets: true,
+      autoCloseTags: true
+
     });
     this.cssEditor.on('change', () => this.run());
 
     this.jsEditor = CodeMirror.fromTextArea(this.jsTextarea.nativeElement, {
       mode: 'javascript',
       lineNumbers: true,
+      lineWrapping: true,
       theme: 'monokai',
-      autoCloseTags: true  // Bật chức năng autoCloseTags
+      autoCloseBrackets: true,
+      autoCloseTags: true
     });
     this.jsEditor.on('change', () => this.run());
   }
