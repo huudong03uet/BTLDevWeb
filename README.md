@@ -1,13 +1,6 @@
-# Codepen
+# BTLWeb
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.6.
-
-## Todo list
-- Code editor 👌
-- Live preview 👌
-- User registration and authentication 👎
-- Save session/ project 👎
-- Share projecy 👎
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
 
 ## Development server
 
