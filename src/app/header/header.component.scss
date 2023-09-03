@@ -1,0 +1,18 @@
+/* CSS để điều chỉnh kiểu dáng và sắp xếp */
+.toolbar {
+    display: flex;
+    align-items: center;
+}
+
+.toolbar img {
+    order: -1; /* Đưa ảnh lên sau tiêu đề và nội dung */
+}
+
+.title-and-description {
+    order: 0; /* Đưa tiêu đề và mô tả xuống sau ảnh */
+}
+
+/* Di chuyển các button về bên phải */
+.button-container {
+    margin-left: auto;
+}
