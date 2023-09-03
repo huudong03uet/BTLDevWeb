@@ -28,9 +28,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot([
-      { path: '', component: CodeEditorComponent },
+      { path: '', component: HomeComponent},
+      // { path: '', component: CodeEditorComponent },
       { path: 'pen', component: HomeCodeComponent },
-      { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: "login", component: LoginComponent },
       { path: "signin", component: SigninComponent },
       { path: "", component: SigninComponent }
