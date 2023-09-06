@@ -8,6 +8,17 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
 
+  public isMenuOpen: boolean = false;
+
+  openMenu(): void {
+    console.log("click");
+    this.isMenuOpen = true;
+  }
+
+  closeMenu(): void {
+    this.isMenuOpen = false;
+  }
+
   constructor(private router: Router) { }
 
   onLoginButtonClick() {
