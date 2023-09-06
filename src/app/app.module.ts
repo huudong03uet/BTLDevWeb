@@ -3,14 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './pages/home/home.component';
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from './header/header.component';
-import { CodeEditorComponent } from './code-editor/code-editor.component';
-import { LoginComponent } from './login/login.component';
-import { SigninComponent } from './signin/signin.component';
-import { SettingComponent } from './setting/setting.component';
-import { HomeCodeComponent } from './home-code/home-code.component';
+import { HeaderComponent } from './pages/code-editor/components/header/header.component';
+import { CodeEditorComponent } from './pages/code-editor/code-editor.component';
+import { LoginComponent } from './pages/login/login.component';
+import { SigninComponent } from './pages/signin/signin.component';
+import { SettingComponent } from './pages/setting/setting.component';
+import { HomeCodeComponent } from './pages/home-code/home-code.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
