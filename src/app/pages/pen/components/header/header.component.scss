@@ -3,18 +3,17 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    // font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.body {
+    scroll-behavior: smooth;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    background: #3a3a3a;
-    color: #fff;
-    overflow-x: auto;
-}
 
 /* Header section */
 #header {
@@ -34,7 +33,7 @@ body {
 
 .left img {
     width: 25px;
-    margin-right: 5px;
+    //margin-right: 5px;
 }
 
 .left .project-details h4 {

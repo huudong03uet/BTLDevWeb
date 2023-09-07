@@ -28,11 +28,12 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/app/header/logo.png"
+              "src/app/pages/pen/components/header/logo.png"
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/font-awesome/css/font-awesome.min.css"
             ],
             "scripts": []
           },

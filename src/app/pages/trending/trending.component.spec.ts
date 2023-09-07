@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PenHeaderComponent } from './header.component';
+import { TrendingComponent } from './trending.component';
 
-describe('PenHeaderComponent', () => {
-  let component: PenHeaderComponent;
-  let fixture: ComponentFixture<PenHeaderComponent>;
+describe('TrendingComponent', () => {
+  let component: TrendingComponent;
+  let fixture: ComponentFixture<TrendingComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PenHeaderComponent]
+      declarations: [TrendingComponent]
     });
-    fixture = TestBed.createComponent(PenHeaderComponent);
+    fixture = TestBed.createComponent(TrendingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

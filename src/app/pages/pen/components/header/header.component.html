@@ -1,23 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0">
-    <title>Live Code Editor</title>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="header.component.scss">
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-    <!-- Font awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-        integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-</head>
-
- <section id="header">
+<div class="body">
+    <section id="header">
         <div class="left">
             <h2 class="logo"><i class="fa-brands fa-codepen fa-xl"></i></h2>
             <div class="project-details">
@@ -35,13 +18,13 @@
                 <li><a class = "login" (click)="onLoginButtonClick()">Log In</a></li>
             </ul>
         </div>
-
+    
         <!-- For Mobile Sub-Menu -->
         <ul class="mobile-menu" [style.right]="isMenuOpen ? '75px' : '-400px'" id="side-menu">
             <li class="save"><a href="#"><i class="fa-solid fa-cloud"></i> Save</a></li>
             <li class="settings"><a href="#"><i class="fa-solid fa-gear"></i> Settings</a></li>
             <i class="fa-solid fa-xmark close" (click)="closeMenu()"></i>
         </ul>
-
+    
     </section>
-    </html>
+</div>
