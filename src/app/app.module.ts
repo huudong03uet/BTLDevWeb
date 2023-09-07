@@ -5,13 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from './pages/code-editor/components/header/header.component';
-import { CodeEditorComponent } from './pages/code-editor/code-editor.component';
+import { CodeEditorComponent } from './pages/pen/components/code-editor/code-editor.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { SettingComponent } from './pages/setting/setting.component';
-import { HomeCodeComponent } from './pages/home-code/home-code.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeaderComponent } from './pages/pen/components/header/header.component';
+import { HomeCodeComponent } from './pages/pen/home-code.component';
 
 @NgModule({
   declarations: [
