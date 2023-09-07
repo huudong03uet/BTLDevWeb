@@ -1,0 +1,162 @@
+
+// html {
+//     height: 100%
+// }
+
+.body_login {
+    // set width and height = full screen
+    width: 100vw;
+    height: 100vh;
+    background: url(../../../assets/images/background.png);
+    background-repeat: repeat;
+    // get all screen
+
+}
+
+.center_body {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+}
+
+.login-header {
+    margin: 50px 0 20px;
+}
+
+.login-header .login-logo {
+    margin: 15px 0 5px;
+    // background-size: 110px 24px;
+    width: 220px;
+    // auto height
+    height: 31px;
+    background-size: auto;
+    background-image: url(../../../assets/images/logo.svg);
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    font: 0/0 a;
+}
+
+.login-header .login-text {
+    font-family: var(--cp-font-family-header-alt);
+    font-size: 4.7rem;
+    font-weight: 700;
+    margin: 0;
+    color: hsl( 0deg 0% 100% );
+}
+
+
+.flex-grid {
+    display: flex;
+}
+
+.flex-grid .login-half {
+
+}
+
+.flex-grid .left {
+    padding-right: 10%;
+    width: 45%;
+}
+
+
+
+.flex-grid .left .login-social-auth-error {
+
+}
+
+.flex-grid .left .social-information {
+    margin: 15px 5px 5px;
+    padding: 0.3rem;
+}
+
+// when open
+.flex-grid .left .social-information[open] {
+    outline: 5px solid hsl( 222.86deg 13.73% 20% );
+    background: hsl( 222.86deg 13.73% 20% );
+    border-radius: 4px;
+}
+
+.flex-grid .left .social-information summary {
+    color: #fff;
+    font-size: 1rem;
+}
+
+.flex-grid .left .social-information p {
+    font-size: 100%;
+    color: hsl( 230deg 12% 80.39% );
+    padding-block-start: 0.5rem;
+    padding-inline-start: 0.8rem;
+    margin-block-end: 0.5rem;
+}
+
+.flex-grid .right {
+    padding-left: 10%;
+    width: 55%;
+}
+
+#login-with-github {
+    padding-left: 60px;
+    text-align: 60px;
+    text-align: left;
+    margin: 0 0 10px;
+}
+
+#login-with-google {
+    padding-left: 60px;
+    text-align: 60px;
+    text-align: left;
+    margin: 0 0 10px;
+}
+
+
+#login-with-facebook {
+    padding-left: 60px;
+    text-align: 60px;
+    text-align: left;
+    margin: 0 0 10px;
+}
+
+
+
+.flex-grid .login-divider {
+    position: relative;
+
+}
+
+.flex-grid .login-divider .bar {
+    height: 41%;
+    width: 2px;
+    position: absolute;
+    background-color: hsl( 233.33deg 9.89% 64.31% );
+    left: -1px;
+}
+
+.flex-grid .login-divider .bar-top {
+    left: 0;
+}
+
+.flex-grid .login-divider .bar-bottom {
+    bottom: 0;
+}
+
+.login-form .field {
+    padding-right: 0;
+    margin: 0 0 20px;
+
+}
+
+.top-label-form label {
+    font-weight: 400;
+    display: block;
+    margin: 0 0 3px;
+    letter-spacing: .5px;
+
+    cursor: pointer;
+}
+
+.field input {
+    font-size: 1.3rem;
+    max-width: 100%;
+}

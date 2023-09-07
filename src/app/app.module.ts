@@ -6,7 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { RouterModule } from '@angular/router';
 import { CodeEditorComponent } from './pages/pen/components/code-editor/code-editor.component';
 import { LoginComponent } from './pages/login/login.component';
-import { SigninComponent } from './pages/signin/signin.component';
+import { SignupComponent } from './pages/signup/signup.component';
 import { SettingComponent } from './pages/setting/setting.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PenHeaderComponent } from './pages/pen/components/header/header.component';
@@ -25,7 +25,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     PenHeaderComponent,
     CodeEditorComponent,
     LoginComponent,
-    SigninComponent,
+    SignupComponent,
     SettingComponent,
     HomeCodeComponent,
     TrendingComponent,
@@ -40,9 +40,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
       // { path: '', component: CodeEditorComponent },
       { path: 'pen', component: HomeCodeComponent },
       { path: "login", component: LoginComponent },
-      { path: "signin", component: SigninComponent },
+      { path: "signup", component: SignupComponent },
       { path: "trending", component: TrendingComponent},
-      { path: "", component: SigninComponent }
+      { path: "", component: SignupComponent }
     ]),
     NgbModule,
     MatSidenavModule, 

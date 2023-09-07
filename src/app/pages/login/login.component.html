@@ -1,1 +1,76 @@
-<p>login works!</p>
+<div class="body_login">
+    <section class="center_body">
+        <div class="login-header">
+            <h1 class="login-logo">CodePen</h1>
+            <div class="login-text">Log In</div>
+        </div>
+
+        <div class="flex-grid">
+            <div class="login-half left">
+                <div class="login-social-button">
+                    <form>
+                        <button id="login-with-google">
+                            "Log In with Google"
+                        </button>
+                    </form>
+
+                    <form>
+                        <button id="login-with-github">
+                            "Log In with Github"
+                        </button>
+                    </form>
+
+
+                    <form>
+                        <button id="login-with-facebook">
+                            "Log In with Facebook"
+                        </button>
+                    </form>
+
+                    <details class="social-information">
+                        <summary>
+                            <!-- ::marker -->
+                            How social log in works
+                        </summary>
+                        <p>    
+                            If the email address associated with your social account matches the email address of your CodePen account, 
+                            you'll be logged in. You aren't locked to any particular social account. Questions? 
+                        
+                        <a href="/pen">contact support</a>
+                        .
+                        </p>
+                    </details>
+                </div>
+
+                
+            </div>
+            <div class="login-divider">
+                <div class="bar bar-top"></div>
+                <span class="login-or">or</span>
+                <div class="bar bar-bottom"></div>            </div>
+            <div class="login-half right">
+                <div class="login-area">
+                    <form class="login-form top-label-form">
+                            <div id="login-email" class="field">
+                                <label for="login-email-field">Username or Email</label>
+                                <input type="text" id="login-email-field" name="login-email-field" placeholder="Username or Email">
+
+                            </div>
+                            <div id="login-password" class="field">
+                                <label for="login-password-field">Password</label>
+                                <input type="password" id="login-password-field" name="login-password-field" placeholder="Password">
+                            </div>
+                            <div>
+                                <button id="login-button" class="button-primary">Log In</button>
+                                <a href="/pen" id="forgot-password-link">
+                                    Forgot password?
+                                </a>
+                            </div>
+                    </form>
+                    
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
