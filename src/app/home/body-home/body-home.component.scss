@@ -1,0 +1,35 @@
+.container {
+    z-index: 1;
+    margin-top: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
+    width: auto;
+    font-size: large;
+    nav {
+        ul {
+            li {
+                margin: 5px;
+                display: list-item;
+            }
+        }
+    }
+}
+
+  /* Mặc định cho các mục li */
+  .navbar-nav .nav-item a {
+    color: #333; /* Màu văn bản mặc định */
+    text-decoration: none; /* Loại bỏ gạch chân mặc định */
+    border-bottom: 2px solid transparent; /* Đường kẻ dưới mặc định (ẩn) */
+  }
+
+  /* Khi di chuột vào */
+  .navbar-nav .nav-item a:hover {
+    color: #007bff; /* Màu văn bản khi di chuột vào */
+    border-bottom-color: #007bff; /* Màu của đường kẻ dưới khi di chuột vào */
+  }
+
+  /* Khi được chọn */
+  .navbar-nav .nav-item.active a {
+    color: #28a745; /* Màu văn bản khi được chọn */
+    border-bottom-color: #28a745; /* Màu của đường kẻ dưới khi được chọn */
+  }

@@ -1,0 +1,149 @@
+.sidebar {
+  width: 10%;
+  background-color: #333;
+  color: #fff;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 1px;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+}
+
+/* CSS cho menu */
+.menu {
+  display: block;
+  align-items: center;
+  /* Để các mục nằm chính giữa dòng */
+}
+
+/* CSS cho các mục a trong menu */
+.menu a {
+  display: flex;
+  align-items: center;
+  background-color: gray;
+  /* Màu mặc định của văn bản */
+  text-decoration: none;
+  transition: color 0.3s;
+  /* Hiệu ứng màu khi hover */
+}
+
+/* CSS khi hover trên mục a */
+.menu a:hover {
+  color: #007bff;
+  /* Đổi màu khi hover */
+}
+
+/* CSS cho biểu tượng SVG */
+.menu svg {
+  fill: currentColor;
+  /* Sử dụng màu của văn bản cho fill của SVG */
+  width: 20px;
+  /* Kích thước của biểu tượng SVG */
+  height: 20px;
+  margin-right: 5px;
+  /* Khoảng cách giữa biểu tượng và văn bản */
+}
+
+.toggle-icon {
+  margin-left: auto;
+  /* Đẩy biểu tượng sang bên phải */
+  font-weight: bold;
+  /* In đậm cho biểu tượng */
+}
+
+/* Đảm bảo toggle và pen trên cùng một dòng */
+.toggle-button {
+  color: #333;
+  background-color: gray;
+}
+
+/* Căn giữa phần nội dung khi được bật */
+.toggled-content {
+  
+  background-color: gray;
+  margin-top: 1px;
+  ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    margin-left: 20px;
+  }
+}
+
+/* Hiển thị nội dung khi toggle được bật */
+.toggled-content.active {
+  display: none;
+}
+
+.toggle-button {
+  background-color: gray;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  align-items: right;
+}
+
+.menu li div {
+  display: flex;
+  align-items: center;
+}
+
+.pen {
+  background-color: gray;
+}
+
+.pen-collection {
+  margin-bottom: 20px;
+}
+
+.menu-your {
+  font-size: medium;
+  margin-bottom: 20px;
+  ul {
+    li {
+      a:hover {
+        color: #007bff;
+      }
+    }
+  }
+}
+
+#carbonads{
+  position: absolute;
+  bottom: 0; /* Đặt ở phía dưới cùng của sidebar */
+  left: 0; /* Đặt ở bên trái của sidebar */
+  width: 100%; /* Chiều rộng tương đương với sidebar */
+  padding: 10px; /* Để tạo khoảng cách giữa nó và phần còn lại của sidebar */
+
+  .carbon-wrap {
+    display: block;
+    a {
+      color: darkgray;
+      font-size: small;
+      display: block;
+    }
+  }
+
+  a {
+    color: darkgray;
+    font-size: small;
+  }
+}
+
+
+

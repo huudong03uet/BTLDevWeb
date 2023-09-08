@@ -1,0 +1,13 @@
+.input-group {
+    position: absolute;
+    top: 0; /* Đặt ở đầu trên của sidebar */
+    right: 0; /* Đặt ở bên phải của sidebar */
+    width: 90%; /* Đặt chiều rộng theo mong muốn */
+    height: 8%;
+    padding: 2px; /* Để tạo khoảng cách giữa nó và phần còn lại của sidebar */
+    background-color: #f2f2f2; /* Tùy chỉnh màu nền nếu cần */
+    z-index: 1; /* Đặt mức độ chồng lớp để đảm bảo nó nằm trên các phần khác của sidebar */
+    input {
+      height: 100%;
+    }
+  }
