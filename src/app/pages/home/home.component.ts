@@ -32,7 +32,7 @@ export class HomeComponent {
   }
 
   onSigninButtonClick() {
-    this.router.navigate(['/signin']);
+    this.router.navigate(['/signup']);
   }
 
 }
