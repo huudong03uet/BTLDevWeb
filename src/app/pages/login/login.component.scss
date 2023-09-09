@@ -60,6 +60,40 @@
     width: 45%;
 }
 
+.social-account-button {
+    color: hsl( 0deg 0% 100% );
+    background-color: hsl( 227.37deg 12.26% 30.39% );
+    padding-left: left;
+    margin: 0 0 10px;
+    text-align: left;
+    width: 100%;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 4px;
+    border-width: 0;
+}
+.social-account-button:hover {
+    background-color: hsl( 0deg 0% 0.39% );
+    border-width: 2px;
+    //  set for 4 side (not only left and right)
+    border-style: solid;
+
+    border-color: hsl( 227.37deg 12.26% 30.39% );;
+}
+
+form {
+    position: relative;
+}
+
+.social-account-button svg {
+    // width: 26px;
+    // height: 26px;
+    fill: hsl( 0deg 0% 100% );
+    // position: absolute;
+    padding-right: 20px;
+    left: 14px;
+    top: 6px;
+}
 
 
 .flex-grid .left .login-social-auth-error {
@@ -97,14 +131,14 @@
 }
 
 #login-with-github {
-    padding-left: 60px;
+    padding-left: 20px;
     text-align: 60px;
     text-align: left;
     margin: 0 0 10px;
 }
 
 #login-with-google {
-    padding-left: 60px;
+    padding-left: 20px;
     text-align: 60px;
     text-align: left;
     margin: 0 0 10px;
@@ -112,7 +146,7 @@
 
 
 #login-with-facebook {
-    padding-left: 60px;
+    padding-left: 20px;
     text-align: 60px;
     text-align: left;
     margin: 0 0 10px;
@@ -141,9 +175,27 @@
     bottom: 0;
 }
 
+.flex-grid .login-divider .login-or {
+    position: absolute;
+    width: 46px;
+    height: 18%;
+    left: -23px;
+    border: 2px solid hsl( 233.33deg 9.89% 64.31% );
+    top: 41%;
+    text-align: center;
+    display: flex;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    line-height: 30px;
+    color: hsl( 225.88deg 13.39% 75.1% );
+}
+
 .login-form .field {
     padding-right: 0;
     margin: 0 0 20px;
+    color: white;
 
 }
 
@@ -157,6 +209,56 @@
 }
 
 .field input {
-    font-size: 1.3rem;
-    max-width: 100%;
+    font-size: 1.1rem;
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    height: 45px;
+}
+
+
+#login-button {
+    display: block;
+    width: 100%;
+    font-size: 1.1rem;
+    // height: 35px;
+    background-color: hsl( 139.41deg 58.62% 54.51% );
+    color: black;
+    padding: 10px 16px;
+    border-radius: 4px;
+    margin: 3px;
+    margin-bottom: 10px;
+}
+
+#login-button:hover {
+    background-color: hsl( 139.62deg 59.09% 34.51% );
+}
+
+#forgot-password-link {
+    text-align: center;
+    color: hsl( 196.2deg 100% 73.14% );
+    cursor: pointer;
+    padding-top: 20px;
+    font-size: 1.1rem;
+}
+
+#forgot-password-link:hover {
+    color: white;
+}
+
+.signup-callout {
+    margin-top: 40px;
+    color: white;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.signup-callout a {
+    text-decoration: none;
+    color: hsl( 196.2deg 100% 73.14% );
+    font-size: 1.1rem;
+}
+
+.signup-callout a:hover {
+    color: white;
 }
