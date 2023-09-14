@@ -16,6 +16,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     NgbModule,
     MatSidenavModule, 
     MatToolbarModule, 
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
