@@ -6,5 +6,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent {
+  hiddenRegisterEmail: boolean = true;
 
+  getHiddenRegisterEmail() {
+    return this.hiddenRegisterEmail;
+  }
+
+  changeStatusHiddenRegisterEmail() {
+    this.hiddenRegisterEmail = !this.hiddenRegisterEmail;
+    console.log(this.hiddenRegisterEmail)
+  }
+  
 }

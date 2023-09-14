@@ -38,14 +38,53 @@
                     </button>
                 </form>
                 <p>Or,</p>
-                <label for="login-with-email" class="button button-medium email-button social-account-button not-icon">
-                    Sign Up with Email
-                </label>
+                
 
             
             
             </div>
+            <label for="login-with-email" class="button button-medium email-button social-account-button not-icon" (click)="changeStatusHiddenRegisterEmail()">
+                Sign Up with Email
+            </label>
+            <form class="top-label-form" id="user-new-form" [hidden]="getHiddenRegisterEmail()" >
+                <div class="form-field" >
+                    <div id="signup-user-details">
+                        <div id="signup-name" class="field name-field">
+                            <label for="user-name">Your Name</label>
+                            <input type="text" id="user-name" name="user-name" required>
 
+                        </div>
+                        <div id="signup-username" class="field username-field">
+                            <label for="user-username">Choose a username</label>
+                            <input type="text" id="user-username" name="user-username"  required>
+                            <small>codepen.io/<span id="signup-username-preview">username</span></small>
+                        </div>
+                        <div id="signup-email" class="field email-field">
+                            <label for="user-email">Email</label>
+                            <input type="email" id="user-email" name="user-email" required>
+                    
+                        </div>
+                        <div id="signup-password" class="field password-field">
+                            <label for="user-password">Password</label>
+                            <input type="password" id="user-password" name="user-password" required>
+                            <small>Your password must:
+                                <ul>
+                                <li>Include an UPPER and lowercase letter</li>
+                                <li>Include a number</li>
+                                <li>Include one or more of these special characters: .@$!%*#?&amp;&gt;&lt;)(^-_</li>
+                                <li>Be between 8 and 100 characters</li>
+                                </ul>
+                            </small>
+                        </div>
+                    </div>
+
+
+                </div>
+                <button type="submit" class="button button-large button-primary account-submit-button">
+                    Submit
+                </button>
+            </form>
+            
 
         </div>
     </div>
