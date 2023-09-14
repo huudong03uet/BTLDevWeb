@@ -16,6 +16,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { FollowingComponent } from './pages/following/following.component';
+import { ContentGridUserComponent } from './components/content-grid-user/content-grid-user.component';
 
 
 @NgModule({
@@ -31,6 +33,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     TrendingComponent,
     SidebarComponent,
     HeaderComponent,
+    FollowingComponent,
+    ContentGridUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
       { path: "login", component: LoginComponent },
       { path: "signup", component: SignupComponent },
       { path: "trending", component: TrendingComponent},
-      { path: "", component: SignupComponent }
+      {path: "following", component: FollowingComponent},
     ]),
     NgbModule,
     MatSidenavModule, 
