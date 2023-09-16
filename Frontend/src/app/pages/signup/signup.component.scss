@@ -1,0 +1,190 @@
+.page_center {
+    width: 100vw;
+    height: auto;
+    min-height: 100vh;
+    background: url(../../../assets/images/background.png);
+    background-repeat: repeat;
+    position: absolute;
+}
+
+.form-wrap {
+    width: 95%;
+    max-width: 720px;
+    min-height: 90vh;
+    height: auto;
+    margin: 5% auto;
+    position: relative;
+    // display: flex;
+    color: hsl( 228deg 12.2% 40.2% );
+    background: hsl( 0deg 0% 100% );
+}
+
+.form-wrap .signup-header {
+    text-align: center;
+    background: hsl( 228deg 12.2% 40.2% );
+    color: hsl( 0deg 0% 100% );
+    padding: 60px 0 40px;
+    position: relative;
+}
+
+.form-wrap .signup-header h1 {
+    font-size: 4rem;
+}
+
+.form-wrap .signup-header p {
+    font-size: 1.1rem;
+}
+
+
+.social-account-button {
+    color: hsl( 0deg 0% 100% );
+    background-color: hsl( 227.37deg 12.26% 30.39% );
+    padding-left: left;
+    // margin: 0 0 10px;
+    text-align: left;
+    width: -webkit-fill-available;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 4px;
+    border-width: 0;
+    margin: 10px 150px;
+    // padding-left = center - 40px
+    padding-left: calc(25% - 80px);
+    border-width: 2px;
+}
+.social-account-button:hover {
+    background-color: hsl( 0deg 0% 0.39% );
+    // border-width: 2px;
+    //  set for 4 side (not only left and right)
+    // border-style: solid;
+    cursor: pointer;
+    border-color: hsl( 227.37deg 12.26% 30.39% );
+}
+
+.login-social-button p {
+    text-align: left;
+    margin: 0 calc(23%);
+}
+
+.login-social-button .not-icon {
+    padding: 20px 40px 20px;
+    // width = 50% parent
+    width: 30%;
+    //  center
+    // border-width: 2px;
+    
+
+    text-align: center;
+}
+
+
+form {
+    position: relative;
+}
+
+.social-account-button svg {
+    // width: 26px;
+    // height: 26px;
+    fill: hsl( 0deg 0% 100% );
+    // position: absolute;
+    padding-right: 20px;
+    left: 14px;
+    top: 6px;
+}
+
+
+.flex-grid .login-social-auth-error {
+
+}
+
+.flex-grid .social-information {
+    margin: 15px 5px 5px;
+    padding: 0.3rem;
+}
+
+// when open
+.flex-grid .social-information[open] {
+    outline: 5px solid hsl( 222.86deg 13.73% 20% );
+    background: hsl( 222.86deg 13.73% 20% );
+    border-radius: 4px;
+}
+
+
+
+.flex-grid .social-information p {
+    font-size: 100%;
+    color: hsl( 230deg 12% 80.39% );
+    padding-block-start: 0.5rem;
+    padding-inline-start: 0.8rem;
+    margin-block-end: 0.5rem;
+}
+
+.top-label-form {
+    display: block;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.form-field {
+
+}
+
+.field {
+    margin: 0 0 20px;
+}
+
+.top-label-form label {
+    font-weight: 400;
+    display: block;
+    margin: 0 0 3px;
+    letter-spacing: .5px;
+    cursor: pointer;
+}
+
+.field input {
+    width: 50%;
+    margin: 0px 150px;
+    font-size:1rem;
+    padding: 8px 12px;
+    color: hsl( 223.64deg 12.94% 16.67% );
+    background-color: hsl( 226.67deg 12% 85.29% );
+    border: 3px solid hsl( 226.67deg 12% 85.29% );
+    border-radius: 3px;
+}
+
+.field input:focus {
+    background-color: hsl( 0deg 0% 100% );
+    border-color: hsl( 228.39deg 12.25% 50.39% );
+    font-size: 1rem;
+    padding: 8px 12px;
+}
+
+small {
+    // width: 70%;
+    display: block;
+    padding: 0px 180px;
+    text-align: left;
+}
+
+small ul {
+    margin: 0px -22px 0px 16px;
+    padding: 0;
+    // list-style: none;
+}
+
+.account-submit-button {
+    font-size: 1.6em;
+    font-weight: 700;
+    background: hsl( 139.41deg 58.62% 54.51% );
+    padding: 0.8rem 2.8rem;
+    color: white;
+    border-radius: 4px;
+    border-color: hsl( 139.41deg 58.62% 54.51% );
+    box-shadow: none;
+    margin-bottom: 30px;
+}
+
+.account-submit-button:hover {
+    background-color: hsl( 228deg 12.2% 40.2% );
+    border-color: hsl( 228deg 12.2% 40.2%  );
+}
