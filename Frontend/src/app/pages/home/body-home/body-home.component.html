@@ -1,0 +1,10 @@
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="navbar-nav d-inline">
+            <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Following'}" (click)="activeNavItem = 'Following'"><a>Following</a></li>
+            <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Trending'}" (click)="activeNavItem = 'Trending'"><a>Trending</a></li>
+            <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Your Work'}" (click)="activeNavItem = 'Your Work'"><a>Your Work</a></li>
+        </ul>
+    </nav>
+    <div></div>
+</div>
