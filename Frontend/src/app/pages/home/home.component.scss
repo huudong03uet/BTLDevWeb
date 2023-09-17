@@ -1,0 +1,19 @@
+.sidebar-with-search {
+  display: flex;
+  align-items: stretch; /* Đảm bảo các phần tử con co giãn theo độ cao */
+  // gap: 20px; /* Khoảng cách giữa các phần tử con */
+}
+
+/* Điều chỉnh kiểu dáng cho các phần tử con (sidebar và search) tùy theo nhu cầu của bạn */
+.sidebar {
+  background-color: #1E1F26;
+  color: #fff;
+  width: 180px;
+}
+
+.search {
+  background-color: bisque;
+  color: #fff;
+  width: 2000px;
+  height: min-content;
+}
