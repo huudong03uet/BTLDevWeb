@@ -1,15 +1,15 @@
 /* Thiết lập giao diện cho thanh tìm kiếm */
 .search-container {
-  position: absolute;
-  left: 180px; /* Điều chỉnh khoảng cách từ bên trái */
-  top: 0;
-  right: 0; /* Đặt right thành 0 để chiếm toàn bộ chiều rộng màn hình */
+  // position: absolute;
+  // left: 180px; /* Điều chỉnh khoảng cách từ bên trái */
+  // top: 0;
+  // right: 0; /* Đặt right thành 0 để chiếm toàn bộ chiều rộng màn hình */
   display: flex;
   align-items: center;
   margin: 0;
   padding: 10px;
   box-sizing: border-box; /* Đảm bảo padding không tăng kích thước */
-
+  height: 60%;
   input[type="text"] {
     padding: 10px;
     border: none;
@@ -36,8 +36,18 @@
     background-color: #0056b3;
   }
 
-  img, svg {
-    margin-right: 10px; /* Khoảng cách với lề phải */
+   svg {
+    // margin-right: 10px; /* Khoảng cách với lề phải */
     color: black;
+    width: 45%;
+    margin-right: 20%;
+  } 
+
+  .button_open_option  {
+    height: 60%;
+    // height: 60%;
+    display: inline-flex;
+    align-items: center;
+    width: 7%;
   }
 }

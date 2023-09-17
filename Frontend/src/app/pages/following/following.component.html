@@ -1,13 +1,21 @@
 <div class="full-page">
-    <section class="HomepageInterestingPepleToFollow">
-        <h2 class="HomepageInterestingPeopleToFollow heading">
-            Interesting People to Follow
-    
-        </h2>
-        <div class="item-grid">
-            <app-content-grid-user></app-content-grid-user>
-            <app-content-grid-user></app-content-grid-user>
-            <app-content-grid-user></app-content-grid-user>
+    <div class="app-sidebar-component">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="right-content">
+        <div class="app-search-component">
+            <app-search></app-search>
         </div>
-    </section>
+        <div class="app-body-home-component">
+            <app-body-following-trending></app-body-following-trending>
+        </div>
+        <div class="following-center-component">
+            <app-following-center></app-following-center>
+        </div>
+        <div class="app-footer-component">
+            <app-footer></app-footer>
+        </div>
+    </div>
+    
+
 </div>

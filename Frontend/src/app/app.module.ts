@@ -18,9 +18,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FollowingComponent } from './pages/following/following.component';
 import { ContentGridUserComponent } from './components/content-grid-user/content-grid-user.component';
-import { SidebarComponent } from './pages/home/sidebar/sidebar.component';
-import { SearchComponent } from './pages/home/search/search.component';
-import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component'
+import { SearchComponent } from './components/search/search.component';
+import { BodyFollowingTrendingComponent } from './components/body-following-trending/body-following-trending.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { FollowingCenterComponent } from './pages/following/following-center/following-center.component';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
     FollowingComponent,
     ContentGridUserComponent,
     SearchComponent,
-    BodyHomeComponent,
+    BodyFollowingTrendingComponent,
+    FooterComponent,
+    FollowingCenterComponent,
   ],
   imports: [
     BrowserModule,

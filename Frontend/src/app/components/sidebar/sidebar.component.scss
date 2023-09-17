@@ -1,14 +1,184 @@
-/* sidebar.component.css */
-.main-sidebar {
-    width: 300px; /* Độ rộng của sidebar */
-    background-color: #333; /* Màu nền của sidebar */
-    color: white; /* Màu chữ trong sidebar */
+/* Thiết lập một số đặc tính chung cho header */
+html,
+body,
+/* Thêm các phần tử cha khác nếu cần */
+.sidebar_container {
+  height: 100%;
+  
+}
+
+.sidebar_container {
+  display: flex;
+  justify-content: flex-start;
+  color: #fff;
+  align-items: stretch;
+  height: 100vh;
+  width: 20%;
+
+  .left-content {
+    margin: 0;
+    height: max-content;
+    background-color: #1E1F26;
+    flex-direction: column;
+    width: 180px;
+    height: 100%;
+
+
+    h1 {
+      text-align: center;
+      a {
+        svg {
+          height: 100%;
+          width: 150px;
+        }
+      }
+    }
+
+    h2 {
+      font-size: smaller;
+    }
+
+    .pen-collection {
+      margin-bottom: 20px;
+      font-size: large;
+
+      .menu {
+        display: block;
+        align-items: center;
+        list-style: none;
+        padding-right: 1.5rem;
+
+        .pen {
+          background-color: #514F4F;
+
+          svg {
+            fill: currentColor;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            color: #696666;
+          }
+
+          div {
+            display: flex;
+            align-items: center;
+
+            a {
+              display: flex;
+              align-items: center;
+              background-color: #514F4F;
+              text-decoration: none;
+              transition: color 0.3s;
+            }
+
+            .toggle-button {
+              color: #333;
+              background-color: #514F4F;
+              border: none;
+              color: #fff;
+              align-items: right;
+            }
+          }
+
+          .toggled-content {
+
+            background-color: #514F4F;
+            margin-top: 1px;
+
+            ul li {
+              display: flex;
+              align-items: center;
+              margin-bottom: 0;
+            }
+          }
+
+          .toggled-content.active {
+            display: none;
+          }
+
+          div:hover {
+            svg {
+              color: #007bff;
+            }
+          }
+        }
+
+        .collection {
+          a {
+            display: flex;
+            align-items: center;
+            background-color: #514F4F;
+            text-decoration: none;
+            transition: color 0.3s;
+            svg {
+              fill: currentColor;
+              width: 20px;
+              height: 20px;
+              margin-right: 5px;
+              color: #696666;
+            }
+          }
+
+          a:hover {
+            svg {
+              color: #007bff;
+            }
+          }
+        }
+      }
+    }
+
+    div {
+      font-size: large;
+
+      ul {
+        list-style: none;
+
+        li {
+          a {
+            display: block;
+          }
+        }
+      }
+    }
+
+    #carbonads {
+      position: absolute;
+      background-color: #333;
+      bottom: 0;
+      left: 0;
+      width: 180px;
+      padding: 10px;
+
+      .carbon-wrap {
+        display: block;
+
+        a {
+          color: darkgray;
+          font-size: small;
+          display: block;
+        }
+      }
+
+      a {
+        color: darkgray;
+        font-size: small;
+      }
+    }
+
   }
-  
-  /* Đặt kiểu dáng cho các phần tử bên trong sidebar */
-  .Sidebar-module_root-Yc985 {
-    /* Đặt kiểu dáng cho phần sidebar-root tại đây */
-  }
-  
-  /* Thêm các kiểu dáng khác cho các phần tử khác */
-  
+
+  // .right-content {
+  //   flex-grow: 1;
+  //   display: flex;
+  //   flex-direction: column;
+
+
+  //   app-body-home {
+  //     margin-top: 100px;
+  //   }
+
+
+
+  // }
+}

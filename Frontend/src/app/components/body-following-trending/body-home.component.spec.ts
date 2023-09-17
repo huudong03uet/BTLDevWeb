@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BodyHomeComponent } from './body-home.component';
+import { BodyHomeComponent } from './body-following-trending.component';
 
 describe('BodyHomeComponent', () => {
   let component: BodyHomeComponent;
