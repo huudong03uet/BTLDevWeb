@@ -1,19 +1,29 @@
 .sidebar-with-search {
   display: flex;
-  align-items: stretch; /* Đảm bảo các phần tử con co giãn theo độ cao */
-  // gap: 20px; /* Khoảng cách giữa các phần tử con */
-}
+  align-items: stretch;
+  
+  .sidebar {
+    background-color: #1E1F26;
+    color: #fff;
+    width: 180px;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column; 
+    width: 2000px;
+  }
+  
+  .search{
+    background-color: bisque;
+    color: #fff;
+    display: block;
+    padding-top: 15px;
+    height: min-content;
+    margin: 0;
+  }
 
-/* Điều chỉnh kiểu dáng cho các phần tử con (sidebar và search) tùy theo nhu cầu của bạn */
-.sidebar {
-  background-color: #1E1F26;
-  color: #fff;
-  width: 180px;
-}
-
-.search {
-  background-color: bisque;
-  color: #fff;
-  width: 2000px;
-  height: min-content;
+  .fl-trend {
+    margin-top: 5%;
+  }
 }

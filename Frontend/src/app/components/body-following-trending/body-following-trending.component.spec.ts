@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BodyHomeComponent } from './body-following-trending.component';
+import { BodyFollowingTrendingComponent } from './body-following-trending.component';
 
 describe('BodyHomeComponent', () => {
-  let component: BodyHomeComponent;
-  let fixture: ComponentFixture<BodyHomeComponent>;
+  let component: BodyFollowingTrendingComponent;
+  let fixture: ComponentFixture<BodyFollowingTrendingComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [BodyHomeComponent]
+      declarations: [BodyFollowingTrendingComponent]
     });
-    fixture = TestBed.createComponent(BodyHomeComponent);
+    fixture = TestBed.createComponent(BodyFollowingTrendingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
