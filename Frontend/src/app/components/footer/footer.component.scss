@@ -1,0 +1,70 @@
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 40px 0 130px 0;
+
+    position: relative;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-top: auto;
+
+    .footer-left,
+    .footer-right {
+      position: absolute;
+      /* Thiết lập vị trí tuyệt đối cho cả hai phần */
+    }
+
+    .footer-left {
+      text-align: left;
+      margin-left: 200px;
+
+      flex-direction: column;
+      align-items: flex-start;
+      left: 0;
+
+      nav a {
+        margin-left: 10px;
+        color: #696666;
+      }
+
+      nav {
+        strong {
+          font-size: medium;
+        }
+
+        a:hover {
+          color: #fff;
+        }
+      }
+
+    }
+
+    .footer-right {
+      text-align: right;
+      margin-right: 200px;
+      color: #696666;
+      align-items: flex-start;
+      right: 0;
+
+      a {
+        svg {
+          padding: 0%;
+          width: 100px;
+          vertical-align: middle;
+        }
+      }
+
+      p {
+        margin: 0;
+
+        a {
+          margin-left: 3px;
+        }
+
+        a:hover {
+          color: #fff;
+        }
+      }
+
+    }
+  }

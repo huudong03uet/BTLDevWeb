@@ -1,0 +1,56 @@
+/* Thiết lập giao diện cho thanh tìm kiếm */
+.search-container {
+  // position: absolute;
+  // left: 180px; /* Điều chỉnh khoảng cách từ bên trái */
+  // top: 0;
+  // right: 0; /* Đặt right thành 0 để chiếm toàn bộ chiều rộng màn hình */
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box; /* Đảm bảo padding không tăng kích thước */
+  height: 60%;
+  input[type="text"] {
+    padding: 10px;
+    border: none;
+    border-radius: 30px 0 0 30px;
+    width: 100%; /* Sử dụng 100% chiều rộng để đầy đủ khoảng trống */
+    outline: none;
+    color: black;
+    // margin-right: 15px; /* Khoảng cách với button và img */
+  }
+
+  button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0 30px 30px 0;
+    padding: 10px 15px;
+    cursor: pointer;
+    outline: none;
+    margin-right: 15px; /* Khoảng cách với img */
+  }
+
+  /* Thiết lập hover cho nút tìm kiếm */
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+   svg {
+    // margin-right: 10px; /* Khoảng cách với lề phải */
+    color: black;
+    width: 45%;
+    // margin-right: 20%;
+  } 
+
+  .button_open_option  {
+    // height: 6%;
+    // height: 60%;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    // width: 7%;
+    padding: 0%;
+    margin-right: 15px;
+  }
+}

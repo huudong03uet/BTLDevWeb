@@ -1,21 +1,8 @@
-<!-- <ng-template #content let-offcanvas>
-	
-</ng-template> -->
-
-<ng-template #content let-offcanvas>
-    <div class="offcanvas-header">
-        <h4 class="offcanvas-title">Code pen</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+<div class="sidebar-with-search">
+    <app-sidebar class="sidebar"></app-sidebar>
+    <div class="content">
+        <app-search class="search"></app-search>
+        <app-body-following-trending class="fl-trend"></app-body-following-trending>
     </div>
-    <div class="offcanvas-body">
-        <button (click)="onNavbarButtonClick()">Start Coding</button>
-        <button>Search</button>
-    </div>
-</ng-template>
-
-<button class="btn btn-lg btn-outline-primary mb-2 me-2" (click)="openStaticBackdrop(content)">Static backdrop</button>
-
-<input type="text" placeholder="Search">
-
-<button class="btn btn-primary" (click)="onSigninButtonClick()">Sign Up</button>
-<button class="btn btn-primary" (click)="onLoginButtonClick()">Log In</button>
+</div>
+<app-footer></app-footer>
