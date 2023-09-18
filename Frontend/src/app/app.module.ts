@@ -17,6 +17,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule } from '@angular/forms';
+import { FollowingComponent } from './pages/following/following.component';
+import { ContentGridUserComponent } from './components/content-grid-user/content-grid-user.component';
 
 
 @NgModule({
@@ -32,6 +34,8 @@ import { FormsModule } from '@angular/forms';
     TrendingComponent,
     SidebarComponent,
     HeaderComponent,
+    FollowingComponent,
+    ContentGridUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +47,7 @@ import { FormsModule } from '@angular/forms';
       { path: "login", component: LoginComponent },
       { path: "signup", component: SignupComponent },
       { path: "trending", component: TrendingComponent},
-      { path: "", component: SignupComponent }
+      {path: "following", component: FollowingComponent},
     ]),
     NgbModule,
     MatSidenavModule, 
