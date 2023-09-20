@@ -3,10 +3,26 @@
   // width: auto;
   font-size: large;
   nav {
+    background-color: #131417;
       ul {
           li {
-              margin: 5px;
+            cursor: pointer;
+              // margin: 5px;
               display: list-item;
+              a {
+                // font: 'Telefon', Sans-Serif;
+                font-family: 'Telefon', Sans-Serif;
+                // bold style
+                font-weight: bold;
+                font-size: 1.6rem;
+                // font-weight: 800;
+                padding: 0 1.5rem 0.4rem;
+                color: hsl( 228.39deg 12.25% 50.39% );
+              }
+              a:hover {
+                color: hsl( 226.67deg 11.84% 70.2% );
+                border: unset;
+              }
           }
       }
   }

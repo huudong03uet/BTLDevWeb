@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class BodyFollowingTrendingComponent {
   activeNavItem: string = 'Your Work';
+
+  // get url now of browser
+  urlNow = window.location.href;
+  
 }
