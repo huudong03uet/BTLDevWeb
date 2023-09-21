@@ -23,6 +23,8 @@ import { SearchComponent } from './components/search/search.component';
 import { BodyFollowingTrendingComponent } from './components/body-following-trending/body-following-trending.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FollowingCenterComponent } from './pages/following/following-center/following-center.component';
+import { HomeCenterComponent } from './pages/home/components/home-center/home-center.component';
+import { CodeBoxComponent } from './pages/home/components/code-box/code-box.component';
 
 
 @NgModule({
@@ -44,6 +46,8 @@ import { FollowingCenterComponent } from './pages/following/following-center/fol
     BodyFollowingTrendingComponent,
     FooterComponent,
     FollowingCenterComponent,
+    HomeCenterComponent,
+    CodeBoxComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
-.sidebar-with-search {
+.home-component-page {
   display: flex;
-  align-items: stretch;
+  // align-items: stretch;
+  flex-direction: row;
   
   .sidebar {
     background-color: #1E1F26;
@@ -9,16 +10,19 @@
   }
   
   .content {
+    flex: 1;
     display: flex;
     flex-direction: column; 
-    width: 2000px;
+    width: auto;
+
+    
   }
   
   .search{
     background-color: bisque;
     color: #fff;
     display: block;
-    padding-top: 15px;
+    // padding-top: 15px;
     height: min-content;
     margin: 0;
   }

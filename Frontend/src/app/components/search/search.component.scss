@@ -1,5 +1,6 @@
 /* Thiết lập giao diện cho thanh tìm kiếm */
 .search-container {
+  background-color: #131417;
   // position: absolute;
   // left: 180px; /* Điều chỉnh khoảng cách từ bên trái */
   // top: 0;
@@ -52,5 +53,42 @@
     // width: 7%;
     padding: 0%;
     margin-right: 15px;
+  }
+
+  .login-signup-image-pinned  {
+    .image-pinned{
+      display: flex;
+    }
+    
+    .login-signup {
+      display: flex;
+      .login-button {
+        color: white;
+        background-color: hsl( 227.37deg 12.26% 30.39% );
+        &:hover {
+          background-color: hsl( 228deg 12.2% 40.2% );
+        }
+      }
+      .signup-button {
+        color: black;
+        background-color: hsl( 139.41deg 58.62% 54.51% );
+        &:hover {
+          background-color: hsl( 139.62deg 59.09% 34.51% );
+          color: white;
+        }
+
+      }
+      button {
+        border: unset;
+        width: 85px;
+        height: 42px;
+        margin-right: 10px;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 400;
+      }
+    }
+
+
   }
 }
