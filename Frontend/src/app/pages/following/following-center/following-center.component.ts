@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./following-center.component.scss']
 })
 export class FollowingCenterComponent {
-
 }

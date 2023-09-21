@@ -1,6 +1,8 @@
+import { User } from './../../models/user';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
+import { UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,10 @@ export class LoginComponent {
   gmail: string = ''; // Thêm biến email và khởi tạo
   password: string = ''; // Thêm biến password và khởi tạo
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private userData: UserDataService
+    ) {}
 
   onLoginFormSubmit() {
     if (this.gmail && this.password) {
@@ -25,11 +30,18 @@ export class LoginComponent {
   
       axios.post(apiUrl, requestBody)
         .then((response) => {
-          console.log(response);
           if (response.data.statusCode === 200) {
             // Xử lý khi đăng nhập thành công
             console.log('Đăng nhập thành công');
             // Chuyển hướng đến trang chủ
+            console.log(response.data.data)
+            let user: User = {
+              user_id: response.data.data.user_id,
+              user_name: response.data.data.user_name,
+              gmail: response.data.data.gmail,
+              full_name: response.data.data.full_name,
+            };
+            this.userData.setUserData(user);
             this.router.navigate(['/']);
             alert('Đăng nhập thành công');
           } else {

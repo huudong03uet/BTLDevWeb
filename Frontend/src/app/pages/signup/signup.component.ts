@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
+import { User } from 'src/app/models/user';
+import { UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
   selector: 'app-signup',
@@ -9,7 +11,10 @@ import axios from 'axios';
 })
 
 export class SignupComponent {
-  constructor(private router: Router) {} // Inject Router vào constructor
+  constructor(
+    private router: Router,    
+    private userData: UserDataService,
+    ) {} // Inject Router vào constructor
 
   hiddenRegisterEmail: boolean = true;
   signupError: string | null = null;
@@ -63,7 +68,15 @@ export class SignupComponent {
           console.log('Registration successful:', response.data);
           // Chuyển hướng người dùng đến trang chủ hoặc thực hiện hành động sau khi đăng ký thành công
           // Ví dụ: chuyển hướng đến trang chủ
-          this.router.navigate(['/'], { queryParams: response.data.newUser });
+          let user: User = {
+            user_id: response.data.data.user_id,
+            user_name: response.data.data.user_name,
+            gmail: response.data.data.gmail,
+            full_name: response.data.data.full_name,
+          };
+          this.userData.setUserData(user);
+          this.router.navigate(['/']);
+          alert('Đăng ký thành công');
         }
         else {
           this.signupError = response.data.error;
