@@ -1,217 +1,174 @@
 .body {
+    background: #040404;
+    color: #fff;
     margin: 0;
-    padding: 0;
-    background: #3a3a3a;
-    color: #fff;
     overflow-x: auto;
-}
-/* Header section */
-#header {
-    padding: 10px 15px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 0.2px solid #3a3a3a;
-}
-
-.left {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.left img {
-    width: 25px;
-    margin-right: 5px;
-}
-
-.left .project-details h4 {
-    padding-left: 10px;
-    font-size: 17px;
-}
-
-.left .project-details p {
-    padding-left: 10px;
-    font-size: 13px;
-}
-
-.right ul li {
-    display: inline-block;
-    list-style: none;
-    margin: 5px 2px;
-}
-
-.right ul li a {
-    border-radius: 15px;
-    text-decoration: none;
-    background: #4b4f60;
-    padding: 8px 12px;
-    color: #fff;
-    border-radius: 4px;
-}
-
-.right ul li a:hover {
-    background: rgb(37, 37, 37);
-}
-
-.right ul li .signup {
-    background: #2d9d52;
-}
-
-.right ul li .signup:hover {
-    background: #1d7039;
-}
-
-.mobile-menu {
-    display: none;
+    padding: 0;
 }
 
 /* Main section */
-.input-section {
-    border-radius: 15px;
-    padding: 0 10px;
+.input-section, .output-section {
+    border-radius: 10px;
     display: flex;
+    height: 48%;
+    overflow: auto;
+    padding: 0 5px;
+}
+
+.input-section {
+    align-items: center;
     flex-wrap: wrap;
     justify-content: space-around;
-    align-items: center;
-    border-bottom: 0.2px solid #3a3a3a;
 }
 
 .input-section div {
+    background: #1D1E22;
+    border: none;
     border-radius: 15px;
     flex-basis: 33%;
-    background: #1D1E22;
-    border: 0.2px solid #3a3a3a;
 }
 
 .input-section div label {
-    border-radius: 15px;
-    display: block;
-    padding: 5px 10px;
-    font-size: 17px;
     background: #060606;
+    border: none;
+    border-radius: 5px;
+    display: block;
+    font-size: 17px;
+    padding: 5px 10px;
+    padding-right: 10px;
 }
 
-.html-field,
-.css-field,
-.js-field {
+.html-field, .stylesheet-field, .js-field {
+    border: none;
     flex: 1;
-    padding: 10px;
-
+    padding: 5px;
 }
 
 .input-section div textarea {
-    resize: both; /* Cho phép tùy chỉnh kích thước theo cả hai chiều */
-    overflow: auto; /* Hiện thanh cuộn nếu nội dung vượt qua kích thước */
-    width: 100%; /* Mặc định chiếm 100% chiều rộng của cha */
-    min-height: 200px; /* Chiều cao tối thiểu */
+    overflow: auto;
+    resize: both;
+    width: 100%;
 }
 
-.resizable-iframe {
-    resize: both; /* Cho phép tùy chỉnh kích thước theo cả hai chiều */
-    overflow: auto; /* Hiện thanh cuộn nếu nội dung vượt qua kích thước */
-    width: 100%; /* Mặc định chiếm 100% chiều rộng của cha */
-    min-height: 400px; /* Chiều cao tối thiểu */
-    border: 1px solid #ccc; /* Đường viền cho iframe */
-    border-radius: 15px;
+.stylesheet-select {
+    background: #1D1E22;
+    float: right;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    margin-left: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+    font-size: 16px;
+    height: 30px; // Đặt chiều cao cố định cho hộp chọn
+    width: 100px; // Đặt chiều rộng cố định cho hộp chọn
+
+    &::after {
+        content: "\25BC";
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        pointer-events: none; 
+    }
 }
+
+.stylesheet-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
 
 .CodeMirror {
     white-space: normal;
 }
 
-.output-section {
-    border-radius: 15px;
-    padding-top: 5px;
-
-}
-
-// .output-section iframe {
-//     border-radius: 15px;
-//     width: 100%;
-//     height: 320px;
-//     background: #fff;
-// }
-
-iframe {
-    resize: both; // Cho phép tùy chỉnh kích thước theo cả hai chiều
-    overflow: auto; // Hiện thanh cuộn nếu nội dung vượt qua kích thước
-    width: 100%; // Mặc định chiếm 100% chiều rộng của cha
-    min-height: 400px; // Chiều cao tối thiểu
-    border: 1px solid #ccc; // Đường viền cho iframe
+.output-field {
+    border: none;
     border-radius: 15px;
     width: 100%;
-    height: 320px;
+}
+
+.resizer {
+    background: #888;
+    cursor: ns-resize;
+    height: 5px;
+}
+
+#main-section {
+    display: flex;
+    flex-direction: column;
+    min-height: 620px;
+}
+
+iframe {
     background: #fff;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
 }
 
 /* Footer section */
 .copyright {
-    width: 100%;
     background-color: #1D1E22;
     color: white;
-    text-align: center;
-    padding: 5px 20px;
     font-size: 16px;
+    padding: 5px 20px;
+    text-align: center;
+    width: 100%;
 }
 
-.right ul .submenu {
-    display: none;
-}
-
-/* CSS for small screen */
+/* CSS for small screens */
 @media only screen and (max-width: 750px) {
-
     #header {
         padding: 6px 10px;
     }
 
     .right ul li {
-        margin: 0px 0px;
+        margin: 0;
     }
 
-    .right ul .save,
-    .right ul .settings,
-    .right ul .view {
+    .right ul .save, .right ul .settings, .right ul .view {
         display: none;
     }
 
-    .right ul .submenu {
+    .right ul .submenu, .mobile-menu li a {
+        border-radius: 4px;
+        color: #fff;
         display: inline-block;
+        padding: 8px 16px;
+        text-decoration: none;
     }
 
     .mobile-menu {
+        background: #3a3a3a;
+        border-radius: 4px;
         display: inline-block;
         position: absolute;
-        background: #3a3a3a;
-        width: 150px;
-        top: 50px;
         right: -400px;
-        border-radius: 4px;
+        top: 50px;
         transition: right 0.5s;
+        width: 150px;
     }
 
     .mobile-menu li {
-        display: block;
         list-style: none;
         margin: 10px 2px;
     }
 
-    .mobile-menu li a {
-        text-decoration: none;
-        padding: 8px 16px;
-        color: #fff;
-        border-radius: 4px;
-    }
-
     .mobile-menu .close {
-        font-size: 20px;
-        cursor: pointer;
-        position: absolute;
-        top: 10px;
-        right: 15px;
         border-radius: 4px;
+        cursor: pointer;
+        font-size: 20px;
+        position: absolute;
+        right: 15px;
+        top: 10px;
     }
 
     .input-section {
@@ -227,8 +184,8 @@ iframe {
     }
 
     .input-section .js-field textarea {
-        width: 100%;
         height: 200px;
+        width: 100%;
     }
 
     .copyright {

@@ -51,6 +51,7 @@ import { CodeBoxComponent } from './pages/home/components/code-box/code-box.comp
     CodeBoxComponent,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot([
