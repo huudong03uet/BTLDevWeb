@@ -1,4 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, Renderer2} from '@angular/core';
+import { debounce } from 'lodash';
 declare let CodeMirror: any;
 declare let Sass: any;
 
@@ -20,12 +21,7 @@ export class CodeEditorComponent implements AfterViewInit {
 
   stylesheetLanguage: 'css' | 'scss' = 'css';  // Default is 'css'
 
-  private isResizing = false;
-  @ViewChild('resizer', { static: false }) resizer!: ElementRef;
-  @ViewChild('inputSection', { static: false }) inputSection!: ElementRef;
-  @ViewChild('outputSection', { static: false }) outputSection!: ElementRef;
-
-  constructor(private renderer: Renderer2) { }
+  debouncedRun = debounce(this.run, 300); // 300ms delay
 
   ngAfterViewInit() {
     this.htmlEditor = CodeMirror.fromTextArea(this.htmlTextarea.nativeElement, {
@@ -36,7 +32,7 @@ export class CodeEditorComponent implements AfterViewInit {
       autoCloseBrackets: true,
       autoCloseTags: true
     });
-    this.htmlEditor.on('change', () => this.run());
+    this.htmlEditor.on('keyup', () => this.debouncedRun());
 
     this.stylesheetEditor = CodeMirror.fromTextArea(this.stylesheetTextarea.nativeElement, {
       mode: this.stylesheetLanguage === 'scss' ? 'sass' : 'css',
@@ -45,7 +41,7 @@ export class CodeEditorComponent implements AfterViewInit {
       theme: 'monokai',
       autoCloseBrackets: true
     });
-    this.stylesheetEditor.on('change', () => this.run());
+    this.stylesheetEditor.on('keyup', () => this.debouncedRun());
 
     this.jsEditor = CodeMirror.fromTextArea(this.jsTextarea.nativeElement, {
       mode: 'javascript',
@@ -55,8 +51,8 @@ export class CodeEditorComponent implements AfterViewInit {
       autoCloseBrackets: true,
       autoCloseTags: true
     });
-    this.jsEditor.on('change', () => this.run());
-  }
+    this.jsEditor.on('keyup', () => this.debouncedRun());
+}
 
   run() {
     const htmlCode = this.htmlEditor.getValue();
@@ -79,6 +75,11 @@ export class CodeEditorComponent implements AfterViewInit {
 
   applyStylesAndScript(htmlCode: string, finalCssCode: string, jsCode: string) {
     const output = this.outputFrame.nativeElement;
+
+    // Clear previous content
+    output.contentDocument.head.innerHTML = '';
+    output.contentDocument.body.innerHTML = '';
+
     output.contentDocument.body.innerHTML = htmlCode;
     
     const styleTag = document.createElement('style');
@@ -88,5 +89,6 @@ export class CodeEditorComponent implements AfterViewInit {
     const scriptTag = document.createElement('script');
     scriptTag.innerHTML = jsCode;
     output.contentDocument.body.appendChild(scriptTag);
-  }
+}
+
 }
