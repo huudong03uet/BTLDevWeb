@@ -1,28 +1,34 @@
 .full-page {
     position: relative;
     background: hsl( 225deg 9.52% 8.24% );
-     height: 1000px;
+     height: auto;
     // height: fit-content;
     display: flex;
 
     .app-sidebar-component {
-        width: 16%;
-        height: 100%;
+        width: 12%;
     }
     .right-content {
-        width: 84%;
+        width: 88%;
+        height: fit-content;
         .app-search-component {
             width: 100%;
             height: 15%;
         }
-        .app-body-home-component {
-            width: 100%;
-            height: 15%;
-        }
+        .center-content {
+            padding: 40px;
+            padding-bottom: 200px;
+            .app-body-home-component {
+                width: 100%;
+                height: 15%;
+                padding-bottom: 100px;
+            }
+    
+            .following-center-component {
+                width: 100%;
+                height: 60%;
+            }
 
-        .following-center-component {
-            width: 100%;
-            height: 60%;
         }
         .app-footer-component {
             // width: 100%;
@@ -30,9 +36,7 @@
             // // end of page
             // position: absolute;
             // bottom: 0;
-            width: 84%;
-            position: absolute;
-            bottom: 0;
+            width: 100%;
 
         }
     }
