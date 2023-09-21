@@ -7,7 +7,8 @@
 }
 
 /* Main section */
-.input-section, .output-section {
+.input-section,
+.output-section {
     border-radius: 10px;
     display: flex;
     height: 48%;
@@ -38,7 +39,9 @@
     padding-right: 10px;
 }
 
-.html-field, .stylesheet-field, .js-field {
+.html-field,
+.stylesheet-field,
+.js-field {
     border: none;
     flex: 1;
     padding: 5px;
@@ -51,35 +54,39 @@
 }
 
 .stylesheet-select {
-    background: #1D1E22;
+    background: #27282d;
     float: right;
     border: none;
     border-radius: 5px;
     color: #fff;
-    margin-left: 10px;
     padding: 5px 10px;
     cursor: pointer;
-    appearance: none; 
-    -webkit-appearance: none;
-    -moz-appearance: none;
     position: relative;
     font-size: 16px;
     height: 30px; // Đặt chiều cao cố định cho hộp chọn
-    width: 100px; // Đặt chiều rộng cố định cho hộp chọn
+    width: 80px; // Đặt chiều rộng cố định cho hộp chọn
+}
 
-    &::after {
-        content: "\25BC";
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        pointer-events: none; 
-    }
+.stylesheet-select:hover {
+    background: #222327;
 }
 
 .stylesheet-select:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Use a more stylish arrow for the dropdown */
+.stylesheet-select::after {
+    content: "\25BC";
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    /* Adjusted positioning */
+    transform: translateY(-50%);
+    color: #777;
+    /* Subtle color for the arrow */
+    pointer-events: none;
 }
 
 
@@ -134,11 +141,14 @@ iframe {
         margin: 0;
     }
 
-    .right ul .save, .right ul .settings, .right ul .view {
+    .right ul .save,
+    .right ul .settings,
+    .right ul .view {
         display: none;
     }
 
-    .right ul .submenu, .mobile-menu li a {
+    .right ul .submenu,
+    .mobile-menu li a {
         border-radius: 4px;
         color: #fff;
         display: inline-block;
