@@ -1,6 +1,8 @@
 import { Component, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +10,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   // closeResult: string;
+  userData: any;
+
 
   constructor(
     private offcanvasService: NgbOffcanvas,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.userData = params;
+      console.log(this.userData);
+    });
+  }
 
   openStaticBackdrop(content: TemplateRef<any>) {
 		this.offcanvasService.open(content, { backdrop: 'static' });
@@ -35,4 +46,7 @@ export class HomeComponent {
     this.router.navigate(['/signin']);
   }
 
+  gotoFollowingPr() {
+    this.router.navigate(['/following']);
+  }
 }

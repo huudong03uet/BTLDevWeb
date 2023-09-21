@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-body-following-trending',
@@ -6,9 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./body-following-trending.component.scss']
 })
 export class BodyFollowingTrendingComponent {
+  @Output() gotoFollowingPr = new EventEmitter();
+
   activeNavItem: string = 'Your Work';
 
   // get url now of browser
   urlNow = window.location.href;
-  
+  gotoFollowing() {
+    if(this.activeNavItem !== "Following") {
+      this.activeNavItem = "Following";
+      this.gotoFollowingPr.emit(); 
+    }
+  }
 }
