@@ -5,22 +5,34 @@
                 <label><i class="fa-brands fa-html5 fa-lg"></i> HTML</label>
                 <textarea #htmlTextarea></textarea>
             </div>
-            <div class="css-field">
-                <label><i class="fa-brands fa-css3-alt fa-lg"></i> CSS</label>
-                <textarea #cssTextarea></textarea>
+
+            <div class="stylesheet-field">
+                <label>
+                    <i
+                        [ngClass]="stylesheetLanguage === 'css' ? 'fa-brands fa-css3-alt fa-lg' : 'fa-brands fa-sass fa-lg'"></i>
+                    {{ stylesheetLanguage.toUpperCase() }}
+                    <!-- Move the select box here, right after the label -->
+                    <select class="stylesheet-select" [(ngModel)]="stylesheetLanguage">
+                        <option value="css">CSS</option>
+                        <option value="scss">SCSS</option>
+                    </select>
+                </label>
+                <textarea #stylesheetTextarea></textarea>
             </div>
+
             <div class="js-field">
                 <label><i class="fa-brands fa-js fa-lg"></i> JS</label>
                 <textarea #jsTextarea></textarea>
             </div>
         </div>
+        <div class="resizer"></div>
         <div class="output-section">
             <div class="output-field">
                 <iframe id="output" title="Code Output Display" #outputFrame></iframe>
             </div>
         </div>
     </section>
-    
+
     <section id="footer">
         <div class="copyright">
             <p>Copyright ©️ by UETers</p>

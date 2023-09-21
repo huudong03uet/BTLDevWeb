@@ -1,6 +1,6 @@
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-
+import { Component, ViewChild, ElementRef, AfterViewInit, Renderer2} from '@angular/core';
 declare let CodeMirror: any;
+declare let Sass: any;
 
 @Component({
   selector: 'app-code-editor',
@@ -10,13 +10,22 @@ declare let CodeMirror: any;
 
 export class CodeEditorComponent implements AfterViewInit {
   @ViewChild('htmlTextarea') htmlTextarea!: ElementRef;
-  @ViewChild('cssTextarea') cssTextarea!: ElementRef;
+  @ViewChild('stylesheetTextarea') stylesheetTextarea!: ElementRef;
   @ViewChild('jsTextarea') jsTextarea!: ElementRef;
   @ViewChild('outputFrame') outputFrame!: ElementRef;
 
   htmlEditor!: any;
-  cssEditor!: any;
+  stylesheetEditor!: any;
   jsEditor!: any;
+
+  stylesheetLanguage: 'css' | 'scss' = 'css';  // Default is 'css'
+
+  private isResizing = false;
+  @ViewChild('resizer', { static: false }) resizer!: ElementRef;
+  @ViewChild('inputSection', { static: false }) inputSection!: ElementRef;
+  @ViewChild('outputSection', { static: false }) outputSection!: ElementRef;
+
+  constructor(private renderer: Renderer2) { }
 
   ngAfterViewInit() {
     this.htmlEditor = CodeMirror.fromTextArea(this.htmlTextarea.nativeElement, {
@@ -29,16 +38,14 @@ export class CodeEditorComponent implements AfterViewInit {
     });
     this.htmlEditor.on('change', () => this.run());
 
-    this.cssEditor = CodeMirror.fromTextArea(this.cssTextarea.nativeElement, {
-      mode: 'css',
+    this.stylesheetEditor = CodeMirror.fromTextArea(this.stylesheetTextarea.nativeElement, {
+      mode: this.stylesheetLanguage === 'scss' ? 'sass' : 'css',
       lineNumbers: true,
       lineWrapping: true,
       theme: 'monokai',
-      autoCloseBrackets: true,
-      autoCloseTags: true
-
+      autoCloseBrackets: true
     });
-    this.cssEditor.on('change', () => this.run());
+    this.stylesheetEditor.on('change', () => this.run());
 
     this.jsEditor = CodeMirror.fromTextArea(this.jsTextarea.nativeElement, {
       mode: 'javascript',
@@ -53,29 +60,33 @@ export class CodeEditorComponent implements AfterViewInit {
 
   run() {
     const htmlCode = this.htmlEditor.getValue();
-    const cssCode = this.cssEditor.getValue();
+    const stylesheetCode = this.stylesheetEditor.getValue();
     const jsCode = this.jsEditor.getValue();
-    const output = this.outputFrame.nativeElement;
 
-    // Hiển thị HTML và CSS trong iframe
+    if (this.stylesheetLanguage === 'scss') {
+      // Compile SCSS to CSS
+      Sass.compile(stylesheetCode, (result: { status: number; text: string; message: any; }) => {
+        if (result.status === 0) { // Success
+          this.applyStylesAndScript(htmlCode, result.text, jsCode);
+        } else {
+          console.error("Failed to compile SCSS:", result.message);
+        }
+      });
+    } else {
+      this.applyStylesAndScript(htmlCode, stylesheetCode, jsCode);
+    }
+  }
+
+  applyStylesAndScript(htmlCode: string, finalCssCode: string, jsCode: string) {
+    const output = this.outputFrame.nativeElement;
     output.contentDocument.body.innerHTML = htmlCode;
+    
     const styleTag = document.createElement('style');
-    styleTag.innerHTML = cssCode;
+    styleTag.innerHTML = finalCssCode;
     output.contentDocument.head.appendChild(styleTag);
 
-    // Chạy JavaScript
     const scriptTag = document.createElement('script');
     scriptTag.innerHTML = jsCode;
     output.contentDocument.body.appendChild(scriptTag);
-  }
-
-  public isMenuOpen: boolean = false;
-
-  openMenu(): void {
-    this.isMenuOpen = true;
-  }
-
-  closeMenu(): void {
-    this.isMenuOpen = false;
   }
 }
