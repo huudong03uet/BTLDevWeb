@@ -16,6 +16,7 @@ import { TrendingComponent } from './pages/trending/trending.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { FormsModule } from '@angular/forms';
 import { FollowingComponent } from './pages/following/following.component';
 import { ContentGridUserComponent } from './components/content-grid-user/content-grid-user.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component'
@@ -64,6 +65,7 @@ import { CodeBoxComponent } from './pages/home/components/code-box/code-box.comp
     NgbModule,
     MatSidenavModule, 
     MatToolbarModule, 
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

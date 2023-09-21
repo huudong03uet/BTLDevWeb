@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/login", authController.login);
 // router.post("/loginAdmin", authController.loginAdmin);
-// router.post("/signup", authController.signup);
+router.post("/signup", authController.signup);
 // router.post("/change-profile", authController.changeProfile);
 // router.post("/saveHistory", authController.saveHistory);
 // router.post("/history", authController.getHistory);

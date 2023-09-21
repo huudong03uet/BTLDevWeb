@@ -14,8 +14,8 @@ const User = sequelize.define('user', {
     allowNull: false,
   },
   gmail: DataTypes.TEXT,
-  phone_number: DataTypes.INTEGER,
   password: DataTypes.TEXT,
+  full_name: DataTypes.TEXT
 }, {
     tableName: 'user',
 });
