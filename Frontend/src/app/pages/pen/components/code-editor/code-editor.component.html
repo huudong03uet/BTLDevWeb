@@ -1,6 +1,7 @@
 <div class="body">
     <section id="main-section">
-        <div class="input-section">
+        <!-- Thêm tham chiếu biến inputSection ở đây -->
+        <div #inputSection class="input-section resizable" (mousedown)="startResizing($event)">
             <div class="html-field">
                 <label><i class="fa-brands fa-html5 fa-lg"></i> HTML</label>
                 <textarea #htmlTextarea></textarea>
@@ -11,7 +12,6 @@
                     <i
                         [ngClass]="stylesheetLanguage === 'css' ? 'fa-brands fa-css3-alt fa-lg' : 'fa-brands fa-sass fa-lg'"></i>
                     {{ stylesheetLanguage.toUpperCase() }}
-                    <!-- Move the select box here, right after the label -->
                     <select class="stylesheet-select" [(ngModel)]="stylesheetLanguage">
                         <option value="css">CSS</option>
                         <option value="scss">SCSS</option>
@@ -25,8 +25,10 @@
                 <textarea #jsTextarea></textarea>
             </div>
         </div>
-        <div class="resizer"></div>
-        <div class="output-section">
+        <div #resizer class="resizer" (mousedown)="startResizing($event)"></div>
+
+        <!-- Thêm tham chiếu biến outputSection ở đây -->
+        <div #outputSection class="output-section resizable" (mousedown)="startResizing($event)">
             <div class="output-field">
                 <iframe id="output" title="Code Output Display" #outputFrame></iframe>
             </div>
