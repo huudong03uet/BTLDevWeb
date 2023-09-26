@@ -9,6 +9,7 @@ export class BodyFollowingTrendingComponent {
   @Output() gotoFollowingPr = new EventEmitter();
 
   activeNavItem: string = 'Your Work';
+  displayYourWork = true;
 
   // get url now of browser
   urlNow = window.location.href;
@@ -17,5 +18,9 @@ export class BodyFollowingTrendingComponent {
       this.activeNavItem = "Following";
       this.gotoFollowingPr.emit(); 
     }
+  }
+
+  showYourWork() {
+    this.displayYourWork = !this.displayYourWork;
   }
 }

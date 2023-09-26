@@ -1,0 +1,53 @@
+div {
+    width: 350px;
+    background-color: black;
+    border-radius: 10px;
+
+    .preview {
+        width: 350px;
+        height: 196px;
+        display: inline-block;
+        border: 1px solid black;
+        border-radius: 10px;
+        background-color: white;
+    }
+
+    .previewPop {
+        width: calc(350px / 3); 
+        height: 196px;
+        position: absolute;
+        position: relative; 
+        text-decoration: none;
+      }
+      
+
+    .header {
+        display: flex;
+        align-items: center;
+
+        h2 {
+            font-size: medium;
+            font-weight: bold;
+            a {
+                color: white;
+                text-decoration: none;
+            }
+        }
+
+        span {
+            margin-left: auto;
+            color: white;
+        }
+    }
+
+    footer {
+        button {
+            margin-right: 5px;
+            border-radius: 10px;
+            background-color: aliceblue;
+            span {
+                margin-right: 2px;
+            }
+        }
+    }
+}

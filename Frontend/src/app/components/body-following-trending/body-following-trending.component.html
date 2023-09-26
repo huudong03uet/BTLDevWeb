@@ -3,8 +3,9 @@
         <ul class="navbar-nav">
             <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Following'}" (click)="gotoFollowing()"><a>Following</a></li>
             <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Trending'}" (click)="activeNavItem = 'Trending'"><a>Trending</a></li>
-            <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Your Work'}" (click)="activeNavItem = 'Your Work'"><a>Your Work</a></li>
+            <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Your Work'}" (click)="showYourWork()"><a>Your Work</a></li>
         </ul>
     </nav>
     <div></div>
+    <app-your-work></app-your-work>
 </div>
