@@ -8,19 +8,44 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class BodyFollowingTrendingComponent {
   @Output() gotoFollowingPr = new EventEmitter();
 
-  activeNavItem: string = 'Your Work';
-  displayYourWork = true;
+  
+  // displayYourWork = true;
 
   // get url now of browser
   urlNow = window.location.href;
-  gotoFollowing() {
-    if(this.activeNavItem !== "Following") {
-      this.activeNavItem = "Following";
-      this.gotoFollowingPr.emit(); 
-    }
+  // activeNavItem: string = 'Following';
+  // gotoFollowing() {
+  //   if(this.activeNavItem !== "Following") {
+  //     this.activeNavItem = "Following";
+  //     this.gotoFollowingPr.emit(); 
+  //   }
+  // }
+
+  goToFollowing() {
+    // if (this.activeNavItem !== 'Following') {
+    //   this.activeNavItem = 'Following';
+      // link to /following
+      window.location.href = '/following';
+    // }
   }
 
-  showYourWork() {
-    this.displayYourWork = !this.displayYourWork;
+  goToTrending() {
+    // if (this.activeNavItem !== 'Trending') {
+    //   this.activeNavItem = 'Trending';
+      // link to /trending
+      window.location.href = '/trending';
+    // }
   }
+
+  goToYourWork() {
+    // if (this.activeNavItem !== 'Your Work') {
+    //   this.activeNavItem = 'Your Work';
+      // link to /home
+      window.location.href = '/your-work';
+    // }
+  }
+
+  // showYourWork() {
+  //   this.displayYourWork = !this.displayYourWork;
+  // }
 }

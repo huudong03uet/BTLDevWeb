@@ -1,11 +1,14 @@
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light">
         <ul class="navbar-nav">
-            <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Following'}" (click)="gotoFollowing()"><a>Following</a></li>
+            <!-- <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Following'}" (click)="gotoFollowing()"><a>Following</a></li>
             <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Trending'}" (click)="activeNavItem = 'Trending'"><a>Trending</a></li>
-            <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Your Work'}" (click)="showYourWork()"><a>Your Work</a></li>
+            <li class="nav-item" [ngClass]="{'active': activeNavItem === 'Your Work'}" (click)="showYourWork()"><a>Your Work</a></li> -->
+            <li class="nav-item"  (click)="goToFollowing()"><a>Following</a></li>
+            <li class="nav-item"  (click)="goToTrending()"><a>Trending</a></li>
+            <li class="nav-item"  (click)="goToYourWork()"><a>Your Work</a></li>
         </ul>
     </nav>
-    <div></div>
-    <app-your-work></app-your-work>
+    <!-- <div></div> -->
+    <!-- <app-your-work></app-your-work> -->
 </div>

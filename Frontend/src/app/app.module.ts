@@ -26,7 +26,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { FollowingCenterComponent } from './pages/following/following-center/following-center.component';
 import { HomeCenterComponent } from './pages/home/components/home-center/home-center.component';
 import { CodeBoxComponent } from './pages/home/components/code-box/code-box.component';
-import { YourWorkComponent } from './pages/home/components/your-work/your-work.component';
+import { YourWorkComponent } from './pages/your-work/your-work.component';
+import { ContentGridCodeComponent} from './components/content-grid-code/content-grid-code.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { YourWorkComponent } from './pages/home/components/your-work/your-work.c
     HomeCenterComponent,
     CodeBoxComponent,
     YourWorkComponent,
+    ContentGridCodeComponent,
   ],
   imports: [
     FormsModule,
@@ -64,6 +66,7 @@ import { YourWorkComponent } from './pages/home/components/your-work/your-work.c
       { path: "signup", component: SignupComponent },
       { path: "trending", component: TrendingComponent},
       {path: "following", component: FollowingComponent},
+      {path: "your-work", component: YourWorkComponent},
     ]),
     NgbModule,
     MatSidenavModule, 
