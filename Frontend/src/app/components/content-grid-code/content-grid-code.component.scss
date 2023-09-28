@@ -1,4 +1,4 @@
-div {
+.code-grid-container {
     // width: 350px;
     width: 100%;
     height: 100%;
@@ -7,85 +7,116 @@ div {
 
     // background-color: black;
     border-radius: 10px;
+    .background-code{
+        position: absolute;
+        background-color: hsl( 232.5deg 11.76% 13.33% );
+        right: -20px;
+        bottom: -10px;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        transition: all 0.5s ease-in-out;
+        
+    }
+    &:hover .background-code{
+        width: 110%;
+        height: 110%;
+        // time
+        
+        //  time unhover
+        transition: all 0.5s ease-in-out;
+        
 
-    .link {
-        display: flex;
-        align-items: center;
-        height: 70%;
+        
+    }
+    
 
-        .preview {
-            display: inline-block;
-            // border: 1px solid black;
-            border-radius: 10px;
-            // background-color: black;
-            width: 100%;
-            overflow: hidden;
-            height: 100%;
-            img {
-                width: 100%;
-                border-radius: 10px;
-            }
 
-            //  hover -> previewpop: hidden: false
+    .center-container-grid-code {
+        position: relative;
+        z-index: 1;
+        .link {
+
+            display: flex;
+            align-items: center;
+            height: 70%;
             
-
+    
+    
+            .preview {
+                display: inline-block;
+                // border: 1px solid black;
+                border-radius: 10px;
+                // background-color: black;
+                width: 100%;
+                overflow: hidden;
+                height: 100%;
+                img {
+                    width: 100%;
+                    border-radius: 10px;
+                }
+    
+                //  hover -> previewpop: hidden: false
+                
+    
+            }
+            .previewPop {
+                display: none;
+            }
+    
+            &:hover .previewPop {
+                display: block;
+                position: absolute;
+                top: 20px;
+                right: 30px;
+    
+                text-decoration: none;
+    
+                button {
+                    border: none;
+                    background-color: #444857;
+                    color: white;
+                }
+            }
         }
-        .previewPop {
-            display: none;
+    
+        .header {
+            height: 20%;
+            display: flex;
+            align-items: center;
+            padding: 0px 20px;
+    
+            h2 {
+                font-size: medium;
+                font-weight: bold;
+    
+                a {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+    
+            span {
+                margin-left: auto;
+                color: white;
+            }
         }
-
-        &:hover .previewPop {
-            display: block;
-            position: absolute;
-            top: 20px;
-            right: 30px;
-
-            text-decoration: none;
-
+    
+        footer {
+            padding-left: 20px;
+            height: 10%;
             button {
-                border: none;
+                margin-right: 5px;
+                border-radius: 8px;
                 background-color: #444857;
                 color: white;
-            }
-        }
-    }
-
-    .header {
-        height: 20%;
-        display: flex;
-        align-items: center;
-        padding: 0px 20px;
-
-        h2 {
-            font-size: medium;
-            font-weight: bold;
-
-            a {
-                color: white;
-                text-decoration: none;
-            }
-        }
-
-        span {
-            margin-left: auto;
-            color: white;
-        }
-    }
-
-    footer {
-        padding-left: 20px;
-        height: 10%;
-        button {
-            margin-right: 5px;
-            border-radius: 8px;
-            background-color: #444857;
-            color: white;
-            border:unset;
-            // border-color: #444857;
-            padding: 3px 7px;
-
-            span {
-                margin-right: 2px;
+                border:unset;
+                // border-color: #444857;
+                padding: 3px 7px;
+    
+                span {
+                    margin-right: 2px;
+                }
             }
         }
     }

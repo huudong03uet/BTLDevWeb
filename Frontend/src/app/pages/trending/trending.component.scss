@@ -35,9 +35,10 @@
                     margin-left: 10%;
                     display: grid;
                     grid-template-columns: 1fr 1fr;
-                    // grid-template-rows: 1fr 1fr;
-                    //  grid padding
-                    grid-gap: 5%;
+                    grid-gap: 10%;
+                    // gap top to bottom 10%
+                    grid-row-gap: 15%;
+
                     // background-color: white;
                     
                     .element-content-code{
