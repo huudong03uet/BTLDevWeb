@@ -13,6 +13,7 @@ import {Pen} from "src/app/models/pen";
 })
 
 export class HomeCodeComponent implements OnInit{
+  @ViewChild(CodeEditorComponent) codeEditorComponent!: CodeEditorComponent;
   myPen!: any;
 
   constructor(
@@ -29,7 +30,9 @@ export class HomeCodeComponent implements OnInit{
       if (penId != null) { // Sử dụng cú pháp params['someData']
         // Dữ liệu được truyền từ trang trước đó
         try {
-          this.myPen = await axios.post('http://localhost:3000/pen/getPenById', {pen_id: penId}); 
+          let data = await axios.post('http://localhost:3000/pen/getPenById', {pen_id: penId}); 
+          this.myPen = data.data.pen;
+          this.codeEditorComponent.setPen(this.myPen);
         } catch (error) {
           console.error('Error save pen:', error);
         }
@@ -40,7 +43,6 @@ export class HomeCodeComponent implements OnInit{
     });
   }
 
-  @ViewChild(CodeEditorComponent) codeEditorComponent!: CodeEditorComponent;
   
   getData() {
     return this.codeEditorComponent.getData(); // Lấy dữ liệu từ component con

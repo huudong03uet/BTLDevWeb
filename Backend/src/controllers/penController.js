@@ -39,7 +39,7 @@ let createOrUpdatePen = async (req, res) => {
   
 // Hàm để lấy thông tin pen bằng id
 async function getPenById(req, res) {
-    const { pen_id } = req.params;
+    const { pen_id } = req.body;
   
     try {
       // Tìm pen theo id

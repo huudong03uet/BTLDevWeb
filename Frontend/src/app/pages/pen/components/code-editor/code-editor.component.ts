@@ -11,8 +11,7 @@ declare let Sass: any;
   styleUrls: ['./code-editor.component.scss']
 })
 
-export class CodeEditorComponent implements AfterViewInit, OnInit {
-  @Input() dataPen!: Pen | null;
+export class CodeEditorComponent implements AfterViewInit {
 
 
   @ViewChild('htmlTextarea') htmlTextarea!: ElementRef;
@@ -39,14 +38,6 @@ export class CodeEditorComponent implements AfterViewInit, OnInit {
   @ViewChild('outputSection', { static: false }) outputSection!: ElementRef;
 
   constructor(private renderer: Renderer2) { }
-  ngOnInit(): void {
-    if(this.dataPen != null) {
-      this.htmlEditor = this.dataPen.html_code
-      this.stylesheetEditor = this.dataPen.css_code
-      this.jsEditor = this.dataPen.js_code
-    }
-  }
-
   private boundPerformResize: any;
   private boundStopResizing: any;
 
@@ -205,6 +196,14 @@ export class CodeEditorComponent implements AfterViewInit, OnInit {
     const stylesheetCode = this.stylesheetEditor.getValue();
     const jsCode = this.jsEditor.getValue();
     return {htmlCode, stylesheetCode, jsCode};
+  }
+
+  setPen(dataPen: Pen) {
+    console.log(dataPen);
+    console.log(123445)
+    this.htmlEditor.setValue(dataPen.html_code)
+    this.stylesheetEditor.setValue(dataPen.css_code)
+    this.jsEditor.setValue(dataPen.js_code)
   }
 
 }
