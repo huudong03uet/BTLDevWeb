@@ -1,10 +1,68 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { CodeEditorComponent } from './components/code-editor/code-editor.component';
+import { User } from 'src/app/models/user';
+import { UserDataService } from 'src/app/services/user-data.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import axios from 'axios';
+import {Pen} from "src/app/models/pen";
 
 @Component({
   selector: 'app-home-code',
   templateUrl: './home-code.component.html',
   styleUrls: ['./home-code.component.scss']
 })
-export class HomeCodeComponent {
+
+export class HomeCodeComponent implements OnInit{
+  myPen!: any;
+
+  constructor(
+    private userData: UserDataService,
+    private router: Router, 
+    private route: ActivatedRoute,  
+  ) {}
+   ngOnInit(): void {
+        // Lấy thông tin về trang trước đó
+      this.route.params.subscribe(async (params) => {
+        const penId = params['id'];
+        console.log(penId, 12345)
+      // Kiểm tra xem có dữ liệu nào được truyền từ trang trước đó không
+      if (penId != null) { // Sử dụng cú pháp params['someData']
+        // Dữ liệu được truyền từ trang trước đó
+        try {
+          this.myPen = await axios.post('http://localhost:3000/pen/getPenById', {pen_id: penId}); 
+        } catch (error) {
+          console.error('Error save pen:', error);
+        }
+      }
+      else {
+        this.myPen = null
+      }
+    });
+  }
+
+  @ViewChild(CodeEditorComponent) codeEditorComponent!: CodeEditorComponent;
+  
+  getData() {
+    return this.codeEditorComponent.getData(); // Lấy dữ liệu từ component con
+  }
+
+  async saveData() {
+    console.log(this.getData());
+    const penData = this.getData();
+    let pen_id = null;
+    if(this.myPen != null) {
+      pen_id = this.myPen.pen_id;
+    }
+    if(this.userData.getUserData() == null) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {user_id: this.userData.getUserData()?.user_id, pen_id, html_code: penData.htmlCode, css_code: penData.stylesheetCode, js_code: penData.jsCode});
+      this.myPen = response.data.pen;
+    } catch (error) {
+      console.error('Error save pen:', error);
+    }
+  }
 
 }

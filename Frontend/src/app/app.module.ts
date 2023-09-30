@@ -61,7 +61,8 @@ import { ContentGridCodeComponent} from './components/content-grid-code/content-
     RouterModule.forRoot([
       { path: '', component: HomeComponent, data: {title: 'CodePen'} },
       // { path: '', component: CodeEditorComponent },
-      { path: 'pen', component: HomeCodeComponent, data: {title: 'A Pen of you - Nhom XXX'} },
+      { path: 'pen/:id', component: HomeCodeComponent, data: {title: 'A Pen of you - Nhom XXX'} },
+      { path: 'pen', component: HomeCodeComponent },
       { path: "login", component: LoginComponent, data: {title: 'Đăng nhập - Nhom XXX'}},
       { path: "signup", component: SignupComponent },
       { path: "trending", component: TrendingComponent},

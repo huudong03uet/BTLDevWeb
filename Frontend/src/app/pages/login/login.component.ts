@@ -43,6 +43,8 @@ export class LoginComponent {
             };
             this.userData.setUserData(user);
             this.router.navigate(['/']);
+            localStorage.setItem('gmail', this.gmail);
+            localStorage.setItem('password', this.password);
             alert('Đăng nhập thành công');
           } else {
             this.loginError = 'Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu';

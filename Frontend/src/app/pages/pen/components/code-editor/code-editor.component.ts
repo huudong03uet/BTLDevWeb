@@ -1,5 +1,6 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, Renderer2, OnInit, Input } from '@angular/core';
 import { debounce } from 'lodash';
+import { Pen } from 'src/app/models/pen';
 declare let CodeMirror: any;
 declare let Sass: any;
 
@@ -10,7 +11,9 @@ declare let Sass: any;
   styleUrls: ['./code-editor.component.scss']
 })
 
-export class CodeEditorComponent implements AfterViewInit {
+export class CodeEditorComponent implements AfterViewInit, OnInit {
+  @Input() dataPen!: Pen | null;
+
 
   @ViewChild('htmlTextarea') htmlTextarea!: ElementRef;
   @ViewChild('stylesheetTextarea') stylesheetTextarea!: ElementRef;
@@ -36,6 +39,13 @@ export class CodeEditorComponent implements AfterViewInit {
   @ViewChild('outputSection', { static: false }) outputSection!: ElementRef;
 
   constructor(private renderer: Renderer2) { }
+  ngOnInit(): void {
+    if(this.dataPen != null) {
+      this.htmlEditor = this.dataPen.html_code
+      this.stylesheetEditor = this.dataPen.css_code
+      this.jsEditor = this.dataPen.js_code
+    }
+  }
 
   private boundPerformResize: any;
   private boundStopResizing: any;
@@ -188,6 +198,13 @@ export class CodeEditorComponent implements AfterViewInit {
     const scriptTag = document.createElement('script');
     scriptTag.innerHTML = jsCode;
     output.contentDocument.body.appendChild(scriptTag);
+  }
+
+  getData() {
+    const htmlCode = this.htmlEditor.getValue();
+    const stylesheetCode = this.stylesheetEditor.getValue();
+    const jsCode = this.jsEditor.getValue();
+    return {htmlCode, stylesheetCode, jsCode};
   }
 
 }

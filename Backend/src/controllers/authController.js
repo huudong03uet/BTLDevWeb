@@ -16,6 +16,7 @@ let login = async (req, res) => {
       // Thông tin đăng nhập không chính xác, đặt lại statusCode và thông báo lỗi
       statusCode = 300;
     }
+    user.password = undefined;
 
     // Trả về thông tin của người dùng và statusCode
     res.status(200).json({ statusCode, data: user });
@@ -62,6 +63,7 @@ let signup = async (req, res) => {
       gmail,
       password // Thêm username vào cơ sở dữ liệu
     });
+    newUser.password = undefined;
 
     // Trả về thông tin của người dùng đã đăng ký
     res.status(200).json({ code: 200, data: newUser });

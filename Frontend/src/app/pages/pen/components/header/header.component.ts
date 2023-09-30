@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'pen-header',
@@ -7,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class PenHeaderComponent {
+  @Output() saveDataParent = new EventEmitter<void>();
 
   public isMenuOpen: boolean = false;
 
@@ -27,5 +29,10 @@ export class PenHeaderComponent {
 
   onSigninButtonClick() {
     this.router.navigate(['/signin']);
+  }
+
+  saveData() {
+    this.saveDataParent.emit();
+
   }
 }

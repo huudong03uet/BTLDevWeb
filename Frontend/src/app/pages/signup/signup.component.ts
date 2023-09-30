@@ -74,8 +74,10 @@ export class SignupComponent {
             gmail: response.data.data.gmail,
             full_name: response.data.data.full_name,
           };
-          this.userData.setUserData(user);
+          this.userData.setUserData(user);  
           this.router.navigate(['/']);
+          localStorage.setItem('gmail', this.email);
+          localStorage.setItem('password', this.password);
           alert('Đăng ký thành công');
         }
         else {
