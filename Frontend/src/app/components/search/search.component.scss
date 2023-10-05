@@ -1,94 +1,32 @@
-/* Thiết lập giao diện cho thanh tìm kiếm */
 .search-container {
-  background-color: #131417;
-  // position: absolute;
-  // left: 180px; /* Điều chỉnh khoảng cách từ bên trái */
-  // top: 0;
-  // right: 0; /* Đặt right thành 0 để chiếm toàn bộ chiều rộng màn hình */
+  max-height: 100px;
+  position: relative;
   display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 10px;
-  box-sizing: border-box; /* Đảm bảo padding không tăng kích thước */
-  height: 60%;
-  input[type="text"] {
-    padding: 10px;
-    border: none;
-    border-radius: 30px 0 0 30px;
-    width: 100%; /* Sử dụng 100% chiều rộng để đầy đủ khoảng trống */
-    outline: none;
-    color: black;
-    // margin-right: 15px; /* Khoảng cách với button và img */
+  height: 44px;
+  margin-right: 1rem;
+  .SearchForm-icon {
+    position: absolute;
+    top: 0;
+    left: .9em;
+    bottom: 0;
+    margin: auto auto auto 0;
+    width: 1.5em;
+    // height: 1em;
+    // z-index: 1;
+    fill: hsl( 228.39deg 12.25% 50.39% );
   }
-
-  button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 0 30px 30px 0;
-    padding: 10px 15px;
-    cursor: pointer;
-    outline: none;
-    margin-right: 15px; /* Khoảng cách với img */
-  }
-
-  /* Thiết lập hover cho nút tìm kiếm */
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-
-   svg {
-    // margin-right: 10px; /* Khoảng cách với lề phải */
-    color: black;
-    width: 45%;
-    // margin-right: 20%;
-  } 
-
-  .button_open_option  {
-    // height: 6%;
-    // height: 60%;
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    // width: 7%;
-    padding: 0%;
-    margin-right: 15px;
-  }
-
-  .login-signup-image-pinned  {
-    .image-pinned{
-      display: flex;
-    }
+  input {
+    width: 100%;
+    margin: 0;
+    padding: .4em;
+    text-indent: 2em;
+    border: 0;
+    border-radius: 4px;
+    font: inherit;
+    font-weight: 700;
+    background: hsl( 223.64deg 12.94% 16.67% );
+    color: hsl( 0deg 0% 100% );
+    font-size:20px;
     
-    .login-signup {
-      display: flex;
-      .login-button {
-        color: white;
-        background-color: hsl( 227.37deg 12.26% 30.39% );
-        &:hover {
-          background-color: hsl( 228deg 12.2% 40.2% );
-        }
-      }
-      .signup-button {
-        color: black;
-        background-color: hsl( 139.41deg 58.62% 54.51% );
-        &:hover {
-          background-color: hsl( 139.62deg 59.09% 34.51% );
-          color: white;
-        }
-
-      }
-      button {
-        border: unset;
-        width: 85px;
-        height: 42px;
-        margin-right: 10px;
-        border-radius: 4px;
-        font-size: 1rem;
-        font-weight: 400;
-      }
-    }
-
-
   }
 }

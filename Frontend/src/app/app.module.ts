@@ -29,6 +29,7 @@ import { CodeBoxComponent } from './pages/home/components/code-box/code-box.comp
 import { YourWorkComponent } from './pages/your-work/your-work.component';
 import { ContentGridCodeComponent} from './components/content-grid-code/content-grid-code.component';
 import { SidebarNologinComponent } from './components/sidebar-nologin/sidebar-nologin.component';
+import { HeaderNologinComponent } from './components/header-nologin/header-nologin.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { SidebarNologinComponent } from './components/sidebar-nologin/sidebar-no
     YourWorkComponent,
     ContentGridCodeComponent,
     SidebarNologinComponent,
+    HeaderNologinComponent,
   ],
   imports: [
     FormsModule,
