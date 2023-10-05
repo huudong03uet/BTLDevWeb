@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./header-nologin.component.scss']
 })
 export class HeaderNologinComponent {
-  isLogin: boolean = false;
 }

@@ -53,7 +53,18 @@ body,
       font-size: large;
       // width: 90%;
       margin: 0 1.25rem;
-
+      .color-row {
+        position: relative;
+        // bottom: -0.75rem;
+        left: 0;
+        right: 0;
+        content: "";
+        height: 3px;
+        border-radius: 5px 5px 0 0;
+        z-index: 1;
+        // background: linear-gradient(70deg,var(--cp-color-blue),var(--cp-color-yellow),var(--cp-color-purple),var(--cp-color-green));
+        background: linear-gradient(70deg,hsl( 49.32deg 100% 62.55% ),hsl( 196.18deg 100% 52.75% ),hsl( 274.88deg 70.49% 64.12% ),hsl( 139.41deg 58.62% 54.51% ));
+      }
       .menu {
         display: block;
         align-items: center;
