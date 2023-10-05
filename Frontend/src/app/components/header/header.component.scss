@@ -46,10 +46,9 @@
   }
 
   .login-signup-image-pinned {
-
     .image-pinned {
         display: flex;
-        width: 15%;
+        // width: 15%;
       button {
         padding: 0px 15px;
         border-radius: 4px;
@@ -81,8 +80,58 @@
         }
       }
       .avatar-user {
+        cursor: pointer;
         border-radius: 2px;
       }
+    }
+
+    .option-setting {
+        position: absolute;
+        right: 15px;
+        top: 70px;
+        z-index: 2;
+        // opacity: 0; /* Đặt opacity ban đầu là 0 (ẩn phần tử) */
+        
+
+
+        .option-setting-container {
+            padding: 5px 0px;
+            // border-radius: 4px;
+            display: block;
+            background-color: hsl( 232.5deg 11.76% 13.33% );
+            border-radius: 5px;
+            div {
+                
+                border: solid;
+                border-width: 0px;
+                border-bottom-width: 1px;
+                border-color: hsl( 222.86deg 13.73% 20% );
+                // border: unset;
+
+
+                display: block;
+                padding-inline: 0.7rem;
+                padding-block: 0.3rem;
+                // border-bottom: 2px;
+                
+                a {
+                    text-wrap: nowrap;
+                    
+                    text-decoration: none;
+                    color: white;
+                    font-size: 0.96rem;
+                    font-weight: 700;
+                    display: block;
+                    margin: 4px 0px;
+                    svg {
+                        width: 16px;
+                        height: 16px;
+                        margin-right: 0.35rem;
+                        fill: white;
+                    }
+                }
+            }
+        }
     }
   }
 }

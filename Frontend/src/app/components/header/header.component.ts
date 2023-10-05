@@ -6,4 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+  hiddenSetting = false;
+  changeStatusOption() {
+    console.log(this.hiddenSetting)
+    this.hiddenSetting = !this.hiddenSetting;
+  }
+  
+
+
 }
