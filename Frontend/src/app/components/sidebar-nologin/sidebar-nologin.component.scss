@@ -1,0 +1,160 @@
+/* Thiết lập một số đặc tính chung cho header */
+html,
+body,
+/* Thêm các phần tử cha khác nếu cần */
+.sidebar_container {
+  height: 100%;
+  
+}
+
+.sidebar_container {
+  display: flex;
+  justify-content: flex-start;
+  color: #fff;
+  // align-items: stretch;
+  height: 100%;
+  width: 100%;
+
+  .left-content {
+    margin: 0;
+    height: max-content;
+    background-color: #1E1F26;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+
+    h1 {
+      text-align: center;
+      a {
+        svg {
+          height: 100%;
+          width: 150px;
+        }
+      }
+    }
+
+    h2 {
+      font-size: smaller;
+    }
+
+    .pen-collection {
+      margin-bottom: 20px;
+      font-size: large;
+    //   width: 80%;
+      align-items: center;
+      margin: 10%;
+        .text-try {
+            font-weight: 600;
+            font-size: .75rem;
+            color: hsl( 226.67deg 11.84% 70.2% );
+            margin-top: .5rem;
+            letter-spacing: -.02rem;
+            // SFMono-Regular, Consolas, 'Liberation Mono', Menlo,monospace
+            font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo,monospace;
+        }
+        .start-coding {
+            .button-anon-pen {
+                width: 100%;
+                background-image: linear-gradient(115deg, #4fcf70, #fad648, #a767e5, #12bcfe, #44ce7b);
+                text-align: center;
+                margin: 0 auto;
+                position: relative;
+                color: #fff;
+                text-decoration: none;
+                display: block;
+                // top: 45vh;
+                font-weight: normal;
+                border-radius: 6px;
+                overflow: hidden;
+            }
+            
+            .button-anon-pen:hover {
+                -webkit-animation: play 1.6s ease-in infinite;
+            }
+            
+            .button-anon-pen span {
+                padding: .75rem 0;
+                font-size: 1.1rem;
+                display: block;
+                margin: 3px;
+                background: #000;
+                border-radius: 3px;
+            }
+            
+            @keyframes play {
+                0% {
+                    background-position: 0px;
+                }
+                20% {
+                    background-position: -110px;
+                }
+                35% {
+                    background-position: -180px;
+                }
+                50% {
+                    background-position: -210px;
+                }
+                80% {
+                    background-position: -350px;
+                }
+                100% {
+                    background-position: -390px;
+                }
+            }
+        }
+
+    }
+
+    div {
+    //   font-size: large;
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+        li {
+          a {
+            display: block;
+          }
+        }
+      }
+    }
+    .button-click {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: baseline;
+    padding: .75rem 1.375rem;
+    font-weight: 500;
+    color: hsl( 0deg 0% 100% );
+    text-align: left;
+    line-height: 1;
+    transition: .2s ease;
+    // background: 0 0;
+    // border: 0;
+    /* width: 100%; */
+    font-size: 1.125rem;
+    cursor: pointer;
+        &:hover {
+            background: hsl( 225deg 9.52% 8.24% );
+            color: hsl( 0deg 0% 100% );
+        }
+    }
+
+  }
+
+  // .right-content {
+  //   flex-grow: 1;
+  //   display: flex;
+  //   flex-direction: column;
+
+
+  //   app-body-home {
+  //     margin-top: 100px;
+  //   }
+
+
+
+  // }
+}

@@ -28,6 +28,7 @@ import { HomeCenterComponent } from './pages/home/components/home-center/home-ce
 import { CodeBoxComponent } from './pages/home/components/code-box/code-box.component';
 import { YourWorkComponent } from './pages/your-work/your-work.component';
 import { ContentGridCodeComponent} from './components/content-grid-code/content-grid-code.component';
+import { SidebarNologinComponent } from './components/sidebar-nologin/sidebar-nologin.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { ContentGridCodeComponent} from './components/content-grid-code/content-
     CodeBoxComponent,
     YourWorkComponent,
     ContentGridCodeComponent,
+    SidebarNologinComponent,
   ],
   imports: [
     FormsModule,
