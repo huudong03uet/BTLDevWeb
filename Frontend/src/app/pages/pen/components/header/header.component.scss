@@ -10,13 +10,16 @@
 
 /* Header section */
 #header {
+    background-color: #0d0d0d;
     padding: 10px 15px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     border-bottom: 0.2px solid #3a3a3a;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #ffffff;
+
 
 }
 
@@ -48,12 +51,11 @@
 }
 
 .right ul li a {
-    border-radius: 15px;
+    border-radius: 10px;
     text-decoration: none;
     background: #4b4f60;
     padding: 8px 12px;
-    color: #fff;
-    border-radius: 4px;
+    color: #fcfafa;
 }
 
 .right ul li a:hover {
@@ -117,7 +119,7 @@
     .mobile-menu li a {
         text-decoration: none;
         padding: 8px 16px;
-        color: #fff;
+        color: #0d0d0d;
         border-radius: 4px;
     }
 

@@ -7,42 +7,37 @@
 }
 
 /* Main section */
-.input-section,
-.output-section {
+.input-section, .output-section {
     border-radius: 10px;
     display: flex;
-    height: 48%;
+    height: 50%;
     overflow: auto;
-    padding: 0 5px;
+    // padding: 0 5px;
 }
 
 .input-section {
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-around;
-    
 }
 
 .input-section div {
-    background: #1D1E22;
+    background: #0d0c0c;
     border: none;
     border-radius: 15px;
     flex-basis: 33%;
 }
 
 .input-section div label {
-    background: #060606;
-    border: none;
-    border-radius: 5px;
+    background: #151515;
+    // border-radius: 5px;
     display: block;
     font-size: 17px;
     padding: 5px 10px;
     padding-right: 10px;
 }
 
-.html-field,
-.stylesheet-field,
-.js-field {
+.html-field, .stylesheet-field, .js-field {
     border: none;
     flex: 1;
     padding: 5px;
@@ -52,6 +47,7 @@
     overflow: auto;
     resize: both;
     width: 100%;
+    border-radius: 10px;
 }
 
 .stylesheet-select {
@@ -77,22 +73,9 @@
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
-/* Use a more stylish arrow for the dropdown */
-.stylesheet-select::after {
-    content: "\25BC";
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    /* Adjusted positioning */
-    transform: translateY(-50%);
-    color: #777;
-    /* Subtle color for the arrow */
-    pointer-events: none;
-}
-
-
 .CodeMirror {
     white-space: normal;
+    border-radius: 10px;
 }
 
 .output-field {
@@ -101,16 +84,10 @@
     width: 100%;
 }
 
-.resizer {
-    background: #888;
-    cursor: ns-resize;
-    height: 5px;
-}
-
 #main-section {
     display: flex;
     flex-direction: column;
-    min-height: 620px;
+    // min-height: 620px;
 }
 
 iframe {
@@ -142,14 +119,11 @@ iframe {
         margin: 0;
     }
 
-    .right ul .save,
-    .right ul .settings,
-    .right ul .view {
+    .right ul .save, .right ul .settings, .right ul .view {
         display: none;
     }
 
-    .right ul .submenu,
-    .mobile-menu li a {
+    .right ul .submenu, .mobile-menu li a {
         border-radius: 4px;
         color: #fff;
         display: inline-block;
