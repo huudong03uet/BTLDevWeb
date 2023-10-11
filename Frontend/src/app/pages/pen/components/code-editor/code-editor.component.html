@@ -1,7 +1,6 @@
 <div class="body">
     <section id="main-section">
-        <!-- Thêm tham chiếu biến inputSection ở đây -->
-        <div #inputSection class="input-section resizable" (mousedown)="startResizing($event)">
+        <div class="input-section">
             <div class="html-field">
                 <label><i class="fa-brands fa-html5 fa-lg"></i> HTML</label>
                 <textarea #htmlTextarea></textarea>
@@ -25,19 +24,21 @@
                 <textarea #jsTextarea></textarea>
             </div>
         </div>
-        <div #resizer class="resizer" (mousedown)="startResizing($event)"></div>
 
-        <!-- Thêm tham chiếu biến outputSection ở đây -->
-        <div #outputSection class="output-section resizable" (mousedown)="startResizing($event)">
+        <div class="output-section" [style.height]="showConsole ? '25%' : '50%'">
             <div class="output-field">
                 <iframe id="output" title="Code Output Display" #outputFrame></iframe>
             </div>
         </div>
+        
     </section>
-
-    <section id="footer">
-        <div class="copyright">
-            <p>Copyright ©️ by UETers</p>
+    <div class="console-box" *ngIf="showConsole" #consoleBox>
+        <button (click)="clearConsole()" class="clear-btn">Clear</button>
+        <div class="messages-box">
+            <pre *ngFor="let message of consoleMessages">{{ message }}</pre>
         </div>
-    </section>
+    </div>      
+    
+    <button (click)="toggleConsole()">Console</button>
+    
 </div>

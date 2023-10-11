@@ -16,7 +16,7 @@ export class UserDataService {
     }
   }
 
-  setUserData(data: User) {
+  setUserData(data: User | null) {
     window.localStorage.setItem("dataUser", JSON.stringify(data));
     this.userData = data;
   }
