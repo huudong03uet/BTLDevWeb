@@ -1,0 +1,14 @@
+.change-information.notification-settings {
+    display: block;
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    .container-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid hsl( 222.86deg 13.73% 20% );
+        padding: 1rem 0rem;
+        width: 100%;
+    }
+}
