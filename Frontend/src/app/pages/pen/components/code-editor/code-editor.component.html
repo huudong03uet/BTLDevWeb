@@ -11,7 +11,6 @@
                     <i
                         [ngClass]="stylesheetLanguage === 'css' ? 'fa-brands fa-css3-alt fa-lg' : 'fa-brands fa-sass fa-lg'"></i>
                     {{ stylesheetLanguage.toUpperCase() }}
-                    <!-- Move the select box here, right after the label -->
                     <select class="stylesheet-select" [(ngModel)]="stylesheetLanguage">
                         <option value="css">CSS</option>
                         <option value="scss">SCSS</option>
@@ -25,10 +24,21 @@
                 <textarea #jsTextarea></textarea>
             </div>
         </div>
-        <div class="output-section">
+
+        <div class="output-section" [style.height]="showConsole ? '25%' : '50%'">
             <div class="output-field">
                 <iframe id="output" title="Code Output Display" #outputFrame></iframe>
             </div>
         </div>
+        
     </section>
+    <div class="console-box" *ngIf="showConsole" #consoleBox>
+        <button (click)="clearConsole()" class="clear-btn">Clear</button>
+        <div class="messages-box">
+            <pre *ngFor="let message of consoleMessages">{{ message }}</pre>
+        </div>
+    </div>      
+    
+    <button (click)="toggleConsole()">Console</button>
+    
 </div>
