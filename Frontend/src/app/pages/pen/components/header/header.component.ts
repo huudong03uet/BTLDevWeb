@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class PenHeaderComponent {
   @Output() saveDataParent = new EventEmitter<void>();
+  @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
 
   public isMenuOpen: boolean = false;
 
@@ -16,6 +17,8 @@ export class PenHeaderComponent {
     console.log("click");
     this.isMenuOpen = true;
   }
+
+  public projectTitle: string = 'Untitled';  // Khởi tạo giá trị mặc định
 
   closeMenu(): void {
     this.isMenuOpen = false;
@@ -31,8 +34,22 @@ export class PenHeaderComponent {
     this.router.navigate(['/signin']);
   }
 
+  public isEditingTitle: boolean = false;
+
+  startEditingTitle() {
+    this.isEditingTitle = true;
+    setTimeout(() => {
+      this.projectTitleInput.nativeElement.focus();
+    });
+}
+  
+  stopEditingTitle() {
+      this.isEditingTitle = false;
+  }
+  
+
+
   saveData() {
     this.saveDataParent.emit();
-
   }
 }

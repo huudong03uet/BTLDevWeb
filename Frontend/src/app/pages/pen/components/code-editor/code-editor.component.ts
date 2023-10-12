@@ -27,6 +27,7 @@ export class CodeEditorComponent implements AfterViewInit {
   debouncedRun = debounce(this.run, 1000);
   consoleMessages: string[] = [];
   showConsole = false;
+  projectTitle: any;
 
   ngAfterViewInit() {
     this.initializeEditors();
@@ -153,17 +154,18 @@ export class CodeEditorComponent implements AfterViewInit {
     output.contentDocument.body.appendChild(scriptTag);
   }
 
-
   getData() {
     const htmlCode = this.htmlEditor.getValue();
     const stylesheetCode = this.stylesheetEditor.getValue();
     const jsCode = this.jsEditor.getValue();
-    return { htmlCode, stylesheetCode, jsCode };
-  }
+    
+    return { projectTitle: this.projectTitle, htmlCode, stylesheetCode, jsCode };  // Thêm projectTitle
+}
 
   setPen(dataPen: Pen) {
     this.htmlEditor.setValue(dataPen.html_code);
     this.stylesheetEditor.setValue(dataPen.css_code);
     this.jsEditor.setValue(dataPen.js_code);
+    this.projectTitle.setValue(dataPen.projectTitle);
   }
 }
