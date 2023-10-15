@@ -30,6 +30,8 @@ import { YourWorkComponent } from './pages/your-work/your-work.component';
 import { ContentGridCodeComponent} from './components/content-grid-code/content-grid-code.component';
 import { SidebarNologinComponent } from './components/sidebar-nologin/sidebar-nologin.component';
 import { HeaderNologinComponent } from './components/header-nologin/header-nologin.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { CentralProfileComponent } from './pages/profile/central-profile/central-profile.component';
 
 
 @NgModule({
@@ -57,6 +59,8 @@ import { HeaderNologinComponent } from './components/header-nologin/header-nolog
     ContentGridCodeComponent,
     SidebarNologinComponent,
     HeaderNologinComponent,
+    ProfileComponent,
+    CentralProfileComponent,
   ],
   imports: [
     FormsModule,
@@ -72,6 +76,7 @@ import { HeaderNologinComponent } from './components/header-nologin/header-nolog
       { path: "trending", component: TrendingComponent},
       {path: "following", component: FollowingComponent},
       {path: "your-work", component: YourWorkComponent},
+      {path: "profile", component: ProfileComponent}
     ]),
     NgbModule,
     MatSidenavModule, 
