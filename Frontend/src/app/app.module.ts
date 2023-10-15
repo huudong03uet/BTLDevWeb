@@ -77,7 +77,7 @@ import { ContentPreferencesSettingsComponent } from './pages/settings/components
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, data: { title: 'CodePen' } },
+      { path: '', component: HomeComponent, data: { title: 'CODE' } },
       // { path: '', component: CodeEditorComponent },
       { path: 'pen/:id', component: HomeCodeComponent, data: { title: 'A Pen of you - Nhom XXX' } },
       { path: 'pen', component: HomeCodeComponent },
