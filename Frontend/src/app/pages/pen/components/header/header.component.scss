@@ -19,9 +19,34 @@
     border-bottom: 0.2px solid #3a3a3a;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: #ffffff;
-
-
 }
+
+.left .project-details h4 {
+    padding-left: 10px;
+    font-size: 17px;
+}
+
+/* Trước khi input được focus */
+.project-title-input {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 17px;
+    outline: none;
+    padding-left: 10px;
+    text-decoration: none;
+    height: auto;  
+    line-height: 1;  
+}
+
+/* Khi input được focus */
+.project-title-input:focus {
+    border-bottom: none;
+    box-shadow: none;
+    padding-left: 10px;
+    text-decoration: none;
+}
+
 
 .left {
     display: flex;
@@ -32,11 +57,6 @@
 .left img {
     width: 25px;
     //margin-right: 5px;
-}
-
-.left .project-details h4 {
-    padding-left: 10px;
-    font-size: 17px;
 }
 
 .left .project-details p {

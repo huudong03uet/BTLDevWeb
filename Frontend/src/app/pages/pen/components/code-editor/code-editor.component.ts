@@ -1,9 +1,9 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, Renderer2, OnInit, Input } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, } from '@angular/core';
 import { debounce } from 'lodash';
 import { Pen } from 'src/app/models/pen';
+
 declare let CodeMirror: any;
 declare let Sass: any;
-
 
 @Component({
   selector: 'app-code-editor',
@@ -12,61 +12,49 @@ declare let Sass: any;
 })
 
 export class CodeEditorComponent implements AfterViewInit {
-
-
   @ViewChild('htmlTextarea') htmlTextarea!: ElementRef;
   @ViewChild('stylesheetTextarea') stylesheetTextarea!: ElementRef;
   @ViewChild('jsTextarea') jsTextarea!: ElementRef;
   @ViewChild('outputFrame') outputFrame!: ElementRef;
+  @ViewChild('consoleBox') consoleBox!: ElementRef;
 
   htmlEditor!: any;
   stylesheetEditor!: any;
   jsEditor!: any;
 
+  stylesheetLanguage: 'css' | 'scss' = 'css';
 
-  stylesheetLanguage: 'css' | 'scss' = 'css';  // Default is 'css'
-
-  debouncedRun = debounce(this.run, 300); // 300ms delay
-
-  constructor(private renderer: Renderer2) { }
-  private boundPerformResize: any;
-  private boundStopResizing: any;
+  debouncedRun = debounce(this.run, 1000);
+  consoleMessages: string[] = [];
+  showConsole = false;
+  projectTitle: any;
 
   ngAfterViewInit() {
-    this.htmlEditor = CodeMirror.fromTextArea(this.htmlTextarea.nativeElement, {
-      mode: 'xml',
-      lineNumbers: true,
-      lineWrapping: true,
-      theme: 'monokai',
-      autoCloseBrackets: true,
-      autoCloseTags: true
-    });
-    this.htmlEditor.on('keyup', () => this.debouncedRun());
-
-    this.stylesheetEditor = CodeMirror.fromTextArea(this.stylesheetTextarea.nativeElement, {
-      mode: this.stylesheetLanguage === 'scss' ? 'sass' : 'css',
-      lineNumbers: true,
-      lineWrapping: true,
-      theme: 'monokai',
-      autoCloseBrackets: true
-    });
-    this.stylesheetEditor.on('keyup', () => this.debouncedRun());
-
-    this.jsEditor = CodeMirror.fromTextArea(this.jsTextarea.nativeElement, {
-      mode: 'javascript',
-      lineNumbers: true,
-      lineWrapping: true,
-      theme: 'monokai',
-      autoCloseBrackets: true,
-      autoCloseTags: true
-    });
-    this.jsEditor.on('keyup', () => this.debouncedRun());
+    this.initializeEditors();
   }
 
+  initializeEditors() {
+    this.htmlEditor = this.createEditor(this.htmlTextarea, 'xml');
+    this.stylesheetEditor = this.createEditor(this.stylesheetTextarea, this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
+    this.jsEditor = this.createEditor(this.jsTextarea, 'javascript');
+  }
+
+  createEditor(elementRef: ElementRef, mode: string) {
+    const editor = CodeMirror.fromTextArea(elementRef.nativeElement, {
+      mode,
+      lineNumbers: true,
+      lineWrapping: true,
+      theme: 'monokai',
+      autoCloseBrackets: true,
+      autoCloseTags: mode === 'xml'
+    });
+    editor.on('keyup', () => this.debouncedRun());
+    return editor;
+  }
 
   onLanguageChange() {
     this.stylesheetEditor.setOption('mode', this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
-    this.run(); // Tùy vào bạn có muốn chạy lại biên dịch ngay sau khi thay đổi ngôn ngữ hay không.
+    this.run();
   }
 
   run() {
@@ -74,10 +62,45 @@ export class CodeEditorComponent implements AfterViewInit {
     const stylesheetCode = this.stylesheetEditor.getValue();
     const jsCode = this.jsEditor.getValue();
 
+    const originalConsoleLog = console.log;
+    const originalConsoleError = console.error;
+    console.log = (...args: any[]) => {
+      if (originalConsoleLog !== console.log) {
+          const message = args.join(' ').trim();
+          if (message) {
+              this.consoleMessages.push(message);
+              this.scrollToBottom();
+          }
+      }
+      originalConsoleLog.apply(console, args);
+  };
+  
+  console.error = (...args: any[]) => {
+      if (originalConsoleError !== console.error) {
+          const message = ('Error: ' + args.join(' ')).trim();
+          if (message) {
+              this.consoleMessages.push(message);
+              this.scrollToBottom();
+          }
+      }
+      originalConsoleError.apply(console, args);
+  };
+  
+
+    const output = this.outputFrame.nativeElement.contentWindow;
+
+    try {
+      output.eval(jsCode);
+    } catch (error: any) {
+      this.consoleMessages.push("Error: " + error.message);
+    } finally {
+      console.log = originalConsoleLog;
+      console.error = originalConsoleError;
+    }
+
     if (this.stylesheetLanguage === 'scss') {
-      // Compile SCSS to CSS
       Sass.compile(stylesheetCode, (result: { status: number; text: string; message: any; }) => {
-        if (result.status === 0) { // Success
+        if (result.status === 0) {
           this.applyStylesAndScript(htmlCode, result.text, jsCode);
         } else {
           console.error("Failed to compile SCSS:", result.message);
@@ -87,14 +110,39 @@ export class CodeEditorComponent implements AfterViewInit {
       this.applyStylesAndScript(htmlCode, stylesheetCode, jsCode);
     }
   }
+  private scrollToBottom(): void {
+    setTimeout(() => {
+      if (this.consoleBox && this.consoleBox.nativeElement) {
+        this.consoleBox.nativeElement.scrollTop = this.consoleBox.nativeElement.scrollHeight;
+      }
+    }, 100); // Đảm bảo rằng nó chạy sau khi Angular đã cập nhật giao diện
+  }
+
+  toggleConsole() {
+    this.showConsole = !this.showConsole;
+  }
+
+  clearConsole() {
+    this.consoleMessages = [];
+  }
 
   applyStylesAndScript(htmlCode: string, finalCssCode: string, jsCode: string) {
     const output = this.outputFrame.nativeElement;
+    const outputWindow = output.contentWindow;
 
-    // Clear previous content
+    // Override console.log in the iframe's context
+    outputWindow.console.log = (...args: any[]) => {
+      this.consoleMessages.push(args.join(' '));
+      window.console.log.apply(console, args);
+    };
+
+    // Override console.error in the iframe's context
+    outputWindow.console.error = (...args: any[]) => {
+      this.consoleMessages.push('Error: ' + args.join(' '));
+      window.console.error.apply(console, args);
+    };
+
     output.contentDocument.head.innerHTML = '';
-    output.contentDocument.body.innerHTML = '';
-
     output.contentDocument.body.innerHTML = htmlCode;
 
     const styleTag = document.createElement('style');
@@ -110,15 +158,14 @@ export class CodeEditorComponent implements AfterViewInit {
     const htmlCode = this.htmlEditor.getValue();
     const stylesheetCode = this.stylesheetEditor.getValue();
     const jsCode = this.jsEditor.getValue();
-    return {htmlCode, stylesheetCode, jsCode};
-  }
+    
+    return { projectTitle: this.projectTitle, htmlCode, stylesheetCode, jsCode };  // Thêm projectTitle
+}
 
   setPen(dataPen: Pen) {
-    console.log(dataPen);
-    console.log(123445)
-    this.htmlEditor.setValue(dataPen.html_code)
-    this.stylesheetEditor.setValue(dataPen.css_code)
-    this.jsEditor.setValue(dataPen.js_code)
+    this.htmlEditor.setValue(dataPen.html_code);
+    this.stylesheetEditor.setValue(dataPen.css_code);
+    this.jsEditor.setValue(dataPen.js_code);
+    this.projectTitle.setValue(dataPen.projectTitle);
   }
-
 }

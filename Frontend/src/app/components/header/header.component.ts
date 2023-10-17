@@ -12,9 +12,9 @@ export class HeaderComponent {
     private userData: UserDataService | null,
     private router: Router,
   ) {}
-  hiddenSetting = false;
+  hiddenSetting = true;
   changeStatusOption() {
-    console.log(this.hiddenSetting)
+    // console.log(this.hiddenSetting)
     this.hiddenSetting = !this.hiddenSetting;
   }
   

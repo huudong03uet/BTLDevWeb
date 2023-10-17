@@ -110,11 +110,13 @@
 
 
                 display: block;
-                padding-inline: 0.7rem;
-                padding-block: 0.3rem;
+                // padding-inline: 0.7rem;
+                // padding-block: 0.3rem;
                 // border-bottom: 2px;
                 
                 a {
+                    padding: 0.3rem;
+                    padding-inline: 0.7rem;
                     text-wrap: nowrap;
                     
                     text-decoration: none;
@@ -123,6 +125,12 @@
                     font-weight: 700;
                     display: block;
                     margin: 4px 0px;
+                    
+                    &:hover {
+                      background-color: hsl( 228deg 12.2% 40.2% );
+                      // width: 100%;
+                    }
+
                     svg {
                         width: 16px;
                         height: 16px;
