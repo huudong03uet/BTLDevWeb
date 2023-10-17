@@ -1,6 +1,9 @@
 import User from "../models/user";
 import Pen from "../models/pen";
 import User_Pen from "../models/user_pen";
+import View from "../models/viewTable";
+import Comment from "../models/commentTable";
+import Like from "../models/likeTable";
 
 let createOrUpdatePen = async (req, res) => {
     try {
@@ -58,7 +61,45 @@ async function getPenById(req, res) {
     }
 }
 
+async function getInfoPen(req, res) {
+  const penId = req.params.id;
+  let commentCount, viewCount, likeCount;
+  try {
+      commentCount = await Comment.count({
+      where: {
+        pen_id: penId
+      }
+    });
+  } catch (error) {
+    // Xử lý lỗi nếu có
+    console.error('Lỗi khi lấy thông tin comment: ', error);
+    res.status(500).json({ error: 'Lỗi khi lấy thông tin comment' });
+  }
+  try {
+      viewCount = await View.count({
+      where: {
+        pen_id: penId
+      }
+    });
+  } catch (error) {
+    // Xử lý lỗi nếu có
+    console.error('Lỗi khi lấy thông tin view: ', error);
+    res.status(500).json({ error: 'Lỗi khi lấy thông tin view' });
+  }
+  try {
+      likeCount = await Like.count({
+      where: {
+        pen_id: penId
+      }
+    });
+  } catch (error) {
+    // Xử lý lỗi nếu có
+    console.error('Lỗi khi lấy thông tin view: ', error);
+    res.status(500).json({ error: 'Lỗi khi lấy thông tin view' });
+  }
+  res.json({ commentCount, viewCount, likeCount });
+}
 
 module.exports = {
-    createOrUpdatePen, getPenById
+    createOrUpdatePen, getPenById, getInfoPen
 };
