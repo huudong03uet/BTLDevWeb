@@ -1,4 +1,5 @@
 import User from "../models/user";
+const { Op } = require("sequelize");
 
 let login = async (req, res) => {
   try {
