@@ -60,7 +60,7 @@ export class HomeCodeComponent implements OnInit{
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {user_id: this.userData.getUserData()?.user_id, pen_id, html_code: penData.htmlCode, css_code: penData.stylesheetCode, js_code: penData.jsCode});
+      const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {user_id: this.userData.getUserData()?.user_id, pen_id, html_code: penData.htmlCode, css_code: penData.stylesheetCode, js_code: penData.jsCode, name: this.myPen.name});
       this.myPen = response.data.pen;
     } catch (error) {
       console.error('Error save pen:', error);

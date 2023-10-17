@@ -14,11 +14,8 @@
 
 
             <div class="app-body-trending-component">
-                <div class="content-grid-code">
-                    <app-content-grid-code class="element-content-code"></app-content-grid-code>
-                    <app-content-grid-code class="element-content-code"></app-content-grid-code>
-                    <app-content-grid-code class="element-content-code"></app-content-grid-code>
-                    <app-content-grid-code class="element-content-code"></app-content-grid-code>
+                <div class="content-grid-code"  *ngFor="let dataItem of data">
+                    <app-content-grid-code class="element-content-code" [pen_id]="dataItem"></app-content-grid-code>
                 </div>
                 
             </div>
