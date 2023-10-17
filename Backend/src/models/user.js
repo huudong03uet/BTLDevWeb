@@ -17,7 +17,7 @@ const User = sequelize.define('user', {
   password: DataTypes.TEXT,
   full_name: DataTypes.TEXT
 }, {
-    tableName: 'user',
+  tableName: 'user',
 });
 
 module.exports = User;

@@ -14,6 +14,7 @@ export class LoginComponent {
   gmail: string = ''; // Thêm biến email và khởi tạo
   password: string = ''; // Thêm biến password và khởi tạo
 
+
   constructor(
     private router: Router,
     private userData: UserDataService
@@ -54,6 +55,7 @@ export class LoginComponent {
           console.log(12341);
           // Xử lý khi có lỗi
           console.error('Đã xảy ra lỗi:', error);
+          this.loginError = 'Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu';
         });
     } else {
       // Người dùng chưa điền đủ thông tin, hiển thị cảnh báo

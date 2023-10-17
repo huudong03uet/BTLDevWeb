@@ -1,6 +1,5 @@
 import express from "express";
 import penController from "../controllers/penController"
-
 const router = express.Router();
 
 router.post("/getPenById", penController.getPenById);
