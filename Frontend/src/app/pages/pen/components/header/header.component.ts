@@ -1,55 +1,60 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
   selector: 'pen-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class PenHeaderComponent {
+export class PenHeaderComponent implements OnInit {
   @Output() saveDataParent = new EventEmitter<void>();
   @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
 
-  public isMenuOpen: boolean = false;
 
-  openMenu(): void {
-    console.log("click");
-    this.isMenuOpen = true;
+  public isMenuOpen = false;
+  public projectTitle = 'Untitled';
+  public isEditingTitle = false;
+  public isLoggedIn = false;
+
+  constructor(private router: Router, private userDataService: UserDataService) { }
+
+  ngOnInit(): void {
+    this.isLoggedIn = !!this.userDataService.getUserData();
   }
 
-  public projectTitle: string = 'Untitled';  // Khởi tạo giá trị mặc định
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  openMenu(): void {
+    this.isMenuOpen = true;
+  }
 
   closeMenu(): void {
     this.isMenuOpen = false;
   }
 
-  constructor(private router: Router) { }
-
-  onLoginButtonClick() {
+  onLoginButtonClick(): void {
     this.router.navigate(['/login']);
   }
 
-  onSigninButtonClick() {
+  onSigninButtonClick(): void {
     this.router.navigate(['/signin']);
   }
 
-  public isEditingTitle: boolean = false;
-
-  startEditingTitle() {
+  startEditingTitle(): void {
     this.isEditingTitle = true;
     setTimeout(() => {
       this.projectTitleInput.nativeElement.focus();
     });
-}
-  
-  stopEditingTitle() {
-      this.isEditingTitle = false;
   }
-  
 
+  stopEditingTitle(): void {
+    this.isEditingTitle = false;
+  }
 
-  saveData() {
+  saveData(): void {
     this.saveDataParent.emit();
   }
 }

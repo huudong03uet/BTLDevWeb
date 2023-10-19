@@ -15,11 +15,14 @@ import {Pen} from "src/app/models/pen";
 export class HomeCodeComponent implements OnInit{
   @ViewChild(CodeEditorComponent) codeEditorComponent!: CodeEditorComponent;
   myPen!: any;
+  isLoggedIn: boolean = false; // Khởi tạo giá trị mặc định
+
 
   constructor(
     private userData: UserDataService,
     private router: Router, 
     private route: ActivatedRoute,  
+    
   ) {}
    ngOnInit(): void {
         // Lấy thông tin về trang trước đó
@@ -41,6 +44,7 @@ export class HomeCodeComponent implements OnInit{
         this.myPen = null
       }
     });
+    this.isLoggedIn = !!this.userData.getUserData();
   }
 
   
