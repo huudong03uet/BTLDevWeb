@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { debounce } from 'lodash';
 import { Pen } from 'src/app/models/pen';
 
@@ -10,7 +10,6 @@ declare let Sass: any;
   templateUrl: './code-editor.component.html',
   styleUrls: ['./code-editor.component.scss']
 })
-
 export class CodeEditorComponent implements AfterViewInit {
   @ViewChild('htmlTextarea') htmlTextarea!: ElementRef;
   @ViewChild('stylesheetTextarea') stylesheetTextarea!: ElementRef;
@@ -23,23 +22,24 @@ export class CodeEditorComponent implements AfterViewInit {
   jsEditor!: any;
 
   stylesheetLanguage: 'css' | 'scss' = 'css';
-
   debouncedRun = debounce(this.run, 1000);
   consoleMessages: string[] = [];
   showConsole = false;
   projectTitle: any;
 
+  constructor(private cdRef: ChangeDetectorRef) { }
+
   ngAfterViewInit() {
     this.initializeEditors();
   }
 
-  initializeEditors() {
+  private initializeEditors() {
     this.htmlEditor = this.createEditor(this.htmlTextarea, 'xml');
     this.stylesheetEditor = this.createEditor(this.stylesheetTextarea, this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
     this.jsEditor = this.createEditor(this.jsTextarea, 'javascript');
   }
 
-  createEditor(elementRef: ElementRef, mode: string) {
+  private createEditor(elementRef: ElementRef, mode: string) {
     const editor = CodeMirror.fromTextArea(elementRef.nativeElement, {
       mode,
       lineNumbers: true,
@@ -57,45 +57,19 @@ export class CodeEditorComponent implements AfterViewInit {
     this.run();
   }
 
-  run() {
+  private run() {
     const htmlCode = this.htmlEditor.getValue();
     const stylesheetCode = this.stylesheetEditor.getValue();
     const jsCode = this.jsEditor.getValue();
 
-    const originalConsoleLog = console.log;
-    const originalConsoleError = console.error;
-    console.log = (...args: any[]) => {
-      if (originalConsoleLog !== console.log) {
-          const message = args.join(' ').trim();
-          if (message) {
-              this.consoleMessages.push(message);
-              this.scrollToBottom();
-          }
-      }
-      originalConsoleLog.apply(console, args);
-  };
-  
-  console.error = (...args: any[]) => {
-      if (originalConsoleError !== console.error) {
-          const message = ('Error: ' + args.join(' ')).trim();
-          if (message) {
-              this.consoleMessages.push(message);
-              this.scrollToBottom();
-          }
-      }
-      originalConsoleError.apply(console, args);
-  };
-  
+    this.overrideConsole();
 
     const output = this.outputFrame.nativeElement.contentWindow;
-
     try {
       output.eval(jsCode);
     } catch (error: any) {
       this.consoleMessages.push("Error: " + error.message);
-    } finally {
-      console.log = originalConsoleLog;
-      console.error = originalConsoleError;
+      this.scrollToBottom();
     }
 
     if (this.stylesheetLanguage === 'scss') {
@@ -110,33 +84,61 @@ export class CodeEditorComponent implements AfterViewInit {
       this.applyStylesAndScript(htmlCode, stylesheetCode, jsCode);
     }
   }
-  private scrollToBottom(): void {
-    setTimeout(() => {
-      if (this.consoleBox && this.consoleBox.nativeElement) {
-        this.consoleBox.nativeElement.scrollTop = this.consoleBox.nativeElement.scrollHeight;
+
+  private overrideConsole() {
+    const originalConsoleLog = console.log;
+    const originalConsoleError = console.error;
+
+    console.log = (...args: any[]) => {
+      const message = args.join(' ').trim();
+      if (message) {
+        this.consoleMessages.push(message);
+        this.scrollToBottom();
       }
-    }, 100); // Đảm bảo rằng nó chạy sau khi Angular đã cập nhật giao diện
+      originalConsoleLog.apply(console, args);
+    };
+
+    console.error = (...args: any[]) => {
+      const message = ('Error: ' + args.join(' ')).trim();
+      if (message) {
+        this.consoleMessages.push(message);
+        this.scrollToBottom();
+      }
+      originalConsoleError.apply(console, args);
+    };
   }
+
+  private scrollToBottom() {
+    this.cdRef.detectChanges();
+    if (this.consoleBox && this.consoleBox.nativeElement) {
+      const messagesBox = this.consoleBox.nativeElement.querySelector('.messages-box');
+      if (messagesBox) {
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+      }
+    }
+  }
+  
 
   toggleConsole() {
     this.showConsole = !this.showConsole;
+    if (this.showConsole) {
+      this.scrollToBottom();
+    }
   }
 
   clearConsole() {
     this.consoleMessages = [];
   }
 
-  applyStylesAndScript(htmlCode: string, finalCssCode: string, jsCode: string) {
+  private applyStylesAndScript(htmlCode: string, finalCssCode: string, jsCode: string) {
     const output = this.outputFrame.nativeElement;
     const outputWindow = output.contentWindow;
 
-    // Override console.log in the iframe's context
     outputWindow.console.log = (...args: any[]) => {
       this.consoleMessages.push(args.join(' '));
       window.console.log.apply(console, args);
     };
 
-    // Override console.error in the iframe's context
     outputWindow.console.error = (...args: any[]) => {
       this.consoleMessages.push('Error: ' + args.join(' '));
       window.console.error.apply(console, args);
@@ -158,14 +160,14 @@ export class CodeEditorComponent implements AfterViewInit {
     const htmlCode = this.htmlEditor.getValue();
     const stylesheetCode = this.stylesheetEditor.getValue();
     const jsCode = this.jsEditor.getValue();
-    
-    return { projectTitle: this.projectTitle, htmlCode, stylesheetCode, jsCode };  // Thêm projectTitle
-}
+
+    return { projectTitle: this.projectTitle, htmlCode, stylesheetCode, jsCode };
+  }
 
   setPen(dataPen: Pen) {
     this.htmlEditor.setValue(dataPen.html_code);
     this.stylesheetEditor.setValue(dataPen.css_code);
     this.jsEditor.setValue(dataPen.js_code);
-    this.projectTitle.setValue(dataPen.projectTitle);
+    this.projectTitle = dataPen.projectTitle;
   }
 }
