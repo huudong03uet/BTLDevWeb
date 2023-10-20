@@ -25,11 +25,12 @@ let login = async (req, res) => {
 
     if (!user) {
       statusCode = 300;
+      res.status(200).json({ statusCode});
+
     }
-    user.password = undefined;
 
     // Trả về thông tin của người dùng và statusCode
-    res.status(200).json({ statusCode, data: user });
+    else res.status(200).json({ statusCode, data: user });
   } catch (error) {
     console.error('Lỗi đăng nhập:', error);
     res.status(500).json({ error: 'Đã xảy ra lỗi trong quá trình đăng nhập.' });

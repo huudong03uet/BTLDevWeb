@@ -1,14 +1,10 @@
-/* Global CSS */
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    height: 100%;
+    
 }
 
-
-
-/* Header section */
 #header {
     background-color: #0d0d0d;
     padding: 10px 15px;
@@ -17,16 +13,30 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 0.2px solid #3a3a3a;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Lucida Sans', sans-serif;
     color: #ffffff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }
 
-.left .project-details h4 {
-    padding-left: 10px;
-    font-size: 17px;
+.left {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .project-details {
+        h4 {
+            padding-left: 10px;
+            font-size: 17px;
+        }
+
+        p {
+            padding-left: 10px;
+            font-size: 13px;
+        }
+    }
 }
 
-/* Trước khi input được focus */
 .project-title-input {
     background: none;
     border: none;
@@ -34,19 +44,23 @@
     font-size: 17px;
     outline: none;
     padding-left: 10px;
-    text-decoration: none;
     height: auto;  
     line-height: 1;  
+
+    &:focus {
+        border-bottom: none;
+        box-shadow: none;
+        text-decoration: none;
+    }
 }
 
-/* Khi input được focus */
-.project-title-input:focus {
-    border-bottom: none;
-    box-shadow: none;
-    padding-left: 10px;
-    text-decoration: none;
-}
+.right ul {
+    li {
+        display: inline-block;
+        margin: 5px 2px;
+        list-style: none;
 
+<<<<<<< HEAD
 .image-pinned {
     display: flex;
 
@@ -190,103 +204,56 @@
       }
     }
 
+=======
+        a {
+            border-radius: 10px;
+            text-decoration: none;
+            background: #4b4f60;
+            padding: 8px 12px;
+            color: #fcfafa;
+            &:hover {
+                background: rgb(37, 37, 37);
+            }
+        }
+>>>>>>> refs/remotes/origin/main
 
-.left {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
+        .signup {
+            background: #2d9d52;
+            &:hover {
+                background: #1d7039;
+            }
+        }
+    }
 
-.left img {
-    width: 25px;
-    //margin-right: 5px;
-}
-
-.left .project-details p {
-    padding-left: 10px;
-    font-size: 13px;
-}
-
-.right ul li {
-    display: inline-block;
-    list-style: none;
-    margin: 5px 2px;
-}
-
-.right ul li a {
-    border-radius: 10px;
-    text-decoration: none;
-    background: #4b4f60;
-    padding: 8px 12px;
-    color: #fcfafa;
-}
-
-.right ul li a:hover {
-    background: rgb(37, 37, 37);
-}
-
-.right ul li .signup {
-    background: #2d9d52;
-}
-
-.right ul li .signup:hover {
-    background: #1d7039;
+    .submenu {
+        display: none;
+    }
 }
 
 .mobile-menu {
     display: none;
-}
+    position: absolute;
+    background: #3a3a3a;
+    width: 150px;
+    top: 50px;
+    right: -400px;
+    border-radius: 4px;
+    transition: right 0.5s;
 
-.right ul .submenu {
-    display: none;
-}
-  
-/* CSS for small screen */
-@media only screen and (max-width: 750px) {
-
-    #header {
-        padding: 6px 10px;
-    }
-
-    .right ul li {
-        margin: 0px 0px;
-    }
-
-    .right ul .save,
-    .right ul .settings,
-    .right ul .view {
-        display: none;
-    }
-
-    .right ul .submenu {
-        display: inline-block;
-    }
-
-    .mobile-menu {
-        display: inline-block;
-        position: absolute;
-        background: #3a3a3a;
-        width: 150px;
-        top: 50px;
-        right: -400px;
-        border-radius: 4px;
-        transition: right 0.5s;
-    }
-
-    .mobile-menu li {
+    li {
         display: block;
-        list-style: none;
         margin: 10px 2px;
+        list-style: none;
+
+        a {
+            text-decoration: none;
+            padding: 8px 16px;
+            color: #0d0d0d;
+            border-radius: 4px;
+        }
     }
 
-    .mobile-menu li a {
-        text-decoration: none;
-        padding: 8px 16px;
-        color: #0d0d0d;
-        border-radius: 4px;
-    }
-
-    .mobile-menu .close {
+    .close {
         font-size: 20px;
         cursor: pointer;
         position: absolute;
@@ -294,26 +261,24 @@
         right: 15px;
         border-radius: 4px;
     }
+}
 
-    .input-section {
-        padding: 0 10px;
+@media only screen and (max-width: 750px) {
+    #header {
+        padding: 6px 10px;
     }
 
-    .input-section div {
-        flex-basis: 48%;
-    }
+    .right ul {
+        .save, .settings, .view {
+            display: none;
+        }
 
-    .input-section .js-field {
-        flex-basis: 98%;
-    }
+        .submenu {
+            display: inline-block;
+        }
 
-    .input-section .js-field textarea {
-        width: 100%;
-        height: 200px;
-    }
-
-    .copyright {
-        font-size: 14px;
-        padding: 5px 15px;
+        .mobile-menu {
+            display: inline-block;
+        }
     }
 }

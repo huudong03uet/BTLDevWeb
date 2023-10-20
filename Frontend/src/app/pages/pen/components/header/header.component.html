@@ -12,14 +12,22 @@
                     (blur)="stopEditingTitle()" />
                 <p>Captain Anonymous</p>
             </div>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> refs/remotes/origin/main
         </div>
         <div class="right">
             <ul>
-                <li class="save"><a (click)="saveData()"><i class="fas fa-cloud"></i> Save</a></li>
-                <li class="settings"><a href="#"><i class="fas fa-gear"></i> Settings</a></li>
+                <!-- Nếu đã đăng nhập, hiển thị nút Save và Settings -->
+                <li class="save" *ngIf="isLoggedIn"><a (click)="saveData()"><i class="fas fa-cloud"></i> Save</a></li>
+                <li class="settings" *ngIf="isLoggedIn"><a href="#"><i class="fas fa-gear"></i> Settings</a></li>
+                <!-- Nếu chưa đăng nhập, chuyển hướng tới trang đăng nhập khi nhấp vào nút Save hoặc Settings -->
+                <li class="save" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i> Save</a></li>
+                <li class="settings" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i> Settings</a></li>
                 <li class="view"><a href="#"><i class="fas fa-object-group"></i></a></li>
+<<<<<<< HEAD
                 <li class="submenu" (click)="openMenu()"><a href="#"><i class="fas fa-square-caret-down"></i></a></li>
 
                 <li><a class="signup" (click)="onSigninButtonClick()" *ngIf="!isLogin">Sign Up</a></li>
@@ -85,11 +93,20 @@
             </ul>
         </div>
 
+=======
+                <li class="submenu" (click)="toggleMenu()"><a href="#"><i class="fas fa-square-caret-down"></i></a></li>
+                <!-- Hiển thị nút đăng nhập và đăng ký khi chưa đăng nhập -->
+                <li *ngIf="!isLoggedIn"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
+                <li *ngIf="!isLoggedIn"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
+                <!-- Hiển thị avatar người dùng khi đã đăng nhập (đây chỉ là một ví dụ) -->
+                <li *ngIf="isLoggedIn"><img src="path_to_avatar_image.jpg" alt="User Avatar"></li>
+            </ul>
+        </div>
+>>>>>>> refs/remotes/origin/main
         <ul class="mobile-menu" [style.right]="isMenuOpen ? '75px' : '-400px'" id="side-menu">
             <li class="save"><a href="#"><i class="fa-solid fa-cloud"></i> Save</a></li>
             <li class="settings"><a href="#"><i class="fa-solid fa-gear"></i> Settings</a></li>
-            <i class="fa-solid fa-xmark close" (click)="closeMenu()"></i>
+            <i class="fa-solid fa-xmark close" (click)="toggleMenu()"></i>
         </ul>
-
     </section>
 </div>

@@ -1,25 +1,25 @@
 <div class="body">
     <section id="main-section">
         <div class="input-section">
-            <div class="html-field">
+            <div class="editor-field html-field">
                 <label><i class="fa-brands fa-html5 fa-lg"></i> HTML</label>
                 <textarea #htmlTextarea></textarea>
             </div>
 
-            <div class="stylesheet-field">
-                <label>
-                    <i
-                        [ngClass]="stylesheetLanguage === 'css' ? 'fa-brands fa-css3-alt fa-lg' : 'fa-brands fa-sass fa-lg'"></i>
-                    {{ stylesheetLanguage.toUpperCase() }}
+            <div class="editor-field stylesheet-field">
+                <div class="stylesheet-header">
+                    <label><i
+                            [ngClass]="stylesheetLanguage === 'css' ? 'fa-brands fa-css3-alt fa-lg' : 'fa-brands fa-sass fa-lg'"></i>
+                        {{ stylesheetLanguage.toUpperCase() }}</label>
                     <select class="stylesheet-select" [(ngModel)]="stylesheetLanguage">
                         <option value="css">CSS</option>
                         <option value="scss">SCSS</option>
                     </select>
-                </label>
+                </div>
                 <textarea #stylesheetTextarea></textarea>
             </div>
 
-            <div class="js-field">
+            <div class="editor-field js-field">
                 <label><i class="fa-brands fa-js fa-lg"></i> JS</label>
                 <textarea #jsTextarea></textarea>
             </div>
@@ -30,15 +30,15 @@
                 <iframe id="output" title="Code Output Display" #outputFrame></iframe>
             </div>
         </div>
-        
     </section>
+
+   
     <div class="console-box" *ngIf="showConsole" #consoleBox>
-        <button (click)="clearConsole()" class="clear-btn">Clear</button>
         <div class="messages-box">
             <pre *ngFor="let message of consoleMessages">{{ message }}</pre>
         </div>
-    </div>      
+    </div>    
     
     <button (click)="toggleConsole()">Console</button>
-    
+    <button *ngIf="showConsole" (click)="clearConsole()" class="clear-btn">Clear Console</button>
 </div>
