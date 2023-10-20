@@ -47,6 +47,149 @@
     text-decoration: none;
 }
 
+.image-pinned {
+    display: flex;
+
+    button {
+      padding: 0px 15px;
+      border-radius: 4px;
+      color: white;
+      background-color: hsl(228deg 12.2% 40.2%);
+
+      svg {
+        color: white;
+      }
+
+      .pin-icon {
+        width: 16px;
+        height: 16px;
+        min-height: 1.2em;
+        display: inline-block;
+        pointer-events: none;
+        vertical-align: bottom;
+        fill: currentColor;
+      }
+
+      .open-icon {
+        width: 10px;
+        margin-left: 2px;
+        width: 16px;
+        height: 16px;
+        min-height: 1.2em;
+        display: inline-block;
+        pointer-events: none;
+        vertical-align: bottom;
+        fill: currentColor;
+      }
+    }
+
+    .avatar-user {
+      cursor: pointer;
+      border-radius: 2px;
+    }
+  }
+
+  .option-setting {
+    position: absolute;
+    right: 15px;
+    top: 70px;
+    z-index: 2;
+
+    .option-setting-container {
+      padding: 5px 0px;
+      display: block;
+      background-color: hsl(232.5deg 11.76% 13.33%);
+      border-radius: 5px;
+      width: fit-content;
+      height: fit-content;
+
+      div {
+
+        border: solid;
+        border-width: 0px;
+        border-bottom-width: 1px;
+        border-color: hsl(222.86deg 13.73% 20%);
+
+        display: block;
+
+        a {
+          padding: 0.3rem;
+          padding-inline: 0.7rem;
+          text-wrap: nowrap;
+
+          text-decoration: none;
+          color: white;
+          font-size: 0.96rem;
+          font-weight: 700;
+          display: block;
+          margin: 4px 0px;
+
+          &:hover {
+            background-color: hsl(228deg 12.2% 40.2%);
+          }
+
+          svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 0.35rem;
+            fill: white;
+          }
+        }
+      }
+    }
+  }
+
+  .option-setting {
+      position: absolute;
+      right: 15px;
+      top: 70px;
+      z-index: 2;
+
+
+
+      .option-setting-container {
+        padding: 5px 0px;
+        display: block;
+        background-color: hsl(232.5deg 11.76% 13.33%);
+        border-radius: 5px;
+
+        div {
+
+          border: solid;
+          border-width: 0px;
+          border-bottom-width: 1px;
+          border-color: hsl(222.86deg 13.73% 20%);
+
+          display: block;
+
+          a {
+            padding: 0.3rem;
+            padding-inline: 0.7rem;
+            text-wrap: nowrap;
+
+            text-decoration: none;
+            color: white;
+            font-size: 0.96rem;
+            font-weight: 700;
+            display: block;
+            margin: 4px 0px;
+
+            &:hover {
+              background-color: hsl(228deg 12.2% 40.2%);
+              // width: 100%;
+            }
+
+            svg {
+              width: 16px;
+              height: 16px;
+              margin-right: 0.35rem;
+              fill: white;
+            }
+          }
+        }
+      }
+    }
+
 
 .left {
     display: flex;

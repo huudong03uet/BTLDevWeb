@@ -8,19 +8,36 @@ import { UserDataService } from 'src/app/services/user-data.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(    
+  constructor(
     private userData: UserDataService | null,
     private router: Router,
-  ) {}
+  ) { }
   hiddenSetting = true;
   changeStatusOption() {
-    // console.log(this.hiddenSetting)
     this.hiddenSetting = !this.hiddenSetting;
   }
-  
+
   logOut() {
     this.userData!.setUserData(null);
     this.router.navigate(['']);
+    localStorage.removeItem('gmail');
+    localStorage.removeItem('password');
+  }
+
+  clickPen() {
+    this.router.navigate(['/pen']);
+  }
+
+  clickYourWork() {
+    this.router.navigate(['/your-work']);
+  }
+
+  clickFollowing() {
+    this.router.navigate(['/following']);
+  }
+
+  clickTrending() {
+    this.router.navigate(['/trending']);
   }
 
 }

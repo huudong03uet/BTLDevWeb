@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
 
   onNavbarButtonClick() {
     this.router.navigate(['/pen']).then(() => {
-      // Sau khi chuyển hướng thành công, đóng offcanvas
       this.offcanvasService.dismiss('Cross click');
     });
   }
