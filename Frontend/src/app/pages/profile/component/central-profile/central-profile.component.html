@@ -1,0 +1,10 @@
+<div class="bar">
+    <div class="navigate">
+        <h2 class="links-centrals pens" (click)="showPens = true; showCollections = false; navigateToPens()">Pens</h2>
+        <h2 class="links-centrals collections" (click)="showCollections = true; showPens = false; navigateToCollections()">Collections</h2>
+    </div>
+    <div class="selection">
+        <app-pen-profile *ngIf="showPens"></app-pen-profile>
+        <app-collections-profile *ngIf="showCollections"></app-collections-profile>
+    </div>
+</div>

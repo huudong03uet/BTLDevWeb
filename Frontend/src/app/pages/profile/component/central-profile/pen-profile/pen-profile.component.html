@@ -1,0 +1,37 @@
+<div class="pens">
+    
+    <div class="links-pens showcase" (click)="showShowcase = true; showPublic = false;; showPopular = false;
+        showForked = false; showLoved = false; showPrivate = false;
+        showTagged = false; showTemplate = false ;navigateToShowcase()">Showcases</div>
+    <div class="links-pens popular" (click)="showPopular = true; showPublic = false; showShowcase = false;
+        showForked = false; showLoved = false; showPrivate = false;
+        showTagged = false; showTemplate = false ;navigateToPopular()">Popular</div>
+    <div class="links-pens public" (click)="showPublic = true; showPopular = false; showShowcase = false;
+        showForked = false; showLoved = false; showPrivate = false;
+        showTagged = false; showTemplate = false ;navigateToPublic()">Public</div>
+    <div class="links-pens private" (click)="showPrivate = true;showPublic = false; showShowcase = false;
+        showForked = false; showLoved = false; showPopular = false;
+        showTagged = false; showTemplate = false ;navigateToPrivate()">Private</div>
+    <div class="links-pens template" (click)="showTemplate = true; showPublic = false; showShowcase = false;
+        showForked = false; showLoved = false; showPopular = false;
+        showTagged = false; showPrivate = false ;navigateToTemplate()">Template</div>
+    <div class="links-pens forked" (click)="showForked = true;showPublic = false; showShowcase = false;
+        showTemplate = false; showLoved = false; showPopular = false;
+        showTagged = false; showPrivate = false ;navigateToForked()">Forked</div>
+    <div class="links-pens loved" (click)="showLoved = true;showPublic = false; showShowcase = false;
+        showTemplate = false; showForked = false; showPopular = false;
+        showTagged = false; showPrivate = false ;navigateToLoved()">Loved</div>
+    <div class="links-pens tags" (click)="showTagged = true;showPublic = false; showShowcase = false;
+        showTemplate = false; showForked = false; showPopular = false;
+        showLoved = false; showPrivate = false ;navigateToTags()">Tagged</div>
+    <app-showcase-p *ngIf="showShowcase"></app-showcase-p>
+    <app-popular-p *ngIf="showPopular"></app-popular-p>
+    <app-public-p *ngIf="showPublic"></app-public-p>
+    <app-private-p *ngIf="showPrivate"></app-private-p>
+    <app-template-p *ngIf="showTemplate"></app-template-p>
+    <app-forked-p *ngIf="showForked"></app-forked-p>
+    <app-loved-p *ngIf="showLoved"></app-loved-p>
+    <app-tagged-p *ngIf="showTagged"></app-tagged-p>
+
+
+</div>

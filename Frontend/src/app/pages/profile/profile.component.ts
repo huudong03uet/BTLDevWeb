@@ -1,21 +1,11 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ViewEncapsulation } from '@angular/core';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProfileComponent {
-  constructor(
-    private route: ActivatedRoute
-  ) {}
-
-  userData: any;
-
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.userData = params;
-      console.log(this.userData);
-    });
-  }
+  // Component logic goes here
 }

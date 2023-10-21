@@ -1,0 +1,21 @@
+span {
+    font-size: 1.1rem;
+    color: #9596A4;
+    padding: 3px 14px 5px 0;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:active{
+        color: rgb(250, 137, 156);
+        text-decoration: underline;
+    }
+    &:hover {
+        color: rgb(250, 137, 156);
+        text-decoration: underline;
+    }
+    &:active{
+        color: rgb(250, 137, 156);
+        text-decoration: underline;
+    }
+}

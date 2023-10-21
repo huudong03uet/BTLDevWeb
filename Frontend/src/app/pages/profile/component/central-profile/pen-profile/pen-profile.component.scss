@@ -1,0 +1,113 @@
+.pens {
+    font-size: 1.1rem;
+    // color: #9596A4;
+    
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    color: #9596A4;
+    .showcase{
+        padding: 3px 14px 5px 0;
+        display: inline-block;
+        text-align: center;
+        &.active{
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+        &:hover {
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+    }
+    .public{
+        padding: 3px 14px 5px 0;
+        display: inline-block;
+        text-align: center;
+        &.active{
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+        &:hover {
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+    }
+    .private{
+        padding: 3px 14px 5px 0;
+        display: inline-block;
+        text-align: center;
+        &.active{
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+        &:hover {
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+    }
+    .tags{
+        padding: 3px 14px 5px 0;
+        display: inline-block;
+        text-align: center;
+        &.active{
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+        &:hover {
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+    }
+    .loved{
+        padding: 3px 14px 5px 0;
+        display: inline-block;
+        text-align: center;
+        &.active{
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+        &:hover {
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+    }
+    .template{
+        padding: 3px 14px 5px 0;
+        display: inline-block;
+        text-align: center;
+        &.active{
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+        &:hover {
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+    }
+    .popular{
+        padding: 3px 14px 5px 0;
+        display: inline-block;
+        text-align: center;
+        &.active{
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+        &:hover {
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+    }
+    .forked{
+        padding: 3px 14px 5px 0;
+        display: inline-block;
+        text-align: center;
+        &.active{
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+        &:hover {
+            color: rgb(250, 137, 156);
+            text-decoration: underline;
+        }
+    }
+
+}

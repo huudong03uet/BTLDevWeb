@@ -1,0 +1,9 @@
+.prvacy-settings.button-click-settings {
+    width: 100%;
+    color: black;
+    background-color: hsl( 49.32deg 100% 62.55% );
+    &:hover {
+        background-color:hsl( 49.22deg 100% 42.55% );
+        color: white;
+    }
+}
