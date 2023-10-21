@@ -7,12 +7,9 @@ const sequelize = new Sequelize('btl_web', 'root', '', {
 
 
 // Kiểm tra kết nối cơ sở dữ liệu
-sequelize
-  .authenticate()
-  .then(() => {
+sequelize.authenticate().then(() => {
     console.log('Kết nối cơ sở dữ liệu thành công.');
-  })
-  .catch((error) => {
+  }).catch((error) => {
     console.error('Lỗi kết nối cơ sở dữ liệu:', error);
   });
 

@@ -6,12 +6,11 @@ import axios from 'axios';
   providedIn: 'root'
 })
 export class UserDataService {
-  private userData: User | null = null;  // Khởi tạo userData với giá trị null
+  private userData: User | null = null;  
   constructor() {
-    const token = localStorage.getItem("dataUser"); // token có thể là chuỗi hoặc null
+    const token = localStorage.getItem("dataUser"); 
 
     if (typeof token === 'string') {
-      // token là chuỗi, bạn có thể sử dụng nó
       this.userData = JSON.parse(token);
     }
   }

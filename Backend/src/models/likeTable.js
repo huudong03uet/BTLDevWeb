@@ -1,23 +1,22 @@
-// userModel.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize'); // Đặt đường dẫn đến kết nối Sequelize của bạn
 
-const User = sequelize.define('user', {
-  user_id: {
+const Like = sequelize.define('like_table', {
+  like_id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  avatar_path: DataTypes.TEXT,
-  user_name: {
-    type: DataTypes.TEXT,
+  user_id: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  gmail: DataTypes.TEXT,
-  password: DataTypes.TEXT,
-  full_name: DataTypes.TEXT
+  pen_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 }, {
-  tableName: 'user',
+  tableName: "like_table",
 });
 
-module.exports = User;
+module.exports = Like;

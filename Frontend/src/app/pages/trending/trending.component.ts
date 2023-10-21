@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./trending.component.scss']
 })
 export class TrendingComponent {
-
+  data = [1, 2, 3, 4];
 }

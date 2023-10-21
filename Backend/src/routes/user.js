@@ -4,4 +4,4 @@ import userController from "../controllers/userController"
 
 const router = Express.router();
 
-// router.get("/getUser")
+//router.get("/getUser")

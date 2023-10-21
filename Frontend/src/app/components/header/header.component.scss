@@ -1,23 +1,17 @@
-/* Thiết lập giao diện cho thanh tìm kiếm */
 .header-container {
-  // padding-top: 1rem;
-  // margin-top: 1rem;
   background-color: #131417;
-  // position: absolute;
-  // left: 180px; /* Điều chỉnh khoảng cách từ bên trái */
-  // top: 0;
-  // right: 0; /* Đặt right thành 0 để chiếm toàn bộ chiều rộng màn hình */
   display: flex;
   align-items: center;
   margin: 0;
   padding: 16px 12px;
-  box-sizing: border-box; /* Đảm bảo padding không tăng kích thước */
+  box-sizing: border-box;
   height: 60%;
+
   input[type="text"] {
     padding: 10px;
     border: none;
     border-radius: 30px 0 0 30px;
-    width: 100%; /* Sử dụng 100% chiều rộng để đầy đủ khoảng trống */
+    width: 100%;
     outline: none;
     color: black;
   }
@@ -28,15 +22,11 @@
   }
 
   svg {
-    // margin-right: 10px; /* Khoảng cách với lề phải */
     color: black;
     width: 45%;
-    // margin-right: 20%;
   }
 
   .button_open_option {
-    // height: 6%;
-    // height: 60%;
     border: none;
     display: inline-flex;
     align-items: center;
@@ -47,16 +37,18 @@
 
   .login-signup-image-pinned {
     .image-pinned {
-        display: flex;
-        // width: 15%;
+      display: flex;
+
       button {
         padding: 0px 15px;
         border-radius: 4px;
         color: white;
         background-color: hsl(228deg 12.2% 40.2%);
+
         svg {
-            color: white;
+          color: white;
         }
+
         .pin-icon {
           width: 16px;
           height: 16px;
@@ -79,6 +71,7 @@
           fill: currentColor;
         }
       }
+
       .avatar-user {
         cursor: pointer;
         border-radius: 2px;
@@ -86,60 +79,54 @@
     }
 
     .option-setting {
-        position: absolute;
-        right: 15px;
-        top: 70px;
-        z-index: 2;
-        // opacity: 0; /* Đặt opacity ban đầu là 0 (ẩn phần tử) */
-        
+      position: absolute;
+      right: 15px;
+      top: 70px;
+      z-index: 2;
 
 
-        .option-setting-container {
-            padding: 5px 0px;
-            // border-radius: 4px;
+
+      .option-setting-container {
+        padding: 5px 0px;
+        display: block;
+        background-color: hsl(232.5deg 11.76% 13.33%);
+        border-radius: 5px;
+
+        div {
+
+          border: solid;
+          border-width: 0px;
+          border-bottom-width: 1px;
+          border-color: hsl(222.86deg 13.73% 20%);
+
+          display: block;
+
+          a {
+            padding: 0.3rem;
+            padding-inline: 0.7rem;
+            text-wrap: nowrap;
+
+            text-decoration: none;
+            color: white;
+            font-size: 0.96rem;
+            font-weight: 700;
             display: block;
-            background-color: hsl( 232.5deg 11.76% 13.33% );
-            border-radius: 5px;
-            div {
-                
-                border: solid;
-                border-width: 0px;
-                border-bottom-width: 1px;
-                border-color: hsl( 222.86deg 13.73% 20% );
-                // border: unset;
+            margin: 4px 0px;
 
-
-                display: block;
-                // padding-inline: 0.7rem;
-                // padding-block: 0.3rem;
-                // border-bottom: 2px;
-                
-                a {
-                    padding: 0.3rem;
-                    padding-inline: 0.7rem;
-                    text-wrap: nowrap;
-                    
-                    text-decoration: none;
-                    color: white;
-                    font-size: 0.96rem;
-                    font-weight: 700;
-                    display: block;
-                    margin: 4px 0px;
-                    
-                    &:hover {
-                      background-color: hsl( 228deg 12.2% 40.2% );
-                      // width: 100%;
-                    }
-
-                    svg {
-                        width: 16px;
-                        height: 16px;
-                        margin-right: 0.35rem;
-                        fill: white;
-                    }
-                }
+            &:hover {
+              background-color: hsl(228deg 12.2% 40.2%);
+              // width: 100%;
             }
+
+            svg {
+              width: 16px;
+              height: 16px;
+              margin-right: 0.35rem;
+              fill: white;
+            }
+          }
         }
+      }
     }
   }
 }

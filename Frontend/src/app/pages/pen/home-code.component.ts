@@ -15,11 +15,14 @@ import {Pen} from "src/app/models/pen";
 export class HomeCodeComponent implements OnInit{
   @ViewChild(CodeEditorComponent) codeEditorComponent!: CodeEditorComponent;
   myPen!: any;
+  isLoggedIn: boolean = false; // Khởi tạo giá trị mặc định
+
 
   constructor(
     private userData: UserDataService,
     private router: Router, 
     private route: ActivatedRoute,  
+    
   ) {}
    ngOnInit(): void {
         // Lấy thông tin về trang trước đó
@@ -41,6 +44,7 @@ export class HomeCodeComponent implements OnInit{
         this.myPen = null
       }
     });
+    this.isLoggedIn = !!this.userData.getUserData();
   }
 
   
@@ -60,7 +64,7 @@ export class HomeCodeComponent implements OnInit{
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {user_id: this.userData.getUserData()?.user_id, pen_id, html_code: penData.htmlCode, css_code: penData.stylesheetCode, js_code: penData.jsCode});
+      const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {user_id: this.userData.getUserData()?.user_id, pen_id, html_code: penData.htmlCode, css_code: penData.stylesheetCode, js_code: penData.jsCode, name: this.myPen.name});
       this.myPen = response.data.pen;
     } catch (error) {
       console.error('Error save pen:', error);
