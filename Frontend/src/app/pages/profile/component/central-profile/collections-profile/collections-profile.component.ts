@@ -7,6 +7,10 @@ import { Params, Router } from '@angular/router';
   styleUrls: ['./collections-profile.component.scss']
 })
 export class CollectionsProfileComponent {
+  showLovedC = false;
+  showPrivateC = false;
+  showPublicC = false;
+  showPopularC = true;
   currentURL = "";
   // constructor(private router: Router) {}
   constructor(private router: Router) {
@@ -44,7 +48,7 @@ export class CollectionsProfileComponent {
 
       // <a class="link-settings account">Account</a>
       //  currentURL = http://localhost:4200/settings/account
-      var check_currentURL = this.currentURL.split('/')[4]
+      var check_currentURL = this.currentURL.split('/')[5] + "C"
       if (link.classList.contains(check_currentURL)) {
         link.classList.add('active');
 
