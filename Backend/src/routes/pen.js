@@ -4,6 +4,11 @@ const router = express.Router();
 
 router.post("/getPenById", penController.getPenById);
 router.post("/createOrUpdatePen", penController.createOrUpdatePen);
+<<<<<<< HEAD
+//router.get("/getInfoPen/:id", penController.getInfoPen);
+module.exports = router;
+=======
 router.get("/getInfoPen/:id", penController.getInfoPen);
 
 module.exports = router;
+>>>>>>> refs/remotes/origin/main

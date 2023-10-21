@@ -1,0 +1,61 @@
+.bar{
+    width: 100%;
+    // border: 2px solid #fff;
+    // background-color: #1E1F26;
+    padding-top: 20px;
+    padding-left: 28px;
+    padding-right: 28px;
+    .pens {
+        color: #9596A4;
+        font-size: 20px;
+        padding: 3px 14px 5px 0;
+        cursor: pointer;
+        &.active {
+            // color: rgb(250, 137, 156);
+            color: white;
+        }
+        &:hover {
+            // color: rgb(250, 137, 156);
+            color: white;
+        }
+        &:active {
+            // color: rgb(250, 137, 156);
+            color: white;
+        }
+        transition: all 0.3s ease-in-out;
+    }
+    // click
+    .collections{
+        color: #9596A4;
+        font-size: 20px;
+        padding: 3px 14px 5px 0;
+        cursor: pointer;
+        &.active {
+            // color: rgb(250, 137, 156);
+            color: white;
+        }
+        &:hover {
+            // color: rgb(250, 137, 156);
+            color: white;
+        }
+        &:active {
+            // color: rgb(250, 137, 156);
+            color: white;
+        }
+        transition: all 0.3s ease-in-out;
+    }
+
+}
+h2{
+    display: inline-block;
+}
+// hover
+.selection{
+    background-color: #2A2E37;
+    padding: 10px
+}
+.navigate{
+    border-bottom: 5px solid ;
+    border-color: #5A5F73;
+    box-sizing:content-box;
+}

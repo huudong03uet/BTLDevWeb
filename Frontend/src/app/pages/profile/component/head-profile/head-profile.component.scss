@@ -1,0 +1,55 @@
+.background-profile {
+    max-height: 313px;
+}
+.wallpaper {
+    width: 100%;
+    height: 280px;
+    margin: auto;
+    display: block;
+}
+.profile-avatar{
+    transform: translateY(-70%);
+    .profile-name{
+        color: #9596A4;
+        size: 14px;
+        text-align: center;
+        margin: 0 auto;
+        padding-bottom: 10px;
+        display: block;
+    }
+    .profile-header-name{
+        color: #fff;
+        text-align: center;
+        margin: 0 auto;
+        display: block;
+    }
+    .user-header-name{
+        font-weight: 800;
+    }
+    .avatar-profile {
+        width: 124px;
+        height: 124px; 
+        border: 5px solid #fff;
+        margin: auto;
+        display: block;
+    }
+    .follower-num{
+        transform: translateY(-100%);
+        text-align: right;
+        .follower-num_{
+            font-size: 20px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0 auto;
+            display: inline;
+            padding-right: 10px;
+        }
+        .follower-text{
+            font-size: 20px;
+            color: #9596A4;
+            padding-right: 50px;
+        }
+    }
+}
+

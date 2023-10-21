@@ -11,7 +11,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PenHeaderComponent } from './pages/pen/components/header/header.component';
 import { HomeCodeComponent } from './pages/pen/home-code.component';
 import { TrendingComponent } from './pages/trending/trending.component';
-// import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -29,6 +28,8 @@ import { YourWorkComponent } from './pages/your-work/your-work.component';
 import { ContentGridCodeComponent } from './components/content-grid-code/content-grid-code.component';
 import { SidebarNologinComponent } from './components/sidebar-nologin/sidebar-nologin.component';
 import { HeaderNologinComponent } from './components/header-nologin/header-nologin.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { CentralProfileComponent } from './pages/profile/component/central-profile/central-profile.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { AccountSettingsComponent } from './pages/settings/components/account-settings/account-settings.component';
 import { ProfileSettingsComponent } from './pages/settings/components/profile-settings/profile-settings.component';
@@ -39,6 +40,21 @@ import { EditorPreferencesSettingsComponent } from './pages/settings/components/
 import { ContentPreferencesSettingsComponent } from './pages/settings/components/content-preferences-settings/content-preferences-settings.component';
 import { CollectionComponent } from './pages/collection/collection.component';
 
+import { HeadProfileComponent } from './pages/profile/component/head-profile/head-profile.component';
+import { PenProfileComponent } from './pages/profile/component/central-profile/pen-profile/pen-profile.component';
+import { CollectionsProfileComponent } from './pages/profile/component/central-profile/collections-profile/collections-profile.component';
+import { PopularPComponent } from './pages/profile/component/central-profile/pen-profile/popular-p/popular-p.component';
+import { PublicPComponent } from './pages/profile/component/central-profile/pen-profile/public-p/public-p.component';
+import { PrivatePComponent } from './pages/profile/component/central-profile/pen-profile/private-p/private-p.component';
+import { TemplatePComponent } from './pages/profile/component/central-profile/pen-profile/template-p/template-p.component';
+import { ForkedPComponent } from './pages/profile/component/central-profile/pen-profile/forked-p/forked-p.component';
+import { LovedPComponent } from './pages/profile/component/central-profile/pen-profile/loved-p/loved-p.component';
+import { TaggedPComponent } from './pages/profile/component/central-profile/pen-profile/tagged-p/tagged-p.component';
+import { PopularCComponent } from './pages/profile/component/central-profile/collections-profile/popular-c/popular-c.component';
+import { PublicCComponent } from './pages/profile/component/central-profile/collections-profile/public-c/public-c.component';
+import { PrivateCComponent } from './pages/profile/component/central-profile/collections-profile/private-c/private-c.component';
+import { LovedCComponent } from './pages/profile/component/central-profile/collections-profile/loved-c/loved-c.component';
+import { ShowcasePComponent } from './pages/profile/component/central-profile/pen-profile/showcase-p/showcase-p.component'
 
 @NgModule({
   declarations: [
@@ -64,6 +80,8 @@ import { CollectionComponent } from './pages/collection/collection.component';
     ContentGridCodeComponent,
     SidebarNologinComponent,
     HeaderNologinComponent,
+    ProfileComponent,
+    CentralProfileComponent,
     SettingsComponent,
     AccountSettingsComponent,
     ProfileSettingsComponent,
@@ -73,6 +91,21 @@ import { CollectionComponent } from './pages/collection/collection.component';
     EditorPreferencesSettingsComponent,
     ContentPreferencesSettingsComponent,
     CollectionComponent,
+    HeadProfileComponent,
+    PenProfileComponent,
+    CollectionsProfileComponent,
+    PopularPComponent,
+    PublicPComponent,
+    PrivatePComponent,
+    TemplatePComponent,
+    ForkedPComponent,
+    LovedPComponent,
+    TaggedPComponent,
+    PopularCComponent,
+    PublicCComponent,
+    PrivateCComponent,
+    LovedCComponent,
+    ShowcasePComponent
   ],
   imports: [
     FormsModule,
@@ -86,7 +119,33 @@ import { CollectionComponent } from './pages/collection/collection.component';
       { path: 'pen', component: HomeCodeComponent },
       { path: "login", component: LoginComponent, data: { title: 'Đăng nhập - Nhom XXX' } },
       { path: "signup", component: SignupComponent },
-      { path: "trending", component: TrendingComponent },
+      { path: "trending", component: TrendingComponent},
+      {path: "following", component: FollowingComponent},
+      {path: "your-work", component: YourWorkComponent},
+      {path: "profile", component: ProfileComponent, children: [
+        {path: "", redirectTo: "pens", pathMatch: "full"},
+        {path: "pens", component: CentralProfileComponent, children: [
+          {path: "", redirectTo: "showcase", pathMatch: "full"},
+          {path: "showcase", component: ShowcasePComponent},
+          {path: "popular", component: PopularPComponent},
+          {path: "public", component: PublicPComponent},
+          {path: "private", component: PrivatePComponent},
+          {path: "template", component: TemplatePComponent},
+          {path: "forked", component: ForkedPComponent},
+          {path: "loved", component: LovedPComponent},
+          {path: "tags", component: TaggedPComponent}
+
+        ]},
+        {path: "collections", component: CentralProfileComponent, children: [
+          {path: "", redirectTo: "popular", pathMatch: "full"},
+          {path: "popular", component: CollectionsProfileComponent},
+          {path: "private", component: CollectionsProfileComponent},
+          {path: "public", component: CollectionsProfileComponent},
+          {path: "loved", component: CollectionsProfileComponent}
+
+        ]}
+      ]},
+      {path: "trending", component: TrendingComponent},
       { path: "following", component: FollowingComponent },
       { path: "your-work", component: YourWorkComponent },
       // {path: "settings", component: SettingsComponent}
