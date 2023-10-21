@@ -26,4 +26,8 @@ export class SidebarComponent {
   clickYourWork() {
     this.router.navigate(['/your-work']);
   }
+
+  clickTrending() {
+    this.router.navigate(['/trending']);
+  }
 }

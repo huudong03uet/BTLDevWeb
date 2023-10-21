@@ -37,6 +37,7 @@ import { NotificationsSettingsComponent } from './pages/settings/components/noti
 import { PrivacySettingsComponent } from './pages/settings/components/privacy-settings/privacy-settings.component';
 import { EditorPreferencesSettingsComponent } from './pages/settings/components/editor-preferences-settings/editor-preferences-settings.component';
 import { ContentPreferencesSettingsComponent } from './pages/settings/components/content-preferences-settings/content-preferences-settings.component';
+import { CollectionComponent } from './pages/collection/collection.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { ContentPreferencesSettingsComponent } from './pages/settings/components
     PrivacySettingsComponent,
     EditorPreferencesSettingsComponent,
     ContentPreferencesSettingsComponent,
+    CollectionComponent,
   ],
   imports: [
     FormsModule,
@@ -80,6 +82,7 @@ import { ContentPreferencesSettingsComponent } from './pages/settings/components
       { path: '', component: HomeComponent, data: { title: 'CODE' } },
       // { path: '', component: CodeEditorComponent },
       { path: 'pen/:id', component: HomeCodeComponent, data: { title: 'A Pen of you - Nhom XXX' } },
+      {path: 'collection/:id', component: CollectionComponent, data: { title: 'Collection - Nhom XXX' },},
       { path: 'pen', component: HomeCodeComponent },
       { path: "login", component: LoginComponent, data: { title: 'Đăng nhập - Nhom XXX' } },
       { path: "signup", component: SignupComponent },

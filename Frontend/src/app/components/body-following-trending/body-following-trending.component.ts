@@ -1,25 +1,38 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-body-following-trending',
   templateUrl: './body-following-trending.component.html',
-  styleUrls: ['./body-following-trending.component.scss']
+  styleUrls: ['./body-following-trending.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BodyFollowingTrendingComponent {
   @Output() gotoFollowingPr = new EventEmitter();
 
-  
-  // displayYourWork = true;
+  ngAfterViewChecked() {
+    this.addClassActive();
+  }
 
-  // get url now of browser
-  urlNow = window.location.href;
-  // activeNavItem: string = 'Following';
-  // gotoFollowing() {
-  //   if(this.activeNavItem !== "Following") {
-  //     this.activeNavItem = "Following";
-  //     this.gotoFollowingPr.emit(); 
-  //   }
-  // }
+
+  addClassActive() {
+    const links = document.querySelectorAll('.nav-item a');
+    //  run this function in ngAfterViewChecked
+    const currentURL = window.location.href.split('/')[3];
+    console.log("current", currentURL)
+    console.log("links", links)
+    if (currentURL == 'following') {
+      links[0].classList.add('active');
+
+    }
+    if (currentURL == 'trending') {
+      links[1].classList.add('active');
+
+    }
+    if (currentURL == 'your-work') {
+      links[2].classList.add('active');
+
+    }
+  }
 
   goToFollowing() {
     // if (this.activeNavItem !== 'Following') {

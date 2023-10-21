@@ -4,49 +4,66 @@
   font-size: large;
   nav {
     background-color: #131417;
+    // padding: 10px 20px;
       ul {
-          li {
+          li.nav-item {
             cursor: pointer;
-              // margin: 5px;
+            
               display: list-item;
               a {
+                padding: 10px 20px;
                 // font: 'Telefon', Sans-Serif;
                 font-family: 'Telefon', Sans-Serif;
                 // bold style
                 font-weight: bold;
                 font-size: 1.6rem;
                 // font-weight: 800;
-                padding: 0 1.5rem 0.4rem;
+                // padding: 0 1.5rem 0.4rem;
                 color: hsl( 228.39deg 12.25% 50.39% );
+                text-decoration: none;
               }
-              a:hover {
+              // a:hover {
+              //   color: hsl( 226.67deg 11.84% 70.2% );
+              //   border: unset;
+              // }
+              //  a hover and not has class .active
+              a:hover:not(.active) {
                 color: hsl( 226.67deg 11.84% 70.2% );
                 border: unset;
               }
+
+              .active {
+                color: white;
+                border-bottom: 2px solid green;
+              }
           }
+
+          
       }
   }
 
 }
 
 /* Mặc định cho các mục li */
-.navbar-nav .nav-item a {
-  color: #333; /* Màu văn bản mặc định */
-  text-decoration: none; /* Loại bỏ gạch chân mặc định */
-  border-bottom: 2px solid transparent; /* Đường kẻ dưới mặc định (ẩn) */
-}
+// .navbar-nav .nav-item a {
+//   // color: #333; /* Màu văn bản mặc định */
+//   text-decoration: none; /* Loại bỏ gạch chân mặc định */
+//   // border-bottom: 2px solid transparent; /* Đường kẻ dưới mặc định (ẩn) */
+//   color: hsl(228.39, 12.25%, 50.39%);
+
+// }
 
 /* Khi di chuột vào */
-.navbar-nav .nav-item a:hover {
-  color: #007bff; /* Màu văn bản khi di chuột vào */
-  border-bottom-color: #007bff; /* Màu của đường kẻ dưới khi di chuột vào */
-}
+// .navbar-nav .nav-item a:hover {
+//   color: #007bff; /* Màu văn bản khi di chuột vào */
+//   border-bottom-color: #007bff; /* Màu của đường kẻ dưới khi di chuột vào */
+// }
 
 /* Khi được chọn */
-.navbar-nav .nav-item.active a {
-  color: #28a745; /* Màu văn bản khi được chọn */
-  border-bottom-color: #28a745; /* Màu của đường kẻ dưới khi được chọn */
-}
+// .navbar-nav .nav-item.active a {
+//   color: #28a745; /* Màu văn bản khi được chọn */
+//   border-bottom-color: #28a745; /* Màu của đường kẻ dưới khi được chọn */
+// }
 
 app-your-work {
   margin-top: 50%;
