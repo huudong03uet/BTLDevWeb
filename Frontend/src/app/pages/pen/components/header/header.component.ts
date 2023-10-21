@@ -1,9 +1,5 @@
 import { Component, Output, EventEmitter, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-<<<<<<< HEAD
-import { get } from 'lodash';
-=======
->>>>>>> refs/remotes/origin/main
 import { UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
@@ -27,9 +23,6 @@ export class PenHeaderComponent implements OnInit {
     this.isLoggedIn = !!this.userDataService.getUserData();
   }
 
-<<<<<<< HEAD
-  public projectTitle: string = 'Untitled';  
-=======
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
@@ -38,21 +31,11 @@ export class PenHeaderComponent implements OnInit {
     this.isMenuOpen = true;
   }
 
->>>>>>> refs/remotes/origin/main
   closeMenu(): void {
     this.isMenuOpen = false;
   }
 
-<<<<<<< HEAD
-  constructor(
-    private userData: UserDataService | null,
-    private router: Router,
-  ) { }
-
-  onLoginButtonClick() {
-=======
   onLoginButtonClick(): void {
->>>>>>> refs/remotes/origin/main
     this.router.navigate(['/login']);
   }
 
@@ -67,48 +50,8 @@ export class PenHeaderComponent implements OnInit {
     });
   }
 
-<<<<<<< HEAD
-  checkIsLogin() {
-    if (localStorage.getItem('gmail') != null || localStorage.getItem('gmail') != undefined) 
-    {
-      return true;
-    }
-    return false;
-  }
-
-  public isLogin = this.checkIsLogin();
-  
-  logOut() {
-    this.userData!.setUserData(null);
-    this.router.navigate(['']);
-    localStorage.removeItem('gmail');
-    localStorage.removeItem('password');
-  }
-
-  clickPen() {
-    this.router.navigate(['/pen']);
-  }
-
-  clickYourWork() {
-    this.router.navigate(['/your-work']);
-  }
-
-  clickFollowing() {
-    this.router.navigate(['/following']);
-  }
-
-  clickTrending() {
-    this.router.navigate(['/trending']);
-  }
-  
-  hiddenSetting = true;
-  changeStatusOption() {
-    console.log(localStorage.getItem('gmail'));
-    this.hiddenSetting = !this.hiddenSetting;
-=======
   stopEditingTitle(): void {
     this.isEditingTitle = false;
->>>>>>> refs/remotes/origin/main
   }
 
   saveData(): void {
