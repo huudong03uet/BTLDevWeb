@@ -54,7 +54,9 @@ import { PopularCComponent } from './pages/profile/component/central-profile/col
 import { PublicCComponent } from './pages/profile/component/central-profile/collections-profile/public-c/public-c.component';
 import { PrivateCComponent } from './pages/profile/component/central-profile/collections-profile/private-c/private-c.component';
 import { LovedCComponent } from './pages/profile/component/central-profile/collections-profile/loved-c/loved-c.component';
-import { ShowcasePComponent } from './pages/profile/component/central-profile/pen-profile/showcase-p/showcase-p.component'
+import { ShowcasePComponent } from './pages/profile/component/central-profile/pen-profile/showcase-p/showcase-p.component';
+import { CreateNewCollectionComponent } from './components/create-new-collection/create-new-collection.component'
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -105,12 +107,14 @@ import { ShowcasePComponent } from './pages/profile/component/central-profile/pe
     PublicCComponent,
     PrivateCComponent,
     LovedCComponent,
-    ShowcasePComponent
+    ShowcasePComponent,
+    CreateNewCollectionComponent
   ],
   imports: [
     FormsModule,
     BrowserModule,
     AppRoutingModule,
+    MatDialogModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, data: { title: 'CODE' } },
       // { path: '', component: CodeEditorComponent },

@@ -1,8 +1,9 @@
-<div class="header-container">
-    <!-- <input type="text" placeholder="Tìm kiếm...">
-    <button type="submit">Tìm</button> -->
+<!-- <app-create-new-collection></app-create-new-collection> -->
+<!-- template: `
+  <create-new-collection [isOpenCreateNewCollection]="isOpenCreateNewCollection" (closeCreateNewCollection)="closeCreateNewCollection()"></create-new-collection>
+  ` -->
 
-    <!-- <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/pin--v1.png" alt="pin--v1"/> -->
+<div class="header-container">
     <app-search class="app-search-container"></app-search>
     <div class="login-signup-image-pinned">
 
@@ -41,9 +42,16 @@
                     <a (click)="clickPen()">
                         New Pen
                     </a>
-                    <a href="new-collection">
+                    <!-- <a (click)="openCreateNewCollection()">
                         New Collection
-                    </a>
+                    </a> -->
+                    <!-- template: `
+                    <button (click)="toggleChildVisibility()">Show/Hide Child</button>
+                    <app-child *ngIf="childVisible" (close)="handleChildClose()"></app-child>
+                  ` -->
+
+                    <a (click)="openCreateNewComponent()">New Collection</a>
+                    <app-create-new-collection *ngIf="childVisible" (close)="handleChildClose()"></app-create-new-collection>
                 </div>
                 <div class="manager-setting">
                     <a href="asset-manager">
