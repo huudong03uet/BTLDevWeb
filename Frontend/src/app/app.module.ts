@@ -57,6 +57,7 @@ import { LovedCComponent } from './pages/profile/component/central-profile/colle
 import { ShowcasePComponent } from './pages/profile/component/central-profile/pen-profile/showcase-p/showcase-p.component';
 import { CreateNewCollectionComponent } from './components/create-new-collection/create-new-collection.component'
 import { MatDialogModule } from '@angular/material/dialog';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     PrivateCComponent,
     LovedCComponent,
     ShowcasePComponent,
-    CreateNewCollectionComponent
+    CreateNewCollectionComponent,
+    PageNotFoundComponent
   ],
   imports: [
     FormsModule,
@@ -165,7 +167,8 @@ import { MatDialogModule } from '@angular/material/dialog';
           { path: "editor-preferences", component: EditorPreferencesSettingsComponent },
           { path: "content-preferences", component: ContentPreferencesSettingsComponent },
         ]
-      }
+      },
+      { path: '**', pathMatch: 'full',  component: PageNotFoundComponent }, 
     ]),
     NgbModule,
     MatSidenavModule,
