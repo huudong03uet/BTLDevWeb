@@ -1,0 +1,286 @@
+.all-comment-area {
+    max-width: 840px;
+    border-radius: .5rem;
+    margin: 1rem auto 2rem;
+    display: grid;
+    grid-template-columns: minmax(0,35em) minmax(0,240px);
+    grid-template-rows: minmax(0,auto) minmax(0,auto) 1fr minmax(0,auto);
+    justify-content: center;
+    grid-gap: 1rem 2rem;
+    padding: 2rem;
+    background-color: hsl( 222.86deg 13.73% 20% );
+    .center-comment {
+        background-color: hsl( 222.86deg 13.73% 20% );
+        box-shadow: 0 4px 50px hsl( 240deg 9.09% 4.31% / 60%);
+        border-radius: 6px;
+        padding: 0.75rem;
+        margin: 0 0 1rem;
+
+        .comment-form {
+            .comment-textarea {
+                resize: none; overflow: hidden; height: 155px;
+                background: hsl( 228deg 9.8% 90% );
+                color: hsl( 225deg 9.52% 8.24% );
+                font-size: .9rem;
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+                white-space: pre-wrap;
+                border: none;
+                margin: 0;
+                min-height: 150px;
+                width: 100%;
+            }
+
+            .button-area {
+                display: flex;
+                justify-content: end;
+                .comment-button {
+                    --spinner-size: 0.9em;
+                    --cp-button-padding-inline: 11px;
+                    --cp-button-padding-block: 6px;
+                    font-size: .96rem;
+                    display: block;
+                    transition: all .2s ease;
+
+
+                    -webkit-appearance: none;
+                    vertical-align: middle;
+                    position: relative;
+                    font-family: inherit;
+                    text-shadow: none;
+                    line-height: 1.2;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    text-decoration: none!important;
+                    font-weight: 400!important;
+                    cursor: pointer;
+                    background: hsl( 227.37deg 12.26% 30.39% );
+                    color: white;
+                    padding: 6px 11px;
+                    margin: 1px 0px 1px 0;
+                    border-radius: 4px;
+                    border: 3px solid transparent;
+                    text-align: center;
+
+                    &:hover {
+                        background-color: hsl( 228deg 12.2% 40.2% );
+                        color: white;
+                    }
+                }
+            }
+        }
+        .number_comment {
+            color: hsl( 226.67deg 11.84% 70.2% );
+            margin-top: 20px;
+            .has-comment {
+                .each-comment {
+                    .comment-avatar {
+                        display: flex;
+                        position: relative;
+                        img {
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 3px;
+                            overflow: hidden;
+                            grid-column: 1;
+                            grid-row: 1/span 2;
+                        }
+                        p {
+                            margin-bottom: 0rem;
+                            margin-left: 0.5rem;
+                        }
+                        .name {
+                            font-size: 1rem;
+                            // bold
+                            font-weight: bold;
+                            color: hsl( 196.2deg 100% 73.14% );
+                        }
+                        .time {
+                            color: hsl( 225.88deg 13.39% 75.1% );
+                            text-transform: uppercase;
+                            letter-spacing: .5px;
+                            font-size: 80%;
+                        }
+                        button {
+                            position: absolute;
+                            right: 0;
+                            -webkit-appearance: none;
+                            display: inline-flex;
+                            align-items: center;
+                            vertical-align: middle;
+                            font-family: inherit;
+                            text-shadow: none;
+                            line-height: 1.2;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            text-decoration: none!important;
+                            font-weight: 400!important;
+                            cursor: pointer;
+                            padding: 3px 7px;
+                            margin: 0 4px 0 0;
+                            border-radius: 2px;
+                            border: 1px solid transparent;
+                            text-align: center;
+                            justify-content: center;
+                            font-size: .8rem;
+                            --cp-button-padding-inline: 7px;
+                            --cp-button-padding-block: 3px;
+                            --cp-button-margin-block: 0;
+                            --cp-button-margin-inline: 4px;
+                            --cp-button-border-width: 1px;
+                            --cp-button-border-radius: 2px;
+                            background-color: hsl( 227.37deg 12.26% 30.39% );
+                            color: white;
+                            &:hover {
+                                background-color: hsl( 228deg 12.2% 40.2% );
+                            }
+                        }
+                       
+                    }
+                    .comment-text {
+                        color: white;
+                        word-break: break-word;
+                        -webkit-hyphens: auto;
+                        -moz-hyphens: auto;
+                        hyphens: auto;
+                        font-size: 1rem;
+                        margin: 4px 22px;
+                        padding: 10px 0 46px 24px;
+                        border-left: 2px solid hsl( 227.37deg 12.26% 30.39% );
+                        p {
+                            margin-bottom: 0.4rem;
+                        }
+                        
+                        
+                        .action-comment {
+                            display: none;
+                            button {
+                                -webkit-appearance: none;
+                                display: inline-flex;
+                                align-items: center;
+                                vertical-align: middle;
+                                font-family: inherit;
+                                text-shadow: none;
+                                line-height: 1.2;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                text-decoration: none!important;
+                                font-weight: 400!important;
+                                cursor: pointer;
+                                padding: 3px 7px;
+                                margin: 0 4px 0 0;
+                                border-radius: 2px;
+                                border: 1px solid transparent;
+                                text-align: center;
+                                justify-content: center;
+                                font-size: .8rem;
+                                --cp-button-padding-inline: 7px;
+                                --cp-button-padding-block: 3px;
+                                --cp-button-margin-block: 0;
+                                --cp-button-margin-inline: 4px;
+                                --cp-button-border-width: 1px;
+                                --cp-button-border-radius: 2px;
+                                background-color: hsl( 227.37deg 12.26% 30.39% );
+                                color: white;
+                                &:hover {
+                                    background-color: hsl( 228deg 12.2% 40.2% );
+                                }
+                            }
+                            svg {
+                                width: 10px;
+                                height: 10px;
+                                vertical-align: middle;
+                                margin-right: 5px;
+                                fill: white;
+                            }
+
+                            .edit-comment {
+                                &:hover {
+                                    background-color: hsl( 139.41deg 58.62% 54.51% );
+
+                                }
+                            }
+                            .delete-comment {
+                                &:hover {
+                                    background-color: hsl( 0deg 100% 50% );
+                                }
+                            }
+    
+                        }
+                    }
+                    
+                    
+
+                }
+            }
+        }
+        
+    }
+
+    .right-comment {
+        .share-link {
+            justify-content: center;
+            color: white;
+            background: hsl( 232.5deg 11.76% 13.33% );
+            border-radius: 4px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 0 0 1rem;
+            font-size: .875rem;
+            position: relative;
+            span {
+                color: white;
+                display: inline-block;
+                // color: hsl( 228.39deg 12.25% 50.39% );
+                text-transform: uppercase;
+                margin-right: .5rem;
+                text-align: center;
+                a {
+                    background-color: hsl( 227.37deg 12.26% 30.39% );
+                    align-items: center;
+                    padding: 4px 8px!important;
+                    font-size: .75rem!important;
+                    white-space: nowrap;
+                    color: white;
+                    margin: 0 1px 0 0;
+                    display: inline-block;
+                    justify-content: center;
+                    cursor: pointer;
+                    border
+                    &:hover {
+                        background-color: hsl( 228deg 12.2% 40.2% )
+                    }
+                    svg {
+                        width: 16px;
+                        height: 16px;
+                        fill: white;
+                    }
+                }
+            }
+        }
+        .create-update-at {
+            p {
+                color: white;
+                margin-bottom: 0;
+                margin-top: 1rem;
+            }
+            time {
+                font-size: 1rem;
+            font-weight: 700;
+            // SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace
+            font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+            color: hsl( 225.88deg 13.39% 75.1% );
+            }
+        }
+    }
+}
+
+  .comment-text:hover .action-comment {
+    display: block !important;
+  }
+
+  .comment-text:hover {
+    padding-bottom: 20px !important;
+  }

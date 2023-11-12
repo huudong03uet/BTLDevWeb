@@ -58,6 +58,7 @@ import { ShowcasePComponent } from './pages/profile/component/central-profile/pe
 import { CreateNewCollectionComponent } from './components/create-new-collection/create-new-collection.component'
 import { MatDialogModule } from '@angular/material/dialog';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { CommentAreaComponent } from './components/comment-area/comment-area.component';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
     LovedCComponent,
     ShowcasePComponent,
     CreateNewCollectionComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    CommentAreaComponent
   ],
   imports: [
     FormsModule,
