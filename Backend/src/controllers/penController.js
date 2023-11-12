@@ -61,45 +61,68 @@ async function getPenById(req, res) {
     }
 }
 
+
+
+// API endpoint để lấy thông tin về một pen dựa trên pen_id
 async function getInfoPen(req, res) {
   const penId = req.params.id;
-  let commentCount, viewCount, likeCount;
+
   try {
-      commentCount = await Comment.count({
-      where: {
-        pen_id: penId
-      }
+    console.log(penId);
+    // Lấy thông tin về pen
+    const pen = await Pen.findByPk(penId);
+
+    console.log(pen)
+    if (!pen) {
+      return res.status(404).json({ error: 'Pen not found' });
+    }
+
+    // Lấy thông tin về user sở hữu pen
+    const userPen = await User_Pen.findOne({
+      where: { pen_id: penId },
+      include: [{ model: User }],
     });
+
+    // Lấy số lượt xem
+    const viewCount = await View.count({ where: { pen_id: penId } });
+
+    // Lấy số lượt comment
+    const commentCount = await Comment.count({ where: { pen_id: penId } });
+
+    const likeCount = await Like.count({ where: { pen_id: penId } });
+    // Tạo đối tượng kết quả
+    const result = {
+      pen: pen,
+      user: userPen ? userPen.user : null,
+      view: viewCount,
+      comment: commentCount,
+      like: likeCount
+    };
+
+    res.json(result);
   } catch (error) {
-    // Xử lý lỗi nếu có
-    console.error('Lỗi khi lấy thông tin comment: ', error);
-    res.status(500).json({ error: 'Lỗi khi lấy thông tin comment' });
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
+}
+
+
+async function getTrending(req, res) {
   try {
-      viewCount = await View.count({
-      where: {
-        pen_id: penId
-      }
+    const penIds = await Pen.findAll({
+      attributes: ['pen_id'],
     });
+
+    // Chuyển đổi kết quả từ mảng các đối tượng thành mảng các giá trị pen_id
+    const penIdValues = penIds.map((pen) => pen.pen_id);
+
+    res.json(penIdValues);
   } catch (error) {
-    // Xử lý lỗi nếu có
-    console.error('Lỗi khi lấy thông tin view: ', error);
-    res.status(500).json({ error: 'Lỗi khi lấy thông tin view' });
+    console.error('Error fetching pen ids:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-  try {
-      likeCount = await Like.count({
-      where: {
-        pen_id: penId
-      }
-    });
-  } catch (error) {
-    // Xử lý lỗi nếu có
-    console.error('Lỗi khi lấy thông tin view: ', error);
-    res.status(500).json({ error: 'Lỗi khi lấy thông tin view' });
-  }
-  res.json({ commentCount, viewCount, likeCount });
 }
 
 module.exports = {
-    createOrUpdatePen, getPenById, getInfoPen
+    createOrUpdatePen, getPenById, getInfoPen, getTrending
 };
