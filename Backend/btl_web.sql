@@ -52,6 +52,42 @@ CREATE TABLE `like_table` (
 
 -- --------------------------------------------------------
 
+
+CREATE TABLE `collection` (
+  `collection_id` int NOT NULL AUTO_INCREMENT,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `name` varchar(1000) NOT NULL,
+  PRIMARY KEY (`collection_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `collection_pen` (
+  `collection_pen_id` int NOT NULL AUTO_INCREMENT,
+  `collection_id` int NOT NULL,
+  `pen_id` int NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`collection_pen_id`),
+  KEY `fk_colletion_pen_pen` (`pen_id`),
+  KEY `fk_colletion_pen_collection` (`collection_id`),
+  CONSTRAINT `fk_colletion_pen_collection` FOREIGN KEY (`collection_id`) REFERENCES `collection` (`collection_id`),
+  CONSTRAINT `fk_colletion_pen_pen` FOREIGN KEY (`pen_id`) REFERENCES `pen` (`pen_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `collection_user` (
+  `collection_user_id` int NOT NULL AUTO_INCREMENT,
+  `collection_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`collection_user_id`),
+  KEY `fk_colletion_user_colletion` (`collection_id`),
+  KEY `fk_colletion_user_user` (`user_id`),
+  CONSTRAINT `fk_colletion_user_colletion` FOREIGN KEY (`collection_id`) REFERENCES `collection` (`collection_id`),
+  CONSTRAINT `fk_colletion_user_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
 --
 -- Table structure for table `pen`
 --

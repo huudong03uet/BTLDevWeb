@@ -29,9 +29,7 @@ export class HomeCodeComponent implements OnInit{
       this.route.params.subscribe(async (params) => {
         const penId = params['id'];
         console.log(penId, 12345)
-      // Kiểm tra xem có dữ liệu nào được truyền từ trang trước đó không
-      if (penId != null) { // Sử dụng cú pháp params['someData']
-        // Dữ liệu được truyền từ trang trước đó
+      if (penId != null) { 
         try {
           let data = await axios.post('http://localhost:3000/pen/getPenById', {pen_id: penId}); 
           this.myPen = data.data.pen;

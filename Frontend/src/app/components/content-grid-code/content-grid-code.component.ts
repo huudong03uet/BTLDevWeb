@@ -11,9 +11,6 @@ export class ContentGridCodeComponent implements OnInit {
   @Input() pen_id: any;
   data: any;
   namePen: any;
-  
-  
-  // Tạo một biến để chứa nội dung của iframe
   iframeContent: SafeHtml | undefined;
 
   constructor(private sanitizer: DomSanitizer) {}
@@ -25,8 +22,6 @@ export class ContentGridCodeComponent implements OnInit {
       this.data = response.data;
       console.log('Data:', this.data);
       this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
-
-       // Tạo nội dung cho iframe từ HTML, CSS, và JS
       const iframeContent = `
         <html>
           <head>
@@ -38,14 +33,10 @@ export class ContentGridCodeComponent implements OnInit {
           </body>
         </html>
       `;
-
-      // Sử dụng DomSanitizer để đảm bảo an toàn cho nội dung
       this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
     })
     .catch((error) => {
       console.error('Error:', error);
     });
-
-   
   }
 }
