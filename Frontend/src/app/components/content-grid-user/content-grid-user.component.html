@@ -28,13 +28,14 @@
     </div>
     <div class="ContentGridUser_popularPenPreviews">
         <a href="">
-            <div data-picture="true">
-                <!-- <picture>
-                    <img src="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007" class="ItemPreviewImage">
-                </picture> -->
-                <div class="output-field">
-                    <iframe [srcdoc]="iframeContent"></iframe>
-                </div>  
+            <div data-picture="true" (mousedown)="handlePageClick()">
+                <picture>
+                    <div class="output-field">
+                        <iframe [srcdoc]="iframeContent" sandbox="allow-scripts"></iframe>
+                    </div>  
+                    <!-- <img src="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007" class="ItemPreviewImage"> -->
+                </picture>
+                
             </div>
         </a>
         <a href="">
@@ -46,6 +47,7 @@
                         <iframe [srcdoc]="iframeContent"></iframe>
                     </div> 
                 </picture>
+
             </div>
         </a>
     </div>

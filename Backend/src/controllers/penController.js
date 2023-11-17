@@ -61,6 +61,18 @@ async function getPenById(req, res) {
     }
 }
 
+async function getPenByUser(req, res) {
+  const user_id  = req.params.id;
+  try {
+    const pen = await User_Pen.findAll({ where: { user_id: user_id } });
+    const penIdValues = pen.map((pen) => pen.pen_id);
+    return res.status(200).json(penIdValues);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy thông tin pen' });
+  }
+}
+
 async function getInfoPen(req, res) {
   const penId = req.params.id;
 
@@ -149,22 +161,6 @@ async function getFollow(req, res) {
   }
 }
 
-
-// async function getTrending(req, res) {
-//   try {
-//     const penIds = await Pen.findAll({
-//       attributes: ['pen_id'],
-//     });
-
-//     const penIdValues = penIds.map((pen) => pen.pen_id);
-
-//     res.json(penIdValues);
-//   } catch (error) {
-//     console.error('Error fetching pen ids:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// }
-
 module.exports = {
-    createOrUpdatePen, getPenById, getInfoPen, getTrending, getFollow
+    createOrUpdatePen, getPenById, getInfoPen, getTrending, getFollow, getPenByUser
 };

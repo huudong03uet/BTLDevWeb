@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, SecurityContext } from '@angular/core';
 import axios from 'axios';
+import { Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
@@ -13,7 +14,10 @@ export class ContentGridUserComponent implements OnInit {
   namePen: any;
   iframeContent: SafeHtml | undefined;
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(
+    private router: Router,
+    private sanitizer: DomSanitizer
+    ) {}
 
   ngOnInit(): void {
     const apiUrl = `http://localhost:3000/pen/getInfoPen/${this.pen_id}`;
@@ -38,5 +42,10 @@ export class ContentGridUserComponent implements OnInit {
     .catch((error) => {
       console.error('Error:', error);
     });
+  }
+
+  handlePageClick(): void {
+    console.log(`/pen/${this.pen_id}`);
+    this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
   }
 }

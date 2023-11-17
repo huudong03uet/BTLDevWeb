@@ -1,13 +1,14 @@
 <div class="code-grid-container" >
 
-   <div class="center-container-grid-code">
-    <div class="link">
+   <div class="center-container-grid-code" (mousedown)="handlePageClick()">
+    <div class="link" >
         
-        <a href="#" class="preview">
-            <div class="output-field">
-                <iframe [srcdoc]="iframeContent"></iframe>
-            </div>        </a>
-        <a href="#" class="previewPop">
+        <a class="preview">
+            <div  class="output-field">
+                <iframe [srcdoc]="iframeContent" sandbox="allow-scripts"></iframe>
+            </div>        
+        </a>
+        <a class="previewPop">
             <button>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
@@ -18,15 +19,15 @@
         </a>
     </div>
     
-    <div class="header">
+    <div  class="header">
         <div class="image">
         
             <img src="https://assets.codepen.io/9237385/internal/avatars/users/default.png?fit=crop&format=auto&height=80&version=1670773827&width=80">
 
         </div>
         <h2 class="name-code">
-            <a href="#" class="code-name">{{ namePen }}</a>
-            <a href="#" class="code-user">{{data.user.user_name}}</a>
+            <a class="code-name">{{ namePen }}</a>
+            <a class="code-user">{{data.user.user_name}}</a>
         </h2>
         <span>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots"

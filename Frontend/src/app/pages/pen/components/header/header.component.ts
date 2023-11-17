@@ -1,16 +1,23 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, AfterViewInit, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { CodeEditorComponent } from '../code-editor/code-editor.component';
+import { HomeCenterComponent } from 'src/app/pages/home/components/home-center/home-center.component';
+import { HomeCodeComponent } from '../../home-code.component';
 
 @Component({
   selector: 'pen-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class PenHeaderComponent implements OnInit {
+export class PenHeaderComponent implements OnInit, AfterViewInit{
   @Output() saveDataParent = new EventEmitter<void>();
   @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
+  @ViewChild(HomeCodeComponent) homeCodeComponent!: HomeCodeComponent;
 
+  htmlEditor!: any;
+  stylesheetEditor!: any;
+  jsEditor!: any;
 
   public isMenuOpen = false;
   public projectTitle = 'Untitled';
@@ -18,6 +25,14 @@ export class PenHeaderComponent implements OnInit {
   public isLoggedIn = false;
 
   constructor(private router: Router, private userDataService: UserDataService) { }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      const { projectTitle, htmlCode, stylesheetCode, jsCode } = this.homeCodeComponent.getDataHome();
+      this.projectTitle = projectTitle;
+      console.log(htmlCode, stylesheetCode, jsCode);
+    });
+  }
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.userDataService.getUserData();
@@ -55,6 +70,8 @@ export class PenHeaderComponent implements OnInit {
   }
 
   saveData(): void {
-    this.saveDataParent.emit();
+    console.log('111111')
+    let x = this.homeCodeComponent.getDataHome()
+    console.log('111111', x);
   }
 }

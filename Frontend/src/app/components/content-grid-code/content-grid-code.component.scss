@@ -60,6 +60,13 @@
                     width: 100%;
                     border-radius: 10px;
                 }
+
+                .output-field {
+                    iframe {
+                        pointer-events: none;
+                        cursor: pointer;
+                    }
+                }
     
                 //  hover -> previewpop: hidden: false
                 
@@ -67,6 +74,7 @@
             }
             .previewPop {
                 display: none;
+                
             }
     
             &:hover .previewPop {

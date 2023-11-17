@@ -46,13 +46,14 @@ export class HomeCodeComponent implements OnInit{
   }
 
   
-  getData() {
-    return this.codeEditorComponent.getData(); // Lấy dữ liệu từ component con
+  public getDataHome() {
+    console.log('2222')
+    return this.codeEditorComponent.getData();
   }
 
   async saveData() {
-    console.log(this.getData());
-    const penData = this.getData();
+    console.log(this.getDataHome());
+    const penData = this.getDataHome();
     let pen_id = null;
     if(this.myPen != null) {
       pen_id = this.myPen.pen_id;
