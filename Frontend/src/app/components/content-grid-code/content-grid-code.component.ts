@@ -29,11 +29,11 @@ export class ContentGridCodeComponent implements OnInit {
       const iframeContent = `
         <html>
           <head>
-            <style>${this.data.pen.js_code}</style>
+            <style>${this.data.pen.css_code}</style>
           </head>
           <body>
             ${this.data.pen.html_code}
-            <script>${this.data.pen.css_code}</script>
+            <script>${this.data.pen.js_code}</script>
           </body>
         </html>
       `;

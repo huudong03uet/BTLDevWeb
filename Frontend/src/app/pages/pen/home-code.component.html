@@ -1,2 +1,2 @@
-<pen-header (saveDataParent)="saveData()"></pen-header>
-<app-code-editor></app-code-editor>
+<pen-header [webCodeData]="webCodeData"></pen-header>
+<app-code-editor (webCodeChanged)="onWebCodeChanged($event)"></app-code-editor>

@@ -12,9 +12,12 @@ import Follow from "../models/followTable";
 let createOrUpdatePen = async (req, res) => {
     try {
         if (req.body.pen_id != null) {
-            const { user_id, pen_id } = req.body;
+          console.log('update \n');
+          console.log(req.body);
             const existingPen = await Pen.findOne({ where: { pen_id: req.body.pen_id } });
 
+            // console.log(existingPen)
+            // console.log('pen', req.body.pen_id)
             // Nếu pen đã tồn tại, thực hiện cập nhật
             existingPen.html_code = req.body.html_code;
             existingPen.js_code = req.body.js_code;
@@ -24,7 +27,10 @@ let createOrUpdatePen = async (req, res) => {
             // Trả về thông tin pen đã được cập nhật
             return res.status(200).json({code: 200, pen: existingPen, message: "cập nhật pen thành công"});
         } else {
+          console.log('create \n');
+          // console.log('pen', req.body.pen_id)
             // Nếu pen chưa tồn tại, tạo mới pen
+            console.log(req.body);
             const newPen = await Pen.create({
             html_code: req.body.html_code,
             js_code: req.body.js_code,
