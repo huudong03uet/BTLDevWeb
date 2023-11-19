@@ -30,7 +30,7 @@
     height: auto;
     display: grid;
     grid-template-rows: auto minmax(0,1fr) auto;
-    max-width: 35em;
+    max-width: 35rem;
     max-height: calc(100% - 70px - 2rem);
     .header-new-collection {
         display: flex;

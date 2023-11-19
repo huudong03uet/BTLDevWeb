@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { debounce } from 'lodash';
 import { Pen } from 'src/app/models/pen';
 
@@ -16,6 +16,8 @@ export class CodeEditorComponent implements AfterViewInit {
   @ViewChild('jsTextarea') jsTextarea!: ElementRef;
   @ViewChild('outputFrame') outputFrame!: ElementRef;
   @ViewChild('consoleBox') consoleBox!: ElementRef;
+
+  @Output() webCodeChanged: EventEmitter<{ html: string; js: string; css: string; }> = new EventEmitter<{ html: string; js: string; css: string; }>();
 
   htmlEditor!: any;
   stylesheetEditor!: any;
@@ -154,6 +156,12 @@ export class CodeEditorComponent implements AfterViewInit {
     const scriptTag = document.createElement('script');
     scriptTag.innerHTML = jsCode;
     output.contentDocument.body.appendChild(scriptTag);
+
+    this.webCodeChanged.emit({
+      html: htmlCode,
+      js: jsCode,
+      css: finalCssCode,
+    });
   }
 
   getData() {

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import axios from 'axios';
 
 @Component({
@@ -11,12 +12,12 @@ export class ContentGridCodeComponent implements OnInit {
   @Input() pen_id: any;
   data: any;
   namePen: any;
-  
-  
-  // Tạo một biến để chứa nội dung của iframe
   iframeContent: SafeHtml | undefined;
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(
+    private router: Router,
+    private sanitizer: DomSanitizer,
+    ) {}
 
   ngOnInit(): void {
     const apiUrl = `http://localhost:3000/pen/getInfoPen/${this.pen_id}`;
@@ -25,8 +26,6 @@ export class ContentGridCodeComponent implements OnInit {
       this.data = response.data;
       console.log('Data:', this.data);
       this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
-
-       // Tạo nội dung cho iframe từ HTML, CSS, và JS
       const iframeContent = `
         <html>
           <head>
@@ -38,14 +37,15 @@ export class ContentGridCodeComponent implements OnInit {
           </body>
         </html>
       `;
-
-      // Sử dụng DomSanitizer để đảm bảo an toàn cho nội dung
       this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
     })
     .catch((error) => {
       console.error('Error:', error);
     });
+  }
 
-   
+  handlePageClick(): void {
+    console.log(`/pen/${this.pen_id}`);
+    this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
   }
 }

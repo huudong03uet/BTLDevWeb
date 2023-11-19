@@ -30,6 +30,13 @@
     align-items: center;
 }
 
+.output-field {
+    iframe {
+        pointer-events: none;
+        cursor: pointer;
+    }
+}
+
 .ContentGridUser_userTitle {
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     display: inline-block;
@@ -64,9 +71,6 @@ button svg {
 }
 
 
-
-
-
 button.ContentGridUser_followButton {
     line-height: 12px;
     margin-left: 6px;
@@ -90,6 +94,14 @@ button.ContentGridUser_followButton:hover {
     gap: 0.5rem;
     margin: 0 -1rem 0.25rem 0;
     position: relative;
+}
+
+.output-field{
+    background-color: white;
+    iframe {
+        border-radius: 20;
+    }
+    
 }
 
 .ItemPreviewImage {

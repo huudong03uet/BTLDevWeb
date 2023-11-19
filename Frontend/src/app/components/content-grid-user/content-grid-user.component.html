@@ -28,21 +28,26 @@
     </div>
     <div class="ContentGridUser_popularPenPreviews">
         <a href="">
-            <div data-picture="true">
+            <div data-picture="true" (mousedown)="handlePageClick()">
                 <picture>
-                    <!-- <source type="image/webp" srcset="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007"> -->
-                    <img src="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007" class="ItemPreviewImage">
-
+                    <div class="output-field">
+                        <iframe [srcdoc]="iframeContent" sandbox="allow-scripts"></iframe>
+                    </div>  
+                    <!-- <img src="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007" class="ItemPreviewImage"> -->
                 </picture>
+                
             </div>
         </a>
         <a href="">
             <div data-picture="true">
                 <picture>
                     <!-- <source type="image/webp" srcset="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007"> -->
-                    <img src="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007" class="ItemPreviewImage">
-
+                    <!-- <img src="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007" class="ItemPreviewImage"> -->
+                    <div class="output-field">
+                        <iframe [srcdoc]="iframeContent"></iframe>
+                    </div> 
                 </picture>
+
             </div>
         </a>
     </div>
