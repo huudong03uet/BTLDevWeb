@@ -16,22 +16,26 @@ export class HomeCodeComponent implements OnInit{
   @ViewChild(CodeEditorComponent) codeEditorComponent!: CodeEditorComponent;
   myPen!: any;
   isLoggedIn: boolean = false; // Khởi tạo giá trị mặc định
+  webCodeData: { html: string; js: string; css: string; pen_id: string; user_id: Number } = {
+    html: '',
+    js: '',
+    css: '',
+    pen_id: '',
+    user_id: 0,
+  };
 
 
   constructor(
     private userData: UserDataService,
     private router: Router, 
     private route: ActivatedRoute,  
-    
   ) {}
    ngOnInit(): void {
         // Lấy thông tin về trang trước đó
       this.route.params.subscribe(async (params) => {
         const penId = params['id'];
         console.log(penId, 12345)
-      // Kiểm tra xem có dữ liệu nào được truyền từ trang trước đó không
-      if (penId != null) { // Sử dụng cú pháp params['someData']
-        // Dữ liệu được truyền từ trang trước đó
+      if (penId != null) { 
         try {
           let data = await axios.post('http://localhost:3000/pen/getPenById', {pen_id: penId}); 
           this.myPen = data.data.pen;
@@ -47,28 +51,35 @@ export class HomeCodeComponent implements OnInit{
     this.isLoggedIn = !!this.userData.getUserData();
   }
 
-  
-  getData() {
-    return this.codeEditorComponent.getData(); // Lấy dữ liệu từ component con
-  }
-
   async saveData() {
-    console.log(this.getData());
-    const penData = this.getData();
-    let pen_id = null;
-    if(this.myPen != null) {
-      pen_id = this.myPen.pen_id;
-    }
     if(this.userData.getUserData() == null) {
       this.router.navigate(['/login']);
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {user_id: this.userData.getUserData()?.user_id, pen_id, html_code: penData.htmlCode, css_code: penData.stylesheetCode, js_code: penData.jsCode, name: this.myPen.name});
+      const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {
+        user_id: this.userData.getUserData()?.user_id, 
+        pen_id: this.webCodeData.pen_id, 
+        html_code: this.webCodeData.html, 
+        css_code: this.webCodeData.css, 
+        js_code: this.webCodeData.js, 
+        name: this.myPen.name
+      });
       this.myPen = response.data.pen;
     } catch (error) {
       console.error('Error save pen:', error);
     }
+  }
+
+  onWebCodeChanged(data: { html: string; js: string; css: string }) {
+    console.log('home', data);
+    this.webCodeData = {
+      html: data.html,
+      js: data.js,
+      css: data.css,
+      pen_id: this.myPen?.pen_id || null,
+      user_id: this.userData.getUserData()?.user_id || 0,
+    };
   }
 
 }

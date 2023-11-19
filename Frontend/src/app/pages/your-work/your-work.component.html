@@ -12,9 +12,8 @@
                 <app-body-following-trending></app-body-following-trending>
             </div>
 
-
             <div class="app-body-your-work-component">
-                <app-content-grid-code></app-content-grid-code>
+                <app-content-grid-code *ngFor="let dataItem of data" [pen_id]="dataItem"></app-content-grid-code>
             </div>
             
         </div>

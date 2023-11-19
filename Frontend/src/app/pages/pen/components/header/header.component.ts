@@ -1,6 +1,8 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, AfterViewInit, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { HomeCodeComponent } from '../../home-code.component';
+import axios from 'axios';
 
 @Component({
   selector: 'pen-header',
@@ -9,8 +11,21 @@ import { UserDataService } from 'src/app/services/user-data.service';
 })
 export class PenHeaderComponent implements OnInit {
   @Output() saveDataParent = new EventEmitter<void>();
+  @Input() webCodeData: { html: string; js: string; css: string; pen_id: string; user_id: Number } = {
+    html: '',
+    js: '',
+    css: '',
+    pen_id: '',
+    user_id: 0,
+  };
   @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
+  @ViewChild(HomeCodeComponent) homeCodeComponent!: HomeCodeComponent;
 
+  htmlEditor!: any;
+  stylesheetEditor!: any;
+  jsEditor!: any;
+
+  myPen!: any;
 
   public isMenuOpen = false;
   public projectTitle = 'Untitled';
@@ -55,6 +70,27 @@ export class PenHeaderComponent implements OnInit {
   }
 
   saveData(): void {
-    this.saveDataParent.emit();
+    console.log("header", this.webCodeData)
+  }
+
+  async toggleSave() {
+    console.log("header", this.webCodeData)
+    if(this.webCodeData.user_id == null) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {
+        user_id: this.webCodeData.user_id, 
+        pen_id: this.webCodeData.pen_id, 
+        html_code: this.webCodeData.html, 
+        css_code: this.webCodeData.css, 
+        js_code: this.webCodeData.js, 
+        name: null
+      });
+      this.myPen = response.data.pen;
+    } catch (error) {
+      console.error('Error save pen:', error);
+    }
   }
 }

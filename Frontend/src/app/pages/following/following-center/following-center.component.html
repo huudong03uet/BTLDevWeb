@@ -4,8 +4,8 @@
 
     </h2>
     <div class="item-grid">
-        <app-content-grid-user></app-content-grid-user>
-        <app-content-grid-user></app-content-grid-user>
-        <app-content-grid-user></app-content-grid-user>
+        <app-content-grid-user *ngFor="let dataItem of data" [pen_id]="dataItem"></app-content-grid-user>
+        <!-- <app-content-grid-user></app-content-grid-user>
+        <app-content-grid-user></app-content-grid-user> -->
     </div>
 </section> 
