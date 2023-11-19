@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import axios from 'axios';
 
 @Component({
@@ -16,7 +17,10 @@ export class ContentGridCodeComponent implements OnInit {
   // Tạo một biến để chứa nội dung của iframe
   iframeContent: SafeHtml | undefined;
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(
+    private sanitizer: DomSanitizer,
+    private router: Router
+    ) {}
 
   ngOnInit(): void {
     const apiUrl = `http://localhost:3000/pen/getInfoPen/${this.pen_id}`;
@@ -47,5 +51,10 @@ export class ContentGridCodeComponent implements OnInit {
     });
 
    
+  }
+
+  getPen() {
+    console.log(this.data.pen.pen_id);
+    this.router.navigate(['localhost:4200/pen/', this.data.pen.pen_id]);
   }
 }
