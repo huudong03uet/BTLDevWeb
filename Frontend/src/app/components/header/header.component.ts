@@ -6,11 +6,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
-  template: `
-    <a (click)="openCreateNewComponent()">New Collection</a>
-    <app-create-new-collection *ngIf="childVisible" (close)="handleChildClose()"></app-create-new-collection>
-  `
+  styleUrls: ['./header.component.scss']
+
 })
 export class HeaderComponent {
   constructor(
@@ -21,12 +18,24 @@ export class HeaderComponent {
 
   childVisible: boolean = false;
 
+  childPinnedVisible: boolean = false;
+
   openCreateNewComponent() {
     this.childVisible = !this.childVisible;
   }
 
+  openPinnedComponent() {
+    this.childPinnedVisible = !this.childPinnedVisible;
+  }
+
+
   handleChildClose() {
     this.childVisible = false;
+  }
+
+  handleChildPinnedClose() {
+    console.log('close');
+    this.childPinnedVisible = false;
   }
 
 
@@ -62,3 +71,7 @@ export class HeaderComponent {
   }
 
 }
+// template: `
+// <a (click)="openCreateNewComponent()">New Collection</a>
+// <app-create-new-collection *ngIf="childVisible" (close)="handleChildClose()"></app-create-new-collection>,
+// `
