@@ -60,6 +60,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { CommentAreaComponent } from './components/comment-area/comment-area.component';
 import { PinnedCollectionComponent } from './components/pinned-collection/pinned-collection.component';
+import { SupportComponent } from './pages/support/support.component';
 
 @NgModule({
   declarations: [
@@ -115,6 +116,7 @@ import { PinnedCollectionComponent } from './components/pinned-collection/pinned
     PageNotFoundComponent,
     CommentAreaComponent,
     PinnedCollectionComponent,
+    SupportComponent,
   ],
   imports: [
     FormsModule,
@@ -171,6 +173,9 @@ import { PinnedCollectionComponent } from './components/pinned-collection/pinned
           { path: "editor-preferences", component: EditorPreferencesSettingsComponent },
           { path: "content-preferences", component: ContentPreferencesSettingsComponent },
         ]
+      },
+      {
+        path: "support", component: SupportComponent
       },
       { path: '**', pathMatch: 'full',  component: PageNotFoundComponent }, 
     ]),
