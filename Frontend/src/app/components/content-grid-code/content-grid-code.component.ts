@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, SecurityContext } from '@angular/core';
+import { Component, HostListener, Input, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import axios from 'axios';
+import { has, hasIn } from 'lodash';
 
 @Component({
   selector: 'app-content-grid-code',
@@ -60,6 +61,27 @@ export class ContentGridCodeComponent implements OnInit {
 
   
   random_number = Math.floor(Math.random() * 100000000);
+
+  hasInformationPen = false;
+  
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: any) {
+    console.log("hasInformationPen: ", this.hasInformationPen)
+    if (this.hasInformationPen == true) {
+      var x = document.getElementsByClassName("list-items");
+      if (x != null) {
+        for (let i = 0; i < x.length; i++) {
+          if (x.item(i)!.classList.contains("show")) {
+              x.item(i)!.classList.remove("show");
+              this.hasInformationPen = false;
+          }
+        }
+      }
+    }
+
+
+  }
+
   onClickInformationPen() {
     var x = document.getElementsByClassName("list-items");
 
@@ -68,14 +90,15 @@ export class ContentGridCodeComponent implements OnInit {
         if (x.item(i)!.classList.contains(this.random_number.toString())) {
           if (x.item(i)!.classList.contains("show")) {
             x.item(i)!.classList.remove("show");
-          }
-          else {
+            this.hasInformationPen = false;
+          } else {
             x.item(i)!.classList.add("show");
+            this.hasInformationPen = true;
           }
+          
+        } else {
+          x.item(i)!.classList.remove("show");
         }
-
-
-
       }
     }
   }

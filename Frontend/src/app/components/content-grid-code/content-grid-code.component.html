@@ -29,7 +29,7 @@
             <a class="code-name">{{ namePen }}</a>
             <a class="code-user">{{data.user.user_name}}</a>
         </h2>
-        <div class="three-dot-list">
+        <div class="three-dot-list"  (click)="$event.stopPropagation()">
             
             <div class="list-items {{random_number}}">
                 <ul>
