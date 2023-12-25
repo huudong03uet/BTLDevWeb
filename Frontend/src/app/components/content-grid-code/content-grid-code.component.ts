@@ -17,16 +17,16 @@ export class ContentGridCodeComponent implements OnInit {
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
-    ) {}
+  ) { }
 
   ngOnInit(): void {
     const apiUrl = `http://localhost:3000/pen/getInfoPen/${this.pen_id}`;
     axios.get(apiUrl)
-    .then((response) => {
-      this.data = response.data;
-      console.log('Data:', this.data);
-      this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
-      const iframeContent = `
+      .then((response) => {
+        this.data = response.data;
+        console.log('Data:', this.data);
+        this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
+        const iframeContent = `
         <html>
           <head>
             <style>${this.data.pen.css_code}</style>
@@ -37,15 +37,46 @@ export class ContentGridCodeComponent implements OnInit {
           </body>
         </html>
       `;
-      this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+        this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 
   handlePageClick(): void {
     console.log(`/pen/${this.pen_id}`);
     this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
+  }
+
+
+
+  user_name = "hihihi"
+  informationPen = [
+    "Add to Collection",
+    "Remove from Pins",
+    "Unfollow " + this.user_name,
+  ]
+
+  
+  random_number = Math.floor(Math.random() * 100000000);
+  onClickInformationPen() {
+    var x = document.getElementsByClassName("list-items");
+
+    if (x != null) {
+      for (let i = 0; i < x.length; i++) {
+        if (x.item(i)!.classList.contains(this.random_number.toString())) {
+          if (x.item(i)!.classList.contains("show")) {
+            x.item(i)!.classList.remove("show");
+          }
+          else {
+            x.item(i)!.classList.add("show");
+          }
+        }
+
+
+
+      }
+    }
   }
 }
