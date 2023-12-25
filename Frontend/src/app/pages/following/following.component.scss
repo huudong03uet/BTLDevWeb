@@ -22,9 +22,27 @@
             .app-body-home-component {
                 width: 100%;
                 height: 15%;
-                padding-bottom: 50px;
+
+                
             }
-    
+            
+            .select-option {
+                margin-left: 5.7%;
+                margin-right: 5%;
+                padding: 10px 0px 10px 10px;
+                // padding-right: 15%;
+                background-color: hsl( 232.5deg 11.76% 13.33% );
+
+                .toggle {
+
+                    // thu nhỏ thẻ từ 1 -> 0.7
+                    transform: scale(0.8);
+
+                    span {
+                        font-size: 20px;
+                    }
+                }
+            }
             .following-center-component {
                 width: 100%;
                 height: 60%;

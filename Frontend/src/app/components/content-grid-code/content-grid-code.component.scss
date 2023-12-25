@@ -16,7 +16,7 @@
     height: 150%;
     border-radius: 10px;
     transition: all .3s ease .1s;
-    clip-path: inset(1.5rem 0rem 2rem 2rem round 10px);
+    clip-path: inset(7% 0rem 8% 8% round 10px);
 
 
   }
@@ -186,7 +186,7 @@
       padding-left: 0px;
       height: 10%;
         visibility: hidden;
-        transition: all .2s ease;
+        transition: all .5s ease;
         opacity: 0;
         display: flex;
       button {
@@ -216,7 +216,7 @@
     .footer-code-grid-container.enter-show {
         opacity: 1;
         visibility: visible;
-        transition: all .2s ease;
+        transition: all .5s ease;
     }
   }
 }
