@@ -5,11 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
 
 @Component({
-  selector: 'app-following-center',
-  templateUrl: './following-center.component.html',
-  styleUrls: ['./following-center.component.scss']
+  selector: 'app-trending-center',
+  templateUrl: './trending-center.component.html',
+  styleUrls: ['./trending-center.component.scss']
 })
-export class FollowingCenterComponent  {
+export class TrendingCenterComponent  {
   data = [2, 3, 3]
   pen_ids = [
     1, 2, 3, 3

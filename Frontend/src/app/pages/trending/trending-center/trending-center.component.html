@@ -1,0 +1,12 @@
+<section class="HomepageInterestingPepleToTrending">
+    <div class="item-grid-code">
+        <app-content-grid-code *ngFor="let dataItem of pen_ids" [pen_id]="dataItem"></app-content-grid-code>
+    </div>
+    <h2 class="HomepageInterestingPeopleToTrending heading">
+        Interesting People to Trending
+    </h2>
+    <div class="item-grid">
+        <app-content-grid-user *ngFor="let dataItem of data" [pen_id]="dataItem"></app-content-grid-user>
+    </div>
+
+</section> 

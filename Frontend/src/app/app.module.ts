@@ -61,6 +61,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { CommentAreaComponent } from './components/comment-area/comment-area.component';
 import { PinnedCollectionComponent } from './components/pinned-collection/pinned-collection.component';
 import { SupportComponent } from './pages/support/support.component';
+import { TrendingCenterComponent } from './pages/trending/trending-center/trending-center.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { SupportComponent } from './pages/support/support.component';
     CommentAreaComponent,
     PinnedCollectionComponent,
     SupportComponent,
+    TrendingCenterComponent,
   ],
   imports: [
     FormsModule,
