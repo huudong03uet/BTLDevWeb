@@ -102,4 +102,51 @@ export class ContentGridCodeComponent implements OnInit {
       }
     }
   }
+
+
+  onMouseEnterGridCode() {
+
+    var x = document.getElementsByClassName("background-code");
+    if (x != null) {
+      for (let i = 0; i < x.length; i++) {
+        if (x.item(i)!.classList.contains(this.random_number.toString())) {
+          x.item(i)!.classList.add("enter-show");
+        } else {
+          x.item(i)!.classList.remove("enter-show");
+        }
+      }
+    }
+
+    var y = document.getElementsByClassName("footer-code-grid-container");
+    if (y != null) {
+      for (let i = 0; i < y.length; i++) {
+        if (y.item(i)!.classList.contains(this.random_number.toString())) {
+          y.item(i)!.classList.add("enter-show");
+        } else {
+          y.item(i)!.classList.remove("enter-show");
+        }
+      }
+    }
+  }
+
+  onMouseLeaveGridCode() {
+
+    var x = document.getElementsByClassName("background-code");
+    if (x != null) {
+      for (let i = 0; i < x.length; i++) {
+        if (x.item(i)!.classList.contains(this.random_number.toString())) {
+          x.item(i)!.classList.remove("enter-show");
+        }
+      }
+    }
+
+    var y = document.getElementsByClassName("footer-code-grid-container");
+    if (y != null) {
+      for (let i = 0; i < y.length; i++) {
+        if (y.item(i)!.classList.contains(this.random_number.toString())) {
+          y.item(i)!.classList.remove("enter-show");
+        }
+      }
+    }
+  }
 }

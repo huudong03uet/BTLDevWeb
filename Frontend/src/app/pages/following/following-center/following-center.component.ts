@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, NgZone, OnInit, } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,8 +10,10 @@ import axios from 'axios';
   styleUrls: ['./following-center.component.scss']
 })
 export class FollowingCenterComponent  implements OnInit {
-  data: any;
-
+  data = [2, 3]
+  pen_ids = [
+    1,2,3,3
+  ]
   constructor(
     private route: ActivatedRoute,
     private userData: UserDataService,
@@ -19,6 +21,7 @@ export class FollowingCenterComponent  implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
+      console.log('params', params)
       const userId = this.userData.getUserData()?.user_id; 
       if (userId) {
         const apiUrl = `http://localhost:3000/pen/getFollow/${userId}`;
@@ -36,4 +39,10 @@ export class FollowingCenterComponent  implements OnInit {
       }
     });
   }
+
+
+
+
+
 }
+
