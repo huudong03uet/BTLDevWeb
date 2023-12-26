@@ -39,6 +39,7 @@ import { PrivacySettingsComponent } from './pages/settings/components/privacy-se
 import { EditorPreferencesSettingsComponent } from './pages/settings/components/editor-preferences-settings/editor-preferences-settings.component';
 import { ContentPreferencesSettingsComponent } from './pages/settings/components/content-preferences-settings/content-preferences-settings.component';
 import { CollectionComponent } from './pages/collection/collection.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { HeadProfileComponent } from './pages/profile/component/head-profile/head-profile.component';
 import { PenProfileComponent } from './pages/profile/component/central-profile/pen-profile/pen-profile.component';
@@ -187,6 +188,7 @@ import { ListItemGridCodeComponent } from './components/list-item-grid-code/list
     MatSidenavModule,
     MatToolbarModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
