@@ -68,12 +68,12 @@ export class PenProfileComponent {
       //  currentURL = http://localhost:4200/settings/account
       var check_currentURL = this.currentURL.split('/')[5]
       if (link.classList.contains(check_currentURL)) {
-        console.log('check_currentURLTrue', check_currentURL)
+        // console.log('check_currentURLTrue', check_currentURL)
         link.classList.add('active');
         span.classList.add('active');
         link.appendChild(span);
       } else {
-        console.log('check_currentURLFalse', check_currentURL)
+        // console.log('check_currentURLFalse', check_currentURL)
         link.classList.remove('active');
         //  remove span
         const spanToRemove = link.querySelector('span');

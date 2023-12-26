@@ -12,7 +12,10 @@ import axios from 'axios';
 export class FollowingCenterComponent  {
   data = [2, 3, 3]
   pen_ids = [
-    1, 2, 3, 3
+    1, 2, 3, 3, 
+    3, 2, 1, 3,
+    3, 2, 1, 3,
+    3, 2, 1, 
   ]
   constructor(
     private route: ActivatedRoute,

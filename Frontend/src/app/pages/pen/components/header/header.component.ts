@@ -70,11 +70,11 @@ export class PenHeaderComponent implements OnInit {
   }
 
   saveData(): void {
-    console.log("header", this.webCodeData)
+    // console.log("header", this.webCodeData)
   }
 
   async toggleSave() {
-    console.log("header", this.webCodeData)
+    // console.log("header", this.webCodeData)
     if(this.webCodeData.user_id == null) {
       this.router.navigate(['/login']);
       return;

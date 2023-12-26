@@ -4,6 +4,8 @@ body,
 /* Thêm các phần tử cha khác nếu cần */
 .sidebar_container {
   height: 100%;
+  z-index: 1;
+  position: relative;
   
 }
 
