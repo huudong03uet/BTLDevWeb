@@ -59,6 +59,9 @@ import { CreateNewCollectionComponent } from './components/create-new-collection
 import { MatDialogModule } from '@angular/material/dialog';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { CommentAreaComponent } from './components/comment-area/comment-area.component';
+import { PinnedCollectionComponent } from './components/pinned-collection/pinned-collection.component';
+import { SupportComponent } from './pages/support/support.component';
+import { TrendingCenterComponent } from './pages/trending/trending-center/trending-center.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +115,10 @@ import { CommentAreaComponent } from './components/comment-area/comment-area.com
     ShowcasePComponent,
     CreateNewCollectionComponent,
     PageNotFoundComponent,
-    CommentAreaComponent
+    CommentAreaComponent,
+    PinnedCollectionComponent,
+    SupportComponent,
+    TrendingCenterComponent,
   ],
   imports: [
     FormsModule,
@@ -169,6 +175,9 @@ import { CommentAreaComponent } from './components/comment-area/comment-area.com
           { path: "editor-preferences", component: EditorPreferencesSettingsComponent },
           { path: "content-preferences", component: ContentPreferencesSettingsComponent },
         ]
+      },
+      {
+        path: "support", component: SupportComponent
       },
       { path: '**', pathMatch: 'full',  component: PageNotFoundComponent }, 
     ]),

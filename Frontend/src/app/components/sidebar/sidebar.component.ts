@@ -4,11 +4,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
-  template: `
-  <a (click)="openCreateNewComponent()">New Collection</a>
-  <app-create-new-collection *ngIf="childVisible" (close)="handleChildClose()"></app-create-new-collection>
-`
+  styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
   isPenOpen = false;
@@ -16,6 +12,7 @@ export class SidebarComponent {
   constructor(private router: Router) {}
 
   childVisible: boolean = false;
+  childPinnedVisible: boolean = false;
 
   openCreateNewComponent() {
     this.childVisible = !this.childVisible;
@@ -25,6 +22,12 @@ export class SidebarComponent {
     this.childVisible = false;
   }
 
+  openPinnedComponent() {
+    this.childPinnedVisible = !this.childPinnedVisible;
+  }
+  handleChildPinnedClose() {
+    this.childPinnedVisible = false;
+  }
 
 
   toggle() {

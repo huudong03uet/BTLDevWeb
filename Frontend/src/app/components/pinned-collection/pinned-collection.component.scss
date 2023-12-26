@@ -1,0 +1,120 @@
+.all-screen {
+    // tạo ra 1 vùng mờ và không tương tác được với người dùng (ngăn người dùng click vào thành phần khác ngoài component)
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: hsla(0, 0%, 0%, 0.6);
+
+}
+
+.pinned-collection {
+    position: fixed;
+    z-index: 1000;
+
+
+    border: 3px solid hsl( 228deg 11.63% 16.86% );
+    box-shadow: 0 5px 30px hsl( 240deg 9.09% 4.31% / 60%);
+    background: hsl( 225deg 9.52% 8.24% );
+    color: hsl( 0deg 0% 100% );
+    top: 70px;
+    left: 1rem;
+    right: 1rem;
+    margin: 0 auto auto;
+    padding: 0;
+    border-radius: 6px;
+    transform-origin: center center;
+    width: 1060px;
+    height: auto;
+    display: grid;
+    grid-template-rows: auto minmax(0,1fr) auto;
+    // max-width: 35rem;
+    max-height: 500px;
+    .header-new-collection {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid hsl( 223.64deg 12.94% 16.67% );
+        margin: .375rem 0 0;
+        padding-right: 1rem;
+
+        .title-new-collection {
+            // font-family: var(--cp-font-family);
+            // 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif
+            font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+            color: inherit;
+            margin: .2rem auto -2px 0;
+            font-size: 1.125rem;
+            font-weight: 700;
+            border-bottom: 2px solid hsl( 139.41deg 58.62% 54.51% );
+            padding: .625rem 1rem;
+        }
+
+
+        .btn-close-new-collection {
+            display: inline-block;
+            font-size: .8rem;
+            background-color: hsl( 227.37deg 12.26% 30.39% );
+            color: white;
+            border-radius: 2px;
+            border: 1px solid transparent;
+            &:hover {
+                background-color: hsl( 228deg 12.2% 40.2% );
+                color: white;
+            }
+            &:active {
+                transform: translateY(1px);
+            }
+            svg {
+                width: 10px;
+                height: 10px;
+                vertical-align: middle;
+                margin-top: -3px;
+                fill: currentColor;
+            }
+            
+        }
+    }
+
+
+
+
+    .item-grid {
+        display: grid;
+        margin: 1rem 0rem 1rem 0.5rem;
+        grid-template-columns: repeat(3,minmax(0,1fr));
+        grid-gap: 3.5rem 3rem;
+        width: 98%;
+        overflow-y: auto;
+        app-content-grid-code {
+            height: 75%;
+        }
+        padding-right: 15px;
+        padding-top: 40px;
+        padding-left: 20px;
+    }
+
+    
+
+}
+
+::-webkit-scrollbar {
+    width: 3px; /* Độ rộng của thanh cuộn */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #c5bfbf; /* Màu nền của track */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #6b6a6a; /* Màu nền của handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Màu nền của handle khi hover */
+}

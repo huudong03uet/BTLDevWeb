@@ -6,7 +6,7 @@ import { UserDataService } from 'src/app/services/user-data.service';
 @Component({
   selector: 'app-following',
   templateUrl: './following.component.html',
-  styleUrls: ['./following.component.scss']
+  styleUrls: ['./following.component.scss', '../settings/style-settings.scss']
 })
 export class FollowingComponent implements OnInit {
   data: any;
