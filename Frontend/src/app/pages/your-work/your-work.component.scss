@@ -5,7 +5,7 @@
      height: auto;
     // height: fit-content;
     display: flex;
-
+    overflow-x: hidden;
     .app-sidebar-component {
         width: 180px;
     }

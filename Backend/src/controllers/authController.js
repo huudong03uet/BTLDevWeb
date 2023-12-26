@@ -39,7 +39,7 @@ let login = async (req, res) => {
 
 let signup = async (req, res) => {
   try {
-    console.log(req.body)
+    // console.log(req.body)
     const { full_name, user_name, gmail, password } = req.body; // Lấy name, email, password và username từ req.body
 
     // Kiểm tra xem email đã tồn tại trong cơ sở dữ liệu chưa

@@ -93,6 +93,8 @@ export class CollectionComponent {
   ]
 
 
-
+  pen_ids= [
+    1, 2, 3, 2
+  ]
 
 }

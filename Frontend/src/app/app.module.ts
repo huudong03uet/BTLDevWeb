@@ -62,6 +62,7 @@ import { CommentAreaComponent } from './components/comment-area/comment-area.com
 import { PinnedCollectionComponent } from './components/pinned-collection/pinned-collection.component';
 import { SupportComponent } from './pages/support/support.component';
 import { TrendingCenterComponent } from './pages/trending/trending-center/trending-center.component';
+import { ListItemGridCodeComponent } from './components/list-item-grid-code/list-item-grid-code.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { TrendingCenterComponent } from './pages/trending/trending-center/trendi
     PinnedCollectionComponent,
     SupportComponent,
     TrendingCenterComponent,
+    ListItemGridCodeComponent,
   ],
   imports: [
     FormsModule,

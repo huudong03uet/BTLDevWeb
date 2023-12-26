@@ -12,8 +12,8 @@ import Follow from "../models/followTable";
 let createOrUpdatePen = async (req, res) => {
     try {
         if (req.body.pen_id != null) {
-          console.log('update \n');
-          console.log(req.body);
+          // console.log('update \n');
+          // console.log(req.body);
             const existingPen = await Pen.findOne({ where: { pen_id: req.body.pen_id } });
 
             // console.log(existingPen)
@@ -27,10 +27,10 @@ let createOrUpdatePen = async (req, res) => {
             // Trả về thông tin pen đã được cập nhật
             return res.status(200).json({code: 200, pen: existingPen, message: "cập nhật pen thành công"});
         } else {
-          console.log('create \n');
+          // console.log('create \n');
           // console.log('pen', req.body.pen_id)
             // Nếu pen chưa tồn tại, tạo mới pen
-            console.log(req.body);
+            // console.log(req.body);
             const newPen = await Pen.create({
             html_code: req.body.html_code,
             js_code: req.body.js_code,
@@ -83,10 +83,10 @@ async function getInfoPen(req, res) {
   const penId = req.params.id;
 
   try {
-    console.log(penId);
+    // console.log(penId);
     const pen = await Pen.findByPk(penId);
 
-    console.log(pen)
+    // console.log(pen)
     if (!pen) {
       return res.status(404).json({ error: 'Pen not found' });
     }
@@ -140,7 +140,7 @@ async function getTrending(req, res) {
 
 async function getFollow(req, res) {
   const user_id_1 = req.params.id;
-  console.log('abcxyy', user_id_1);
+  // console.log('abcxyy', user_id_1);
 
   try {
     let penIds = await Follow.findAll({
