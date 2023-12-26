@@ -9,12 +9,12 @@
 }
 
   .background-item-grid-code {
-    transition: opacity .4s linear,transform .4s ease-in-out,visibility 0s linear;
+    transition: all 0.8s ease;
     .item-grid-code-prev {
       position: absolute;
       width: 25%;
       // height: 100%;
-      right: 100%;
+      right: 98%;
 
       display: grid;
       grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -22,6 +22,8 @@
       padding-top: 40px;
 
       opacity: 0.3;
+
+      transition: all 0.8s ease;
     }
 
     
@@ -31,7 +33,7 @@
       position: absolute;
       width: 25%;
       // height: 100%;
-      left: 100%;
+      left: 99%;
 
       display: grid;
       grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -66,10 +68,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      transition: all 0.2s ease;
       background: hsl(227.37deg 12.26% 30.39%);
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 
+      transition: all 0.4s ease;
       svg {
         fill: hsl(225.88deg 13.39% 75.1%);
         width: 14px;
@@ -79,13 +81,15 @@
     }
   }
   .background-item-grid-code:hover {
-    transition: opacity .4s linear,transform .4s ease-in-out,visibility 0s linear;
+    transition: all 0.8s ease;
     .item-grid-code-next {
         opacity: 0.8;
+        transition: all 0.8s ease;
     }
 
     .item-grid-code-prev {
         opacity: 0.8;
+        transition: all 0.8s ease;
         z-index: 0;
     }
 
@@ -105,7 +109,7 @@
     margin: 0rem 0rem 1rem 0.5rem;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     // grid-auto-flow: column;
-    grid-gap: 8rem 4rem;
+    grid-gap: 9rem 3rem;
     // width: 80%;
     // overflow-y: auto;
     // app-content-grid-code {
