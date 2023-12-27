@@ -70,6 +70,7 @@ import { YourWorkPensComponent } from './pages/your-work/your-work-pens/your-wor
 import { FullOptionControlItemComponent } from './components/full-option-control-item/full-option-control-item.component';
 import { SearchViewControlItemComponent } from './components/full-option-control-item/search-view-control-item/search-view-control-item.component';
 import { GridListSortControlItemComponent } from './components/full-option-control-item/grid-list-sort-control-item/grid-list-sort-control-item.component';
+import { ContentGridCodeFullInfComponent } from './components/content-grid-code-full-inf/content-grid-code-full-inf.component';
 
 @NgModule({
   declarations: [
@@ -134,6 +135,7 @@ import { GridListSortControlItemComponent } from './components/full-option-contr
     FullOptionControlItemComponent,
     SearchViewControlItemComponent,
     GridListSortControlItemComponent,
+    ContentGridCodeFullInfComponent,
   ],
   imports: [
     FormsModule,
