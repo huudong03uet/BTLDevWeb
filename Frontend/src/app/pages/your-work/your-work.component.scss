@@ -27,22 +27,30 @@
                 padding-bottom: 50px;
             }
     
-            .app-body-your-work-component {
+            .home-page-your-work-nav {
                 margin: 0 5%;
                 position: relative;
                 width: 100%;
-
-                margin-top: 1rem;
-                margin-bottom: 5rem;
-                grid-template-columns: repeat(auto-fill,minmax(30%,1fr));
-                grid-gap: 3rem 3rem;
-                align-items: center;
-                //  grid with 3 columns
-                display: grid;
-                // grid-template-columns: 1fr 1fr 1fr;
-
-
-                // height: 60%;
+                margin-top: -1.5rem;
+                position: relative;
+                ul {
+                    list-style: none;
+                    display: flex;
+                    padding-left: 0.5rem;
+                    li {
+                        button {
+                            // font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+                            font-family: 'Lato', sans-serif, 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+                            border: 0;
+                            background: 0 0;
+                            font-weight: 700;
+                            font-size: 1.1rem;
+                            padding: .2rem 1rem .5rem 0;
+                            cursor: pointer;
+                            color: hsl( 0deg 0% 100% )
+                        }
+                    }
+                }
             }
 
         }

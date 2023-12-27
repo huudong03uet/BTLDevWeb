@@ -54,7 +54,7 @@ export class BodyFollowingTrendingComponent {
     // if (this.activeNavItem !== 'Your Work') {
     //   this.activeNavItem = 'Your Work';
       // link to /home
-      window.location.href = '/your-work';
+      window.location.href = '/your-work/pens';
     // }
   }
 

@@ -11,10 +11,24 @@
             <div class="app-body-home-component">
                 <app-body-following-trending></app-body-following-trending>
             </div>
-
+<!-- 
             <div class="app-body-your-work-component">
                 <app-content-grid-code *ngFor="let dataItem of data" [pen_id]="dataItem"></app-content-grid-code>
-            </div>
+            </div> -->
+            <nav class="home-page-your-work-nav">
+                <ul>
+                    <li>
+                        <button class="home-your-work-button pens-button" (click)="linkToYourWorkPens()">Pens</button>
+                    </li>
+                    <li>
+                        <button class="home-your-work-button projects-button" (click)="linkToYourWorkCollections()">Collections</button>
+                    </li>
+                    <li>
+                        <button class="home-your-work-button posts-button" (click)="linkToYourWorkDeleted()">Deleted</button>
+                    </li>
+                </ul>
+            </nav>
+            <router-outlet></router-outlet>
             
         </div>
         <div class="app-footer-component">
