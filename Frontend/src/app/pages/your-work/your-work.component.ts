@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 
 @Component({
@@ -14,6 +14,7 @@ export class YourWorkComponent implements OnInit  {
   constructor(
     private route: ActivatedRoute,
     private userData: UserDataService,
+    private router: Router
     ) {}
 
   ngOnInit(): void {
@@ -34,4 +35,21 @@ export class YourWorkComponent implements OnInit  {
       }
     });
   }
+
+
+  linkToYourWorkPens() {
+    // this.router.navigate(['/settings/billing']);
+    // window.location.href = '/your-work/pens';
+    this.router.navigate(['/your-work/pens']);
+  }
+
+  linkToYourWorkCollections() {
+    this.router.navigate(['/your-work/collections']);
+  }
+
+  linkToYourWorkDeleted() {
+    this.router.navigate(['/your-work/deleted']);
+  }
+
+
 }

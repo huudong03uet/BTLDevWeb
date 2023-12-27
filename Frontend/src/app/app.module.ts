@@ -64,6 +64,12 @@ import { PinnedCollectionComponent } from './components/pinned-collection/pinned
 import { SupportComponent } from './pages/support/support.component';
 import { TrendingCenterComponent } from './pages/trending/trending-center/trending-center.component';
 import { ListItemGridCodeComponent } from './components/list-item-grid-code/list-item-grid-code.component';
+import { YourWorkCollectionsComponent } from './pages/your-work/your-work-collections/your-work-collections.component';
+import { YourWorkDeletedComponent } from './pages/your-work/your-work-deleted/your-work-deleted.component';
+import { YourWorkPensComponent } from './pages/your-work/your-work-pens/your-work-pens.component';
+import { FullOptionControlItemComponent } from './components/full-option-control-item/full-option-control-item.component';
+import { SearchViewControlItemComponent } from './components/full-option-control-item/search-view-control-item/search-view-control-item.component';
+import { GridListSortControlItemComponent } from './components/full-option-control-item/grid-list-sort-control-item/grid-list-sort-control-item.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +128,12 @@ import { ListItemGridCodeComponent } from './components/list-item-grid-code/list
     SupportComponent,
     TrendingCenterComponent,
     ListItemGridCodeComponent,
+    YourWorkCollectionsComponent,
+    YourWorkDeletedComponent,
+    YourWorkPensComponent,
+    FullOptionControlItemComponent,
+    SearchViewControlItemComponent,
+    GridListSortControlItemComponent,
   ],
   imports: [
     FormsModule,
@@ -132,39 +144,52 @@ import { ListItemGridCodeComponent } from './components/list-item-grid-code/list
       { path: '', component: HomeComponent, data: { title: 'CODE' } },
       // { path: '', component: CodeEditorComponent },
       { path: 'pen/:id', component: HomeCodeComponent, data: { title: 'A Pen of you - Nhom XXX' } },
-      {path: 'collection/:id', component: CollectionComponent, data: { title: 'Collection - Nhom XXX' },},
+      { path: 'collection/:id', component: CollectionComponent, data: { title: 'Collection - Nhom XXX' }, },
       { path: 'pen', component: HomeCodeComponent },
       { path: "login", component: LoginComponent, data: { title: 'Đăng nhập - Nhom XXX' } },
       { path: "signup", component: SignupComponent },
-      { path: "trending", component: TrendingComponent},
-      {path: "following", component: FollowingComponent},
-      {path: "your-work", component: YourWorkComponent},
-      {path: "profile", component: ProfileComponent, children: [
-        {path: "", redirectTo: "pens", pathMatch: "full"},
-        {path: "pens", component: CentralProfileComponent, children: [
-          {path: "", redirectTo: "showcase", pathMatch: "full"},
-          {path: "showcase", component: ShowcasePComponent},
-          {path: "popular", component: PopularPComponent},
-          {path: "public", component: PublicPComponent},
-          {path: "private", component: PrivatePComponent},
-          {path: "template", component: TemplatePComponent},
-          {path: "forked", component: ForkedPComponent},
-          {path: "loved", component: LovedPComponent},
-          {path: "tags", component: TaggedPComponent}
-
-        ]},
-        {path: "collections", component: CentralProfileComponent, children: [
-          {path: "", redirectTo: "popular", pathMatch: "full"},
-          {path: "popular", component: CollectionsProfileComponent},
-          {path: "private", component: CollectionsProfileComponent},
-          {path: "public", component: CollectionsProfileComponent},
-          {path: "loved", component: CollectionsProfileComponent}
-
-        ]}
-      ]},
-      {path: "trending", component: TrendingComponent},
+      { path: "trending", component: TrendingComponent },
       { path: "following", component: FollowingComponent },
       { path: "your-work", component: YourWorkComponent },
+      {
+        path: "profile", component: ProfileComponent, children: [
+          { path: "", redirectTo: "pens", pathMatch: "full" },
+          {
+            path: "pens", component: CentralProfileComponent, children: [
+              { path: "", redirectTo: "showcase", pathMatch: "full" },
+              { path: "showcase", component: ShowcasePComponent },
+              { path: "popular", component: PopularPComponent },
+              { path: "public", component: PublicPComponent },
+              { path: "private", component: PrivatePComponent },
+              { path: "template", component: TemplatePComponent },
+              { path: "forked", component: ForkedPComponent },
+              { path: "loved", component: LovedPComponent },
+              { path: "tags", component: TaggedPComponent }
+
+            ]
+          },
+          {
+            path: "collections", component: CentralProfileComponent, children: [
+              { path: "", redirectTo: "popular", pathMatch: "full" },
+              { path: "popular", component: CollectionsProfileComponent },
+              { path: "private", component: CollectionsProfileComponent },
+              { path: "public", component: CollectionsProfileComponent },
+              { path: "loved", component: CollectionsProfileComponent }
+
+            ]
+          }
+        ]
+      },
+      { path: "trending", component: TrendingComponent },
+      { path: "following", component: FollowingComponent },
+      {
+        path: "your-work", component: YourWorkComponent, children: [
+          { path: "", redirectTo: "pens", pathMatch: "full" },
+          { path: "pens", component: YourWorkPensComponent },
+          { path: "collections", component: YourWorkCollectionsComponent },
+          { path: "deleted", component: YourWorkDeletedComponent }
+        ]
+      },
       // {path: "settings", component: SettingsComponent}
       //  if path -> settings/profile, settings/account, settings/notifications,... => component: SettingsComponent
       {
@@ -182,7 +207,7 @@ import { ListItemGridCodeComponent } from './components/list-item-grid-code/list
       {
         path: "support", component: SupportComponent
       },
-      { path: '**', pathMatch: 'full',  component: PageNotFoundComponent }, 
+      { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
     ]),
     NgbModule,
     MatSidenavModule,
