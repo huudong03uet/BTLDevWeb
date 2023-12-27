@@ -1,5 +1,7 @@
+// create-new-collection.component.ts
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import axios, { AxiosError } from 'axios';
 
 @Component({
   selector: 'app-create-new-collection',
@@ -23,17 +25,33 @@ export class CreateNewCollectionComponent {
     this.close.emit();
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.createForm.valid) {
-      // Implement your logic to create a new collection
-      console.log('Title:', this.createForm.value.collectionTitle);
-      console.log('Description:', this.createForm.value.collectionDescription);
+      try {
+        const response = await axios.post('http://localhost:3000/your-work/collections', {
+          name: this.createForm.value.collectionTitle,
+          // Add other fields if needed
+        });
 
-      // Optionally, you can reset the form fields
-      this.createForm.reset();
+        console.log('Collection created successfully:', response.data.collection);
 
-      // Close the form
-      this.onCloseCreateNewCollection();
+        // Reset the form fields
+        this.createForm.reset();
+
+        // Close the form
+        this.onCloseCreateNewCollection();
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          // Log the entire error object for further investigation
+          console.error('Error creating collection:', error);
+
+          // Check if 'error' property exists on the response data
+          const errorMessage = (error as AxiosError<{ error?: string }>).response?.data?.error;
+          console.error('Error message:', errorMessage || 'Unknown error');
+        } else {
+          console.error('Error creating collection:', error);
+        }
+      }
     }
   }
 }
