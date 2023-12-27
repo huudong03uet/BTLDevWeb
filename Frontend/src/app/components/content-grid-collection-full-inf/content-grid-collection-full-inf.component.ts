@@ -72,8 +72,8 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   }
 
   handlePageClick(): void {
-    // console.log(`/pen/${this.pen_id}`);
-    this.router.navigate([`/collection/123`]);
+    // link to collection/123
+    this.router.navigate([`/collection/123`])
   }
 
 
