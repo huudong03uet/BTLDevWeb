@@ -11,11 +11,13 @@ import { has, hasIn } from 'lodash';
 })
 export class ContentGridCollectionFullInfComponent implements OnInit {
   @Input() collection_id: any;
-  pen_ids= [2, 2, 3, 1, 2, 3];
+  pen_ids= [3, 2];
   // data: any;
   // datas_pen: any[] | undefined;
   namePen: any;
-  iframeContents: SafeHtml[] = [];
+
+  // init with 4 element
+  iframeContents: SafeHtml[] = ['','','',''];
 
   data_collection = {
     "like": 0,
@@ -31,7 +33,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   ) { }
 
 
-  get_data_pen(pen_id: number) {
+  get_data_pen(pen_id: number, index: number){
     // init data -> data = response.data
     let data_pen: any;
     const apiUrl = `http://localhost:3000/pen/getInfoPen/${pen_id}`;
@@ -43,7 +45,8 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
         const iframeContent = `
         <html>
           <head>
-            <style>${data_pen.pen.css_code}</style>
+            <style>
+            ${data_pen.pen.css_code}</style>
           </head>
           <body>
             ${data_pen.pen.html_code}
@@ -54,22 +57,107 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
         // this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
 
         // this.datas_pen?.push(data_pen);
-        this.iframeContents?.push(this.sanitizer.bypassSecurityTrustHtml(iframeContent));
+        this.iframeContents[index] = (this.sanitizer.bypassSecurityTrustHtml(iframeContent));
       })
       .catch((error) => {
         console.error('Error:', error);
+        return '';
       });
 
 
   }
 
-  ngOnInit(): void {
-    for (let i = 0; i < this.pen_ids.length && i < 4; i++) {
-      this.get_data_pen(this.pen_ids[i]);
-    }
-    console.log(this.iframeContents);
+
+  get_data_pen_null(index: number) {
+    const iframeContent = `
+    <html>
+      <head>
+        <style>
+          * {
+            background-color: #434756;
+          }
+        </style>
+      </head>
+      <body>
+      </body>
+    </html>
+  `;
+    // this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
+
+  this.iframeContents[index] = (this.sanitizer.bypassSecurityTrustHtml(iframeContent));
+    
+  }
+
+ ngOnInit(): void {
+    // if (this.pen_ids.length == 0) {
+    //   this.get_data_pen_null(0);
+    //   this.get_data_pen_null(1);
+    //   this.get_data_pen_null(2);
+    //   this.get_data_pen_null(3);
+    // }
+    // if (this.pen_ids.length == 1) {
+    //   this.get_data_pen(this.pen_ids[0], 0);
+    //   this.get_data_pen_null(1);
+    //   this.get_data_pen_null(2);
+    //   this.get_data_pen_null(3);
+    // }
+    // if (this.pen_ids.length == 2) {
+    //   this.get_data_pen(this.pen_ids[0], 0);
+    //   this.get_data_pen(this.pen_ids[1], 1);
+    //   this.get_data_pen_null(2);
+    //   this.get_data_pen_null(3);
+    // }
+    // if (this.pen_ids.length == 3) {
+    //   this.get_data_pen(this.pen_ids[0], 0);
+    //   this.get_data_pen(this.pen_ids[1], 1);
+    //   this.get_data_pen(this.pen_ids[2], 2);
+    //   this.get_data_pen_null(3);
+    // }
+    // if (this.pen_ids.length >= 4) {
+    //   this.get_data_pen(this.pen_ids[0], 0);
+    //   this.get_data_pen(this.pen_ids[1], 1);
+    //   this.get_data_pen(this.pen_ids[2], 2);
+    //   this.get_data_pen(this.pen_ids[3], 3);
+    // }
+for (let i = 0; i < this.pen_ids.length; i++) {
+  this.get_data_pen(this.pen_ids[i], i);
+}
+for (let i = this.pen_ids.length; i < 4; i++) {
+  this.get_data_pen_null(i);
+}
 
   }
+
+  // Remove the duplicate function implementation
+  // get_data_pen(pen_id: number): SafeHtml {
+  //     // init data -> data = response.data
+  //     let data_pen: any;
+  //     const apiUrl = `http://localhost:3000/pen/getInfoPen/${pen_id}`;
+  //     axios.get(apiUrl)
+  //       .then((response) => {
+  //         data_pen = response.data;
+  //         this.namePen = (data_pen.pen.name == null) ? "Chưa đặt tên" : data_pen.pen.name;
+  //         const iframeContent = `
+  //         <html>
+  //           <head>
+  //             <style>
+  //             ${data_pen.pen.css_code}</style>
+  //           </head>
+  //           <body>
+  //             ${data_pen.pen.html_code}
+  //             <script>${data_pen.pen.js_code}</script>
+  //           </body>
+  //         </html>
+  //       `;
+  //         return this.sanitizer.bypassSecurityTrustHtml(iframeContent);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error:', error);
+  //         return '';
+  //       });
+  //   }
+
+  
 
   handlePageClick(): void {
     // link to collection/123
@@ -180,3 +268,6 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
     this.router.navigate([`/collection/${this.collection_id}`], { relativeTo: null });
   }
 }
+
+
+

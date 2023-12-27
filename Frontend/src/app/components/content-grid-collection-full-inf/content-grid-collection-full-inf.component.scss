@@ -20,7 +20,38 @@
 
 
   }
+  .view-button {
+    font-size: .9rem;
+    position: absolute;
+    bottom: 4.5rem;
+    right: 0.5rem;
+    text-align: right;
+    background: hsl( 0deg 0% 0% );
+    color: hsl( 225.88deg 13.39% 75.1% );
+    margin: 0;
+    padding: .2em .5em;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    z-index: 0;
+    white-space: nowrap;
+    transition: .2s linear;
+    transition-property: background, color;
+    text-decoration: none;
+    cursor: pointer;
 
+    &:hover {
+      background: hsl( 0deg 0% 0% / 90% );
+      color: #fff;
+    }
+
+    svg {
+        width: 1em;
+        height: 1em;
+        margin-left: .2em;
+        fill: currentColor;
+        vertical-align: -2px
+    }
+  }
   .background-code.enter-show {
     transition: all 0.3s ease 0.1s;
     // remove clip-path

@@ -72,6 +72,7 @@ import { SearchViewControlItemComponent } from './components/full-option-control
 import { GridListSortControlItemComponent } from './components/full-option-control-item/grid-list-sort-control-item/grid-list-sort-control-item.component';
 import { ContentGridCodeFullInfComponent } from './components/content-grid-code-full-inf/content-grid-code-full-inf.component';
 import { ContentGridCollectionFullInfComponent } from './components/content-grid-collection-full-inf/content-grid-collection-full-inf.component';
+import { ReversePipe } from './pipes/reverse.pipe';
 
 @NgModule({
   declarations: [
@@ -138,6 +139,7 @@ import { ContentGridCollectionFullInfComponent } from './components/content-grid
     GridListSortControlItemComponent,
     ContentGridCodeFullInfComponent,
     ContentGridCollectionFullInfComponent,
+    ReversePipe,
   ],
   imports: [
     FormsModule,
