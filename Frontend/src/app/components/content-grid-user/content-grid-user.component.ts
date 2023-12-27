@@ -24,7 +24,7 @@ export class ContentGridUserComponent implements OnInit {
     axios.get(apiUrl)
     .then((response) => {
       this.data = response.data;
-      console.log('Data:', this.pen_id);
+      // console.log('Data:', this.pen_id);
       this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
       const iframeContent = `
         <html>
@@ -45,7 +45,7 @@ export class ContentGridUserComponent implements OnInit {
   }
 
   handlePageClick(): void {
-    console.log(`/pen/${this.pen_id}`);
+    // console.log(`/pen/${this.pen_id}`);
     this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
   }
 }

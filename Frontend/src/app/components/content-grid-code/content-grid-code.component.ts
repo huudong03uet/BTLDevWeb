@@ -25,7 +25,7 @@ export class ContentGridCodeComponent implements OnInit {
     axios.get(apiUrl)
       .then((response) => {
         this.data = response.data;
-        console.log('Data:', this.data);
+        // console.log('Data:', this.data);
         this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
         const iframeContent = `
         <html>
@@ -46,7 +46,7 @@ export class ContentGridCodeComponent implements OnInit {
   }
 
   handlePageClick(): void {
-    console.log(`/pen/${this.pen_id}`);
+    // console.log(`/pen/${this.pen_id}`);
     this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
   }
 
@@ -66,7 +66,7 @@ export class ContentGridCodeComponent implements OnInit {
   
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
-    console.log("hasInformationPen: ", this.hasInformationPen)
+    // console.log("hasInformationPen: ", this.hasInformationPen)
     if (this.hasInformationPen == true) {
       var x = document.getElementsByClassName("list-items");
       if (x != null) {

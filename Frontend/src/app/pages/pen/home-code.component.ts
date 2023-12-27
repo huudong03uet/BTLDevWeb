@@ -34,7 +34,7 @@ export class HomeCodeComponent implements OnInit{
         // Lấy thông tin về trang trước đó
       this.route.params.subscribe(async (params) => {
         const penId = params['id'];
-        console.log(penId, 12345)
+        // console.log(penId, 12345)
       if (penId != null) { 
         try {
           let data = await axios.post('http://localhost:3000/pen/getPenById', {pen_id: penId}); 
@@ -72,7 +72,7 @@ export class HomeCodeComponent implements OnInit{
   }
 
   onWebCodeChanged(data: { html: string; js: string; css: string }) {
-    console.log('home', data);
+    // console.log('home', data);
     this.webCodeData = {
       html: data.html,
       js: data.js,

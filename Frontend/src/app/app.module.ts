@@ -39,6 +39,7 @@ import { PrivacySettingsComponent } from './pages/settings/components/privacy-se
 import { EditorPreferencesSettingsComponent } from './pages/settings/components/editor-preferences-settings/editor-preferences-settings.component';
 import { ContentPreferencesSettingsComponent } from './pages/settings/components/content-preferences-settings/content-preferences-settings.component';
 import { CollectionComponent } from './pages/collection/collection.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { HeadProfileComponent } from './pages/profile/component/head-profile/head-profile.component';
 import { PenProfileComponent } from './pages/profile/component/central-profile/pen-profile/pen-profile.component';
@@ -62,6 +63,7 @@ import { CommentAreaComponent } from './components/comment-area/comment-area.com
 import { PinnedCollectionComponent } from './components/pinned-collection/pinned-collection.component';
 import { SupportComponent } from './pages/support/support.component';
 import { TrendingCenterComponent } from './pages/trending/trending-center/trending-center.component';
+import { ListItemGridCodeComponent } from './components/list-item-grid-code/list-item-grid-code.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +121,7 @@ import { TrendingCenterComponent } from './pages/trending/trending-center/trendi
     PinnedCollectionComponent,
     SupportComponent,
     TrendingCenterComponent,
+    ListItemGridCodeComponent,
   ],
   imports: [
     FormsModule,
@@ -185,6 +188,7 @@ import { TrendingCenterComponent } from './pages/trending/trending-center/trendi
     MatSidenavModule,
     MatToolbarModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

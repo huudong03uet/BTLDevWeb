@@ -29,7 +29,7 @@ export class SignupComponent {
 
   changeStatusHiddenRegisterEmail() {
     this.hiddenRegisterEmail = !this.hiddenRegisterEmail;
-    console.log(this.hiddenRegisterEmail)
+    // console.log(this.hiddenRegisterEmail)
   }
   
   // Hàm xử lý khi người dùng gửi biểu mẫu đăng ký qua email
@@ -65,7 +65,7 @@ export class SignupComponent {
 
       if (response.status === 200) {
         if(response.data.code == 200) {
-          console.log('Registration successful:', response.data);
+          // console.log('Registration successful:', response.data);
           // Chuyển hướng người dùng đến trang chủ hoặc thực hiện hành động sau khi đăng ký thành công
           // Ví dụ: chuyển hướng đến trang chủ
           let user: User = {

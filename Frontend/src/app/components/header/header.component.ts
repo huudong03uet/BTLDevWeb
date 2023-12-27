@@ -34,7 +34,7 @@ export class HeaderComponent {
   }
 
   handleChildPinnedClose() {
-    console.log('close');
+    // console.log('close');
     this.childPinnedVisible = false;
   }
 

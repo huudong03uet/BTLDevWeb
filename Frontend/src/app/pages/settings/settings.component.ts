@@ -1,6 +1,5 @@
 import { Component, OnChanges, ViewEncapsulation } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',

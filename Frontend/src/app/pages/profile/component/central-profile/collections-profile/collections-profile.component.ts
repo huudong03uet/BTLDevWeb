@@ -32,7 +32,7 @@ export class CollectionsProfileComponent {
     this.router.navigate(['/profile/collections/popular']);
   }
   navigateToCPrivate() {
-    console.log('private')
+    // console.log('private')
     this.router.navigate(['/profile/collections/private']);
   }
   navigateToCPublic(){
