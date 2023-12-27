@@ -1,8 +1,6 @@
-// collectionsController.js
-
 const Collection = require('../models/collection');
 const CollectionPen = require('../models/collection_pen');
-const CollectionUser = require('../models/collection_user'); // Import collection_user model
+const CollectionUser = require('../models/collection_user');
 
 async function createOrUpdateCollection(req, res) {
   try {
@@ -21,20 +19,16 @@ async function createOrUpdateCollection(req, res) {
       }
 
       const updatedCollection = await Collection.findByPk(collectionId);
-      
-      // Update the collection_user table
-      await CollectionUser.update({ user_id }, { where: { collection_id: collectionId } });
-
       return res.status(200).json({ code: 200, collection: updatedCollection, message: 'Cập nhật collection thành công' });
     } else {
-      const newCollection = await Collection.create({ name, user_id });
+      const newCollection = await Collection.create({ name });
+
+      // Create an entry in the collection_user table
+      await CollectionUser.create({ user_id, collection_id: newCollection.collection_id });
 
       if (penIds && penIds.length > 0) {
         await CollectionPen.bulkCreate(penIds.map(penId => ({ collection_id: newCollection.collection_id, pen_id: penId })));
       }
-
-      // Add a new entry to the collection_user table for the new collection
-      await CollectionUser.create({ collection_id: newCollection.collection_id, user_id });
 
       return res.status(201).json({ code: 201, collection: newCollection, message: 'Tạo mới collection thành công' });
     }
@@ -44,11 +38,12 @@ async function createOrUpdateCollection(req, res) {
   }
 }
 
+
 async function getCollectionsByUser(req, res) {
   try {
     const userId = req.params.userId;
 
-    const collections = await Collection.findAll({ where: { user_id: userId } });
+    const collections = await CollectionUser.findAll({ where: { user_id: userId } });
 
     return res.status(200).json({ code: 200, collections, message: 'Lấy danh sách collection thành công' });
   } catch (error) {

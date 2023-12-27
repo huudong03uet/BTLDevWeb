@@ -1,8 +1,7 @@
-// userPenModel.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('./sequelize'); 
-const User = require('./user'); // Đặt đường dẫn đến mô hình bảng "user"
-const Collection = require('./collection'); // Đặt đường dẫn đến mô hình bảng "user"
+const sequelize = require('./sequelize');
+const User = require('./user');
+const Collection = require('./collection');
 
 const Collection_user = sequelize.define('collection_user', {
   collection_user_id: {
@@ -10,16 +9,16 @@ const Collection_user = sequelize.define('collection_user', {
     autoIncrement: true,
     primaryKey: true,
   },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   collection_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  user_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  }
 }, {
-    tableName: "collection_user",
+  tableName: "collection_user",
 });
 
 Collection_user.belongsTo(Collection, { foreignKey: 'collection_id' });
