@@ -5,58 +5,83 @@ import axios from 'axios';
 import { has, hasIn } from 'lodash';
 
 @Component({
-  selector: 'app-content-grid-code-full-inf',
-  templateUrl: './content-grid-code-full-inf.component.html',
-  styleUrls: ['./content-grid-code-full-inf.component.scss']
+  selector: 'app-content-grid-collection-full-inf',
+  templateUrl: './content-grid-collection-full-inf.component.html',
+  styleUrls: ['./content-grid-collection-full-inf.component.scss']
 })
-export class ContentGridCodeFullInfComponent implements OnInit {
-  @Input() pen_id: any;
-  data: any;
+export class ContentGridCollectionFullInfComponent implements OnInit {
+  @Input() collection_id: any;
+  pen_ids= [2, 2, 3, 1, 2, 3];
+  // data: any;
+  // datas_pen: any[] | undefined;
   namePen: any;
-  iframeContent: SafeHtml | undefined;
+  iframeContents: SafeHtml[] = [];
+
+  data_collection = {
+    "like": 0,
+    "name": "Chưa đặt tên",
+    "comment": 0,
+    "view": 0,
+  }
+
 
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
   ) { }
 
-  ngOnInit(): void {
-    const apiUrl = `http://localhost:3000/pen/getInfoPen/${this.pen_id}`;
+
+  get_data_pen(pen_id: number) {
+    // init data -> data = response.data
+    let data_pen: any;
+    const apiUrl = `http://localhost:3000/pen/getInfoPen/${pen_id}`;
     axios.get(apiUrl)
       .then((response) => {
-        this.data = response.data;
+        data_pen = response.data;
         // console.log('Data:', this.data);
-        this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
+        this.namePen = (data_pen.pen.name == null) ? "Chưa đặt tên" : data_pen.pen.name;
         const iframeContent = `
         <html>
           <head>
-            <style>${this.data.pen.css_code}</style>
+            <style>${data_pen.pen.css_code}</style>
           </head>
           <body>
-            ${this.data.pen.html_code}
-            <script>${this.data.pen.js_code}</script>
+            ${data_pen.pen.html_code}
+            <script>${data_pen.pen.js_code}</script>
           </body>
         </html>
       `;
-        this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
+        // this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
+
+        // this.datas_pen?.push(data_pen);
+        this.iframeContents?.push(this.sanitizer.bypassSecurityTrustHtml(iframeContent));
       })
       .catch((error) => {
         console.error('Error:', error);
       });
+
+
+  }
+
+  ngOnInit(): void {
+    for (let i = 0; i < this.pen_ids.length && i < 4; i++) {
+      this.get_data_pen(this.pen_ids[i]);
+    }
+    console.log(this.iframeContents);
+
   }
 
   handlePageClick(): void {
     // console.log(`/pen/${this.pen_id}`);
-    this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
+    this.router.navigate([`/collection/123`]);
   }
 
 
 
   user_name = "hihihi"
   informationPen = [
-    "Add to Collection",
-    "Remove from Pins",
     "Make Private",
+    "Remove from Pins",
     "Delete",
   ]
 
@@ -149,5 +174,9 @@ export class ContentGridCodeFullInfComponent implements OnInit {
     //     }
     //   }
     // }
+  }
+
+  clickGridCollectionFullInf() {
+    this.router.navigate([`/collection/${this.collection_id}`], { relativeTo: null });
   }
 }

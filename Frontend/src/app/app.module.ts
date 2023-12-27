@@ -71,6 +71,7 @@ import { FullOptionControlItemComponent } from './components/full-option-control
 import { SearchViewControlItemComponent } from './components/full-option-control-item/search-view-control-item/search-view-control-item.component';
 import { GridListSortControlItemComponent } from './components/full-option-control-item/grid-list-sort-control-item/grid-list-sort-control-item.component';
 import { ContentGridCodeFullInfComponent } from './components/content-grid-code-full-inf/content-grid-code-full-inf.component';
+import { ContentGridCollectionFullInfComponent } from './components/content-grid-collection-full-inf/content-grid-collection-full-inf.component';
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import { ContentGridCodeFullInfComponent } from './components/content-grid-code-
     SearchViewControlItemComponent,
     GridListSortControlItemComponent,
     ContentGridCodeFullInfComponent,
+    ContentGridCollectionFullInfComponent,
   ],
   imports: [
     FormsModule,
