@@ -2,6 +2,7 @@
     <section id="header">
         <div class="left">
             <h2 class="logo"><i class="fa-brands fa-codepen" style="color: #ffffff;"></i></h2>
+            <!-- ... (trong phần project-details) -->
             <div class="project-details">
                 <h4 class="title" *ngIf="!isEditingTitle">
                     {{ projectTitle }}
@@ -10,15 +11,30 @@
                 </h4>
                 <input #projectTitleInput *ngIf="isEditingTitle" [(ngModel)]="projectTitle" class="project-title-input"
                     (blur)="stopEditingTitle()" />
-                <p>Captain Anonymous</p>
+                <p>
+                    {{ myPen?.user?.username || 'Captain Anonymous' }}
+                    <button class="follow-button" *ngIf="isLoggedIn && myPen?.user?.id !== currentUser?.id"
+                        (click)="toggleFollow()">
+                        {{ isFollowing ? 'Following' : '+ Follow' }}
+                    </button>
+                </p>
             </div>
+            <!-- Trong phần project-details -->
+
         </div>
         <div class="right">
             <ul>
+                <li class="favorite-icon" *ngIf="isLoggedIn && myPen && myPen.pen_id">
+                    <a class="favorite-button" (click)="toggleFavorite()">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                </li>
                 <li class="save" *ngIf="isLoggedIn"><a (click)="toggleSave()"><i class="fas fa-cloud"></i> Save</a></li>
                 <li class="settings" *ngIf="isLoggedIn"><a><i class="fas fa-gear"></i> Settings</a></li>
-                <li class="save" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i> Save</a></li>
-                <li class="settings" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i> Settings</a></li>
+                <li class="save" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i>
+                        Save</a></li>
+                <li class="settings" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i>
+                        Settings</a></li>
                 <li class="view"><a><i class="fas fa-object-group"></i></a></li>
                 <li class="submenu" (click)="toggleMenu()"><a><i class="fas fa-square-caret-down"></i></a></li>
                 <li *ngIf="!isLoggedIn"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
