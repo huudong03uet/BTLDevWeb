@@ -56,7 +56,8 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   informationPen = [
     "Add to Collection",
     "Remove from Pins",
-    "Unfollow " + this.user_name,
+    "Make Private",
+    "Delete",
   ]
 
   

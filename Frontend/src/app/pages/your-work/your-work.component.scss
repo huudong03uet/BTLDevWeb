@@ -47,7 +47,14 @@
                             font-size: 1.1rem;
                             padding: .2rem 1rem .5rem 0;
                             cursor: pointer;
-                            color: hsl( 0deg 0% 100% )
+                            color: hsl( 228.39deg 12.25% 50.39% );
+                            &:hover {
+                                color: hsl( 226.67deg 11.84% 70.2% );
+                            }
+                        } 
+                        
+                        button.active {
+                            color: white;
                         }
                     }
                 }

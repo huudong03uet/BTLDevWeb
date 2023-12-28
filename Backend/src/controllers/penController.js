@@ -22,6 +22,7 @@ let createOrUpdatePen = async (req, res) => {
             existingPen.html_code = req.body.html_code;
             existingPen.js_code = req.body.js_code;
             existingPen.css_code = req.body.css_code;
+            existingPen.name = req.body.name;
             await existingPen.save();
     
             // Trả về thông tin pen đã được cập nhật
