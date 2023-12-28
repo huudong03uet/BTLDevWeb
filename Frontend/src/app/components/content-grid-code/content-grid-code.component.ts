@@ -59,11 +59,11 @@ export class ContentGridCodeComponent implements OnInit {
     "Unfollow " + this.user_name,
   ]
 
-  
+
   random_number = Math.floor(Math.random() * 100000000);
 
   hasInformationPen = false;
-  
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
     // console.log("hasInformationPen: ", this.hasInformationPen)
@@ -72,8 +72,8 @@ export class ContentGridCodeComponent implements OnInit {
       if (x != null) {
         for (let i = 0; i < x.length; i++) {
           if (x.item(i)!.classList.contains("show")) {
-              x.item(i)!.classList.remove("show");
-              this.hasInformationPen = false;
+            x.item(i)!.classList.remove("show");
+            this.hasInformationPen = false;
           }
         }
       }
@@ -95,7 +95,7 @@ export class ContentGridCodeComponent implements OnInit {
             x.item(i)!.classList.add("show");
             this.hasInformationPen = true;
           }
-          
+
         } else {
           x.item(i)!.classList.remove("show");
         }
@@ -149,4 +149,17 @@ export class ContentGridCodeComponent implements OnInit {
       }
     }
   }
+
+
+  childDetailPenVisible: boolean = false;
+  openDetailPen() {
+    this.childDetailPenVisible = !this.childDetailPenVisible;
+  }
+  handleChildDetailPenClose() {
+    this.childDetailPenVisible = false;
+  }
+
+
+
+
 }

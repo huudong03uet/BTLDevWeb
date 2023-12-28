@@ -1,0 +1,67 @@
+<div class="all-screen" (click)="checkOutDetailPen()">
+    <div class="full-detail-pen"  (mouseleave)="isOutOfCenter()" (mouseenter)="isInOfCenter()">
+        <div class="header-detail-pen">
+            <div class="left-header-content">
+                <div class="image">
+        
+                    <img src="https://assets.codepen.io/9237385/internal/avatars/users/default.png?fit=crop&format=auto&height=80&version=1670773827&width=80">
+        
+                </div>
+                <h2 class="name-code">
+                    <a class="code-name">{{ namePen }}</a>
+                    <a class="code-user">{{data.user.user_name}}</a>
+                </h2>
+            </div>
+            <div class="right-header-content">
+                <div class="tym button-detail-pen">
+                    <svg viewBox="-2 0 105 92" class="LoveButtonIcon-module_root-3tVfn" data-love-level="3"><path d="M85.24 2.67C72.29-3.08 55.75 2.67 50 14.9 44.25 2 27-3.8 14.76 2.67 1.1 9.14-5.37 25 5.42 44.38 13.33 58 27 68.11 50 86.81 73.73 68.11 87.39 58 94.58 44.38c10.79-18.7 4.32-35.24-9.34-41.71Z"></path></svg>
+                </div>
+                <div class="three-dot button-detail-pen" >
+                    <div class="three-dot-list"  (click)="$event.stopPropagation()">
+                
+                        <div class="list-items" >
+                            <ul>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><rect y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect></svg>
+                                    {{informationPen[0]}}
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 12 18"><path d="M1.5 7.74V1.8c-.414 0-.75-.403-.75-.9s.336-.9.75-.9h9c.414 0 .75.403.75.9s-.336.9-.75.9v5.94a7.567 7.567 0 0 1 1.274 2.55c.11.395.166.73.195.973a4.701 4.701 0 0 1 .03.387v.031l.001.01v.007s-.004-.117 0 .002c0 .497-.336.9-.75.9h-4.5v4.5c0 .497-.336.9-.75.9s-.75-.403-.75-.9v-4.5H.75c-.414 0-.75-.403-.75-.9v-.019a2.22 2.22 0 0 1 .005-.122c.004-.074.011-.173.026-.296.029-.244.085-.578.195-.973.2-.72.575-1.632 1.274-2.55Z"></path></svg>
+                                    {{informationPen[1]}}
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 100 100"><path d="M34.6 82.4c-2.3 0-4.6-.9-6.3-2.6L8.8 60.7c-3.5-3.5-3.6-9.2-.1-12.7s9.2-3.6 12.7-.1l13.1 12.9L78.3 17c3.5-3.5 9.2-3.5 12.7 0s3.5 9.2 0 12.7L40.9 79.8c-1.7 1.8-4 2.6-6.3 2.6z"></path></svg>
+                                    {{informationPen[2]}}
+                                </li>
+                            </ul>
+            
+                        </div>
+                        <span (click)="onClickInformationPen()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-three-dots"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                            </svg>
+                
+                
+                        </span>
+                    </div>
+                </div>
+                <div class="view_in_editor button-detail-pen" (click)="goToDetailPen()"> 
+                    View in Editor
+                </div>
+
+
+            </div>
+
+            
+        </div>
+        <div class="center-detail-pen">
+
+        </div>
+        <div class="comment-detail-pen">
+            <app-comment-area></app-comment-area>
+        </div>
+    </div>
+
+</div>
