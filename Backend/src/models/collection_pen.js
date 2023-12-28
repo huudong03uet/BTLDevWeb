@@ -1,28 +1,22 @@
-// penPenModel.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize');
 
-const CollectionPen = sequelize.define(
-  'CollectionPen', // Đặt tên đúng định dạng PascalCase
-  {
+const Pen = require('./pen');
+const Collection = require('./collection');
+
+const CollectionPen = sequelize.define('collection_pen', {
     collection_pen_id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-    },
-    collection_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    pen_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    }
   },
   {
     tableName: 'collection_pen',
-    // Thêm các tùy chọn khác nếu cần
   }
 );
+
+CollectionPen.belongsTo(Collection, {foreignKey : 'collection_id'});
+CollectionPen.belongsTo(Pen, {foreignKey : 'pen_id'});
 
 module.exports = CollectionPen;

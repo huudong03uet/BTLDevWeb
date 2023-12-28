@@ -1,9 +1,9 @@
+import { UserDataService } from './../../services/user-data.service';
 import { Component, HostListener, Input, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { has, hasIn } from 'lodash';
-
 @Component({
   selector: 'app-content-grid-code',
   templateUrl: './content-grid-code.component.html',
@@ -14,18 +14,21 @@ export class ContentGridCodeComponent implements OnInit {
   data: any;
   namePen: any;
   iframeContent: SafeHtml | undefined;
+  informationPen: any;
+
 
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
+    private userData: UserDataService,
   ) { }
 
   ngOnInit(): void {
-    const apiUrl = `http://localhost:3000/pen/getInfoPen/${this.pen_id}`;
+    const apiUrl = `http://localhost:3000/pen/getInfoPen?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(apiUrl)
       .then((response) => {
         this.data = response.data;
-        // console.log('Data:', this.data);
+        console.log('Data grid code:', this.data.user);
         this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
         const iframeContent = `
         <html>
@@ -39,6 +42,11 @@ export class ContentGridCodeComponent implements OnInit {
         </html>
       `;
         this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
+        this.informationPen = [
+          "Add to Collection",
+          "Remove from Pins",
+          "Unfollow " + this.data.user.user_name
+        ]
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -49,15 +57,6 @@ export class ContentGridCodeComponent implements OnInit {
     // console.log(`/pen/${this.pen_id}`);
     this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
   }
-
-
-
-  user_name = "hihihi"
-  informationPen = [
-    "Add to Collection",
-    "Remove from Pins",
-    "Unfollow " + this.user_name,
-  ]
 
   
   random_number = Math.floor(Math.random() * 100000000);

@@ -13,7 +13,7 @@
             <div>
                 <div class="ContentGridUser_userHeader">
                     <h2 class="ContentGridUser_userTitle">
-                        <a href="">Sara Soueidan</a>
+                        <a href="">{{ name }}</a>
                     </h2>
                 </div>
                 <span class="ContentGridUser_minimalPenCount">
@@ -31,7 +31,7 @@
             <div data-picture="true" (mousedown)="handlePageClick()">
                 <picture>
                     <div class="output-field">
-                        <iframe [srcdoc]="iframeContent" sandbox="allow-scripts"></iframe>
+                        <iframe [srcdoc]="iframeContent_1" sandbox="allow-scripts"></iframe>
                     </div>  
                     <!-- <img src="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007" class="ItemPreviewImage"> -->
                 </picture>
@@ -44,7 +44,7 @@
                     <!-- <source type="image/webp" srcset="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007"> -->
                     <!-- <img src="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007" class="ItemPreviewImage"> -->
                     <div class="output-field">
-                        <iframe [srcdoc]="iframeContent"></iframe>
+                        <iframe [srcdoc]="iframeContent_2"></iframe>
                     </div> 
                 </picture>
 

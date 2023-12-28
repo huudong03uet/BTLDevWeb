@@ -9,43 +9,60 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./content-grid-user.component.scss']
 })
 export class ContentGridUserComponent implements OnInit {
-  @Input() pen_id: any;
+  @Input() user: any;
   data: any;
-  namePen: any;
-  iframeContent: SafeHtml | undefined;
+  name: any;
+  iframeContent_1: SafeHtml | undefined;
+  iframeContent_2: SafeHtml | undefined;
 
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer
-    ) {}
+  ) { }
 
   ngOnInit(): void {
-    const apiUrl = `http://localhost:3000/pen/getInfoPen/${this.pen_id}`;
-    axios.get(apiUrl)
-    .then((response) => {
-      this.data = response.data;
-      // console.log('Data:', this.pen_id);
-      this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
-      const iframeContent = `
+    for (let idx = 0; idx < this.user.length; ++idx) {
+      this.name = this.user[idx].user_name;
+      const apiUrl = `http://localhost:3000/pen/getPenByUserIDForFollow/${this.user[idx].user_id}`;
+      axios.get(apiUrl).then((response) => {
+        this.data = response.data;
+        if(this.data == null){
+          return;
+        }
+        const iframeContent_1 = `
         <html>
           <head>
-            <style>${this.data.pen.js_code}</style>
+            <style>${this.data[0].css_code}</style>
           </head>
           <body>
-            ${this.data.pen.html_code}
-            <script>${this.data.pen.css_code}</script>
+            ${this.data[0].html_code}
+            <script>${this.data[0].js_code}</script>
           </body>
         </html>
       `;
-      this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+        this.iframeContent_1 = this.sanitizer.bypassSecurityTrustHtml(iframeContent_1);
+
+        const iframeContent_2 = `
+        <html>
+          <head>
+            <style>${this.data[1].css_code}</style>
+          </head>
+          <body>
+            ${this.data[1].html_code}
+            <script>${this.data[1].js_code}</script>
+          </body>
+        </html>
+      `;
+        this.iframeContent_2 = this.sanitizer.bypassSecurityTrustHtml(iframeContent_2);
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+
   }
 
   handlePageClick(): void {
     // console.log(`/pen/${this.pen_id}`);
-    this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
+    this.router.navigate([`/pen/${this.data.pen_id}`], { relativeTo: null });
   }
 }

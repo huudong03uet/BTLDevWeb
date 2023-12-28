@@ -1,13 +1,13 @@
 const Sequelize = require('sequelize');
-const { Op } = require("sequelize");
 
 import User from "../models/user";
 import Pen from "../models/pen";
-import User_Pen from "../models/user_pen";
 import View from "../models/viewTable";
 import Comment from "../models/commentTable";
 import Like from "../models/likeTable";
 import Follow from "../models/followTable";
+
+import followController, { getFollowByUserID } from './followControler';
 
 let createOrUpdatePen = async (req, res) => {
     try {
@@ -36,10 +36,7 @@ let createOrUpdatePen = async (req, res) => {
             js_code: req.body.js_code,
             css_code: req.body.css_code,
             name: req.body.name,
-            });
-            await User_Pen.create({
-                user_id: req.body.user_id,
-                pen_id: newPen.pen_id
+            user_id: req.body.user_id
             });
             return res.status(201).json({code: 200, pen: newPen, message: "tạo pen mới thành công"});
         // Trả về thông tin pen đã được tạo
@@ -67,11 +64,24 @@ async function getPenById(req, res) {
     }
 }
 
+async function _getPenByUser(user_id) {
+  try {
+    const pen = await Pen.findAll({ 
+      where: { user_id: user_id },
+      attributes: ['pen_id']
+    });
+    const penIdValues = pen.map((pen) => pen.pen_id);
+    return penIdValues;
+  } catch (error) {
+    console.error(error);
+    throw e;
+  }
+}
+
 async function getPenByUser(req, res) {
   const user_id  = req.params.id;
   try {
-    const pen = await User_Pen.findAll({ where: { user_id: user_id } });
-    const penIdValues = pen.map((pen) => pen.pen_id);
+    const pen = await _getPenByUser(user_id)
     return res.status(200).json(penIdValues);
   } catch (error) {
     console.error(error);
@@ -80,22 +90,31 @@ async function getPenByUser(req, res) {
 }
 
 async function getInfoPen(req, res) {
-  const penId = req.params.id;
-
+  // console.log(314123)
+  // console.log(req.query)
+  const penId = req.query.pen_id;
+  const user_id = req.query.user_id;
   try {
     // console.log(penId);
     const pen = await Pen.findByPk(penId);
 
-    // console.log(pen)
     if (!pen) {
       return res.status(404).json({ error: 'Pen not found' });
     }
-
-    const userPen = await User_Pen.findOne({
-      where: { pen_id: penId },
-      include: [{ model: User }],
+    let userPen = null
+    if(pen.user_id !== null) {
+      userPen = await User.findOne({
+        where: { user_id: pen.user_id}
+      });  
+    } 
+    
+    const likeRecord = await Like.findOne({
+      where: {
+          user_id: user_id,
+          pen_id: penId,
+      },
     });
-
+  
     const viewCount = await View.count({ where: { pen_id: penId } });
 
     const commentCount = await Comment.count({ where: { pen_id: penId } });
@@ -103,10 +122,11 @@ async function getInfoPen(req, res) {
     const likeCount = await Like.count({ where: { pen_id: penId } });
     const result = {
       pen: pen,
-      user: userPen ? userPen.user : null,
+      user: userPen,
       view: viewCount,
       comment: commentCount,
-      like: likeCount
+      like: likeCount,
+      liked: likeRecord!=null
     };
 
     res.json(result);
@@ -138,35 +158,72 @@ async function getTrending(req, res) {
   }
 }
 
-async function getFollow(req, res) {
-  const user_id_1 = req.params.id;
-  // console.log('abcxyy', user_id_1);
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
+async function getPenByUserIDForFollow(req, res) {
+  const user_id = req.params.id;
+  
   try {
-    let penIds = await Follow.findAll({
-      where: {
-        user_id_1: user_id_1,
-      },
+    let pens = await Pen.findAll({
+      where: { user_id: user_id },
+      attributes: ['pen_id', 'html_code', 'js_code', 'css_code', 'type_css'],
+      raw: true, 
     });
 
-    penIds = penIds.map((x) => x.user_id_2);
+    // pens = shuffleArray(pens);
 
-    let userPenRecords = await User_Pen.findAll({
-      where: {
-        user_id: penIds,
-      },
-      attributes: ['pen_id'],
-    });
+    if (pens.length > 0) {
+      pens = pens.slice(0, 2);
+    } else if(pens.length == 1) {
+      pens.push(pens[0]);
+    } else {
+      res.json(null)
+    }
+    
+    res.json(pens);
 
-    penIds = userPenRecords.map((x) => x.pen_id);
 
-    res.json(penIds);
-  } catch (error) {
-    console.error('Error fetching pen ids:', error);
-    throw error;
+  } catch (e) {
+    console.log('get pen for follow error:', e);
+  }
+}
+
+async function getFollow(req, res) {
+  const user_id = req.params.id;
+  try {
+    const followUsers = await followController.getFollowByUserID(user_id);
+
+    if (followUsers.length > 0) {
+      const penPromises = followUsers.map(async (followUser) => {
+        return await _getPenByUser(followUser);
+      });
+
+      let pens = await Promise.all(penPromises);
+
+      pens = pens.filter(pen => pen.length);
+
+      res.json(pens.flat());
+    } else {
+      res.json([]);
+    }
+
+  } catch (e) {
+    console.log('get follow pen for follow error:', e);
   }
 }
 
 module.exports = {
-    createOrUpdatePen, getPenById, getInfoPen, getTrending, getFollow, getPenByUser
+    createOrUpdatePen, 
+    getPenById, 
+    getInfoPen, 
+    getTrending, 
+    getPenByUser, 
+    getPenByUserIDForFollow,
+    getFollow,
 };

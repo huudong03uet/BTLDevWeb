@@ -3,12 +3,14 @@ import { Express } from "express";
 import authRouter from "./auth";
 import penRouter from "./pen";
 import collectionRouter from "./collection";
+import userRouter from "./user";
 //import userRoute from "./user";
 
 // vậy nếu muốn gọi đến API của authRouter thì cần gọi đến http://localhost:3000/auth/...
 function route(app) {
     app.use("/auth", authRouter);
     app.use("/pen", penRouter);
+    app.use("/user", userRouter);
     app.use("/your-work", collectionRouter);
 }
 
