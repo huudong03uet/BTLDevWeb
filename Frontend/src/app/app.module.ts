@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RouterModule } from '@angular/router';
@@ -159,6 +160,7 @@ import { CreateNewProjectComponent } from './components/create-new-project/creat
     FormsModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     MatDialogModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, data: { title: 'CODE' } },
