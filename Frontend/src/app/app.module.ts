@@ -73,6 +73,13 @@ import { GridListSortControlItemComponent } from './components/full-option-contr
 import { ContentGridCodeFullInfComponent } from './components/content-grid-code-full-inf/content-grid-code-full-inf.component';
 import { ContentGridCollectionFullInfComponent } from './components/content-grid-collection-full-inf/content-grid-collection-full-inf.component';
 import { ReversePipe } from './pipes/reverse.pipe';
+import { ProjectComponent } from './pages/project/project.component';
+import { HeaderProjectComponent } from './pages/project/header-project/header-project.component';
+import { FolderTreeComponent } from './pages/project/folder-tree/folder-tree.component';
+import { ScreenCodeComponent } from './pages/project/screen-code/screen-code.component';
+import { ScreenViewComponent } from './pages/project/screen-view/screen-view.component';
+import { FooterProjectComponent } from './pages/project/footer-project/footer-project.component';
+import { CreateNewProjectComponent } from './components/create-new-project/create-new-project.component';
 
 @NgModule({
   declarations: [
@@ -140,6 +147,13 @@ import { ReversePipe } from './pipes/reverse.pipe';
     ContentGridCodeFullInfComponent,
     ContentGridCollectionFullInfComponent,
     ReversePipe,
+    ProjectComponent,
+    HeaderProjectComponent,
+    FolderTreeComponent,
+    ScreenCodeComponent,
+    ScreenViewComponent,
+    FooterProjectComponent,
+    CreateNewProjectComponent,
   ],
   imports: [
     FormsModule,
@@ -157,6 +171,7 @@ import { ReversePipe } from './pipes/reverse.pipe';
       { path: "trending", component: TrendingComponent },
       { path: "following", component: FollowingComponent },
       { path: "your-work", component: YourWorkComponent },
+      {path: "project/123", component: ProjectComponent},
       {
         path: "profile", component: ProfileComponent, children: [
           { path: "", redirectTo: "pens", pathMatch: "full" },

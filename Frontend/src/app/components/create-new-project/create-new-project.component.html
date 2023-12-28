@@ -1,0 +1,49 @@
+<div class="all-screen">
+    <form class="create-new-project" [formGroup]="createForm">
+        <header class="header-new-project">
+            <h2 class="title-new-project">Create New Project</h2>
+            <button type="button" class="btn-close-new-project" (click)="onCloseCreateNewProject()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <path
+                        d="M96.8 83.7 63.1 50l33.7-33.7c3.6-3.6 3.6-9.4 0-13.1s-9.5-3.6-13.1 0L50 36.9 16.3 3.2C12.7-.4 6.9-.4 3.2 3.2s-3.6 9.5 0 13.1L36.9 50 3.2 83.7c-3.6 3.6-3.6 9.4 0 13.1s9.5 3.6 13.1 0L50 63.1l33.7 33.7c3.6 3.6 9.4 3.6 13.1 0s3.6-9.5 0-13.1z">
+                    </path>
+                </svg>
+            </button>
+        </header>
+
+        <div class="body-new-project">
+            <div class="title">
+                <div class="label-button-text">
+                    Title
+                </div>
+                <input formControlName="projectTitle" class="input-default-settings" type="text"
+                    placeholder="Enter title">
+                <small>{{ createForm.get('projectTitle')?.value?.length ?? 0 }}/{{ maxCharacterLimit }} characters used.</small>
+            </div>
+            <div class="description">
+                <div class="label-button-text">
+                    Description
+                </div>
+                <div class="input-description">
+                    <textarea formControlName="projectDescription" class="input-default-settings"
+                        style="height: 100px;" placeholder="Enter description"
+                        maxlength="{{ maxCharacterLimit }}"></textarea>
+                </div>
+                <small>{{ createForm.get('projectDescription')?.value?.length ?? 0 }}/{{ maxCharacterLimit }}
+                    characters used.</small>
+            </div>
+        </div>
+
+        <footer class="footer-new-project">
+            <label class="toggle">
+                <span class="toggle-label">Private</span>
+                <input class="toggle-checkbox" type="checkbox" checked>
+                <div class="toggle-switch"></div>
+                <span class="toggle-label">Public</span>
+            </label>
+            <div class="center-save-project">
+                <button type="button" class="btn-create-project" (click)="onSubmit()">Create project</button>
+            </div>
+        </footer>
+    </form>
+</div>

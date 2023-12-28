@@ -10,7 +10,7 @@
 
 }
 
-.create-new-collection {
+.create-new-project {
     position: fixed;
     z-index: 1000;
 
@@ -32,7 +32,7 @@
     grid-template-rows: auto minmax(0,1fr) auto;
     max-width: 35rem;
     max-height: calc(100% - 70px - 2rem);
-    .header-new-collection {
+    .header-new-project {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -40,7 +40,7 @@
         margin: .375rem 0 0;
         padding-right: 1rem;
 
-        .title-new-collection {
+        .title-new-project {
             // font-family: var(--cp-font-family);
             // 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif
             font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
@@ -53,7 +53,7 @@
         }
 
 
-        .btn-close-new-collection {
+        .btn-close-new-project {
             display: inline-block;
             font-size: .8rem;
             background-color: hsl( 227.37deg 12.26% 30.39% );
@@ -78,7 +78,7 @@
         }
     }
 
-    .body-new-collection {
+    .body-new-project {
         grid-row: 2;
         padding: 1.25rem;
         height: 100%;
@@ -88,12 +88,12 @@
         grid-gap: 1.25rem;
     }
 
-    .footer-new-collection {
+    .footer-new-project {
         display: inline-flex;
         align-items: center;
         justify-content:space-around;
         margin-bottom: 1rem;
-        .center-save-collection {
+        .center-save-project {
             // justify-content: center;
             // display: flex;
             button {
