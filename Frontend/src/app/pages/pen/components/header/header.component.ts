@@ -18,6 +18,7 @@ export class PenHeaderComponent implements OnInit {
     pen_id: '',
     user_id: 0,
   };
+  @Input() owner : any;
   @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
   @ViewChild(HomeCodeComponent) homeCodeComponent!: HomeCodeComponent;
 
@@ -86,7 +87,7 @@ export class PenHeaderComponent implements OnInit {
         html_code: this.webCodeData.html, 
         css_code: this.webCodeData.css, 
         js_code: this.webCodeData.js, 
-        name: null
+        name: this.projectTitle,
       });
       this.myPen = response.data.pen;
     } catch (error) {

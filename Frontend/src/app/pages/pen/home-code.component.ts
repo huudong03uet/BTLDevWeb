@@ -23,7 +23,7 @@ export class HomeCodeComponent implements OnInit{
     pen_id: '',
     user_id: 0,
   };
-
+  owner: any;
 
   constructor(
     private userData: UserDataService,
@@ -38,9 +38,20 @@ export class HomeCodeComponent implements OnInit{
       if (penId != null) { 
         try {
           let data = await axios.post('http://localhost:3000/pen/getPenById', {pen_id: penId}); 
+
+          if(data.data.pen.status === "private") {
+            this.router.navigate(['/**']);
+          }
           this.myPen = data.data.pen;
           this.codeEditorComponent.setPen(this.myPen);
+          let data_user = await axios.get(`http://localhost:3000/user/getInfoUser?user_id=${this.myPen.user_id}`);
+          this.owner = data_user.data;
+          console.log(this.owner);
+          if(this.userData.getUserData() !== null) {
+            await axios.post('http://localhost:3000/grid/updateView', {penId: penId, userId: this.userData.getUserData()?.user_id})
+          }
         } catch (error) {
+          this.router.navigate(['/**']);
           console.error('Error save pen:', error);
         }
       }

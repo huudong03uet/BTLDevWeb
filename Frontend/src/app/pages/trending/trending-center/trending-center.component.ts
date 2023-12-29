@@ -10,9 +10,9 @@ import axios from 'axios';
   styleUrls: ['./trending-center.component.scss']
 })
 export class TrendingCenterComponent  {
-  data = [2, 3, 3]
+  user_ids = [2, 3, 3]
   pen_ids = [
-    1, 2, 3, 3
+    1, 2, 3, 4
   ]
   constructor(
     private route: ActivatedRoute,
@@ -26,7 +26,7 @@ export class TrendingCenterComponent  {
   //     console.log('params', params)
   //     const userId = this.userData.getUserData()?.user_id;
   //     if (userId) {
-  //       const apiUrl = `http://localhost:3000/pen/getFollow/${userId}`;
+  //       const apiUrl = `http://localhost:3000/pen//${userId}`;
 
   //       axios.get(apiUrl)
   //         .then((response) => {

@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post("/getPenById", penController.getPenById);
 router.post("/createOrUpdatePen", penController.createOrUpdatePen);
-router.get("/getInfoPen/:id", penController.getInfoPen);
+router.get("/getInfoPen/", penController.getInfoPen);
 router.get("/getTrending", penController.getTrending);
 router.get("/getFollow/:id", penController.getFollow);
 router.get("/getPenByUser/:id", penController.getPenByUser);

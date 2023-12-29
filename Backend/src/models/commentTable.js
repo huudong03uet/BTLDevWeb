@@ -1,27 +1,31 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('./sequelize'); // Đặt đường dẫn đến kết nối Sequelize của bạn
+const sequelize = require('./sequelize');
+
+const User = require('./user');
+const Pen = require('./pen');
 
 const Comment = sequelize.define('comment_table', {
-  comment_id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  user_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  pen_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  comment: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  // Các cột khác cho bảng 'comment'
-}, {
-  tableName: "comment_table",
-});
+    comment_table_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    comment: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "pen",
+    }
+},
+    {
+        tableName: 'comment_table',
+    }
+);
+
+Comment.belongsTo(User, { foreignKey: 'user_id' });
+Comment.belongsTo(Pen, { foreignKey: 'pen_id' });
 
 module.exports = Comment;

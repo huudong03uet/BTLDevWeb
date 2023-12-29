@@ -1,23 +1,26 @@
-// userPenModel.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize'); 
+const User = require('./user');
 
-const Collection_user = sequelize.define('collection_user', {
-  collection_user_id: {
+const Pin = sequelize.define('pin', {
+  pin_id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  collection_id: {
-    type: DataTypes.INTEGER,
+  type: {
+    type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: "pen",
   },
-  user_id: {
+  pen_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
   }
 }, {
-    tableName: "collection_user",
+    tableName: "pin",
 });
 
-module.exports = Collection_user;
+Pin.belongsTo(User, { foreignKey: 'user_id' });
+
+module.exports = Pin;
