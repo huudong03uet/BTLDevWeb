@@ -1,7 +1,9 @@
 const Sequelize = require('sequelize');
-const { Op } = require("sequelize");
+// const { Op } = require("sequelize");
+
 import followController from './followControler';
 import User from '../models/user';
+import penController from './penController';
 
 let getInfoUser = async (req, res) => {
     try {
@@ -41,6 +43,27 @@ async function getUserByID(user_id) {
   }
 }
 
+async function countPenOfUser(arrUserID) {
+  try {
+    let updatedArrUserID = await Promise.all(arrUserID.map(async (item) => {
+      const pens = await penController._getPenByUser(item.user_id);
+      
+      if (!pens || pens.length === 0) {
+        return null;
+      }
+
+      return item;
+    }));
+
+    updatedArrUserID = updatedArrUserID.filter(item => item !== null);
+
+    return updatedArrUserID;
+  } catch (error) {
+    console.error('Error counting pens for users:', error);
+    throw error;
+  }
+}
+
 async function getAllUserExclude(arrUserID) {
   try {
     let users = await User.findAll({
@@ -51,6 +74,8 @@ async function getAllUserExclude(arrUserID) {
       },
       attributes: ['user_id', 'user_name', 'avatar_path']
     });
+
+    users = countPenOfUser(users);
 
     return users;
   } catch (error) {

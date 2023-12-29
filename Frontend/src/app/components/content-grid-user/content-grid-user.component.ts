@@ -26,6 +26,8 @@ export class ContentGridUserComponent implements OnInit {
       const apiUrl = `http://localhost:3000/pen/getPenByUserIDForFollow/${this.user[idx].user_id}`;
       axios.get(apiUrl).then((response) => {
         this.data = response.data;
+        console.log('user_id:', this.user[idx].user_id);
+        console.log('data_pen:', this.data);
         if(this.data == null){
           return;
         }
