@@ -4,7 +4,6 @@ const sequelize = require('./sequelize');
 const User = require('./user');
 const Pen = require('./pen');
 const Collection = require('./collection');
-
 const Pin = sequelize.define('pin', {
   pin_id: {
     type: DataTypes.INTEGER,

@@ -82,7 +82,9 @@ import { ScreenViewComponent } from './pages/project/screen-view/screen-view.com
 import { FooterProjectComponent } from './pages/project/footer-project/footer-project.component';
 import { CreateNewProjectComponent } from './components/create-new-project/create-new-project.component';
 import { DetailPenComponent } from './components/detail-pen/detail-pen.component';
+import { CodeBoxProjectComponent } from './pages/project/screen-code/code-box-project/code-box-project.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ListCollectionToAddPenComponent } from './components/list-collection-to-add-pen/list-collection-to-add-pen.component';
 
 @NgModule({
   declarations: [
@@ -158,6 +160,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FooterProjectComponent,
     CreateNewProjectComponent,
     DetailPenComponent,
+    CodeBoxProjectComponent,
+    ListCollectionToAddPenComponent,
   ],
   imports: [
     FormsModule,
@@ -232,6 +236,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       },
       {
         path: "support", component: SupportComponent
+      },
+      {
+        path: "test", component: ListCollectionToAddPenComponent
       },
       { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
     ]),

@@ -13,7 +13,7 @@ import { has, hasIn } from 'lodash';
 })
 export class ContentGridCollectionFullInfComponent implements OnInit {
   @Input() collection_id: any;
-  pen_ids = [];
+  pen_ids = [1, 2 , 3];
   collectionName: string = "";
   iframeContents: SafeHtml[] = ['', '', '', ''];
 

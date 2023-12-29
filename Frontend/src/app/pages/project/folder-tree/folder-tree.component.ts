@@ -11,6 +11,9 @@ export class FolderTreeComponent {
 
   project_name: string = "File Manager";
 
+  click_search: boolean = false;
+
+
   datas = [
 
 
@@ -41,7 +44,7 @@ export class FolderTreeComponent {
           code: "console.log('Hello World');",
           children: []
         }
-      ] 
+      ]
     },
     {
       id: 6,
@@ -102,6 +105,102 @@ export class FolderTreeComponent {
       return `<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="50" height="50" rx="5" fill="#0EBEFF"></rect><rect width="50" height="50" rx="5" fill="#AE63E4" fill-opacity="0.75"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M33.6 39a2.8 2.8 0 0 0 2.8-2.8V16.6L30.8 11h-14a2.8 2.8 0 0 0-2.8 2.8v22.4a2.8 2.8 0 0 0 2.8 2.8h16.8Zm-2.8-18.2a1.4 1.4 0 1 0 0-2.8H19.6a1.4 1.4 0 1 0 0 2.8h11.2Zm1.4 4.2a1.4 1.4 0 0 1-1.4 1.4H19.6a1.4 1.4 0 1 1 0-2.8h11.2a1.4 1.4 0 0 1 1.4 1.4Zm-1.4 7a1.4 1.4 0 1 0 0-2.8H19.6a1.4 1.4 0 1 0 0 2.8h11.2Z" fill="#000"></path></svg>`
     }
     return `<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="50" height="50" rx="5" fill="#FFDD40"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M22.263 11.845c0 .89-.633 1.654-1.506 1.81-4 .724-7.067 5.367-7.067 10.917s3.067 10.19 7.067 10.914a1.847 1.847 0 0 1-.684 3.623C14.297 38.035 10 31.859 10 24.572c0-7.29 4.297-13.466 10.073-14.54a1.846 1.846 0 0 1 2.19 1.813Zm6.307 0a1.85 1.85 0 0 1 2.19-1.813c5.777 1.073 10.073 7.25 10.073 14.54 0 7.287-4.296 13.467-10.073 14.537a1.846 1.846 0 0 1-.683-3.623c4-.724 7.066-5.367 7.066-10.914 0-5.55-3.066-10.193-7.066-10.916a1.836 1.836 0 0 1-1.507-1.81Z" fill="#282828"></path></svg>`
+  }
+
+
+  changeStatusNav() {
+    this.click_search = !this.click_search;
+  }
+  search: string = "";
+
+
+  list_files_search: number[] = [];
+
+  // list has: folder1, folder1/file1, folder1/folder2/file2, folder1/folder2/file3, folder3/file4
+
+  searchParentChild(obj: any, searchValue: string) {
+    for (let i = 0; i < obj.length; i++) {
+      if (obj[i].title.includes(searchValue)) {
+        this.list_files_search.push(obj[i].id);
+      }
+      if (obj[i].children.length > 0) {
+        this.searchParentChild(obj[i].id, searchValue);
+      }
+
+    }
+
+
+  }
+  link_files_search: string[] = [];
+
+
+  searchFiles(searchValue: string) {
+    if (searchValue == "") {
+      this.link_files_search = [];
+      this.list_files_search = [];
+      return;
+    }
+
+
+
+    this.search = searchValue;
+    this.list_files_search = [];
+    for (let i = 0; i < this.datas.length; i++) {
+      if (this.datas[i].title.includes(searchValue)) {
+        this.list_files_search.push(this.datas[i].id);
+      }
+      if (this.datas[i].children.length > 0) {
+        this.searchParentChild(this.datas[i].children, searchValue);
+      }
+    }
+
+    this.convertListToLink();
+    console.log(this.link_files_search)
+  }
+
+  // convert list_files_search to link_files_search
+  convertListToLink() {
+    this.link_files_search = [];
+    for (let i = 0; i < this.list_files_search.length; i++) {
+      this.link_files_search.push(this.convertIdToLink(this.list_files_search[i]));
+    }
+  }
+  // link file search: [folder/file1, folder/folder2/file2, folder/folder2/file3, folder/file4]
+
+  convertIdToLink(id: number) {
+    let link = "";
+    for (let i = 0; i < this.datas.length; i++) {
+      if (this.datas[i].id == id) {
+        link += this.datas[i].title;
+        break;
+      }
+      if (this.datas[i].children.length > 0) {
+        link += this.convertIdToLinkChild(this.datas[i].children, id);
+        if (link != "") {
+          link = this.datas[i].title + "/" + link;
+          break;
+        }
+      }
+    }
+    return link;
+  }
+
+  convertIdToLinkChild(obj: any, id: number) {
+    let link = "";
+    for (let i = 0; i < obj.length; i++) {
+      if (obj[i].id == id) {
+        link += obj[i].title;
+        break;
+      }
+      if (obj[i].children.length > 0) {
+        link += this.convertIdToLinkChild(obj[i].children, id);
+        if (link != "") {
+          link = obj[i].title + "/" + link;
+          break;
+        }
+      }
+    }
+    return link;
   }
 }
 
