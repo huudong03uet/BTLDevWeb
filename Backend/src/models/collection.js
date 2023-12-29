@@ -1,5 +1,6 @@
+// models/collection.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('./sequelize'); 
+const sequelize = require('./sequelize');
 const User = require('./user');
 
 const Collection = sequelize.define('collection', {
@@ -21,9 +22,13 @@ const Collection = sequelize.define('collection', {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false,
-  }
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 }, {
-    tableName: "collection",
+  tableName: 'collection',
 });
 
 Collection.belongsTo(User, { foreignKey: 'user_id' });

@@ -83,6 +83,7 @@ import { FooterProjectComponent } from './pages/project/footer-project/footer-pr
 import { CreateNewProjectComponent } from './components/create-new-project/create-new-project.component';
 import { DetailPenComponent } from './components/detail-pen/detail-pen.component';
 import { CodeBoxProjectComponent } from './pages/project/screen-code/code-box-project/code-box-project.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -241,6 +242,7 @@ import { CodeBoxProjectComponent } from './pages/project/screen-code/code-box-pr
     MatToolbarModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
