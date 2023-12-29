@@ -1,28 +1,37 @@
 const Sequelize = require('sequelize');
 const { Op } = require("sequelize");
-import followController from './followControler';
-import User from '../models/user';
+const Follow = require('../models/followTable');
+const User = require('../models/user');
 
-let getInfoUser = async (req, res) => {
-    try {
-      const user_id = req.query.user_id;
-  
-      // Find the user by user_id excluding the password field
-      const user = await User.findByPk(user_id, {
-        attributes: { exclude: ['password'] },
-      });
-  
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-  
-      res.json(user);
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+async function getInfoUser(req, res) {
+  try {
+    const user_id = req.query.user_id;
+
+    const user = await User.findByPk(user_id, {
+      attributes: ['user_id', 'user_name', 'full_name', 'avatar_path'],
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
     }
-  }
 
+    // Get followers and following counts
+    const followers_count = await Follow.count({ where: { user_id_2: user_id } });
+    const following_count = await Follow.count({ where: { user_id_1: user_id } });
+
+    res.json({
+      user_id: user.user_id,
+      user_name: user.user_name,
+      full_name: user.full_name,
+      avatar_path: user.avatar_path,
+      followers_count,
+      following_count,
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
 async function getUserByID(user_id) {
   try {
@@ -60,17 +69,12 @@ async function getAllUserExclude(arrUserID) {
 }
 
 async function getNotFollow(req, res) {
-  // console.log(1)
   const user_id = req.params.id;
-  // console.log('abcxyy', user_id);
 
   try {
     const getOneUser = await getUserByID(user_id);
-
-    const getFollowUsers = await followController.getFollowByUserID(getOneUser);
-
+    const getFollowUsers = await getFollowByUserID(getOneUser);
     const getAllNotFollow = await getAllUserExclude(getFollowUsers);
-
     const uniqueNotFollow = [...new Set(getAllNotFollow)];
 
     res.json(uniqueNotFollow);
@@ -81,5 +85,6 @@ async function getNotFollow(req, res) {
 }
 
 module.exports = {
-  getNotFollow, getInfoUser
+  getNotFollow,
+  getInfoUser
 };
