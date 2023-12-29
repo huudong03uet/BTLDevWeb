@@ -3,6 +3,25 @@ const { Op } = require("sequelize");
 const Follow = require('../models/followTable');
 const User = require('../models/user');
 
+// Add the missing function
+async function getFollowByUserID(user_id) {
+  try {
+    const getUser = await Follow.findAll({
+      where: { user_id_1: user_id },
+    });
+
+    if (getUser) {
+      const userIDs = getUser.map((user) => user.user_id_2);
+      return userIDs;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error('Get follow by id error:', error);
+    throw error;
+  }
+}
+
 async function getInfoUser(req, res) {
   try {
     const user_id = req.query.user_id;
