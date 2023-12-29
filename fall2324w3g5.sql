@@ -19,7 +19,7 @@
 -- Current Database: `fall2324w3g5`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `fall2324w3g5` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `fall2324w3g5` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `fall2324w3g5`;
 
@@ -121,18 +121,21 @@ DROP TABLE IF EXISTS `comment_table`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comment_table` (
-  `comment_id` int NOT NULL,
+  `comment_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `pen_id` int NOT NULL,
-  `comment` text COLLATE utf8mb4_general_ci,
-  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `collection_id` int DEFAULT NULL,
+  `pen_id` int DEFAULT NULL,
+  `comment` text NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `type` varchar(100) COLLATE utf8mb4_general_ci DEFAULT 'pen',
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'pen',
   PRIMARY KEY (`comment_id`),
-  KEY `fk_comment_user` (`user_id`),
-  KEY `fk_comment_pen` (`pen_id`),
-  CONSTRAINT `fk_comment_pen` FOREIGN KEY (`pen_id`) REFERENCES `pen` (`pen_id`),
-  CONSTRAINT `fk_comment_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+  KEY `FK_comment_table_user` (`user_id`),
+  KEY `FK_comment_table_pen` (`pen_id`),
+  KEY `FK_comment_table_collection` (`collection_id`),
+  CONSTRAINT `FK_comment_table_collection` FOREIGN KEY (`collection_id`) REFERENCES `collection` (`collection_id`),
+  CONSTRAINT `FK_comment_table_pen` FOREIGN KEY (`pen_id`) REFERENCES `pen` (`pen_id`),
+  CONSTRAINT `FK_comment_table_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -186,16 +189,19 @@ DROP TABLE IF EXISTS `like_table`;
 CREATE TABLE `like_table` (
   `like_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `pen_id` int NOT NULL,
+  `collection_id` int DEFAULT NULL,
+  `pen_id` int DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'pen',
   PRIMARY KEY (`like_id`),
-  KEY `fk_like_user` (`user_id`),
-  KEY `fk_like_pen` (`pen_id`),
-  CONSTRAINT `fk_like_pen` FOREIGN KEY (`pen_id`) REFERENCES `pen` (`pen_id`),
-  CONSTRAINT `fk_like_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FK_like_table_user` (`user_id`),
+  KEY `FK_like_table_pen` (`pen_id`),
+  KEY `FK_like_table_collection` (`collection_id`),
+  CONSTRAINT `FK_like_table_collection` FOREIGN KEY (`collection_id`) REFERENCES `collection` (`collection_id`),
+  CONSTRAINT `FK_like_table_pen` FOREIGN KEY (`pen_id`) REFERENCES `pen` (`pen_id`),
+  CONSTRAINT `FK_like_table_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -252,13 +258,16 @@ DROP TABLE IF EXISTS `pin`;
 CREATE TABLE `pin` (
   `pin_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `pen_id` int NOT NULL,
+  `collection_id` int DEFAULT NULL,
+  `pen_id` int DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `type` varchar(100) COLLATE utf8mb4_general_ci DEFAULT 'pen',
+  `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'pen',
   PRIMARY KEY (`pin_id`),
   KEY `FK_pin_user` (`user_id`),
   KEY `FK_pin_pen` (`pen_id`),
+  KEY `FK_pin_collection` (`collection_id`),
+  CONSTRAINT `FK_pin_collection` FOREIGN KEY (`collection_id`) REFERENCES `collection` (`collection_id`),
   CONSTRAINT `FK_pin_pen` FOREIGN KEY (`pen_id`) REFERENCES `pen` (`pen_id`),
   CONSTRAINT `FK_pin_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -311,17 +320,20 @@ DROP TABLE IF EXISTS `view_table`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `view_table` (
-  `views_id` int NOT NULL,
+  `view_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `pen_id` int NOT NULL,
+  `collection_id` int DEFAULT NULL,
+  `pen_id` int DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `type` varchar(100) COLLATE utf8mb4_general_ci DEFAULT 'pen',
-  PRIMARY KEY (`views_id`),
-  KEY `fk_views_user` (`user_id`),
-  KEY `fk_views_pen` (`pen_id`),
-  CONSTRAINT `fk_views_pen` FOREIGN KEY (`pen_id`) REFERENCES `pen` (`pen_id`),
-  CONSTRAINT `fk_views_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+  `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'pen',
+  PRIMARY KEY (`view_id`),
+  KEY `FK_view_table_user` (`user_id`),
+  KEY `FK_view_table_pen` (`pen_id`),
+  KEY `FK_view_table_collection` (`collection_id`),
+  CONSTRAINT `FK_view_table_collection` FOREIGN KEY (`collection_id`) REFERENCES `collection` (`collection_id`),
+  CONSTRAINT `FK_view_table_pen` FOREIGN KEY (`pen_id`) REFERENCES `pen` (`pen_id`),
+  CONSTRAINT `FK_view_table_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -331,7 +343,6 @@ CREATE TABLE `view_table` (
 
 LOCK TABLES `view_table` WRITE;
 /*!40000 ALTER TABLE `view_table` DISABLE KEYS */;
-INSERT INTO `view_table` VALUES (0,2,1,'2023-12-28 07:10:57','2023-12-28 07:10:57','0');
 /*!40000 ALTER TABLE `view_table` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -344,4 +355,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-29 12:49:39
+-- Dump completed on 2023-12-29 23:36:32
