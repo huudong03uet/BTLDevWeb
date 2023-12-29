@@ -1,4 +1,4 @@
-<div class="code-grid-container" (mouseenter)="onMouseEnterGridCode()" (mouseleave)="onMouseLeaveGridCode()">
+<div *ngIf="data"  class="code-grid-container" (mouseenter)="onMouseEnterGridCode()" (mouseleave)="onMouseLeaveGridCode()">
 
    <div class="center-container-grid-code" >
     <div class="link" (mousedown)="handlePageClick()">

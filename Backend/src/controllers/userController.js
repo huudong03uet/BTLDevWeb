@@ -16,7 +16,7 @@ let getInfoUser = async (req, res) => {
         return res.status(404).json({ error: 'User not found' });
       }
   
-      res.json(user);
+      res.status(200).json(user);
     } catch (error) {
       console.error('Error:', error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -73,7 +73,7 @@ async function getNotFollow(req, res) {
 
     const uniqueNotFollow = [...new Set(getAllNotFollow)];
 
-    res.json(uniqueNotFollow);
+    res.status(200).json(uniqueNotFollow);
   } catch (error) {
     console.error('Error fetching pen ids:', error);
     throw error;

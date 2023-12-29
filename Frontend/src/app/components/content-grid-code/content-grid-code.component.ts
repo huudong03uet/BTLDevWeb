@@ -65,7 +65,6 @@ export class ContentGridCodeComponent implements OnInit {
       .catch((error) => {
         console.error('Error:', error);
       });
-      this.loadPinAndFollow();
   }
 
   loadPinAndFollow() {
