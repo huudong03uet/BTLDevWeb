@@ -65,7 +65,6 @@ export class ContentGridCodeComponent implements OnInit {
       .catch((error) => {
         console.error('Error:', error);
       });
-      this.loadPinAndFollow();
   }
 
   loadPinAndFollow() {
@@ -107,6 +106,18 @@ export class ContentGridCodeComponent implements OnInit {
       }
     }
 
+    if (this.hasListCollectionAdd == true) {
+      var x = document.getElementsByClassName("list-collection-add");
+      if (x != null) {
+        for (let i = 0; i < x.length; i++) {
+          if (x.item(i)!.classList.contains("show")) {
+            x.item(i)!.classList.remove("show");
+            this.hasListCollectionAdd = false;
+          }
+        }
+      }
+    }
+
 
   }
 
@@ -123,6 +134,29 @@ export class ContentGridCodeComponent implements OnInit {
           } else {
             x.item(i)!.classList.add("show");
             this.hasInformationPen = true;
+          }
+
+        } else {
+          x.item(i)!.classList.remove("show");
+        }
+      }
+    }
+  }
+
+
+
+  hasListCollectionAdd = false;
+  onClickAddCollection() {
+    var x = document.getElementsByClassName("list-collection-add");
+    if (x != null) {
+      for (let i = 0; i < x.length; i++) {
+        if (x.item(i)!.classList.contains(this.random_number.toString())) {
+          if (x.item(i)!.classList.contains("show")) {
+            x.item(i)!.classList.remove("show");
+            this.hasListCollectionAdd = false;
+          } else {
+            x.item(i)!.classList.add("show");
+            this.hasListCollectionAdd = true;
           }
 
         } else {

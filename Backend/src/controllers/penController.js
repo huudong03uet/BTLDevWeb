@@ -135,7 +135,7 @@ async function getInfoPen(req, res) {
       liked: likeRecord!=null,
     };
 
-    res.json(result);
+    res.status(200).json(result);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -157,7 +157,7 @@ async function getTrending(req, res) {
     })
 
     const penIdValues = penIds.map((pen) => pen.pen_id);
-    res.json(penIdValues);
+    res.status(200).json(penIdValues);
   } catch (error) {
     console.error('Error fetching pen ids:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -188,10 +188,10 @@ async function getPenByUserIDForFollow(req, res) {
     } else if(pens.length == 1) {
       pens.push(pens[0]);
     } else {
-      res.json(null)
+      res.status(200).json(null)
     }
     
-    res.json(pens);
+    res.status(200).json(pens);
 
 
   } catch (e) {
@@ -213,9 +213,9 @@ async function getFollow(req, res) {
 
       pens = pens.filter(pen => pen.length);
 
-      res.json(pens.flat());
+      res.status(200).json(pens.flat());
     } else {
-      res.json([]);
+      res.status(200).json([]);
     }
 
   } catch (e) {

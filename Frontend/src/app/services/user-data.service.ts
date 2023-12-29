@@ -1,4 +1,4 @@
-import { Injectable, OnInit, importProvidersFrom } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import axios from 'axios';
 
@@ -6,9 +6,10 @@ import axios from 'axios';
   providedIn: 'root'
 })
 export class UserDataService {
-  private userData: User | null = null;  
+  private userData: User | null = null;
+
   constructor() {
-    const token = localStorage.getItem("dataUser"); 
+    const token = localStorage.getItem("dataUser");
 
     if (typeof token === 'string') {
       this.userData = JSON.parse(token);
@@ -22,5 +23,14 @@ export class UserDataService {
 
   getUserData(): User | null {
     return this.userData;
+  }
+
+  getUserInfoFromBackend(user_id: number): Promise<User> {
+    return axios.get<User>(`http://localhost:3000/user/getInfoUser?user_id=${user_id}`)
+      .then(response => response.data)
+      .catch(error => {
+        console.error('Error fetching user information:', error);
+        throw error;
+      });
   }
 }

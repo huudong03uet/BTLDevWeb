@@ -2,14 +2,14 @@
     <section id="main-section">
         <div class="input-section">
             <div class="editor-field html-field">
-                <label><i class="fa-brands fa-html5 fa-lg"></i> HTML</label>
+                <label><i class="fa-brands fa-html5 fa-lg" style="color: red;"></i> HTML</label>
                 <textarea #htmlTextarea></textarea>
             </div>
 
             <div class="editor-field stylesheet-field">
                 <div class="stylesheet-header">
                     <label><i
-                            [ngClass]="stylesheetLanguage === 'css' ? 'fa-brands fa-css3-alt fa-lg' : 'fa-brands fa-sass fa-lg'"></i>
+                            [ngClass]="stylesheetLanguage === 'css' ? 'fa-brands fa-css3-alt fa-lg' : 'fa-brands fa-sass fa-lg'" style="color:aqua"></i>
                         {{ stylesheetLanguage.toUpperCase() }}</label>
                     <select class="stylesheet-select" [(ngModel)]="stylesheetLanguage">
                         <option value="css">CSS</option>
@@ -20,7 +20,7 @@
             </div>
 
             <div class="editor-field js-field">
-                <label><i class="fa-brands fa-js fa-lg"></i> JS</label>
+                <label><i class="fa-brands fa-js fa-lg" style="color: yellow;"></i> JS</label>
                 <textarea #jsTextarea></textarea>
             </div>
         </div>
@@ -39,6 +39,9 @@
         </div>
     </div>    
     
-    <button (click)="toggleConsole()">Console</button>
+    <div class="button-console-log-div">
+        <button class="console-button" (click)="toggleConsole()">Console</button>
+
+    </div>
     <button *ngIf="showConsole" (click)="clearConsole()" class="clear-btn">Clear Console</button>
 </div>

@@ -1,24 +1,22 @@
 <div class="content-container">
     <div class="background-profile">
-        
-        <img class="wallpaper" src="../../../../../assets/images/background_profile.jpg">
-        <div class="profile-avatar">
-            <div class="profile-header-name">
-                <h1 id="user-header-name">
-                    <span class="user-header-name">Nguyễn Văn A</span>
-                </h1>
-            </div>
-            <div class="profile-name">
-                <span class="user-name">@A.gmail.com</span>
-            </div>
-            <img class="avatar-profile" src="https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=80&height=80">
-            <div class ="follower-num">
-                <span class="follower-num_">0 </span>
-                <span class="follower-text">Followers</span>
-                <span class="follower-num_">0 </span>
-                <span class="follower-text">Following</span>
-            </div>
-    </div>
-        <!-- <img class="avatar-profile" src="https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=80&height=80"> -->
+      <img class="wallpaper" src="../../../../../assets/images/background_profile.jpg">
+      <div class="profile-avatar">
+        <div class="profile-header-name">
+          <h1 id="user-header-name">
+            <span class="user-name">{{ user.user_name }}</span>
+          </h1>
+        </div>
+        <div class="user-id">
+            <span>@{{ user.user_id }}</span>
+          </div>
+        <img class="avatar-profile" [src]="user.avatar_path || 'https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=80&height=80'">
+        <div class="follower-num">
+          <span class="follower-num_">{{ user.followers_count }} </span>
+          <span class="follower-text">Followers</span>
+          <span class="follower-num_">{{ user.following_count }} </span>
+          <span class="follower-text">Following</span>
+        </div>
+      </div>
     </div>
 </div>
