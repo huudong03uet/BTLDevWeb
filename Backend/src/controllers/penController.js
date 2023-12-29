@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-const { Op } = require("sequelize");
 
 import User from "../models/user";
 import Pen from "../models/pen";
@@ -8,6 +7,8 @@ import Comment from "../models/commentTable";
 import Like from "../models/likeTable";
 import Follow from "../models/followTable";
 import Pin from "../models/pin";
+
+import followController, { getFollowByUserID } from './followControler';
 
 let createOrUpdatePen = async (req, res) => {
     try {
@@ -66,6 +67,20 @@ async function getPenById(req, res) {
     }
 }
 
+async function _getPenByUser(user_id) {
+  try {
+    const pen = await Pen.findAll({ 
+      where: { user_id: user_id },
+      attributes: ['pen_id']
+    });
+    const penIdValues = pen.map((pen) => pen.pen_id);
+    return penIdValues;
+  } catch (error) {
+    console.error(error);
+    throw e;
+  }
+}
+
 async function getPenByUser(req, res) {
   const user_id  = req.params.id;
   try {
@@ -79,7 +94,6 @@ async function getPenByUser(req, res) {
 }
 
 async function getInfoPen(req, res) {
-
   const penId = req.query.pen_id;
   const user_id = req.query.user_id;
   try {
@@ -95,7 +109,6 @@ async function getInfoPen(req, res) {
         where: { user_id: pen.user_id}
       });  
     } 
-    console.log(userPen);
     const likeRecord = await Like.findOne({
       where: {
           user_id: user_id,
@@ -147,35 +160,71 @@ async function getTrending(req, res) {
   }
 }
 
-async function getFollow(req, res) {
-  const user_id_1 = req.params.id;
-  // console.log('abcxyy', user_id_1);
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
+async function getPenByUserIDForFollow(req, res) {
+  const user_id = req.params.id;
+  
   try {
-    let penIds = await Follow.findAll({
-      where: {
-        user_id_1: user_id_1,
-      },
+    let pens = await Pen.findAll({
+      where: { user_id: user_id },
+      attributes: ['pen_id', 'html_code', 'js_code', 'css_code', 'type_css'],
+      raw: true, 
     });
 
-    penIds = penIds.map((x) => x.user_id_2);
+    // pens = shuffleArray(pens);
+    if (pens.length > 0) {
+      pens = pens.slice(0, 2);
+    } else if(pens.length == 1) {
+      pens.push(pens[0]);
+    } else {
+      res.json(null)
+    }
+    
+    res.json(pens);
 
-    let userPenRecords = await Pen.findAll({
-      where: {
-        user_id: penIds,
-      },
-      attributes: ['pen_id'],
-    });
 
-    penIds = userPenRecords.map((x) => x.pen_id);
+  } catch (e) {
+    console.log('get pen for follow error:', e);
+  }
+}
 
-    res.json(penIds);
-  } catch (error) {
-    console.error('Error fetching pen ids:', error);
-    throw error;
+async function getFollow(req, res) {
+  const user_id = req.params.id;
+  try {
+    const followUsers = await followController.getFollowByUserID(user_id);
+
+    if (followUsers.length > 0) {
+      const penPromises = followUsers.map(async (followUser) => {
+        return await _getPenByUser(followUser);
+      });
+
+      let pens = await Promise.all(penPromises);
+
+      pens = pens.filter(pen => pen.length);
+
+      res.json(pens.flat());
+    } else {
+      res.json([]);
+    }
+
+  } catch (e) {
+    console.log('get follow pen for follow error:', e);
   }
 }
 
 module.exports = {
-    createOrUpdatePen, getPenById, getInfoPen, getTrending, getFollow, getPenByUser
+    createOrUpdatePen, 
+    getPenById, 
+    getInfoPen, 
+    getTrending, 
+    getPenByUser, 
+    getPenByUserIDForFollow,
+    getFollow,
 };

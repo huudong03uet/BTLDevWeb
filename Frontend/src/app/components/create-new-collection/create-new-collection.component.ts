@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import axios, { AxiosError } from 'axios';
+import { UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
   selector: 'app-create-new-collection',
@@ -12,7 +14,7 @@ export class CreateNewCollectionComponent {
   createForm: FormGroup;
   maxCharacterLimit = 1000;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private userData: UserDataService) {
     this.createForm = this.fb.group({
       collectionTitle: ['', [Validators.required, Validators.maxLength(this.maxCharacterLimit)]],
       collectionDescription: ['', [Validators.maxLength(this.maxCharacterLimit)]],
@@ -23,17 +25,36 @@ export class CreateNewCollectionComponent {
     this.close.emit();
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.createForm.valid) {
-      // Implement your logic to create a new collection
-      console.log('Title:', this.createForm.value.collectionTitle);
-      console.log('Description:', this.createForm.value.collectionDescription);
+      try {
+        const user = this.userData.getUserData();
+        const userId = user?.user_id;
 
-      // Optionally, you can reset the form fields
-      this.createForm.reset();
+        if (!userId) {
+          console.error('User ID not available.');
+          return;
+        }
 
-      // Close the form
-      this.onCloseCreateNewCollection();
+        const response = await axios.post(`http://localhost:3000/your-work/collections/`, {
+          name: this.createForm.value.collectionTitle,
+          user_id: userId,
+          // Add other fields if needed
+        });
+
+        console.log('Collection created successfully:', response.data.collection);
+
+        this.createForm.reset();
+        this.onCloseCreateNewCollection();
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          console.error('Error creating collection:', error);
+          const errorMessage = (error as AxiosError<{ error?: string }>).response?.data?.error;
+          console.error('Error message:', errorMessage || 'Unknown error');
+        } else {
+          console.error('Error creating collection:', error);
+        }
+      }
     }
   }
 }

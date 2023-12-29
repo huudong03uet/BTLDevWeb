@@ -10,9 +10,9 @@ import axios from 'axios';
   styleUrls: ['./trending-center.component.scss']
 })
 export class TrendingCenterComponent  {
-  user_ids = [2, 3, 3]
+  data = [2, 3, 3]
   pen_ids = [
-    1, 2, 3, 4
+    1, 2, 3, 3
   ]
   constructor(
     private route: ActivatedRoute,
@@ -20,26 +20,32 @@ export class TrendingCenterComponent  {
   ) { }
 
 
-  //  lỗi gì đó chỗ này :v
-  // ngOnInit(): void {
-  //   this.route.params.subscribe((params) => {
-  //     console.log('params', params)
-  //     const userId = this.userData.getUserData()?.user_id;
-  //     if (userId) {
-  //       const apiUrl = `http://localhost:3000/pen//${userId}`;
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
 
-  //       axios.get(apiUrl)
-  //         .then((response) => {
-  //           this.data = response.data;
-  //           console.log('abcxyz', this.data)
-  //         })
-  //         .catch((error) => {
-  //           console.error('Error:', error);
-  //         });
-  //     } else {
-  //       console.error('User ID not available.');
-  //     }
-  //   });
-  // }
+      const userId = this.userData.getUserData()?.user_id;
+      if (userId) {
+        let apiUrl = `http://localhost:3000/user/getNotFollow/${userId}`;
+
+        axios.get(apiUrl).then((response) => {
+          this.data = response.data;
+          console.log('user not follow', this.data)
+        }).catch((error) => {
+          console.error('Error:', error);
+        });
+
+        apiUrl = `http://localhost:3000/pen/getFollow/${userId}`;
+        axios.get(apiUrl).then((response) => {
+          this.pen_ids = response.data;
+          console.log('pen not follow', this.data)
+        }).catch((error) => {
+          console.error('Error:', error);
+        });
+      } else {
+        console.error('User ID not available.');
+      }
+
+
+    });
+  }
 }
-

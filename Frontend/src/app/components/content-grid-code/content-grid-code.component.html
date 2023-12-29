@@ -70,7 +70,7 @@
             {{data.like}}
         </button>
 
-        <button>
+        <button (click)="openDetailPen()">
             <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-chat-right-dots" viewBox="0 0 16 16">
                 <path
@@ -100,3 +100,4 @@
     </div>
 
 </div>
+<app-detail-pen [pen_id]="pen_id" (closeDetailPen)="handleChildDetailPenClose()" *ngIf="childDetailPenVisible"></app-detail-pen>

@@ -13,10 +13,19 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(express.static('../Frontend/dist')); 
 app.use(morgan("combined"));
 
 
 route(app);
+
+app.get('/hello', (req, res) => {
+  res.send("ok")
+});
+
+app.get('*', (req, res) => {
+  res.sendFile('index.html', { root: '../Frontend/dist/btlweb' });
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port localhost:${PORT}`);

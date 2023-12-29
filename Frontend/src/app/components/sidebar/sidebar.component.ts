@@ -13,6 +13,7 @@ export class SidebarComponent {
 
   childVisible: boolean = false;
   childPinnedVisible: boolean = false;
+  childProjectVisible: boolean = false;
 
   openCreateNewComponent() {
     this.childVisible = !this.childVisible;
@@ -27,6 +28,14 @@ export class SidebarComponent {
   }
   handleChildPinnedClose() {
     this.childPinnedVisible = false;
+  }
+
+  openCreateNewProject() {
+    this.childProjectVisible = !this.childProjectVisible;
+  }
+
+  handleChildProjectClose() {
+    this.childProjectVisible = false;
   }
 
 

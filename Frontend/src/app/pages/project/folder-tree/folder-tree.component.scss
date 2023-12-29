@@ -1,0 +1,44 @@
+.center-folder-tree {
+  background-color: #252731;
+
+  .folder-tree-project {
+    h2 {
+      margin: 1rem;
+      color: white;
+      text-transform: none;
+      font-size: 1.125rem;
+      padding-bottom: 0.625rem;
+      margin-bottom: 0;
+      border-bottom: 3px solid hsl(227.37deg 12.26% 30.39%);
+    }
+  }
+}
+
+ul {
+  padding-left: 1rem;
+  cursor: pointer;
+}
+
+li {
+  list-style: none;
+  color: #efefef;
+  opacity: 0.9;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  padding: 2px 0;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+svg {
+  width: 0.9em;
+  height: 1em;
+  position: relative;
+  left: 0.1rem;
+  bottom: 0.1rem;
+  margin-right: 0.5rem;
+}

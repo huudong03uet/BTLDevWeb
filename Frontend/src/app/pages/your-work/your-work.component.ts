@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
@@ -8,7 +8,7 @@ import axios from 'axios';
   templateUrl: './your-work.component.html',
   styleUrls: ['./your-work.component.scss']
 })
-export class YourWorkComponent implements OnInit  {
+export class YourWorkComponent implements OnInit, AfterViewChecked  {
   data: any;
 
   constructor(
@@ -17,7 +17,38 @@ export class YourWorkComponent implements OnInit  {
     private router: Router
     ) {}
 
+    currentURL = "";
+
+
+    addClassActive() {
+      const links = document.querySelectorAll('.home-your-work-button');
+      links.forEach(link => {
+  
+        // <a class="link-settings account">Account</a>
+        //  currentURL = http://localhost:4200/your-work/account
+        var check_currentURL = this.currentURL.split('/')[4];
+        if (link.classList.contains(check_currentURL + "-button")) {
+          link.classList.add('active');
+
+  
+        } else {
+          link.classList.remove('active');
+
+        }
+      });
+    }
+
+
+    ngAfterViewChecked() {
+      if (this.currentURL != window.location.href) {
+        this.currentURL = window.location.href;
+        this.addClassActive();
+      }
+
+    }
   ngOnInit(): void {
+
+
     this.route.params.subscribe((params) => {
       const userId = this.userData.getUserData()?.user_id; 
       if (userId) {

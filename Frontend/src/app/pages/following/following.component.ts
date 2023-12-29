@@ -12,27 +12,9 @@ export class FollowingComponent implements OnInit {
   data: any;
 
   constructor(
-    private route: ActivatedRoute,
-    private userData: UserDataService,
     ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      const userId = this.userData.getUserData()?.user_id; 
-      if (userId) {
-        const apiUrl = `http://localhost:3000/pen/getFollow/${userId}`;
-        
-        axios.get(apiUrl)
-          .then((response) => {
-            this.data = response.data;
-            console.log('abcxyz', this.data)
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
-      } else {
-        console.error('User ID not available.');
-      }
-    });
+    
   }
 }

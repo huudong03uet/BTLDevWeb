@@ -4,6 +4,9 @@ import authRouter from "./auth";
 import penRouter from "./pen";
 import girdRouter from "./grid"
 import userRoute from "./user";
+import collectionRouter from "./collection";
+import userRouter from "./user";
+//import userRoute from "./user";
 
 // vậy nếu muốn gọi đến API của authRouter thì cần gọi đến http://localhost:3000/auth/...
 function route(app) {
@@ -11,6 +14,10 @@ function route(app) {
     app.use("/pen", penRouter);
     app.use("/grid", girdRouter);
     app.use("/user", userRoute);
+    app.use("/user", userRouter);
+    app.use("/your-work", collectionRouter);
 }
 
 module.exports = route;
+
+
