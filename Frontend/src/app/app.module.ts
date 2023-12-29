@@ -82,6 +82,7 @@ import { ScreenViewComponent } from './pages/project/screen-view/screen-view.com
 import { FooterProjectComponent } from './pages/project/footer-project/footer-project.component';
 import { CreateNewProjectComponent } from './components/create-new-project/create-new-project.component';
 import { DetailPenComponent } from './components/detail-pen/detail-pen.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -239,6 +240,7 @@ import { DetailPenComponent } from './components/detail-pen/detail-pen.component
     MatToolbarModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

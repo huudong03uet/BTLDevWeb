@@ -1,6 +1,8 @@
 import { Component, HostListener, Input, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
 import axios from 'axios';
 import { has, hasIn } from 'lodash';
 
@@ -11,13 +13,9 @@ import { has, hasIn } from 'lodash';
 })
 export class ContentGridCollectionFullInfComponent implements OnInit {
   @Input() collection_id: any;
-  pen_ids= [3, 2];
-  // data: any;
-  // datas_pen: any[] | undefined;
-  namePen: any;
-
-  // init with 4 element
-  iframeContents: SafeHtml[] = ['','','',''];
+  pen_ids = [];
+  collectionName: string = "";
+  iframeContents: SafeHtml[] = ['', '', '', ''];
 
   data_collection = {
     "like": 0,
@@ -30,18 +28,17 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
+    private http: HttpClient,
   ) { }
 
 
-  get_data_pen(pen_id: number, index: number){
+  get_data_pen(pen_id: number, index: number) {
     // init data -> data = response.data
     let data_pen: any;
     const apiUrl = `http://localhost:3000/pen/getInfoPen/${pen_id}`;
     axios.get(apiUrl)
       .then((response) => {
         data_pen = response.data;
-        // console.log('Data:', this.data);
-        this.namePen = (data_pen.pen.name == null) ? "Chưa đặt tên" : data_pen.pen.name;
         const iframeContent = `
         <html>
           <head>
@@ -54,9 +51,6 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
           </body>
         </html>
       `;
-        // this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
-
-        // this.datas_pen?.push(data_pen);
         this.iframeContents[index] = (this.sanitizer.bypassSecurityTrustHtml(iframeContent));
       })
       .catch((error) => {
@@ -82,86 +76,42 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
       </body>
     </html>
   `;
-    // this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
 
-  this.iframeContents[index] = (this.sanitizer.bypassSecurityTrustHtml(iframeContent));
-    
-  }
-
- ngOnInit(): void {
-    // if (this.pen_ids.length == 0) {
-    //   this.get_data_pen_null(0);
-    //   this.get_data_pen_null(1);
-    //   this.get_data_pen_null(2);
-    //   this.get_data_pen_null(3);
-    // }
-    // if (this.pen_ids.length == 1) {
-    //   this.get_data_pen(this.pen_ids[0], 0);
-    //   this.get_data_pen_null(1);
-    //   this.get_data_pen_null(2);
-    //   this.get_data_pen_null(3);
-    // }
-    // if (this.pen_ids.length == 2) {
-    //   this.get_data_pen(this.pen_ids[0], 0);
-    //   this.get_data_pen(this.pen_ids[1], 1);
-    //   this.get_data_pen_null(2);
-    //   this.get_data_pen_null(3);
-    // }
-    // if (this.pen_ids.length == 3) {
-    //   this.get_data_pen(this.pen_ids[0], 0);
-    //   this.get_data_pen(this.pen_ids[1], 1);
-    //   this.get_data_pen(this.pen_ids[2], 2);
-    //   this.get_data_pen_null(3);
-    // }
-    // if (this.pen_ids.length >= 4) {
-    //   this.get_data_pen(this.pen_ids[0], 0);
-    //   this.get_data_pen(this.pen_ids[1], 1);
-    //   this.get_data_pen(this.pen_ids[2], 2);
-    //   this.get_data_pen(this.pen_ids[3], 3);
-    // }
-for (let i = 0; i < this.pen_ids.length; i++) {
-  this.get_data_pen(this.pen_ids[i], i);
-}
-for (let i = this.pen_ids.length; i < 4; i++) {
-  this.get_data_pen_null(i);
-}
+    this.iframeContents[index] = (this.sanitizer.bypassSecurityTrustHtml(iframeContent));
 
   }
 
-  // Remove the duplicate function implementation
-  // get_data_pen(pen_id: number): SafeHtml {
-  //     // init data -> data = response.data
-  //     let data_pen: any;
-  //     const apiUrl = `http://localhost:3000/pen/getInfoPen/${pen_id}`;
-  //     axios.get(apiUrl)
-  //       .then((response) => {
-  //         data_pen = response.data;
-  //         this.namePen = (data_pen.pen.name == null) ? "Chưa đặt tên" : data_pen.pen.name;
-  //         const iframeContent = `
-  //         <html>
-  //           <head>
-  //             <style>
-  //             ${data_pen.pen.css_code}</style>
-  //           </head>
-  //           <body>
-  //             ${data_pen.pen.html_code}
-  //             <script>${data_pen.pen.js_code}</script>
-  //           </body>
-  //         </html>
-  //       `;
-  //         return this.sanitizer.bypassSecurityTrustHtml(iframeContent);
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error:', error);
-  //         return '';
-  //       });
-  //   }
+  ngOnInit(): void {
+    if (!this.collection_id) {
+      console.error('Collection ID is missing.');
+      return;
+    }
 
-  
+    const apiUrl = `http://localhost:3000/your-work/collections/${this.collection_id}/pens`;
+
+    this.http.get(apiUrl).subscribe(
+      (response: any) => {
+        this.pen_ids = response.pens || [];
+        this.collectionName = response.collectionName || "";
+      },
+      (error) => {
+        console.error('Error fetching pen_ids:', error);
+      }
+    );
+
+    for (let i = 0; i < this.pen_ids.length; i++) {
+      this.get_data_pen(this.pen_ids[i], i);
+    }
+    for (let i = this.pen_ids.length; i < 4; i++) {
+      this.get_data_pen_null(i);
+    }
+
+  }
+
 
   handlePageClick(): void {
     // link to collection/123
-    this.router.navigate([`/collection/123`])
+    this.router.navigate([`/collection/${this.collection_id}`])
   }
 
 
@@ -173,11 +123,11 @@ for (let i = this.pen_ids.length; i < 4; i++) {
     "Delete",
   ]
 
-  
+
   random_number = Math.floor(Math.random() * 100000000);
 
   hasInformationPen = false;
-  
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
     // console.log("hasInformationPen: ", this.hasInformationPen)
@@ -186,8 +136,8 @@ for (let i = this.pen_ids.length; i < 4; i++) {
       if (x != null) {
         for (let i = 0; i < x.length; i++) {
           if (x.item(i)!.classList.contains("show")) {
-              x.item(i)!.classList.remove("show");
-              this.hasInformationPen = false;
+            x.item(i)!.classList.remove("show");
+            this.hasInformationPen = false;
           }
         }
       }
@@ -209,7 +159,7 @@ for (let i = this.pen_ids.length; i < 4; i++) {
             x.item(i)!.classList.add("show");
             this.hasInformationPen = true;
           }
-          
+
         } else {
           x.item(i)!.classList.remove("show");
         }
@@ -231,16 +181,6 @@ for (let i = this.pen_ids.length; i < 4; i++) {
       }
     }
 
-    // var y = document.getElementsByClassName("footer-code-grid-container");
-    // if (y != null) {
-    //   for (let i = 0; i < y.length; i++) {
-    //     if (y.item(i)!.classList.contains(this.random_number.toString())) {
-    //       y.item(i)!.classList.add("enter-show");
-    //     } else {
-    //       y.item(i)!.classList.remove("enter-show");
-    //     }
-    //   }
-    // }
   }
 
   onMouseLeaveGridCode() {
@@ -254,14 +194,6 @@ for (let i = this.pen_ids.length; i < 4; i++) {
       }
     }
 
-    // var y = document.getElementsByClassName("footer-code-grid-container");
-    // if (y != null) {
-    //   for (let i = 0; i < y.length; i++) {
-    //     if (y.item(i)!.classList.contains(this.random_number.toString())) {
-    //       y.item(i)!.classList.remove("enter-show");
-    //     }
-    //   }
-    // }
   }
 
   clickGridCollectionFullInf() {

@@ -37,14 +37,14 @@
 
         <footer class="footer-new-collection">
             <label class="toggle">
-                <span class="toggle-label">Private</span>
-                <input class="toggle-checkbox" type="checkbox" checked>
-                <div class="toggle-switch"></div>
-                <span class="toggle-label">Public</span>
+              <span class="toggle-label">Private</span>
+              <input class="toggle-checkbox" type="checkbox" formControlName="isPublic">
+              <div class="toggle-switch"></div>
+              <span class="toggle-label">Public</span>
             </label>
             <div class="center-save-collection">
-                <button type="button" class="btn-create-collection" (click)="onSubmit()">Create Collection</button>
+              <button type="button" class="btn-create-collection" (click)="onSubmit()">Create Collection</button>
             </div>
-        </footer>
+          </footer>
     </form>
 </div>

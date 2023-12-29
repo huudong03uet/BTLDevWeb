@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('fall2324w3g5', 'root', '', {
+const sequelize = new Sequelize('fall232BTL4w3g5', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
   port: 3306,
@@ -12,4 +12,4 @@ sequelize.authenticate().then(() => {
   console.error('Lỗi kết nối cơ sở dữ liệu:', error);
 });
 
-module.exports = sequelize;
+module.exports = sequelize; 

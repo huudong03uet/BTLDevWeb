@@ -9,7 +9,7 @@ export class ListItemGridCodeComponent implements OnInit{
   // parent -> child: pen_ids
 
   @Input() pen_ids: any;
-
+ 
 
   pen_ids_prev: any[] = [];
   pen_ids_next: any[] = [];
@@ -45,7 +45,7 @@ export class ListItemGridCodeComponent implements OnInit{
   ngOnInit(): void {
     //  len pen_ids_current <= 4
     //  len pen_ids_next <= 4
-
+    console.log(this.pen_ids);
     for (let i = this.index_first_current; i < this.index_first_current + 4; i++) {
       if (i < this.pen_ids.length) {
         this.pen_ids_current.push(this.pen_ids[i]);

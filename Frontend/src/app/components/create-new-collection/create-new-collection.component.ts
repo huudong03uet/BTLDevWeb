@@ -18,6 +18,7 @@ export class CreateNewCollectionComponent {
     this.createForm = this.fb.group({
       collectionTitle: ['', [Validators.required, Validators.maxLength(this.maxCharacterLimit)]],
       collectionDescription: ['', [Validators.maxLength(this.maxCharacterLimit)]],
+      isPublic: [true], // Default to public
     });
   }
 
@@ -36,9 +37,19 @@ export class CreateNewCollectionComponent {
           return;
         }
 
+        const collectionTitle = this.createForm.value.collectionTitle;
+
+        if (!collectionTitle) {
+          console.error('Collection Title cannot be null or empty.');
+          return;
+        }
+
+        console.log('Name:', collectionTitle);
+
         const response = await axios.post(`http://localhost:3000/your-work/collections/`, {
-          name: this.createForm.value.collectionTitle,
+          name: collectionTitle,
           user_id: userId,
+          isPublic: this.createForm.value.isPublic,
           // Add other fields if needed
         });
 
