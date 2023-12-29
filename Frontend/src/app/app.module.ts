@@ -237,6 +237,9 @@ import { ListCollectionToAddPenComponent } from './components/list-collection-to
       {
         path: "support", component: SupportComponent
       },
+      {
+        path: "test", component: ListCollectionToAddPenComponent
+      },
       { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
     ]),
     NgbModule,

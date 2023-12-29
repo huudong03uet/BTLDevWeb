@@ -30,10 +30,10 @@
             <a class="code-user">{{data.user.user_name}}</a>
         </h2>
         <div class="three-dot-list"  (click)="$event.stopPropagation()">
-            
+
             <div class="list-items {{random_number}}">
                 <ul>
-                    <li>
+                    <li class="list-collection-li {{random_number}}" (click)="onClickAddCollection()">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><rect y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect></svg>
                         {{informationPen[0]}}
                     </li>
@@ -49,6 +49,9 @@
                     </li>
                 </ul>
 
+            </div>
+            <div class="list-collection-add {{random_number}}">
+                <app-list-collection-to-add-pen></app-list-collection-to-add-pen>
             </div>
             <span (click)="onClickInformationPen()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-three-dots"
