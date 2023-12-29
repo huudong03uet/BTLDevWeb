@@ -3,9 +3,10 @@ const sequelize = require('./sequelize');
 
 const User = require('./user');
 const Pen = require('./pen')
+const Collection = require('./collection')
 
 const View = sequelize.define('view_table', {
-    like_id: {
+    views_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
@@ -23,5 +24,6 @@ const View = sequelize.define('view_table', {
 
 View.belongsTo(User, { foreignKey: 'user_id' })
 View.belongsTo(Pen, { foreignKey: 'pen_id' })
+View.belongsTo(Collection, { foreignKey: 'collection_id' })
 
 module.exports = View;
