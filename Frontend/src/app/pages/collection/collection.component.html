@@ -17,12 +17,9 @@
 
                         </a>
                         <div>
-                            <h1 class="collection-name">{{user.name_collection}}</h1>
-
+                            <h1 class="collection-name">{{ collectionName }}</h1>
                             <div class="user-name-container">
-                                <a class="user-link" href={{user.link_user}}>
-                                    <span class="user-name">{{user.name}}</span>
-                                </a>
+                                    <span class="user-name">{{userName}}</span>
                             </div>
                         </div>
                     </div>
@@ -90,7 +87,7 @@
                 </div>
                 <div class="pen-module">
                     <app-list-item-grid-code [pen_ids]="pen_ids"></app-list-item-grid-code>
-
+                    <!-- <app-content-grid-code *ngFor="let dataItem of pen_ids_current; trackBy: trackByFn" [pen_id]="dataItem"></app-content-grid-code> -->
                     
                 </div>
                 <div class="comment-module">

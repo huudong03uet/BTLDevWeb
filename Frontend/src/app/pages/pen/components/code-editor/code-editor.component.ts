@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef, EventEmitter, Output, OnInit } from '@angular/core';
 import { debounce } from 'lodash';
 import { Pen } from 'src/app/models/pen';
 
@@ -177,5 +177,6 @@ export class CodeEditorComponent implements AfterViewInit {
     this.stylesheetEditor.setValue(dataPen.css_code);
     this.jsEditor.setValue(dataPen.js_code);
     this.projectTitle = dataPen.projectTitle;
+    this.run();
   }
 }

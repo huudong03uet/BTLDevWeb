@@ -84,6 +84,8 @@
           border: none;
           background-color: #444857;
           color: white;
+
+   
           
         }
       }
@@ -98,9 +100,10 @@
       .image {
         width: 40px;
         height: 40px;
-        border-radius: 50%;
+        border-radius: 4px;
         margin-right: 0.75rem;
         img {
+          border-radius: 4px;
           width: 100%;
           height: 100%;
         }
@@ -201,6 +204,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        &:hover {
+          background-color: hsl( 228deg 12.2% 40.2% );
+          color: white;
+        }
+
         svg {
             width: 12px;
             height: 12px;

@@ -40,6 +40,7 @@
 
 
                     <a (click)="openCreateNewComponent()">New Collection</a>
+                    <a (click) = "openCreateNewProject()">New Project</a>
                 </div>
                 <div class="manager-setting">
                     <a href="asset-manager">
@@ -100,3 +101,4 @@
 </div>
 <app-pinned-collection *ngIf="childPinnedVisible" (closePinned)="handleChildPinnedClose()"></app-pinned-collection>
 <app-create-new-collection *ngIf="childVisible" (close)="handleChildClose()"></app-create-new-collection>
+<app-create-new-project *ngIf="childProjectVisible" (closeProject)="handleChildProjectClose()"></app-create-new-project>

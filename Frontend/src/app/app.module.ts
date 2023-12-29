@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RouterModule } from '@angular/router';
@@ -71,6 +72,19 @@ import { FullOptionControlItemComponent } from './components/full-option-control
 import { SearchViewControlItemComponent } from './components/full-option-control-item/search-view-control-item/search-view-control-item.component';
 import { GridListSortControlItemComponent } from './components/full-option-control-item/grid-list-sort-control-item/grid-list-sort-control-item.component';
 import { ContentGridCodeFullInfComponent } from './components/content-grid-code-full-inf/content-grid-code-full-inf.component';
+import { ContentGridCollectionFullInfComponent } from './components/content-grid-collection-full-inf/content-grid-collection-full-inf.component';
+import { ReversePipe } from './pipes/reverse.pipe';
+import { ProjectComponent } from './pages/project/project.component';
+import { HeaderProjectComponent } from './pages/project/header-project/header-project.component';
+import { FolderTreeComponent } from './pages/project/folder-tree/folder-tree.component';
+import { ScreenCodeComponent } from './pages/project/screen-code/screen-code.component';
+import { ScreenViewComponent } from './pages/project/screen-view/screen-view.component';
+import { FooterProjectComponent } from './pages/project/footer-project/footer-project.component';
+import { CreateNewProjectComponent } from './components/create-new-project/create-new-project.component';
+import { DetailPenComponent } from './components/detail-pen/detail-pen.component';
+import { CodeBoxProjectComponent } from './pages/project/screen-code/code-box-project/code-box-project.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ListCollectionToAddPenComponent } from './components/list-collection-to-add-pen/list-collection-to-add-pen.component';
 
 @NgModule({
   declarations: [
@@ -136,11 +150,24 @@ import { ContentGridCodeFullInfComponent } from './components/content-grid-code-
     SearchViewControlItemComponent,
     GridListSortControlItemComponent,
     ContentGridCodeFullInfComponent,
+    ContentGridCollectionFullInfComponent,
+    ReversePipe,
+    ProjectComponent,
+    HeaderProjectComponent,
+    FolderTreeComponent,
+    ScreenCodeComponent,
+    ScreenViewComponent,
+    FooterProjectComponent,
+    CreateNewProjectComponent,
+    DetailPenComponent,
+    CodeBoxProjectComponent,
+    ListCollectionToAddPenComponent,
   ],
   imports: [
     FormsModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     MatDialogModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, data: { title: 'CODE' } },
@@ -153,6 +180,7 @@ import { ContentGridCodeFullInfComponent } from './components/content-grid-code-
       { path: "trending", component: TrendingComponent },
       { path: "following", component: FollowingComponent },
       { path: "your-work", component: YourWorkComponent },
+      {path: "project/123", component: ProjectComponent},
       {
         path: "profile", component: ProfileComponent, children: [
           { path: "", redirectTo: "pens", pathMatch: "full" },
@@ -216,6 +244,7 @@ import { ContentGridCodeFullInfComponent } from './components/content-grid-code-
     MatToolbarModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

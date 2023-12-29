@@ -20,12 +20,19 @@ export class HeaderComponent {
 
   childPinnedVisible: boolean = false;
 
+  childProjectVisible: boolean = false;
+
   openCreateNewComponent() {
     this.childVisible = !this.childVisible;
   }
 
   openPinnedComponent() {
     this.childPinnedVisible = !this.childPinnedVisible;
+  }
+
+  
+  openCreateNewProject() {
+    this.childProjectVisible = !this.childProjectVisible;
   }
 
 
@@ -36,6 +43,11 @@ export class HeaderComponent {
   handleChildPinnedClose() {
     // console.log('close');
     this.childPinnedVisible = false;
+  }
+
+  handleChildProjectClose() {
+    // console.log('close');
+    this.childProjectVisible = false;
   }
 
 
@@ -69,6 +81,9 @@ export class HeaderComponent {
   clickTrending() {
     this.router.navigate(['/trending']);
   }
+
+
+
 
 }
 // template: `

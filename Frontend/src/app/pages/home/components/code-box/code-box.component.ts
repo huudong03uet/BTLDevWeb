@@ -95,9 +95,6 @@ export class CodeBoxComponent {
     const scriptTag = document.createElement('script');
     scriptTag.innerHTML = jsCode;
     output.contentDocument.body.appendChild(scriptTag);
-
-
-
   }
 
   

@@ -21,6 +21,7 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
     const apiUrl = `http://localhost:3000/pen/getInfoPen/${this.pen_id}`;
     axios.get(apiUrl)
       .then((response) => {
@@ -56,7 +57,8 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   informationPen = [
     "Add to Collection",
     "Remove from Pins",
-    "Unfollow " + this.user_name,
+    "Make Private",
+    "Delete",
   ]
 
   
