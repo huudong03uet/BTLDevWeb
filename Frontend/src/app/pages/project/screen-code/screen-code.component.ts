@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./screen-code.component.scss']
 })
 export class ScreenCodeComponent {
-
+   hasFileSelected: boolean = false;
 }

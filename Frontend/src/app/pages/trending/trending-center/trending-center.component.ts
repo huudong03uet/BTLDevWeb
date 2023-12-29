@@ -12,7 +12,7 @@ import axios from 'axios';
 export class TrendingCenterComponent  {
   data = [2, 3, 3]
   pen_ids = [
-    1, 2, 3, 3
+    1, 2, 3, 3, 3, 2, 3
   ]
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +29,10 @@ export class TrendingCenterComponent  {
 
         axios.get(apiUrl).then((response) => {
           this.data = response.data;
+
+          // get 3 first element      // cái này là lấy 3 cái đầu tiên
+          this.data = this.data.slice(0, 3);
+
           console.log('user not follow', this.data)
         }).catch((error) => {
           console.error('Error:', error);

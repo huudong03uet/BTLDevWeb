@@ -1,4 +1,92 @@
 .center-folder-tree {
+  .search-bar {
+    position: relative;
+    border: 2px solid hsl(227.37deg 12.26% 30.39%);
+    nav {
+      width: 100%;
+
+      input {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        // border: 3px solid hsl(227.37deg 12.26% 30.39%);
+        outline: none;
+        background: hsl(0, 0%, 100% / 0.8);
+        color: rgb(0, 0, 0);
+        font-size: 1rem;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        border-radius: 0.25rem;
+        // remove x in the right of input when type
+        // &::-webkit-search-cancel-button {
+        //   -webkit-appearance: none;
+        // }
+        &:focus {
+          background: white;
+        }
+      }
+
+
+
+
+      button {
+        background: hsl(0deg 0% 0%/0.5);
+        border: none;
+        fill: hsl(226.67deg 11.84% 70.2%);
+        padding-right: 1rem;
+        cursor: pointer;
+        outline: none;
+        text-align: left;
+        width: 100%;
+        svg {
+          width: 16px;
+          height: 16px;
+          fill: hsl(228deg 12.2% 40.2%);
+        }
+        span {
+          font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+            "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+          margin-right: 2px;
+          color: hsl(228.39deg 12.25% 50.39%);
+          margin-left: 0.5rem;
+          font-size: 1rem;
+          vertical-align: middle;
+          position: relative;
+          top: -1px;
+        }
+      }
+    }
+
+    .file-search-result {
+
+      .file-search-result-item {
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        padding: 0rem 1rem;
+        border-bottom: 1px solid #444857;
+        background-color: #444857;
+                  cursor: pointer;
+        &:hover {
+          background-color: #323232;
+          .file-search-result-item-name span {
+            color: white;
+          }
+        }
+
+        .file-search-result-item-name {
+          color: white;
+          font-weight: 300;
+          padding: 0.3rem 0rem;;
+          display: flex;
+          align-items: center;
+          span {
+            color: #9d9ea1;
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+
   background-color: #252731;
 
   .folder-tree-project {
