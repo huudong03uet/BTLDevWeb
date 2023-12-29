@@ -31,6 +31,14 @@ export class FollowingCenterComponent {
 
         axios.get(apiUrl).then((response) => {
           this.data = response.data;
+
+
+
+          // get 3 first element      // cái này là lấy 3 cái đầu tiên
+          this.data = this.data.slice(0, 3);
+
+
+
           console.log('user not follow', this.data)
         }).catch((error) => {
           console.error('Error:', error);

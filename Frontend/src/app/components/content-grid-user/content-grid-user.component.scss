@@ -23,6 +23,7 @@
     display: grid;
     align-items: center;
     grid-gap: 0.75rem;
+    
 }
 
 .ContentGridUser_userHeader {
@@ -31,7 +32,12 @@
 }
 
 .output-field {
+    border-radius: 8px;
+    height: 100%;
     iframe {
+        border-radius: 8px;
+        width: 100%;
+        height: 100%;
         pointer-events: none;
         cursor: pointer;
     }
@@ -94,6 +100,10 @@ button.ContentGridUser_followButton:hover {
     gap: 0.5rem;
     margin: 0 -1rem 0.25rem 0;
     position: relative;
+    grid-template-rows: 65%;
+    .border-iframe {
+        height: 100%;
+    }
 }
 
 .output-field{
@@ -117,24 +127,21 @@ button.ContentGridUser_followButton:hover {
 .ContentGridItemBackground {
     padding: 1rem 0;
     position: absolute;
-    // width: 100%;
-    // height: 100%;
-    background-color: hsl( 232.5deg 11.76% 13.33% );
-    // margin: -1rem;
+    background-color: hsl(232.5, 11.76%, 13.33%);
     border-radius: 10px;
-    margin: -1.5rem;
-    margin-top: -1rem;
-    width: 120%;
-    height: 120%;
-    clip-path: inset(20px 30px 0px 30px round 10px);
+    margin: -1rem;
+    margin-top: -0.5rem;
+    width: 110%;
+    height: 90%;
+    clip-path: inset(13px 0px 0px 25px round 10px);
     transition: clip-path 0.3s ease-in-out;
 }
 
 
 
 .ContentGridUser:hover > .ContentGridItemBackground {
-    // clip-path: inset(0 0 0 0 round 10px);
-    clip-path: inset(10px 30px 0px 10px round 10px);
+    clip-path: inset(0 0 0 0 round 10px);
+    // clip-path: inset(10px 30px 0px 10px round 10px);
     // time 0.2s in and out
     transition: clip-path 0.3s ease-in-out;
     transition-delay: 0s;

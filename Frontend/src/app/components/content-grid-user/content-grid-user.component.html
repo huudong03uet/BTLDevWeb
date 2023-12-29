@@ -28,7 +28,7 @@
     </div>
     <div class="ContentGridUser_popularPenPreviews">
         <a href="">
-            <div data-picture="true" (mousedown)="handlePageClick()">
+            <div data-picture="true" (mousedown)="handlePageClick()" class="border-iframe">
                 <picture>
                     <div class="output-field">
                         <iframe [srcdoc]="iframeContent_1" sandbox="allow-scripts"></iframe>
@@ -39,7 +39,7 @@
             </div>
         </a>
         <a href="">
-            <div data-picture="true">
+            <div data-picture="true"(mousedown)="handlePageClick()" class="border-iframe">
                 <picture>
                     <!-- <source type="image/webp" srcset="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007"> -->
                     <!-- <img src="https://shots.codepen.io/username/pen/GpXXEj-320.webp?version=1446765007" class="ItemPreviewImage"> -->
