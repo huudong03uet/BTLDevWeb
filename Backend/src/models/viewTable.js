@@ -5,7 +5,7 @@ const User = require('./user');
 const Pen = require('./pen')
 
 const View = sequelize.define('view_table', {
-    like_id: {
+    views_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,

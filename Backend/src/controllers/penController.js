@@ -6,6 +6,7 @@ import View from "../models/viewTable";
 import Comment from "../models/commentTable";
 import Like from "../models/likeTable";
 import Follow from "../models/followTable";
+import Pin from "../models/pin";
 
 import followController, { getFollowByUserID } from './followControler';
 
@@ -37,7 +38,8 @@ let createOrUpdatePen = async (req, res) => {
             js_code: req.body.js_code,
             css_code: req.body.css_code,
             name: req.body.name,
-            user_id: req.body.user_id
+            user_id: req.body.user_id,
+            name: req.body.name
             });
             return res.status(201).json({code: 200, pen: newPen, message: "tạo pen mới thành công"});
         // Trả về thông tin pen đã được tạo
@@ -82,7 +84,8 @@ async function _getPenByUser(user_id) {
 async function getPenByUser(req, res) {
   const user_id  = req.params.id;
   try {
-    const pen = await _getPenByUser(user_id)
+    const pen = await Pen.findAll({ where: { user_id: user_id } });
+    const penIdValues = pen.map((pen) => pen.pen_id);
     return res.status(200).json(penIdValues);
   } catch (error) {
     console.error(error);
@@ -91,8 +94,6 @@ async function getPenByUser(req, res) {
 }
 
 async function getInfoPen(req, res) {
-  // console.log(314123)
-  // console.log(req.query)
   const penId = req.query.pen_id;
   const user_id = req.query.user_id;
   try {
@@ -108,26 +109,26 @@ async function getInfoPen(req, res) {
         where: { user_id: pen.user_id}
       });  
     } 
-    
     const likeRecord = await Like.findOne({
       where: {
           user_id: user_id,
           pen_id: penId,
       },
     });
+
   
-    const viewCount = await View.count({ where: { pen_id: penId } });
+    const viewCount = await View.count({ where: { pen_id: penId, type: "pen" } });
 
-    const commentCount = await Comment.count({ where: { pen_id: penId } });
+    const commentCount = await Comment.count({ where: { pen_id: penId, type: "pen" } });
 
-    const likeCount = await Like.count({ where: { pen_id: penId } });
+    const likeCount = await Like.count({ where: { pen_id: penId, type: "pen"} });
     const result = {
       pen: pen,
       user: userPen,
       view: viewCount,
       comment: commentCount,
       like: likeCount,
-      liked: likeRecord!=null
+      liked: likeRecord!=null,
     };
 
     res.json(result);
@@ -178,7 +179,6 @@ async function getPenByUserIDForFollow(req, res) {
     });
 
     // pens = shuffleArray(pens);
-
     if (pens.length > 0) {
       pens = pens.slice(0, 2);
     } else if(pens.length == 1) {

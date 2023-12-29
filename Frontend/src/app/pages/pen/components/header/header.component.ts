@@ -20,6 +20,7 @@ export class PenHeaderComponent implements OnInit {
     user_id: 0,
     name: '',
   };
+  @Input() owner : any;
   @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
   @ViewChild(HomeCodeComponent) homeCodeComponent!: HomeCodeComponent;
 
@@ -97,12 +98,12 @@ export class PenHeaderComponent implements OnInit {
     }
     try {
       const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {
-        user_id: this.webCodeData.user_id,
-        pen_id: this.webCodeData.pen_id,
-        html_code: this.webCodeData.html,
-        css_code: this.webCodeData.css,
-        js_code: this.webCodeData.js,
-        name: this.webCodeData.name
+        user_id: this.webCodeData.user_id, 
+        pen_id: this.webCodeData.pen_id, 
+        html_code: this.webCodeData.html, 
+        css_code: this.webCodeData.css, 
+        js_code: this.webCodeData.js, 
+        name: this.projectTitle,
       });
       this.myPen = response.data.pen;
 

@@ -1,6 +1,5 @@
 const Collection = require('../models/collection');
 const CollectionPen = require('../models/collection_pen');
-const CollectionUser = require('../models/collection_user');
 
 async function createOrUpdateCollection(req, res) {
   try {
@@ -43,7 +42,7 @@ async function getCollectionsByUser(req, res) {
   try {
     const userId = req.params.userId;
 
-    const collections = await CollectionUser.findAll({ where: { user_id: userId } });
+    const collections = await Collection.findAll({ where: { user_id: userId } });
 
     return res.status(200).json({ code: 200, collections, message: 'Lấy danh sách collection thành công' });
   } catch (error) {
