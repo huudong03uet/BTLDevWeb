@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 const { Op } = require("sequelize");
-const Follow = require('../models/followTable');
-const User = require('../models/user');
+import followController from './followControler';
+import User from '../models/user';
+import Follow from '../models/followTable';
 
 // Add the missing function
 async function getFollowByUserID(user_id) {
@@ -38,7 +39,7 @@ async function getInfoUser(req, res) {
     const followers_count = await Follow.count({ where: { user_id_2: user_id } });
     const following_count = await Follow.count({ where: { user_id_1: user_id } });
 
-    res.json({
+    res.status(200).json({
       user_id: user.user_id,
       user_name: user.user_name,
       full_name: user.full_name,
@@ -51,6 +52,7 @@ async function getInfoUser(req, res) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
+
 
 async function getUserByID(user_id) {
   try {
@@ -88,15 +90,20 @@ async function getAllUserExclude(arrUserID) {
 }
 
 async function getNotFollow(req, res) {
+  // console.log(1)
   const user_id = req.params.id;
+  // console.log('abcxyy', user_id);
 
   try {
     const getOneUser = await getUserByID(user_id);
-    const getFollowUsers = await getFollowByUserID(getOneUser);
+
+    const getFollowUsers = await followController.getFollowByUserID(getOneUser);
+
     const getAllNotFollow = await getAllUserExclude(getFollowUsers);
+
     const uniqueNotFollow = [...new Set(getAllNotFollow)];
 
-    res.json(uniqueNotFollow);
+    res.status(200).json(uniqueNotFollow);
   } catch (error) {
     console.error('Error fetching pen ids:', error);
     throw error;
@@ -104,6 +111,5 @@ async function getNotFollow(req, res) {
 }
 
 module.exports = {
-  getNotFollow,
-  getInfoUser
+  getNotFollow, getInfoUser
 };
