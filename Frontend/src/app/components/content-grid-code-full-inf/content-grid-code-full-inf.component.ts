@@ -21,6 +21,7 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
     const apiUrl = `http://localhost:3000/pen/getInfoPen/${this.pen_id}`;
     axios.get(apiUrl)
       .then((response) => {

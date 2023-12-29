@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 interface CollectionApiResponse {
   collections?: any[];
   user?: any;
-  pen_ids?: any[];
+  pen_ids: any[];
 }
 
 @Component({
@@ -42,8 +42,9 @@ export class CollectionComponent implements OnInit {
 
       // Call getPensInCollection with currentCollectionID
       this.getPensInCollection(this.currentCollectionID);
-      console.log(this.pen_ids);
+      console.log("123", this.pen_ids);
     });
+
 
     this.http.get<CollectionApiResponse>(`http://localhost:3000/your-work/collections/user/${userId}`).subscribe(
       (response) => {
@@ -69,4 +70,6 @@ export class CollectionComponent implements OnInit {
       }
     );
   }
+
+
 }

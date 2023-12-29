@@ -84,6 +84,7 @@ import { CreateNewProjectComponent } from './components/create-new-project/creat
 import { DetailPenComponent } from './components/detail-pen/detail-pen.component';
 import { CodeBoxProjectComponent } from './pages/project/screen-code/code-box-project/code-box-project.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ListCollectionToAddPenComponent } from './components/list-collection-to-add-pen/list-collection-to-add-pen.component';
 
 @NgModule({
   declarations: [
@@ -160,6 +161,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CreateNewProjectComponent,
     DetailPenComponent,
     CodeBoxProjectComponent,
+    ListCollectionToAddPenComponent,
   ],
   imports: [
     FormsModule,
