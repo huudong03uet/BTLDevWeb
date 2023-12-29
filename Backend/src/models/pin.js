@@ -2,13 +2,8 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize'); 
 
 const User = require('./user');
-<<<<<<< HEAD
+const Collection = require('./collection');
 const Pen = require('./pen');
-const Collection = require('./collection');
-
-=======
-const Collection = require('./collection');
->>>>>>> refs/remotes/origin/main
 const Pin = sequelize.define('pin', {
   pin_id: {
     type: DataTypes.INTEGER,
