@@ -1,33 +1,120 @@
 .screen-code-full {
-    position: relative;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: hsl(222.86deg 13.73% 20%);
+  .no-file-selected {
+    overflow: auto;
     width: 100%;
-    height: 100%;
-    background-color: hsl( 222.86deg 13.73% 20% );
-    .no-file-selected {
-        overflow: auto;
-        width: 100%;
-        margin-left: 2rem;
-        height: calc(100% - 45px);
-        padding: 10px;
-        z-index: 1;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        align-items: center;
-        h2 {
-            line-height: 1.2;
-            margin: 0 0 10px;
-            font-weight: 800;
-            font-family: 'Telefon', Sans-Serif;
-            font-size: 1.8rem;
-            color: hsl( 49.32deg 100% 62.55% );
-        }
-
-        p {
-            font-size: 1rem;
-            font-family: 'Telefon', Sans-Serif;
-            color: #8d91a0;
-        }
+    margin-left: 2rem;
+    height: calc(100% - 45px);
+    padding: 10px;
+    z-index: 1;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    align-items: center;
+    h2 {
+      line-height: 1.2;
+      margin: 0 0 10px;
+      font-weight: 800;
+      font-family: "Telefon", Sans-Serif;
+      font-size: 1.8rem;
+      color: hsl(49.32deg 100% 62.55%);
     }
+
+    p {
+      font-size: 1rem;
+      font-family: "Telefon", Sans-Serif;
+      color: #8d91a0;
+    }
+  }
+
+  .has-file-selected {
+    height: 100%;
+    .screen-code-header {
+      height: 45px;
+
+      .project-editor-open-file {
+        position: relative;
+        overflow: hidden;
+        height: 45px;
+
+        li {
+          display: inline-block;
+          color: white;
+          height: 45px;
+          font-size: 0.95rem;
+          font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+
+
+
+          .file-container {
+          opacity: 0.3333;
+
+            border-top: 3px solid transparent;
+            span {
+              color: white;
+              padding: 10px 0 10px 20px;
+              display: inline-block;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              max-width: 250px;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+            }
+            button {
+              width: 11px;
+              height: 11px;
+              padding: 10px 12px;
+              box-sizing: content-box;
+              opacity: 0.8;
+              background: 0 0;
+              border: none;
+              outline: none;
+              cursor: pointer;
+              vertical-align: top;
+
+              svg {
+                width: 11px;
+                height: 11px;
+                fill: white;
+                stroke: none;
+                position: relative;
+                top: -2px;
+              }
+            }
+          }
+
+          .js {
+            border-top-color: #fcd000;
+          }
+
+          .css {
+            border-top-color: #0ebeff;
+          }
+
+          .html {
+            border-top-color: #ff3c41;
+          }
+
+          .active {
+            opacity: 1 !important;
+            span {
+              color: #fff;
+            }
+          }
+
+        }
+      }
+    }
+
+    .screen-code-screen {
+      height: calc(100% - 45px);
+    }
+  }
 }

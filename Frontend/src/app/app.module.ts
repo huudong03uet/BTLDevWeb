@@ -82,6 +82,7 @@ import { ScreenViewComponent } from './pages/project/screen-view/screen-view.com
 import { FooterProjectComponent } from './pages/project/footer-project/footer-project.component';
 import { CreateNewProjectComponent } from './components/create-new-project/create-new-project.component';
 import { DetailPenComponent } from './components/detail-pen/detail-pen.component';
+import { CodeBoxProjectComponent } from './pages/project/screen-code/code-box-project/code-box-project.component';
 
 @NgModule({
   declarations: [
@@ -157,6 +158,7 @@ import { DetailPenComponent } from './components/detail-pen/detail-pen.component
     FooterProjectComponent,
     CreateNewProjectComponent,
     DetailPenComponent,
+    CodeBoxProjectComponent,
   ],
   imports: [
     FormsModule,
