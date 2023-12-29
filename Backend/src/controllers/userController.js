@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const { Op } = require("sequelize");
 import followController from './followControler';
 import User from '../models/user';
+import Follow from '../models/followTable';
 
 async function getInfoUser(req, res) {
   try {
@@ -19,7 +20,7 @@ async function getInfoUser(req, res) {
     const followers_count = await Follow.count({ where: { user_id_2: user_id } });
     const following_count = await Follow.count({ where: { user_id_1: user_id } });
 
-    res.json({
+    res.status(200).json({
       user_id: user.user_id,
       user_name: user.user_name,
       full_name: user.full_name,
@@ -83,7 +84,7 @@ async function getNotFollow(req, res) {
 
     const uniqueNotFollow = [...new Set(getAllNotFollow)];
 
-    res.json(uniqueNotFollow);
+    res.status(200).json(uniqueNotFollow);
   } catch (error) {
     console.error('Error fetching pen ids:', error);
     throw error;
