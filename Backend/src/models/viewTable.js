@@ -6,7 +6,7 @@ const Pen = require('./pen')
 const Collection = require('./collection')
 
 const View = sequelize.define('view_table', {
-    views_id: {
+    view_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,

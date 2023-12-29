@@ -9,13 +9,14 @@
 }
 .profile-avatar{
     transform: translateY(-70%);
-    .profile-name{
+    .user-id{
         color: #9596A4;
         size: 14px;
         text-align: center;
         margin: 0 auto;
         padding-bottom: 10px;
         display: block;
+        font-size: 14px;
     }
     .profile-header-name{
         color: #fff;
@@ -23,8 +24,9 @@
         margin: 0 auto;
         display: block;
     }
-    .user-header-name{
-        font-weight: 800;
+    .user-name{
+        font-weight: 900;
+        font-size: 40px;
     }
     .avatar-profile {
         width: 124px;
@@ -43,12 +45,12 @@
             font-weight: 600;
             margin: 0 auto;
             display: inline;
-            padding-right: 10px;
+            padding-right: 0px;
         }
         .follower-text{
-            font-size: 20px;
+            font-size: 16px;
             color: #9596A4;
-            padding-right: 50px;
+            padding-right: 20px;
         }
     }
 }

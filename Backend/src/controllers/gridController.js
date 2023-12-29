@@ -81,7 +81,7 @@ let handlePin = async (req, res) => {
       if (existingPin) {
         // Nếu đã có trong Pin, xóa nó
         await existingPin.destroy();
-        res.json({ pinned: false });
+        res.status(200).json({ pinned: false });
       } else {
         // Nếu chưa có trong Pin, thêm vào Pin
         await Pin.create({
@@ -89,7 +89,7 @@ let handlePin = async (req, res) => {
           pen_id,
           type
         });
-        res.json({ pinned: true });
+        res.status(200).json({ pinned: true });
       }
     } catch (error) {
       console.error(error);
@@ -119,7 +119,7 @@ let handlePin = async (req, res) => {
           },
         });
   
-        res.json({ followed: false });
+        res.status(200).json({ followed: false });
       } else {
         // Nếu chưa follow, thì follow
         await Follow.create({
@@ -127,7 +127,7 @@ let handlePin = async (req, res) => {
           user_id_2,
         });
   
-        res.json({ followed: true });
+        res.status(200).json({ followed: true });
       }
     } catch (error) {
       console.error('Error:', error);
@@ -176,7 +176,7 @@ let handlePin = async (req, res) => {
         pined: pinRecord!=null
       };
   
-      res.json(result);
+      res.status(200).json(result);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });

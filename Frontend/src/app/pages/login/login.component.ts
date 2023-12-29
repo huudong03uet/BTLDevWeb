@@ -21,6 +21,7 @@ export class LoginComponent {
     ) {}
 
   onLoginFormSubmit() {
+    console.log(123432)
     if (this.gmail && this.password) {
       const apiUrl = 'http://localhost:3000/auth/login';
       const requestBody = {
@@ -30,6 +31,8 @@ export class LoginComponent {
   
       axios.post(apiUrl, requestBody)
         .then((response) => {
+          console.log(response.data);
+
           if (response.data.statusCode === 200) {
             console.log('Đăng nhập thành công');
             console.log(response.data.data)
