@@ -62,7 +62,7 @@ async function getPensInCollection(req, res) {
     const collectionId = req.params.collectionId;
 
     const collection = await Collection.findByPk(collectionId, {
-      attributes: ['collection_id', 'name'], // Thêm các trường cần thiết
+      attributes: ['collection_id', 'name'],
     });
 
     if (!collection) {
@@ -71,7 +71,7 @@ async function getPensInCollection(req, res) {
 
     const pens = await CollectionPen.findAll({
       where: { collection_id: collectionId },
-      attributes: ['pen_id'], // Chỉ lấy pen_id
+      attributes: ['pen_id'],
     });
 
     return res.status(200).json({
@@ -81,6 +81,7 @@ async function getPensInCollection(req, res) {
         name: collection.name,
       },
       pen_ids: pens.map(pen => pen.pen_id),
+      collectionName: collection.name,
       message: 'Lấy danh sách pen trong collection thành công',
     });
   } catch (error) {
@@ -88,6 +89,7 @@ async function getPensInCollection(req, res) {
     res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy danh sách pen trong collection' });
   }
 }
+
 
 module.exports = {
   createOrUpdateCollection,

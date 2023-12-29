@@ -93,6 +93,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
       (response: any) => {
         this.pen_ids = response.pens || [];
         this.collectionName = response.collectionName || "";
+        console.log(this.collectionName);
       },
       (error) => {
         console.error('Error fetching pen_ids:', error);
