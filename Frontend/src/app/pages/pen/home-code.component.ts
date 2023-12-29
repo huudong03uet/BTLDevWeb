@@ -22,6 +22,8 @@ export class HomeCodeComponent implements OnInit {
     user_id: 0,
     name: '',
   };
+  owner: any;
+
 
   constructor(
     private userData: UserDataService,
@@ -35,13 +37,22 @@ export class HomeCodeComponent implements OnInit {
       const penId = params['id'];
       if (penId != null) {
         try {
-          let data = await axios.post('http://localhost:3000/pen/getPenById', { pen_id: penId });
+          let data = await axios.post('http://localhost:3000/pen/getPenById', {pen_id: penId}); 
+
+          if(data.data.pen.status === "private") {
+            this.router.navigate(['/**']);
+          }
           this.myPen = data.data.pen;
-          if (this.myPen) {
-            this.codeEditorComponent.setPen(this.myPen);
+          this.codeEditorComponent.setPen(this.myPen);
+          let data_user = await axios.get(`http://localhost:3000/user/getInfoUser?user_id=${this.myPen.user_id}`);
+          this.owner = data_user.data;
+          console.log(this.owner);
+          if(this.userData.getUserData() !== null) {
+            await axios.post('http://localhost:3000/grid/updateView', {penId: penId, userId: this.userData.getUserData()?.user_id})
           }
         } catch (error) {
-          console.error('Error getting pen:', error);
+          this.router.navigate(['/**']);
+          console.error('Error save pen:', error);
         }
       } else {
         this.myPen = null;
