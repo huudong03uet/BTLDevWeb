@@ -35,10 +35,10 @@ export class CollectionsProfileComponent {
     // console.log('private')
     this.router.navigate(['/profile/collections/private']);
   }
-  navigateToCPublic(){
+  navigateToCPublic() {
     this.router.navigate(['/profile/collections/public']);
   }
-  navigateToCLoved(){
+  navigateToCLoved() {
     this.router.navigate(['/profile/collections/loved']);
   }
   addClassActive() {
