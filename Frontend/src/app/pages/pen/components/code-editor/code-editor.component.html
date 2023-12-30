@@ -11,7 +11,7 @@
                     <label><i
                             [ngClass]="stylesheetLanguage === 'css' ? 'fa-brands fa-css3-alt fa-lg' : 'fa-brands fa-sass fa-lg'" style="color:aqua"></i>
                         {{ stylesheetLanguage.toUpperCase() }}</label>
-                    <select class="stylesheet-select" [(ngModel)]="stylesheetLanguage">
+                    <select class="stylesheet-select" [(ngModel)]="stylesheetLanguage" (change)="onLanguageChange()">
                         <option value="css">CSS</option>
                         <option value="scss">SCSS</option>
                     </select>

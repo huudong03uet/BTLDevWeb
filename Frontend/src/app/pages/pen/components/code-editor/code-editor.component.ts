@@ -35,13 +35,27 @@ export class CodeEditorComponent implements AfterViewInit {
   constructor(private cdRef: ChangeDetectorRef) { }
 
   ngAfterViewInit(): void {
-    this.initializeEditors();
-    if(this.data) {
-      this.htmlEditor.setValue(this.data.pen.html_code);
-      this.stylesheetEditor.setValue(this.data.pen.css_code);
-      this.jsEditor.setValue(this.data.pen.js_code);
-      this.projectTitle = this.data.pen.name;
+    if(this.data && this.data.pen.type_css) {
       this.stylesheetLanguage = this.data.pen.type_css;
+    }
+    
+    this.initializeEditors();
+    console.log(this.data)
+    if(this.data) {
+      if(this.data.pen.html_code) {
+        this.htmlEditor.setValue(this.data.pen.html_code);
+      }
+      if(this.data.pen.css_code) {
+        this.stylesheetEditor.setValue(this.data.pen.css_code);
+      }
+      if(this.data.pen.js_code) {
+        this.jsEditor.setValue(this.data.pen.js_code);
+      }
+      this.projectTitle = this.data.pen.name;
+      if(this.data.pen.type_css) {
+        this.stylesheetLanguage = this.data.pen.type_css;
+      }
+      this.clearConsole()
       this.run();
     }
   }
@@ -68,12 +82,14 @@ export class CodeEditorComponent implements AfterViewInit {
 
   onLanguageChange() {
     this.stylesheetEditor.setOption('mode', this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
-    this.data.pen.type_css = this.stylesheetEditor;
+    this.data.pen.type_css = this.stylesheetLanguage;
+    console.log(this.stylesheetLanguage)
     this.dataChange.emit(this.data);
     this.run();
   }
 
   private run() {
+
     const htmlCode = this.htmlEditor.getValue();
     const stylesheetCode = this.stylesheetEditor.getValue();
     const jsCode = this.jsEditor.getValue();

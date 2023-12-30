@@ -21,14 +21,14 @@ export class AccountSettingsComponent {
       this.userDataService.updateUsername(user_id, this.newUsername.trim())
         .then(response => {
           console.log('Username updated successfully:', response);
-          // Optionally, you can handle UI updates or show a success message
+          alert('Username updated successfully!');
         })
         .catch(error => {
           console.error('Error updating username:', error);
-          // Handle errors and display an error message if necessary
+          alert('Error updating username!');
         });
     } else {
-      // Handle validation errors or show a message indicating the new username is empty
+      alert('Username is empty!!');
     }
   }
 
@@ -38,14 +38,14 @@ export class AccountSettingsComponent {
       this.userDataService.updatePassword(user_id, this.currentPassword.trim(), this.newPassword.trim())
         .then(response => {
           console.log('Password updated successfully:', response);
-          // Optionally, you can handle UI updates or show a success message
+          alert('Password updated successfully!');
         })
         .catch(error => {
           console.error('Error updating password:', error);
-          // Handle errors and display an error message if necessary
+          alert('Error updating password!');
         });
     } else {
-      // Handle validation errors or show a message indicating either the current or new password is empty
+      alert('Password is empty!!');
     }
   }
 
@@ -55,14 +55,14 @@ export class AccountSettingsComponent {
       this.userDataService.updateEmail(user_id, this.newEmail.trim())
         .then(response => {
           console.log('Email updated successfully:', response);
-          // Optionally, you can handle UI updates or show a success message
+          alert('Email updated successfully');
         })
         .catch(error => {
           console.error('Error updating email:', error);
-          // Handle errors and display an error message if necessary
+          alert('Error updating email');
         });
     } else {
-      // Handle validation errors or show a message indicating the new email is empty
+      alert('Email is empty!!');
     }
   }
 
@@ -74,6 +74,7 @@ export class AccountSettingsComponent {
         this.userDataService.deleteAccount(user_id)
           .then(response => {
             console.log('Account deleted successfully:', response);
+            alert('Tài khoản đã được xóa khỏi CODE!');
             this.router.navigate(['/login']);
           })
           .catch(error => {
