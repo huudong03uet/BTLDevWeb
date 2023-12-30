@@ -7,10 +7,10 @@ import { Params, Router } from '@angular/router';
   styleUrls: ['./project-profile.component.scss']
 })
 export class ProjectProfileComponent {
-  showLovedC = false;
-  showPrivateC = false;
-  showPublicC = false;
-  showPopularC = true;
+  showLovedProject = false;
+  showPrivateProject = false;
+  showPublicProject = false;
+  showPopularProject = false;
   currentURL = "";
   // constructor(private router: Router) {}
   constructor(private router: Router) {
@@ -28,27 +28,27 @@ export class ProjectProfileComponent {
       this.addClassActive();
     }
   }
-  navigateToCPopular() {
-    this.router.navigate(['/profile/collections/popular']);
+  navigateToProjectPopular() {
+    this.router.navigate(['/profile/projects/popular']);
   }
-  navigateToCPrivate() {
+  navigateToProjectPrivate() {
     // console.log('private')
-    this.router.navigate(['/profile/collections/private']);
+    this.router.navigate(['/profile/projects/private']);
   }
-  navigateToCPublic(){
-    this.router.navigate(['/profile/collections/public']);
+  navigateToProjectPublic(){
+    this.router.navigate(['/profile/projects/public']);
   }
-  navigateToCLoved(){
-    this.router.navigate(['/profile/collections/loved']);
+  navigateToProjectLoved(){
+    this.router.navigate(['/profile/projects/loved']);
   }
   addClassActive() {
-    const links = document.querySelectorAll('.links-collections');
+    const links = document.querySelectorAll('.links-projects');
     links.forEach(link => {
       const span = document.createElement('span');
 
       // <a class="link-settings account">Account</a>
-      //  currentURL = http://localhost:4200/settings/account
-      var check_currentURL = this.currentURL.split('/')[5] + "C"
+      //  currentURL = http://localhost:4200/profile/projects/popular
+      var check_currentURL = this.currentURL.split('/')[5] + "Project"
       if (link.classList.contains(check_currentURL)) {
         link.classList.add('active');
 

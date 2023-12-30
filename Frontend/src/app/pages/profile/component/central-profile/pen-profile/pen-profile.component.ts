@@ -7,14 +7,10 @@ import { Params, Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
 })
 export class PenProfileComponent {
-  showForked = false;
   showLoved = false;
-  showTemplate = false;
   showPrivate = false;
   showPublic = false;
-  showPopular = false;
-  showTagged = false;
-  showShowcase = true;
+  showPopular = true;
   currentURL = "";
   // constructor(private router: Router) {}
   constructor(private router: Router) {

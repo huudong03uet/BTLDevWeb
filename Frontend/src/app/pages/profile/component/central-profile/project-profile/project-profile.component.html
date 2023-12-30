@@ -1,11 +1,17 @@
-<div class="collections">
-    <span class="links-collections popularC" (click)="showPopularC = true;showPublicC = false; showLovedC = false;showPrivateC = false;navigateToCPopular()">Popular</span>
-    <span class="links-collections publicC" (click)="showPublicC = true;showPopularC = false; showLovedC = false;showPrivateC = false;navigateToCPublic()">Public</span>
-    <span class="links-collections privateC" (click)="showPrivateC = true;showPublicC = false; showLovedC = false;showPopularC = false;navigateToCPrivate()">Private</span>
-    <span class="links-collections lovedC" (click)="showLovedC = true;showPublicC = false; showPrivateC = false;showPopularC = false;navigateToCLoved()">Loved</span>
+<div class="projects">
+    <div class="header-projects-profile">
+        <span class="links-projects popularProject" (click)="showPopularProject = true;showPublicProject = false; showLovedProject = false;showPrivateProject = false;navigateToProjectPopular()">Popular</span>
+        <span class="links-projects publicProject" (click)="showPublicProject = true;showPopularProject = false; showLovedProject = false;showPrivateProject = false;navigateToProjectPublic()">Public</span>
+        <span class="links-projects privateProject" (click)="showPrivateProject = true;showPublicProject = false; showLovedProject = false;showPopularProject = false;navigateToProjectPrivate()">Private</span>
+        <span class="links-projects lovedProject" (click)="showLovedProject = true;showPublicProject = false; showPopularProject = false;showPrivateProject = false;navigateToProjectLoved()">Loved</span>
+    </div>
+    <div class="infor-project-profile">
+        <app-loved-project *ngIf="showLovedProject"></app-loved-project>
+        <app-popular-project *ngIf="showPopularProject"></app-popular-project>
+        <app-public-project *ngIf="showPublicProject"></app-public-project>
+        <app-private-project *ngIf="showPrivateProject"></app-private-project>
+    </div>
 
-    <app-loved-project *ngIf="showLovedC"></app-loved-project>
-    <app-popular-project *ngIf="showPopularC"></app-popular-project>
-    <app-public-project *ngIf="showPublicC"></app-public-project>
-    <app-private-project *ngIf="showPrivateC"></app-private-project>
+
 </div>
+

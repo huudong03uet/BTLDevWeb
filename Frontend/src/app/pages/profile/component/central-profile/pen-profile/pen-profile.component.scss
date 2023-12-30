@@ -1,10 +1,14 @@
 .pens {
     font-size: 1.1rem;
     // color: #9596A4;
-    
+    width: 100%;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     color: #9596A4;
+
+    .header-pens {
+        margin: 0px 10px 10px 10px;
+    }
 
     .links-pens {
         padding: 3px 14px 5px 0;
@@ -36,114 +40,9 @@
     }
 
 
-    // .showcase{
-        
-    // }
-    // .public{
-    //     padding: 3px 14px 5px 0;
-    //     display: inline-block;
-    //     text-align: center;
-    //     &.active{
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    //     &:hover {
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    // }
-    // .private{
-    //     padding: 3px 14px 5px 0;
-    //     display: inline-block;
-    //     text-align: center;
-    //     &.active{
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    //     &:hover {
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    // }
-    // .tags{
-    //     padding: 3px 14px 5px 0;
-    //     display: inline-block;
-    //     text-align: center;
-    //     &.active{
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    //     &:hover {
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    // }
-    // .loved{
-    //     padding: 3px 14px 5px 0;
-    //     display: inline-block;
-    //     text-align: center;
-    //     &.active{
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    //     &:hover {
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    // }
-    // .template{
-    //     padding: 3px 14px 5px 0;
-    //     display: inline-block;
-    //     text-align: center;
-    //     &.active{
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-
-    //         text-decoration: underline;
-    //     }
-    //     &:hover {
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    // }
-    // .popular{
-    //     padding: 3px 14px 5px 0;
-    //     display: inline-block;
-    //     text-align: center;
-    //     &.active{
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    //     &:hover {
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    // }
-    // .forked{
-    //     padding: 3px 14px 5px 0;
-    //     display: inline-block;
-    //     text-align: center;
-    //     &.active{
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    //     &:hover {
-    //         // color: rgb(250, 137, 156);
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    // }
-
+    .infor-pens {
+        width: 100%;
+        height: 100px;
+        background-color: #131417;
+    }
 }

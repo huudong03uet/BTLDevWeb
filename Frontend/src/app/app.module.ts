@@ -86,6 +86,9 @@ import { PrivateProjectComponent } from './pages/profile/component/central-profi
 import { LovedProjectComponent } from './pages/profile/component/central-profile/project-profile/loved-project/loved-project.component';
 import { PublicProjectComponent } from './pages/profile/component/central-profile/project-profile/public-project/public-project.component';
 import { ProjectProfileComponent } from './pages/profile/component/central-profile/project-profile/project-profile.component';
+import { ListItemGridCodeFullInfComponent } from './components/list-item-grid-code-full-inf/list-item-grid-code-full-inf.component';
+import { ListItemGridCollectionFullInfComponent } from './components/list-item-grid-collection-full-inf/list-item-grid-collection-full-inf.component';
+import { ListItemGridProjectFullInfComponent } from './components/list-item-grid-project-full-inf/list-item-grid-project-full-inf.component';
 
 @NgModule({
   declarations: [
@@ -164,6 +167,9 @@ import { ProjectProfileComponent } from './pages/profile/component/central-profi
     DetailPenComponent,
     CodeBoxProjectComponent,
     ListCollectionToAddPenComponent,
+    ListItemGridCodeFullInfComponent,
+    ListItemGridCollectionFullInfComponent,
+    ListItemGridProjectFullInfComponent,
   ],
   imports: [
     FormsModule,
