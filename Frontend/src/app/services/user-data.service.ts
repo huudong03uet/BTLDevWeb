@@ -21,6 +21,14 @@ export class UserDataService {
     this.userData = data;
   }
 
+  setUserDataUsername(username: string) {
+    console.log(username);
+    if (this.userData) {
+      this.userData.user_name = username;
+      this.setUserData(this.userData);
+    }
+  }
+
   getUserData(): User | null {
     return this.userData;
   }

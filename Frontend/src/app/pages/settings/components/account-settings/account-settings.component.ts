@@ -22,6 +22,7 @@ export class AccountSettingsComponent {
         .then(response => {
           console.log('Username updated successfully:', response);
           alert('Username updated successfully!');
+          this.userDataService.setUserDataUsername(this.newUsername.trim());
         })
         .catch(error => {
           console.error('Error updating username:', error);
