@@ -1,27 +1,59 @@
 const Sequelize = require('sequelize');
-const { Op } = require("sequelize");
+// const { Op } = require("sequelize");
+
 import followController from './followControler';
 import User from '../models/user';
+import penController from './penController';
+import Follow from '../models/followTable';
 
-let getInfoUser = async (req, res) => {
-    try {
-      const user_id = req.query.user_id;
-  
-      // Find the user by user_id excluding the password field
-      const user = await User.findByPk(user_id, {
-        attributes: { exclude: ['password'] },
-      });
-  
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-  
-      res.json(user);
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+// Add the missing function
+async function getFollowByUserID(user_id) {
+  try {
+    const getUser = await Follow.findAll({
+      where: { user_id_1: user_id },
+    });
+
+    if (getUser) {
+      const userIDs = getUser.map((user) => user.user_id_2);
+      return userIDs;
+    } else {
+      return [];
     }
+  } catch (error) {
+    console.error('Get follow by id error:', error);
+    throw error;
   }
+}
+
+async function getInfoUser(req, res) {
+  try {
+    const user_id = req.query.user_id;
+
+    const user = await User.findByPk(user_id, {
+      attributes: ['user_id', 'user_name', 'full_name', 'avatar_path'],
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Get followers and following counts
+    const followers_count = await Follow.count({ where: { user_id_2: user_id } });
+    const following_count = await Follow.count({ where: { user_id_1: user_id } });
+
+    res.status(200).json({
+      user_id: user.user_id,
+      user_name: user.user_name,
+      full_name: user.full_name,
+      avatar_path: user.avatar_path,
+      followers_count,
+      following_count,
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
 
 async function getUserByID(user_id) {
@@ -41,6 +73,27 @@ async function getUserByID(user_id) {
   }
 }
 
+async function countPenOfUser(arrUserID) {
+  try {
+    let updatedArrUserID = await Promise.all(arrUserID.map(async (item) => {
+      const pens = await penController._getPenByUser(item.user_id);
+      
+      if (!pens || pens.length === 0) {
+        return null;
+      }
+
+      return item;
+    }));
+
+    updatedArrUserID = updatedArrUserID.filter(item => item !== null);
+
+    return updatedArrUserID;
+  } catch (error) {
+    console.error('Error counting pens for users:', error);
+    throw error;
+  }
+}
+
 async function getAllUserExclude(arrUserID) {
   try {
     let users = await User.findAll({
@@ -51,6 +104,8 @@ async function getAllUserExclude(arrUserID) {
       },
       attributes: ['user_id', 'user_name', 'avatar_path']
     });
+
+    users = countPenOfUser(users);
 
     return users;
   } catch (error) {
@@ -73,7 +128,7 @@ async function getNotFollow(req, res) {
 
     const uniqueNotFollow = [...new Set(getAllNotFollow)];
 
-    res.json(uniqueNotFollow);
+    res.status(200).json(uniqueNotFollow);
   } catch (error) {
     console.error('Error fetching pen ids:', error);
     throw error;
