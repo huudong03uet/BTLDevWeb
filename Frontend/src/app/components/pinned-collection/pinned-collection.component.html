@@ -14,8 +14,12 @@
                 </svg>
             </button>
         </header>
-        <div class="item-grid">
+        <div class="item-grid" *ngIf="pen_ids.length!=0">
             <app-content-grid-code *ngFor="let dataItem of pen_ids" [pen_id]="dataItem"></app-content-grid-code>
+        </div>
+        <div class="item-grid no-pinned" *ngIf="pen_ids.length==0">
+            <h2>You don't have any pinned items yet.</h2>
+            <p>You can pin any Pen, Project, or Collection for easy access here.</p>
         </div>
     </div>
 </div>
