@@ -15,7 +15,10 @@ const User = sequelize.define('user', {
     gmail: DataTypes.TEXT,
     password: DataTypes.TEXT,
     full_name: DataTypes.TEXT,
-    location: DataTypes.TEXT,   
+    location: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },  
     bio: DataTypes.TEXT,        
     links: DataTypes.JSON,      
 }, {

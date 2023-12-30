@@ -139,18 +139,19 @@ async function getNotFollow(req, res) {
 async function updateProfile(req, res) {
   try {
     const user_id = req.params.id;
-    const { full_name, location, bio, links } = req.body;
+    const { full_name, location, bio } = req.body;
+
+    console.log(req)
 
     // Perform the update operation
     const [rowCount] = await User.update(
       {
         full_name,
         location,
-        bio,
-        links: JSON.stringify(links),
+        bio
       },
       {
-        where: { user_id },
+        where: { user_id: user_id },
       }
     );
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
+import axios from 'axios';
 
 @Component({
   selector: 'app-profile-settings',
@@ -38,31 +39,38 @@ export class ProfileSettingsComponent implements OnInit {
       ? `Bio (${remainingCharacters} characters remaining)`
       : `Bio (Exceeded limit by ${Math.abs(remainingCharacters)} characters)`;
   }
-  
+
   updateProfile() {
     const user_id = this.userData.user_id;
     const profileData = {
       full_name: this.userData.full_name,
       location: this.userData.location,
       bio: this.userData.bio,
-      links: [
-        this.userData.link1,
-        this.userData.link2,
-        this.userData.link3
-      ],
       // Add other profile fields based on your backend model
     };
 
-    // Call the updateProfile function from the service
-    this.userDataService.updateProfile(user_id, profileData)
-      .then((updatedUser: any) => {
-        // Handle successful profile update
-        console.log('Profile updated successfully:', updatedUser);
+    // console.log(profileData);
+
+    axios.put(`http://localhost:3000/user/updateProfile/${user_id}`, profileData)
+      .then(response => {
+        console.log('Profile updated successfully:', response.data);
+        // Handle success, e.g., show a success message
       })
       .catch(error => {
-        console.error('Error updating user profile:', error);
-        // Handle error
+        console.error('Error updating profile:', error);
+        // Handle error, e.g., show an error message
       });
+
+    // Call the updateProfile function from the service
+    // this.userDataService.updateProfile(user_id, profileData)
+    //   .then((updatedUser: any) => {
+    //     // Handle successful profile update
+    //     console.log('Profile updated successfully:', updatedUser);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error updating user profile:', error);
+    //     // Handle error
+    //   });
   }
 
   organizeShowcase() {
