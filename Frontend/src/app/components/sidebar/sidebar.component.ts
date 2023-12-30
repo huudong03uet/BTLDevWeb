@@ -52,7 +52,7 @@ export class SidebarComponent {
   }
   
   clickYourWork() {
-    this.router.navigate(['/your-work']);
+    this.router.navigate(['/your-work/pens']);
   }
 
   clickFollowing() {

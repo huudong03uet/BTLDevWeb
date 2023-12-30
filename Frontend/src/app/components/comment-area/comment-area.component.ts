@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, INJECTOR, Input, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-comment-area',
@@ -6,9 +6,10 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
   styleUrls: ['./comment-area.component.scss']
 })
 export class CommentAreaComponent {
-
-
-  data_comment = [
+  data_loved = 234;
+  data_view = 19876;
+  @Input() pen_id: number = 0;
+ data_comment = [
     {
       name: "Nguyễn Văn A",
       avatar: "https://i.pravatar.cc/150?img=1",
@@ -31,7 +32,7 @@ export class CommentAreaComponent {
       time: "3 giờ trước"
     }
 
-  ]
+  ];
 
   comment_length = this.data_comment.length;
 

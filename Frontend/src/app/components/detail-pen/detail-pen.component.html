@@ -9,7 +9,7 @@
                 </div>
                 <h2 class="name-code">
                     <a class="code-name">{{ namePen }}</a>
-                    <a class="code-user">{{data.user.user_name}}</a>
+                    <a class="code-user">{{data?.user?.user_name}}</a>
                 </h2>
             </div>
             <div class="right-header-content">
@@ -60,7 +60,7 @@
 
         </div>
         <div class="comment-detail-pen">
-            <app-comment-area></app-comment-area>
+            <app-comment-area [pen_id]="pen_id" ></app-comment-area>
         </div>
     </div>
 
