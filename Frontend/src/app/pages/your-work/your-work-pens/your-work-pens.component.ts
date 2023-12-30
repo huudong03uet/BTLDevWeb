@@ -34,7 +34,6 @@ export class YourWorkPensComponent {
   constructor(
     private route: ActivatedRoute,
     private userData: UserDataService,
-    private router: Router
   ) { }
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
