@@ -4,11 +4,11 @@
       <div class="profile-avatar">
         <div class="profile-header-name">
           <h1 id="user-header-name">
-            <span class="user-name">{{ user.user_name }}</span>
+            <span class="user-full-name">{{ user.full_name }}</span>
           </h1>
         </div>
-        <div class="user-id">
-            <span>@{{ user.user_id }}</span>
+        <div class="user-name">
+            <span>@{{ user.user_name }}</span>
           </div>
         <img class="avatar-profile" [src]="user.avatar_path || 'https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=80&height=80'">
         <div class="follower-num">
