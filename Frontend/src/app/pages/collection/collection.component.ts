@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
@@ -16,11 +16,11 @@ interface CollectionApiResponse {
 })
 export class CollectionComponent implements OnInit {
 
-  currentCollectionID: any;
+  @Input() currentCollectionID: any;
   user: any = {};
-  pen_ids: any[] = [];
-  collectionName: string = "";
-  userName: string = "";
+  pen_ids: any[] = [1, 3, 4];
+  collectionName: string = "em khong biet";
+  userName: string = "em khong biet";
 
   constructor(
     private http: HttpClient,
@@ -29,9 +29,11 @@ export class CollectionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+
     const user = this.userData.getUserData();
     if (!user) {
-      console.log("Oh no");
+      // console.log("Oh no");
       return;
     }
     const userId = user.user_id;
