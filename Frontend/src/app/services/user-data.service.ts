@@ -3,13 +3,13 @@ import { User } from '../models/user';
 import axios from 'axios';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserDataService {
   private userData: User | null = null;
 
   constructor() {
-    const token = localStorage.getItem("dataUser");
+    const token = localStorage.getItem('dataUser');
 
     if (typeof token === 'string') {
       this.userData = JSON.parse(token);
@@ -17,7 +17,7 @@ export class UserDataService {
   }
 
   setUserData(data: User | null) {
-    window.localStorage.setItem("dataUser", JSON.stringify(data));
+    window.localStorage.setItem('dataUser', JSON.stringify(data));
     this.userData = data;
   }
 
@@ -30,6 +30,15 @@ export class UserDataService {
       .then(response => response.data)
       .catch(error => {
         console.error('Error fetching user information:', error);
+        throw error;
+      });
+  }
+
+  updateProfile(user_id: number, profileData: any): Promise<User> {
+    return axios.post<User>(`http://localhost:3000/user/updateProfile/${user_id}`, profileData)
+      .then(response => response.data)
+      .catch(error => {
+        console.error('Error updating user profile:', error);
         throw error;
       });
   }
