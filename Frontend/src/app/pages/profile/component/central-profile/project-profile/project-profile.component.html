@@ -1,0 +1,11 @@
+<div class="collections">
+    <span class="links-collections popularC" (click)="showPopularC = true;showPublicC = false; showLovedC = false;showPrivateC = false;navigateToCPopular()">Popular</span>
+    <span class="links-collections publicC" (click)="showPublicC = true;showPopularC = false; showLovedC = false;showPrivateC = false;navigateToCPublic()">Public</span>
+    <span class="links-collections privateC" (click)="showPrivateC = true;showPublicC = false; showLovedC = false;showPopularC = false;navigateToCPrivate()">Private</span>
+    <span class="links-collections lovedC" (click)="showLovedC = true;showPublicC = false; showPrivateC = false;showPopularC = false;navigateToCLoved()">Loved</span>
+
+    <app-loved-project *ngIf="showLovedC"></app-loved-project>
+    <app-popular-project *ngIf="showPopularC"></app-popular-project>
+    <app-public-project *ngIf="showPublicC"></app-public-project>
+    <app-private-project *ngIf="showPrivateC"></app-private-project>
+</div>

@@ -1,18 +1,16 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { Params, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-central-profile',
-  templateUrl: './central-profile.component.html',
-  styleUrls: ['./central-profile.component.scss']
+  selector: 'app-project-profile',
+  templateUrl: './project-profile.component.html',
+  styleUrls: ['./project-profile.component.scss']
 })
-export class CentralProfileComponent {
-  showPens = true;
-  showCollections = false;
-  showProjects = false;
-  // constructor(
-  //   private route: ActivatedRoute
-  // ) {}
+export class ProjectProfileComponent {
+  showLovedC = false;
+  showPrivateC = false;
+  showPublicC = false;
+  showPopularC = true;
   currentURL = "";
   // constructor(private router: Router) {}
   constructor(private router: Router) {
@@ -30,33 +28,30 @@ export class CentralProfileComponent {
       this.addClassActive();
     }
   }
-  
-  navigateToPens() {
-    // console.log('profile')
-    this.router.navigate(['/profile/pens']);
+  navigateToCPopular() {
+    this.router.navigate(['/profile/collections/popular']);
   }
-
-  navigateToCollections() {
-    this.router.navigate(['/profile/collections']);
+  navigateToCPrivate() {
+    // console.log('private')
+    this.router.navigate(['/profile/collections/private']);
   }
-
-  navigateToProjects() {
-    this.router.navigate(['/profile/projects']);
+  navigateToCPublic(){
+    this.router.navigate(['/profile/collections/public']);
   }
-
-  
-  
-  
+  navigateToCLoved(){
+    this.router.navigate(['/profile/collections/loved']);
+  }
   addClassActive() {
-    const links = document.querySelectorAll('.links-centrals');
+    const links = document.querySelectorAll('.links-collections');
     links.forEach(link => {
       const span = document.createElement('span');
 
       // <a class="link-settings account">Account</a>
       //  currentURL = http://localhost:4200/settings/account
-      var check_currentURL = this.currentURL.split('/')[4]
+      var check_currentURL = this.currentURL.split('/')[5] + "C"
       if (link.classList.contains(check_currentURL)) {
         link.classList.add('active');
+
         span.classList.add('active');
         link.appendChild(span);
       } else {

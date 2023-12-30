@@ -32,9 +32,9 @@ export class PenProfileComponent {
       this.addClassActive();
     }
   }
-  navigateToShowcase() {
-    this.router.navigate(['/profile/pens/showcase']);
-  }
+  // navigateToShowcase() {
+  //   this.router.navigate(['/profile/pens/showcase']);
+  // }
 
   navigateToPopular() {
     this.router.navigate(['/profile/pens/popular']);
@@ -46,19 +46,19 @@ export class PenProfileComponent {
     this.router.navigate(['/profile/pens/private']);
   }
 
-  navigateToTemplate() {
-    this.router.navigate(['/profile/pens/template']);
-  }
+  // navigateToTemplate() {
+  //   this.router.navigate(['/profile/pens/template']);
+  // }
 
-  navigateToForked() {
-    this.router.navigate(['/profile/pens/forked']);
-  }
+  // navigateToForked() {
+  //   this.router.navigate(['/profile/pens/forked']);
+  // }
   navigateToLoved() { 
     this.router.navigate(['/profile/pens/loved']);
   }
-  navigateToTags() {
-    this.router.navigate(['/profile/pens/tags']);
-  }
+  // navigateToTags() {
+  //   this.router.navigate(['/profile/pens/tags']);
+  // }
   addClassActive() {
     const links = document.querySelectorAll('.links-pens');
     links.forEach(link => {
