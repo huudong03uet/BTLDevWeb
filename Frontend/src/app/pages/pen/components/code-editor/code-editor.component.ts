@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef, EventEmitter, Output, OnInit, Input } from '@angular/core';
 import { debounce } from 'lodash';
 import { Pen } from 'src/app/models/pen';
 
@@ -19,6 +19,9 @@ export class CodeEditorComponent implements AfterViewInit {
 
   @Output() webCodeChanged: EventEmitter<{ html: string; js: string; css: string; }> = new EventEmitter<{ html: string; js: string; css: string; }>();
 
+  @Input() data: any;
+  @Output() dataChange = new EventEmitter();
+
   htmlEditor!: any;
   stylesheetEditor!: any;
   jsEditor!: any;
@@ -31,9 +34,18 @@ export class CodeEditorComponent implements AfterViewInit {
 
   constructor(private cdRef: ChangeDetectorRef) { }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.initializeEditors();
+    if(this.data) {
+      this.htmlEditor.setValue(this.data.pen.html_code);
+      this.stylesheetEditor.setValue(this.data.pen.css_code);
+      this.jsEditor.setValue(this.data.pen.js_code);
+      this.projectTitle = this.data.pen.name;
+      this.stylesheetLanguage = this.data.pen.type_css;
+      this.run();
+    }
   }
+
 
   private initializeEditors() {
     this.htmlEditor = this.createEditor(this.htmlTextarea, 'xml');
@@ -56,6 +68,8 @@ export class CodeEditorComponent implements AfterViewInit {
 
   onLanguageChange() {
     this.stylesheetEditor.setOption('mode', this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
+    this.data.pen.type_css = this.stylesheetEditor;
+    this.dataChange.emit(this.data);
     this.run();
   }
 
@@ -156,27 +170,10 @@ export class CodeEditorComponent implements AfterViewInit {
     const scriptTag = document.createElement('script');
     scriptTag.innerHTML = jsCode;
     output.contentDocument.body.appendChild(scriptTag);
-
-    this.webCodeChanged.emit({
-      html: htmlCode,
-      js: jsCode,
-      css: finalCssCode,
-    });
-  }
-
-  getData() {
-    const htmlCode = this.htmlEditor.getValue();
-    const stylesheetCode = this.stylesheetEditor.getValue();
-    const jsCode = this.jsEditor.getValue();
-
-    return { projectTitle: this.projectTitle, htmlCode, stylesheetCode, jsCode };
-  }
-
-  setPen(dataPen: Pen) {
-    this.htmlEditor.setValue(dataPen.html_code);
-    this.stylesheetEditor.setValue(dataPen.css_code);
-    this.jsEditor.setValue(dataPen.js_code);
-    this.projectTitle = dataPen.projectTitle;
-    this.run();
+    //thay đổi data gửi về cha
+    this.data.pen.html_code = htmlCode;
+    this.data.pen.css_code = finalCssCode;
+    this.data.pen.js_code = jsCode;
+    this.dataChange.emit(this.data);
   }
 }
