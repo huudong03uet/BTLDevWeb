@@ -10,6 +10,50 @@ import Pin from "../models/pin";
 
 import followController, { getFollowByUserID } from './followControler';
 
+
+async function savePen(req, res) {
+  const data = req.body.data;
+  const user = req.body.user;
+  try {
+    if (data.pen.pen_id != null && data.user.user_id == user.user_id) {
+        const existingPen = await Pen.findOne({ where: { pen_id: data.pen.pen_id } });
+
+        // console.log(existingPen)
+        // console.log('pen', data.pen.pen_id)
+        // Nếu pen đã tồn tại, thực hiện cập nhật
+        existingPen.html_code = data.pen.html_code;
+        existingPen.js_code = data.pen.js_code;
+        existingPen.css_code = data.pen.css_code;
+        existingPen.name = data.pen.name;
+        existingPen.type_css = data.pen.type_css;
+        existingPen.status = data.pen.status;
+
+        await existingPen.save();
+
+        // Trả về thông tin pen đã được cập nhật
+        return res.status(200).json({code: 200, pen: existingPen, message: "cập nhật pen thành công"});
+    } else {
+        // Nếu pen chưa tồn tại, tạo mới pen
+        const newPen = await Pen.create({
+          html_code: data.pen.html_code,
+          js_code: data.pen.js_code,
+          css_code: data.pen.css_code,
+          name: data.pen.name,
+          type_css: data.pen.type_css,
+          status: data.pen.status,
+          deleted: data.pen.deleted,
+          user_id: user.user_id,
+        });
+        return res.status(201).json({code: 200, pen: newPen, message: "tạo pen mới thành công"});
+      // Trả về thông tin pen đã được tạo
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Lỗi trong quá trình tạo hoặc cập nhật pen' });
+  }
+}
+
+
 let createOrUpdatePen = async (req, res) => {
     try {
         if (req.body.pen_id != null) {
@@ -100,6 +144,8 @@ async function getPenByUser(req, res) {
 async function getInfoPen(req, res) {
   const penId = req.query.pen_id;
   const user_id = req.query.user_id;
+  console.log(penId, user_id);
+  console.log(123333);
   try {
     // console.log(penId);
     const pen = await Pen.findByPk(penId);
@@ -113,12 +159,19 @@ async function getInfoPen(req, res) {
         where: { user_id: pen.user_id}
       });  
     } 
-    const likeRecord = await Like.findOne({
-      where: {
-          user_id: user_id,
-          pen_id: penId,
-      },
-    });
+    let likeRecord;
+    if(user_id !== null) {
+      likeRecord = await Like.findOne({
+        where: {
+            user_id: user_id,
+            pen_id: penId,
+        },
+      });
+    }
+    else {
+      likeRecord == null;
+    }
+  
 
   
     const viewCount = await View.count({ where: { pen_id: penId, type: "pen" } });
@@ -185,13 +238,14 @@ async function getPenByUserIDForFollow(req, res) {
     pens = shuffleArray(pens);
     if (pens.length > 0) {
       pens = pens.slice(0, 2);
+      res.status(200).json(pens);
     } else if(pens.length == 1) {
       pens.push(pens[0]);
+      res.status(200).json(pens); 
     } else {
       res.status(200).json(null)
     }
     
-    res.status(200).json(pens);
 
 
   } catch (e) {
@@ -223,6 +277,7 @@ async function getFollow(req, res) {
   }
 }
 
+
 module.exports = {
     createOrUpdatePen, 
     getPenById, 
@@ -231,5 +286,6 @@ module.exports = {
     getPenByUser, 
     getPenByUserIDForFollow,
     getFollow,
+    savePen,
     _getPenByUser,
 };

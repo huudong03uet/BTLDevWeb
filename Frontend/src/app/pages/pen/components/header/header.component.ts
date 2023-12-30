@@ -3,6 +3,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnInit }
 import { Router } from '@angular/router';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HomeCodeComponent } from '../../home-code.component';
+
 import axios from 'axios';
 
 @Component({
@@ -11,16 +12,15 @@ import axios from 'axios';
   styleUrls: ['./header.component.scss']
 })
 export class PenHeaderComponent implements OnInit {
-  @Output() saveDataParent = new EventEmitter<void>();
-  @Input() webCodeData: { html: string; js: string; css: string; pen_id: string; user_id: Number; name: string; } = {
-    html: '',
-    js: '',
-    css: '',
-    pen_id: '',
-    user_id: 0,
-    name: '',
-  };
-  @Input() owner : any;
+  user: any;
+  constructor(private router: Router, 
+    private userData: UserDataService) { 
+      this.user = this.userData.getUserData();
+    }
+
+  @Input() data: any;
+  @Output() dataChange = new EventEmitter();
+  @Output() saveData = new EventEmitter()
   @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
   @ViewChild(HomeCodeComponent) homeCodeComponent!: HomeCodeComponent;
 
@@ -35,17 +35,11 @@ export class PenHeaderComponent implements OnInit {
   public isEditingTitle = false;
   public isLoggedIn = false;
 
-  currentUser: any;
   isFollowing = false;
 
-  constructor(private router: Router, private userDataService: UserDataService) { }
 
-  ngOnInit(): void {
-    this.isLoggedIn = !!this.userDataService.getUserData();
-    this.currentUser = this.userDataService.getUserData();
-    if (this.webCodeData.pen_id) {
-      this.getProjectTitle();
-    }
+  ngOnInit(): void { 
+    this.projectTitle = this.data.pen.name ? this.data.pen.name : 'Untitled';
   }
 
   toggleMenu(): void {
@@ -77,12 +71,9 @@ export class PenHeaderComponent implements OnInit {
 
   stopEditingTitle(): void {
     this.isEditingTitle = false;
-    this.webCodeData.name = this.projectTitle;
   }
 
-  saveData(): void {
-    // console.log("header", this.webCodeData)
-  }
+ 
 
   toggleFavorite(): void {
     if (this.myPen && this.myPen.pen_id) {
@@ -91,46 +82,64 @@ export class PenHeaderComponent implements OnInit {
   }
 
   async toggleSave() {
-    console.log("header", this.webCodeData)
-    if (this.webCodeData.user_id == null) {
-      this.router.navigate(['/login']);
-      return;
-    }
-    try {
-      const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {
-        user_id: this.webCodeData.user_id, 
-        pen_id: this.webCodeData.pen_id, 
-        html_code: this.webCodeData.html, 
-        css_code: this.webCodeData.css, 
-        js_code: this.webCodeData.js, 
-        name: this.projectTitle,
-      });
-      this.myPen = response.data.pen;
-
-      if (this.myPen && this.myPen.name) {
-        this.projectTitle = this.myPen.name;
-      }
-    } catch (error) {
-      console.error('Error save pen:', error);
-    }
-  }
-
-  async getProjectTitle() {
-    try {
-      const response = await axios.post('http://localhost:3000/pen/getPenById', { pen_id: this.webCodeData.pen_id });
-      const pen = response.data.pen;
-      if (pen && pen.name) {
-        this.projectTitle = pen.name;
-      }
-    } catch (error) {
-      console.error('Error getting pen title:', error);
-    }
+    this.data.pen.name = this.projectTitle;
+    this.dataChange.emit(this.data);
+    this.saveData.emit();
   }
 
   toggleFollow(): void {
     if (this.myPen && this.myPen.user && this.myPen.user.id) {
       console.log('Toggle follow user:', this.myPen.user.id);
       this.isFollowing = !this.isFollowing;
+    }
+  }
+  handleLikeClick() {
+    if(this.userData.getUserData == null) {
+      this.router.navigate([`/login`]);
+    }
+    const url = `http://localhost:3000/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+
+    axios.get(url)
+        .then((response) => {    
+            this.data.liked = response.data.liked;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+
+            // Nếu xảy ra lỗi, đảm bảo đồng bộ lại giá trị 'liked' và 'like'
+            this.data.liked = this.data.liked;
+        });
+  }
+
+  handlePinClick() {
+    if(this.userData.getUserData == null) {
+      this.router.navigate([`/login`]);
+    }
+    const url = `http://localhost:3000/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+
+    axios.get(url)
+        .then((response) => {
+            this.data.pined = response.data.pinned;
+          })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+  }
+
+  handleFollowClick() {
+    if(this.userData.getUserData == null) {
+      this.router.navigate([`/login`]);
+    } else {
+      const url = `http://localhost:3000/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
+
+      axios.get(url)
+          .then((response) => {
+              this.data.followed = response.data.followed;
+            })
+          .catch((error) => {
+              console.error('Error:', error);
+          });  
     }
   }
 }

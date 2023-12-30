@@ -15,10 +15,10 @@
                 <input #projectTitleInput *ngIf="isEditingTitle" [(ngModel)]="projectTitle" class="project-title-input"
                     (blur)="stopEditingTitle()" />
                 <p>
-                    {{ myPen?.user?.username || 'Captain Anonymous' }}
-                    <button class="follow-button" *ngIf="isLoggedIn && myPen?.user?.id !== currentUser?.id"
-                        (click)="toggleFollow()">
-                        {{ isFollowing ? 'Following' : '+ Follow' }}
+                    {{ data?.user?.user_name || 'Captain Anonymous' }}
+                    <button class="follow-button" *ngIf="data.user.user_id != user?.user_id"
+                        (click)="handleFollowClick()">
+                        {{ data.followed ? 'Following' : '+ Follow' }}
                     </button>
                 </p>
             </div>
@@ -27,22 +27,22 @@
         </div>
         <div class="right">
             <ul>
-                <li class="favorite-icon" *ngIf="isLoggedIn && myPen && myPen.pen_id">
-                    <a class="favorite-button" (click)="toggleFavorite()">
-                        <i class="fas fa-heart"></i>
+                <li class="favorite-icon">
+                    <a class="favorite-button" (click)="handleLikeClick()">
+                      <i class="fas fa-heart" [style.color]="data.liked ? 'red' : 'white'"></i>
                     </a>
                 </li>
-                <li class="save" *ngIf="isLoggedIn"><a (click)="toggleSave()"><i class="fas fa-cloud"></i> Save</a></li>
-                <li class="settings" *ngIf="isLoggedIn"><a><i class="fas fa-gear"></i> Settings</a></li>
-                <li class="save" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i>
+                <li class="save" *ngIf="user"><a (click)="toggleSave()"><i class="fas fa-cloud"></i> Save</a></li>
+                <li class="settings" *ngIf="user"><a><i class="fas fa-gear"></i> Settings</a></li>
+                <li class="save" *ngIf="!user"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i>
                         Save</a></li>
-                <li class="settings" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i>
+                <li class="settings" *ngIf="!user"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i>
                         Settings</a></li>
                 <li class="view"><a><i class="fas fa-object-group"></i></a></li>
                 <li class="submenu" (click)="toggleMenu()"><a><i class="fas fa-square-caret-down"></i></a></li>
-                <li *ngIf="!isLoggedIn"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
-                <li *ngIf="!isLoggedIn"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
-                <li *ngIf="isLoggedIn"><img src="path_to_avatar_image.jpg" alt="User Avatar"></li>
+                <li *ngIf="!user"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
+                <li *ngIf="!user"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
+                <li *ngIf="user"><img src="path_to_avatar_image.jpg" alt="User Avatar"></li>
             </ul>
         </div>
         <ul class="mobile-menu" [style.right]="isMenuOpen ? '75px' : '-400px'" id="side-menu">
