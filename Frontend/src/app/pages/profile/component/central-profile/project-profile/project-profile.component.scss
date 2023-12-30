@@ -1,9 +1,14 @@
 .projects {
     font-size: 1.1rem;
     // color: #9596A4;
-    
+    width: 100%;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    color: #9596A4;
+
+    .header-project {
+        margin: 0px 10px 10px 10px;
+    }
     .header-projects-profile {
         .links-projects {
             color: #9596A4;
@@ -41,5 +46,8 @@
         }
     }
 
-
+    .infor-projects {
+        width: 100%;
+        background-color: #131417;
+    }
 }

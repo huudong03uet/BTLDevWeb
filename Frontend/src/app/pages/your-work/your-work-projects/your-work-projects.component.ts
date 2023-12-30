@@ -9,7 +9,7 @@ import axios from 'axios';
   styleUrls: ['./your-work-projects.component.scss']
 })
 export class YourWorkProjectsComponent {
-  pen_ids = []
+  project_ids = []
 
   // page_now: number = 1;
   // pen_ids_current: any[] = [];
@@ -44,10 +44,10 @@ export class YourWorkProjectsComponent {
 
         axios.get(apiUrl)
           .then((response) => {
-            this.pen_ids = response.data;
+            this.project_ids = response.data;
             // this.pen_ids_current = this.pen_ids.slice(0, 6);
             // this.check_is_start_end();
-            console.log('pen:', this.pen_ids)
+            console.log('pen:', this.project_ids)
           })
           .catch((error) => {
             console.error('Error:', error);

@@ -10,7 +10,7 @@ export class ProjectProfileComponent {
   showLovedProject = false;
   showPrivateProject = false;
   showPublicProject = false;
-  showPopularProject = false;
+  showPopularProject = true;
   currentURL = "";
   // constructor(private router: Router) {}
   constructor(private router: Router) {

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./popular-project.component.scss']
 })
 export class PopularProjectComponent {
-
+  project_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4]
 }
