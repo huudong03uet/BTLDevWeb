@@ -15,10 +15,10 @@
                 <input #projectTitleInput *ngIf="isEditingTitle" [(ngModel)]="projectTitle" class="project-title-input"
                     (blur)="stopEditingTitle()" />
                 <p>
-                    {{ data?.user?.user_name || 'Captain Anonymous' }}
-                    <button class="follow-button" *ngIf="data.user.user_id != user?.user_id"
+                    {{ data?.user?.user_name && data.pen.pen_id ? data?.user?.user_name : (user ? user.user_name : 'Captain Anonymous' )}}
+                    <button class="follow-button" *ngIf="data?.user?.user_id != user?.user_id  && data.pen.pen_id"
                         (click)="handleFollowClick()">
-                        {{ data.followed ? 'Following' : '+ Follow' }}
+                        {{ data?.followed ? 'Following' : '+ Follow' }}
                     </button>
                 </p>
             </div>
@@ -27,9 +27,9 @@
         </div>
         <div class="right">
             <ul>
-                <li class="favorite-icon">
+                <li class="favorite-icon" *ngIf="data.pen.pen_id">
                     <a class="favorite-button" (click)="handleLikeClick()">
-                      <i class="fas fa-heart" [style.color]="data.liked ? 'red' : 'white'"></i>
+                      <i class="fas fa-heart" [style.color]="data?.liked ? 'red' : 'white'"></i>
                     </a>
                 </li>
                 <li class="save" *ngIf="user"><a (click)="toggleSave()"><i class="fas fa-cloud"></i> Save</a></li>

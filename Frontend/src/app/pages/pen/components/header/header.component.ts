@@ -39,7 +39,8 @@ export class PenHeaderComponent implements OnInit {
 
 
   ngOnInit(): void { 
-    this.projectTitle = this.data.pen.name ? this.data.pen.name : 'Untitled';
+    this.projectTitle = this.data?.pen?.name ? this.data.pen.name : 'Untitled';
+    console.log(this.projectTitle);
   }
 
   toggleMenu(): void {

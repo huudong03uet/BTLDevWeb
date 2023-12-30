@@ -15,6 +15,7 @@ export class HomeCodeComponent implements OnInit {
   @ViewChild(CodeEditorComponent) codeEditorComponent!: CodeEditorComponent;
   isLoggedIn = false;
   data: any;
+  penId: any;
 
   constructor(
     private userData: UserDataService,
@@ -25,21 +26,24 @@ export class HomeCodeComponent implements OnInit {
   ngOnInit(): void {
     // Lấy thông tin về trang trước đó
     this.route.params.subscribe(async (params) => {
-      const penId = params['id'];
-      if (penId != null) {
+      this.penId = params['id'];
+      if (this.penId != null) {
         try {
-          console.log(penId, this.userData.getUserData());
-          let data = await axios.get(`http://localhost:3000/pen/getInfoPen?pen_id=${penId}&user_id=${this.userData.getUserData()?.user_id}`); 
+          console.log(this.penId, this.userData.getUserData());
+          let data = await axios.get(`http://localhost:3000/pen/getInfoPen?pen_id=${this.penId}&user_id=${this.userData.getUserData()?.user_id}`); 
           console.log(data)
           this.data = data.data;
           if(this.data.pen.status === "private") {
             this.router.navigate(['/**']);
           }
-          this.loadPinAndFollow(penId);
+          this.loadPinAndFollow(this.penId);
         } catch (error) {
           this.router.navigate(['/**']);
           console.error('Error get pen:', error);
         }
+      }
+      else {
+        this.data = { pen: {html_code: '', css_cod: '', js_code: '', type_css: "css"}}
       }
     });
     this.isLoggedIn = !!this.userData.getUserData();
@@ -63,6 +67,7 @@ export class HomeCodeComponent implements OnInit {
       return;
     }
     try {
+      console.log(this.data);
       const response = await axios.post('http://localhost:3000/pen/savePen', {
         data: this.data,
         user: this.userData.getUserData(),
