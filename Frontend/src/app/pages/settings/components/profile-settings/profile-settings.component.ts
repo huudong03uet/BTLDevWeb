@@ -54,11 +54,11 @@ export class ProfileSettingsComponent implements OnInit {
     axios.put(`http://localhost:3000/user/updateProfile/${user_id}`, profileData)
       .then(response => {
         console.log('Profile updated successfully:', response.data);
-        // Handle success, e.g., show a success message
+        alert('Lưu thành công');
       })
       .catch(error => {
         console.error('Error updating profile:', error);
-        // Handle error, e.g., show an error message
+        alert('Lưu thất bại. Có lỗi đã xảy ra!');
       });
 
     // Call the updateProfile function from the service
