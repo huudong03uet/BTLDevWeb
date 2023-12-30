@@ -43,7 +43,7 @@ export class HomeCodeComponent implements OnInit {
         }
       }
       else {
-        this.data = { pen: {html_code: '', css_cod: '', js_code: '', type_css: "css"}}
+        this.data = { pen: {html_code: '', css_cod: '', js_code: '', type_css: "css"}, user: {user_id: '', user_name: ''}}
       }
     });
     this.isLoggedIn = !!this.userData.getUserData();
