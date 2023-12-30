@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-settings',
@@ -12,7 +13,7 @@ export class AccountSettingsComponent {
   newPassword: string = '';
   newEmail: string = '';
 
-  constructor(private userDataService: UserDataService) { }
+  constructor(private userDataService: UserDataService, private router: Router) { }
 
   changeUsername() {
     const user_id = this.getUserID();
@@ -73,7 +74,7 @@ export class AccountSettingsComponent {
         this.userDataService.deleteAccount(user_id)
           .then(response => {
             console.log('Account deleted successfully:', response);
-            // Optionally, you can navigate to a different page or show a success message
+            this.router.navigate(['/login']);
           })
           .catch(error => {
             console.error('Error deleting account:', error);
