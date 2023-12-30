@@ -9,6 +9,8 @@ import Follow from "../models/followTable";
 import Pin from "../models/pin";
 
 import followController, { getFollowByUserID } from './followControler';
+import { _getViewByPen } from './viewController';
+import { _getLikeByuserID } from "./likeController";
 
 
 async function savePen(req, res) {
@@ -116,7 +118,7 @@ async function getPenById(req, res) {
     }
 }
 
-async function _getPenByUser(user_id) {
+async function _getPenByUserID(user_id) {
   try {
     const pen = await Pen.findAll({ 
       where: { user_id: user_id },
@@ -130,17 +132,85 @@ async function _getPenByUser(user_id) {
   }
 }
 
+async function _getPenByUser(user_id) {
+  try {
+    const pen = await _getPenByUserID(user_id);
+    return pen;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 async function getPenByUser(req, res) {
   const user_id  = req.params.id;
   try {
-    const pen = await Pen.findAll({ where: { user_id: user_id } });
-    const penIdValues = pen.map((pen) => pen.pen_id);
-    return res.status(200).json(penIdValues);
+    const pen = await _getPenByUser(user_id)
+    return res.status(200).json(pen);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy thông tin pen' });
   }
 }
+
+async function _getPenStatusByUserID(user_id, status) {
+  try {
+    const pen = await Pen.findAll({ 
+      where: { status: status, user_id: user_id },
+      attributes: ['pen_id']
+    });
+    const penIds = pen.map(pen => pen.pen_id);
+    return penIds;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function getPenByUserSort(req, res) {
+  const {user_id, sortby}  = req.query;
+
+  console.log(req.query)
+
+  try {
+    if (sortby == 'private' || sortby == 'public') {
+      let pen = await _getPenStatusByUserID(user_id, sortby);
+      return res.status(200).json(pen);
+    }  else if (sortby == 'view') {
+      let pen = await _getPenByUser(user_id);
+
+      let arrSort = []; 
+
+      await Promise.all(pen.map(async (i) => {
+        let x =  (await _getViewByPen(i)).length
+        arrSort.push(x);
+      }));
+
+      const penWithSortValues = pen.map((item, index) => ({
+        pen: item,
+        arrSortValue: arrSort[index],
+      }));
+
+      penWithSortValues.sort((a, b) => b.arrSortValue - a.arrSortValue);
+
+      pen = penWithSortValues.map((item) => item.pen);
+      arrSort = penWithSortValues.map((item) => item.arrSortValue);
+
+      return res.status(200).json(pen);
+
+    } else if (sortby == 'like') {
+      let pen = await _getLikeByuserID(user_id);
+      const penIds = pen.map(pen => pen.pen_id);
+      return res.status(200).json(penIds);
+    }
+
+    
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 
 async function getInfoPen(req, res) {
   const penId = req.query.pen_id;
@@ -172,8 +242,6 @@ async function getInfoPen(req, res) {
     else {
       likeRecord == null;
     }
-  
-
   
     const viewCount = await View.count({ where: { pen_id: penId, type: "pen" } });
 
@@ -289,4 +357,5 @@ module.exports = {
     getFollow,
     savePen,
     _getPenByUser,
+    getPenByUserSort,
 };
