@@ -1,0 +1,45 @@
+.projects {
+    font-size: 1.1rem;
+    // color: #9596A4;
+    
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    .header-projects-profile {
+        .links-projects {
+            color: #9596A4;
+            padding: 3px 14px 5px 0;
+            display: inline-block;
+            text-align: center;
+            &.active{
+                // color: rgb(250, 137, 156);
+                color: white;
+                // text-decoration: underline;
+            }
+            &:hover {
+                // color: rgb(250, 137, 156);
+                color: white;
+                // text-decoration: underline;
+            }
+    
+    
+    
+        }
+    
+    
+        .links-projects.active {
+            text-decoration: none;
+            &.active{
+                // color: rgb(250, 137, 156);
+                text-decoration: none;
+            }
+            &:hover {
+                // color: rgb(250, 137, 156);
+                text-decoration: none;
+            }
+    
+            
+        }
+    }
+
+
+}

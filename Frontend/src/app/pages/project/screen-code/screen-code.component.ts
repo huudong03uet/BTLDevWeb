@@ -57,6 +57,7 @@ export class ScreenCodeComponent {
     this.listFilesOpen = this.listFilesOpen.filter((file) => file.id !== id);
     if (id === this.file_selected.id) {
       this.file_selected = this.listFilesOpen[0];
+      this.count = !this.count;
     }
   }
 

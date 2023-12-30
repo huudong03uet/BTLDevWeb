@@ -14,6 +14,7 @@ import followController, { getFollowByUserID } from './followControler';
 async function savePen(req, res) {
   const data = req.body.data;
   const user = req.body.user;
+  console.log(data)
   try {
     if (data.pen.pen_id != null && data.user.user_id == user.user_id) {
         const existingPen = await Pen.findOne({ where: { pen_id: data.pen.pen_id } });

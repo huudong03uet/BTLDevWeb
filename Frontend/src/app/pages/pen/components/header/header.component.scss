@@ -40,14 +40,37 @@
         border: none;
         padding: 1px 6px;
         cursor: pointer;
-        border-radius: 5px;
+        border-radius: 4px;
         font-size: 10.5px;
     
         &:hover {
             background: #039c52;
         }
     }
-    
+
+    .follow-button.following {
+        background: hsl( 228deg 12.2% 40.2% );
+        color: #fff;
+        border: none;
+        padding: 1px 6px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 10.5px;
+        svg {
+            width: 10px;
+            margin-right: 3px;
+            fill: #fff;
+        }
+
+        &:hover {
+            background-color: red;;
+            color: black;
+        }
+
+  
+    }
+
+
 }
 
 .project-title-input {

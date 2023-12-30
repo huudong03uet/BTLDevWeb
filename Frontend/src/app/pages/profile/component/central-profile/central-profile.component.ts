@@ -9,6 +9,7 @@ import { Params, Router } from '@angular/router';
 export class CentralProfileComponent {
   showPens = true;
   showCollections = false;
+  showProjects = false;
   // constructor(
   //   private route: ActivatedRoute
   // ) {}
@@ -37,6 +38,10 @@ export class CentralProfileComponent {
 
   navigateToCollections() {
     this.router.navigate(['/profile/collections']);
+  }
+
+  navigateToProjects() {
+    this.router.navigate(['/profile/projects']);
   }
 
   
