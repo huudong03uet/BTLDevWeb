@@ -35,7 +35,6 @@ export class ContentGridCodeComponent implements OnInit {
     axios.get(apiUrl)
       .then((response) => {
         this.data = response.data;
-        console.log('Data grid code:', this.data.user);
         this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
         const iframeContent = `
         <html>
@@ -73,7 +72,6 @@ export class ContentGridCodeComponent implements OnInit {
       .then((response) => {
         this.pined = response.data.pined;
         this.followed = response.data.followed;
-        console.log(response.data)
         this.informationPen[1] = !this.pined ? "Add to Pins" : "Remove to Pins";
         this.informationPen[2] = !this.followed ? `Follow ${this.data.user.user_name}` : `Unfollow ${this.data.user.user_name}`;
       })
