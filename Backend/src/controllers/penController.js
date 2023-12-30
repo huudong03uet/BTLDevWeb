@@ -56,14 +56,10 @@ async function getPenById(req, res) {
   
     try {
       const pen = await Pen.findOne({ where: { pen_id: pen_id } });
-
-      console.log("em khong biet", pen);
   
       if (!pen) {
         return res.status(404).json({ code: 404, message: 'Không tìm thấy pen với id đã cho' });
       }
-
-      
       return res.status(200).json({ code: 200, pen, message: 'Lấy thông tin pen thành công' });
     } catch (error) {
       console.error(error);
@@ -77,11 +73,11 @@ async function _getPenByUser(user_id) {
       where: { user_id: user_id },
       attributes: ['pen_id']
     });
-    const penIds = pen.map(pen => pen.pen_id);
-    return penIds;
+    const penIdValues = pen.map((pen) => pen.pen_id);
+    return penIdValues;
   } catch (error) {
     console.error(error);
-    throw error;
+    throw e;
   }
 }
 
@@ -182,7 +178,7 @@ async function getPenByUserIDForFollow(req, res) {
       raw: true, 
     });
 
-    pens = shuffleArray(pens);
+    // pens = shuffleArray(pens);
     if (pens.length > 0) {
       pens = pens.slice(0, 2);
     } else if(pens.length == 1) {
@@ -231,5 +227,4 @@ module.exports = {
     getPenByUser, 
     getPenByUserIDForFollow,
     getFollow,
-    _getPenByUser,
 };
