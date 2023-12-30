@@ -95,13 +95,14 @@ async function countPenOfUser(arrUserID) {
   }
 }
 
-async function getAllUserExclude(arrUserID) {
+async function getAllUserExclude(arrUserID, user_id) {
   try {
     let users = await User.findAll({
       where: {
         user_id: {
           [Sequelize.Op.notIn]: arrUserID
-        }
+        },
+        [Sequelize.Op.not]: { user_id: user_id }, 
       },
       attributes: ['user_id', 'user_name', 'avatar_path']
     });
@@ -125,7 +126,7 @@ async function getNotFollow(req, res) {
 
     const getFollowUsers = await followController.getFollowByUserID(getOneUser);
 
-    const getAllNotFollow = await getAllUserExclude(getFollowUsers);
+    const getAllNotFollow = await getAllUserExclude(getFollowUsers, user_id);
 
     const uniqueNotFollow = [...new Set(getAllNotFollow)];
 
@@ -139,18 +140,19 @@ async function getNotFollow(req, res) {
 async function updateProfile(req, res) {
   try {
     const user_id = req.params.id;
-    const { full_name, location, bio, links } = req.body;
+    const { full_name, location, bio } = req.body;
+
+    console.log(req)
 
     // Perform the update operation
     const [rowCount] = await User.update(
       {
         full_name,
         location,
-        bio,
-        links: JSON.stringify(links),
+        bio
       },
       {
-        where: { user_id },
+        where: { user_id: user_id },
       }
     );
 
@@ -175,10 +177,121 @@ async function updateProfile(req, res) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
+async function changeUsername(req, res) {
+  try {
+    const user_id = req.params.id;
+    const newUsername = req.body.newUsername;
 
+    const [rowCount] = await User.update(
+      { user_name: newUsername },
+      { where: { user_id } }
+    );
+
+    if (rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const updatedUser = await User.findByPk(user_id, {
+      attributes: ['user_id', 'user_name'],
+    });
+
+    res.status(200).json({
+      user_id: updatedUser.user_id,
+      user_name: updatedUser.user_name,
+    });
+  } catch (error) {
+    console.error('Error changing username:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+async function changeEmail(req, res) {
+  try {
+    const user_id = req.params.id;
+    const newEmail = req.body.newEmail;
+
+    const [rowCount] = await User.update(
+      { gmail: newEmail },
+      { where: { user_id } }
+    );
+
+    if (rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const updatedUser = await User.findByPk(user_id, {
+      attributes: ['user_id', 'gmail'],
+    });
+
+    res.status(200).json({
+      user_id: updatedUser.user_id,
+      gmail: updatedUser.gmail,
+    });
+  } catch (error) {
+    console.error('Error changing email:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+const Collection = require('../models/collection');
+const Pen = require('../models/pen'); 
+const ViewTable = require('../models/viewTable'); 
+const FollowTable = require('../models/followTable');
+const Pin = require('../models/pin');
+const LikeTable = require('../models/likeTable');
+const CommentTable = require('../models/commentTable');
+
+async function deleteUser(req, res) {
+  try {
+    const user_id = req.params.id;
+    await FollowTable.destroy({
+      where: {
+        [Sequelize.Op.or]: [
+          { user_id_1: user_id },
+          { user_id_2: user_id },
+        ],
+      },
+    });
+    await CommentTable.destroy({
+      where: { pen_id: user_id },
+    });
+    await LikeTable.destroy({
+      where: { pen_id: user_id },
+    });
+    await Pin.destroy({
+      where: { pen_id: user_id },
+    });
+    
+    await ViewTable.destroy({
+      where: { pen_id: user_id },
+    });
+    await Collection.destroy({
+      where: { user_id },
+    });
+    await Pen.destroy({
+      where: { user_id },
+    });
+
+    const rowCount = await User.destroy({
+      where: { user_id },
+    });
+
+    if (rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
 module.exports = {
   getNotFollow,
   getInfoUser,
   updateProfile,
+  changeEmail,
+  changeUsername,
+  deleteUser,
 };
