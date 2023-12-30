@@ -40,6 +40,12 @@ export class ListItemGridCodeFullInfComponent {
     this.check_is_start_end();
   }
 
+  // ngOnChanges() {
+    ngOnChanges() {
+      this.pen_ids_current = this.pen_ids.slice(0, 6);
+      this.check_is_start_end();
+    }
+
 
   clickNextPageButton() {
     this.page_now += 1;

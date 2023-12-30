@@ -1,7 +1,7 @@
-.center-your-work-pens {
-    margin: -1.5% 5.5% 0 5.5%;
-    position: relative;
-    border-top: 2px hsl( 196.18deg 100% 52.75% ) solid;
+.list-item-grid-code-full-inf {
+    // margin: -1.5% 5.5% 0 5.5%;
+    // position: relative;
+    // border-top: 2px hsl( 196.18deg 100% 52.75% ) solid;
 
     .list-pens {
         grid-template-columns: repeat(auto-fill,minmax(30%,1fr));

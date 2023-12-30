@@ -70,5 +70,7 @@ export class YourWorkComponent implements OnInit, AfterViewChecked {
     this.router.navigate(['/your-work/deleted']);
   }
 
-
+  linkToYourWorkProjects() {
+    this.router.navigate(['/your-work/projects']);
+  }
 }

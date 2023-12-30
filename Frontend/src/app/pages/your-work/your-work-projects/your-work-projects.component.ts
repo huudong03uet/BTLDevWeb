@@ -4,11 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 
 @Component({
-  selector: 'app-your-work-pens',
-  templateUrl: './your-work-pens.component.html',
-  styleUrls: ['./your-work-pens.component.scss']
+  selector: 'app-your-work-projects',
+  templateUrl: './your-work-projects.component.html',
+  styleUrls: ['./your-work-projects.component.scss']
 })
-export class YourWorkPensComponent {
+export class YourWorkProjectsComponent {
   pen_ids = []
 
   // page_now: number = 1;
@@ -60,15 +60,5 @@ export class YourWorkPensComponent {
   }
 
 
-  // clickNextPageButton() {
-  //   this.page_now += 1;
-  //   this.pen_ids_current = this.pen_ids.slice((this.page_now - 1) * 6, this.page_now * 6);
-  //   this.check_is_start_end();
-  // }
-
-  // clickPrevPageButton() {
-  //   this.page_now -= 1;
-  //   this.pen_ids_current = this.pen_ids.slice((this.page_now - 1) * 6, this.page_now * 6);
-  //   this.check_is_start_end();
-  // }
+ 
 }

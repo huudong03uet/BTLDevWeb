@@ -89,6 +89,8 @@ import { ProjectProfileComponent } from './pages/profile/component/central-profi
 import { ListItemGridCodeFullInfComponent } from './components/list-item-grid-code-full-inf/list-item-grid-code-full-inf.component';
 import { ListItemGridCollectionFullInfComponent } from './components/list-item-grid-collection-full-inf/list-item-grid-collection-full-inf.component';
 import { ListItemGridProjectFullInfComponent } from './components/list-item-grid-project-full-inf/list-item-grid-project-full-inf.component';
+import { ContentGridProjectFullInfComponent } from './components/content-grid-project-full-inf/content-grid-project-full-inf.component';
+import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/your-work-projects.component';
 
 @NgModule({
   declarations: [
@@ -170,6 +172,8 @@ import { ListItemGridProjectFullInfComponent } from './components/list-item-grid
     ListItemGridCodeFullInfComponent,
     ListItemGridCollectionFullInfComponent,
     ListItemGridProjectFullInfComponent,
+    ContentGridProjectFullInfComponent,
+    YourWorkProjectsComponent,
   ],
   imports: [
     FormsModule,
@@ -194,7 +198,7 @@ import { ListItemGridProjectFullInfComponent } from './components/list-item-grid
           { path: "", redirectTo: "pens", pathMatch: "full" },
           {
             path: "pens", component: CentralProfileComponent, children: [
-              { path: "", redirectTo: "showcase", pathMatch: "full" },
+              { path: "", redirectTo: "popular", pathMatch: "full" },
               { path: "popular", component: PopularPComponent },
               { path: "public", component: PublicPComponent },
               { path: "private", component: PrivatePComponent },
@@ -232,6 +236,7 @@ import { ListItemGridProjectFullInfComponent } from './components/list-item-grid
           { path: "", redirectTo: "pens", pathMatch: "full" },
           { path: "pens", component: YourWorkPensComponent },
           { path: "collections", component: YourWorkCollectionsComponent },
+          { path: "projects", component: YourWorkProjectsComponent},
           { path: "deleted", component: YourWorkDeletedComponent }
         ]
       },

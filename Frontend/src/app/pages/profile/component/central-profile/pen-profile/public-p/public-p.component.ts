@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./public-p.component.scss']
 })
 export class PublicPComponent {
-
+  pen_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 }
