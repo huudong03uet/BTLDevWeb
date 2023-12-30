@@ -30,7 +30,7 @@ async function getInfoUser(req, res) {
     const user_id = req.query.user_id;
 
     const user = await User.findByPk(user_id, {
-      attributes: ['user_id', 'user_name', 'full_name', 'avatar_path'],
+      attributes: ['user_id', 'user_name', 'full_name', 'avatar_path', 'location', 'bio'],
     });
 
     if (!user) {
@@ -46,6 +46,8 @@ async function getInfoUser(req, res) {
       user_name: user.user_name,
       full_name: user.full_name,
       avatar_path: user.avatar_path,
+      location: user.location,  // Add location to the response
+      bio: user.bio,            // Add bio to the response
       followers_count,
       following_count,
     });
@@ -54,7 +56,6 @@ async function getInfoUser(req, res) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
-
 
 async function getUserByID(user_id) {
   try {
@@ -77,7 +78,7 @@ async function countPenOfUser(arrUserID) {
   try {
     let updatedArrUserID = await Promise.all(arrUserID.map(async (item) => {
       const pens = await penController._getPenByUser(item.user_id);
-      
+
       if (!pens || pens.length === 0) {
         return null;
       }
@@ -135,6 +136,49 @@ async function getNotFollow(req, res) {
   }
 }
 
+async function updateProfile(req, res) {
+  try {
+    const user_id = req.params.id;
+    const { full_name, location, bio, links } = req.body;
+
+    // Perform the update operation
+    const [rowCount] = await User.update(
+      {
+        full_name,
+        location,
+        bio,
+        links: JSON.stringify(links),
+      },
+      {
+        where: { user_id },
+      }
+    );
+
+    if (rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Retrieve the updated user separately
+    const updatedUser = await User.findByPk(user_id, {
+      attributes: ['user_id', 'full_name', 'location', 'bio', 'links'],
+    });
+
+    res.status(200).json({
+      user_id: updatedUser.user_id,
+      full_name: updatedUser.full_name,
+      location: updatedUser.location,
+      bio: updatedUser.bio,
+      links: JSON.parse(updatedUser.links),
+    });
+  } catch (error) {
+    console.error('Error updating user profile:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+
 module.exports = {
-  getNotFollow, getInfoUser
+  getNotFollow,
+  getInfoUser,
+  updateProfile,
 };
