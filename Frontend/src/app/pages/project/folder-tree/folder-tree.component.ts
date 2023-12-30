@@ -1,5 +1,6 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ProjectFileService } from 'src/app/services/project-file.service';
 @Component({
   selector: 'app-folder-tree',
   templateUrl: './folder-tree.component.html',
@@ -15,8 +16,6 @@ export class FolderTreeComponent {
 
 
   datas = [
-
-
     {
       id: 2,
       title: "test_folder",
@@ -43,6 +42,35 @@ export class FolderTreeComponent {
           type: "js",
           code: "console.log('Hello World');",
           children: []
+        },
+        {
+          id: 10,
+          title: "test_folder2",
+          type: "folder",
+          code: "",
+          children: [
+            {
+              id: 11,
+              title: "test_file2.css",
+              type: "css",
+              code: "body { background-color: red; }",
+              children: []
+            },
+            {
+              id: 12,
+              title: "test_file2.html",
+              type: "html",
+              code: "<h1>Hello World</h1>",
+              children: []
+            },
+            {
+              id: 13,
+              title: "test_file2.js",
+              type: "js",
+              code: "console.log('Hello World');",
+              children: []
+            }
+          ]
         }
       ]
     },
@@ -60,35 +88,77 @@ export class FolderTreeComponent {
       code: "",
       children: []
     },
+    {
+      id: 8,
+      title: "css_test.css",
+      type: "css",
+      code: "",
+      children: []
+    },
+    {
+      id: 9,
+      title: "html_test.html",
+      type: "html",
+      code: "",
+      children: []
+    }
   ]
-  constructor(private sanitizer: DomSanitizer) { }
+  // constructor(private sanitizer: DomSanitizer, private projectFile: ProjectFileService) { }
+  constructor(private renderer: Renderer2, private el: ElementRef, private projectFile: ProjectFileService, private sanitizer: DomSanitizer) { }
 
+  ngOnInit(): void {
+    let tree = this.renderTree(this.datas);
+    let folderTreeFileElement = this.el.nativeElement.querySelector('#folder-tree-file');
+    while (folderTreeFileElement.firstChild) {
+      this.renderer.removeChild(folderTreeFileElement, folderTreeFileElement.firstChild);
+    }
+    this.renderer.appendChild(folderTreeFileElement, tree);
+  }
 
   getSafeHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   renderTree(obj: any) {
-    // random number for id_ref
-    let html = `<ul>`;
+    let ul = this.renderer.createElement('ul');
     for (let i = 0; i < obj.length; i++) {
-
-      html += `<li class="${obj[i].type}" id="${obj[i].id}">`;
-      html += (this.renderSvg(obj[i].type));
-      html += `<span>${obj[i].title}</span>`;
+      let li = this.renderer.createElement('li');
+      this.renderer.addClass(li, obj[i].type);
+      this.renderer.setProperty(li, 'id', obj[i].id);
+      this.renderer.setProperty(li, 'innerHTML', this.renderSvg(obj[i].type) + `<span>${obj[i].title}</span>`);
+      this.renderer.listen(li, 'click', () => this.fileOpen(obj[i]));
       if (obj[i].children.length > 0) {
-        html += this.renderTree(obj[i].children);
+        let childUl = this.renderTree(obj[i].children);
+        this.renderer.appendChild(li, childUl);
       }
-      html += `</li>`;
+      this.renderer.appendChild(ul, li);
     }
-    html += `</ul>`;
-
-    // return html;
-    // return html has svg
-    return html;
-
-
+    return ul;
   }
+
+
+
+  // renderTree(obj: any) {
+  //   // random number for id_ref
+  //   let html = `<ul>`;
+  //   for (let i = 0; i < obj.length; i++) {
+
+  //     html += `<li class="${obj[i].type}" id="${obj[i].id}" (click)="fileOpen(${obj[i]})">`;
+  //     html += (this.renderSvg(obj[i].type));
+  //     html += `<span>${obj[i].title}</span>`;
+  //     if (obj[i].children.length > 0) {
+  //       html += this.renderTree(obj[i].children);
+  //     }
+  //     html += `</li>`;
+  //   }
+  //   html += `</ul>`;
+
+  //   // return html;
+  //   // return html has svg
+  //   return html;
+
+
+  // }
 
   renderSvg(obj: string) {
     if (obj == "folder") {
@@ -201,6 +271,14 @@ export class FolderTreeComponent {
       }
     }
     return link;
+  }
+
+
+  fileOpen(fileOpen: any) {
+    if (fileOpen.type != "folder") {
+      this.projectFile.changeMessage(fileOpen);
+
+    }
   }
 }
 

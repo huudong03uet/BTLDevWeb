@@ -96,27 +96,43 @@ export class CodeBoxProjectComponent {
   }
 
 
-  ngOnChanges(changes: SimpleChanges) {
-//     console.log(changes)
-//     // <div class="code-box-container">
-// //     <div class="html-field" [hidden]="codeObject === 'html' ? false : true">
-// //     <textarea #htmlTextarea>{{codecode}}</textarea>
-// // </div>
-// // <div class="css-field" [hidden]="codeObject === 'css' ? false : true">
-// //     <textarea #cssTextarea>{{codecode}}</textarea>
-// // </div>
+//   ngOnChanges(changes: SimpleChanges) {
+//       if (changes['codeObject']) {
+//       this.htmlEditor = CodeMirror.fromTextArea(this.htmlTextarea?.nativeElement, {
+//         mode: 'xml',
+//         lineNumbers: true,
+//         lineWrapping: true,
+//         theme: 'monokai',
+//         autoCloseBrackets: true,
+//         autoCloseTags: true,
+//         // font
+//         // only read
+//       });
+//       this.htmlEditor.on('change', () => this.run());
 
-// // <div class="js-field" [hidden]="codeObject === 'js' ? false : true">
-// //     <textarea #jsTextarea>{{codecode}}</textarea>
-// // </div>
-// // </div>
-//     if (changes['codeObject'] || changes['codecode']) {
+//       this.cssEditor = CodeMirror.fromTextArea(this.cssTextarea?.nativeElement, {
+//         mode: 'css',
+//         lineNumbers: true,
+//         lineWrapping: true,
+//         theme: 'monokai',
+//         autoCloseBrackets: true,
+//         autoCloseTags: true,
+//       });
+//       this.cssEditor.on('change', () => this.run());
 
-//       // change => reload #textarea
-    
+      
+      
+
+//       this.jsEditor = CodeMirror.fromTextArea(this.jsTextarea?.nativeElement, {
+//         mode: 'javascript',
+//         lineNumbers: true,
+//         lineWrapping: true,
+//         theme: 'monokai',
+//         autoCloseBrackets: true,
+//         autoCloseTags: true,
+//       });
+//       this.jsEditor.on('change', () => this.run());
 //     }
+// //  reload code
 //   }
-  }
-
-
 }

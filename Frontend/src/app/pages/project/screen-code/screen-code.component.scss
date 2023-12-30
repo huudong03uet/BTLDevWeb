@@ -86,6 +86,15 @@
                 stroke: none;
                 position: relative;
                 top: -2px;
+
+            
+              }
+
+              &:hover {
+                opacity: 1;
+                svg {
+                  opacity: 1;
+                }
               }
             }
           }

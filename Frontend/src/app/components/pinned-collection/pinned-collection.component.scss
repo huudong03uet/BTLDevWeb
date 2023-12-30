@@ -94,8 +94,24 @@
         padding-right: 15px;
         padding-top: 40px;
         padding-left: 20px;
+        // min-height: 400px;
     }
 
+    .item-grid.no-pinned {
+        justify-content: center;
+        display: block;
+        min-height: 300px;
+        h2 {
+            display: flex;
+            justify-content: center;
+        }
+        p {
+            display: flex;
+            justify-content: center;
+
+        }
+
+    }
     
 
 }
