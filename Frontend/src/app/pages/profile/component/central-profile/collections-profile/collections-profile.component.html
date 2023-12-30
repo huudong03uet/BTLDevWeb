@@ -1,11 +1,18 @@
 <div class="collections">
-    <span class="links-collections popularC" (click)="showPopularC = true;showPublicC = false; showLovedC = false;showPrivateC = false;navigateToCPopular()">Popular</span>
-    <span class="links-collections publicC" (click)="showPublicC = true;showPopularC = false; showLovedC = false;showPrivateC = false;navigateToCPublic()">Public</span>
-    <span class="links-collections privateC" (click)="showPrivateC = true;showPublicC = false; showLovedC = false;showPopularC = false;navigateToCPrivate()">Private</span>
-    <span class="links-collections lovedC" (click)="showLovedC = true;showPublicC = false; showPrivateC = false;showPopularC = false;navigateToCLoved()">Loved</span>
-
-    <app-loved-c *ngIf="showLovedC"></app-loved-c>
-    <app-popular-c *ngIf="showPopularC"></app-popular-c>
-    <app-public-c *ngIf="showPublicC"></app-public-c>
-    <app-private-c *ngIf="showPrivateC"></app-private-c>
+    <div class="header-collections">
+        <span class="links-collections popularC"
+            (click)="showPopularC = true;showPublicC = false; showLovedC = false;showPrivateC = false;navigateToCPopular()">Popular</span>
+        <span class="links-collections publicC"
+            (click)="showPublicC = true;showPopularC = false; showLovedC = false;showPrivateC = false;navigateToCPublic()">Public</span>
+        <span class="links-collections privateC"
+            (click)="showPrivateC = true;showPublicC = false; showLovedC = false;showPopularC = false;navigateToCPrivate()">Private</span>
+        <span class="links-collections lovedC"
+            (click)="showLovedC = true;showPublicC = false; showPrivateC = false;showPopularC = false;navigateToCLoved()">Loved</span>
+    </div>
+    <div class="infor-collections">
+        <app-loved-c *ngIf="showLovedC"></app-loved-c>
+        <app-popular-c *ngIf="showPopularC"></app-popular-c>
+        <app-public-c *ngIf="showPublicC"></app-public-c>
+        <app-private-c *ngIf="showPrivateC"></app-private-c>
+    </div>
 </div>

@@ -107,6 +107,30 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
       });
     }
 
+    ngOnChanges(): void {
+      if (!this.collection_id) {
+        console.error('Collection ID is missing.');
+        return;
+      }
+
+      this.collectionName = this.collection_id.name;
+  
+      const apiUrl = `http://localhost:3000/your-work/collections/${this.collection_id.collection_id}/pens`;
+  
+      axios.get(apiUrl).then((response) => {
+        this.pen_ids = response.data.pen_ids;
+
+        for (let i = 0; i < this.pen_ids.length; i++) {
+          this.get_data_pen(this.pen_ids[i], i);
+        }
+        for (let i = this.pen_ids.length; i < 4; i++) {
+          this.get_data_pen_null(i);
+        }
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+
 
   handlePageClick(): void {
     // link to collection/123
