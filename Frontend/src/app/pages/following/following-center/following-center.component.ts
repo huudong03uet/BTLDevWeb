@@ -27,27 +27,26 @@ export class FollowingCenterComponent {
     this.route.params.subscribe((params) => {
       const userId = this.userData.getUserData()?.user_id;
       if (userId) {
-        let apiUrl = `http://localhost:3000/user/getNotFollow/${userId}`;
-
+        let apiUrl = `http://localhost:3000/pen/getFollow/${userId}`;
         axios.get(apiUrl).then((response) => {
-          this.data = response.data;
-
-
-
-          // get 3 first element      // cái này là lấy 3 cái đầu tiên
-          this.data = this.data.slice(0, 3);
-
-
-
-          console.log('user not follow', this.data)
+          this.pen_ids = response.data;
+          // console.log('pen follow', this.pen_ids)
         }).catch((error) => {
           console.error('Error:', error);
         });
 
-        apiUrl = `http://localhost:3000/pen/getFollow/${userId}`;
+
+        apiUrl = `http://localhost:3000/user/getNotFollow/${userId}`;
+
         axios.get(apiUrl).then((response) => {
-          this.pen_ids = response.data;
-          console.log('pen not follow', this.data)
+          this.data = response.data;
+
+          // console.log('em khong biet:', this.data);
+
+          // get 3 first element    
+          // this.data = this.data.slice(0, 3);
+
+          // console.log('user not follow', this.data)
         }).catch((error) => {
           console.error('Error:', error);
         });

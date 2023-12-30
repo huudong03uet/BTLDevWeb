@@ -64,4 +64,10 @@ export class ProjectComponent  {
       });
     }
   }
+
+  
+  // dayLaTinhNang() {
+  //     console.log("day la tinh nang")
+  // }
+
 }

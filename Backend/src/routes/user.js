@@ -1,10 +1,12 @@
-//dùng để gọi các thông tin user để tạo mấy trang như treding, ...
-import express from "express";
-import userController from "../controllers/userController"
+const express = require('express');
+const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-router.get("/getInfoUser", userController.getInfoUser);
-router.get('/getNotFollow/:id', userController.getNotFollow)
-
+router.get('/getInfoUser', userController.getInfoUser);
+router.get('/getNotFollow/:id', userController.getNotFollow);
+router.put('/updateProfile/:id', userController.updateProfile);
+router.post('/changeUsername/:id', userController.changeUsername);
+router.post('/changeEmail/:id', userController.changeEmail);
+router.delete('/deleteUser/:id', userController.deleteUser);
 module.exports = router;

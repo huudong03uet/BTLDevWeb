@@ -42,20 +42,11 @@
  
             </div>
 
-
-            <!-- <div class="file-search-result-item" *ngFor="let file of search_result">
-                <div class="file-search-result-item-name">
-                    <a [routerLink]="['/project', project_id, 'file', file.id]">{{file.name}}</a>
-                </div>
-                <div class="file-search-result-item-path">
-                    <a [routerLink]="['/project', project_id, 'file', file.id]">{{file.path}}</a>
-                </div>
-            </div> -->
         </div>
     </div>
     <div class="folder-tree-project">
         <h2>Files</h2>
-        <div id="folder-tree-file" [innerHTML]="getSafeHtml(renderTree(datas))">
+        <div id="folder-tree-file">
         </div>
     </div>
 </div>

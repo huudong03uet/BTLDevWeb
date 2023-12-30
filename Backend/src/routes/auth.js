@@ -11,7 +11,7 @@ router.post("/signup", authController.signup);
 // router.post("/change-profile", authController.changeProfile);
 // router.post("/saveHistory", authController.saveHistory);
 // router.post("/history", authController.getHistory);
-
+router.post('/updatePassword/:id', authController.updatePassword);
 
 
 module.exports = router;
