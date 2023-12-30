@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HttpClient } from '@angular/common/http';
+import axios from 'axios';
 
 interface Collection {
   collection_id: number;
@@ -17,7 +18,7 @@ interface Collection {
 })
 export class YourWorkCollectionsComponent implements OnInit {
   collections: Collection[] = [];
-  collection_ids_current: number[] = [];
+  collection_ids_current: any[] = [];
   page_now = 1;
   is_end = false;
   is_start = true;
@@ -34,16 +35,19 @@ export class YourWorkCollectionsComponent implements OnInit {
     }
 
     const userId = user.user_id;
+    let apiUrl = `http://localhost:3000/your-work/collections/user/${userId}`;
 
-    this.http.get<{ collections: Collection[] }>(`http://localhost:3000/your-work/collections/user/${userId}`).subscribe(
-      (response) => {
-        this.collections = response.collections || [];
-        this.updateCollectionData();
-      },
-      (error) => {
-        console.error('Error fetching collections:', error);
-      }
-    );
+    axios.get(apiUrl).then((response) => {
+      this.collections = response.data.collections;
+      // console.log(data);
+      // for (let item of data.collections) {
+      //   .push(item.collection_id);
+      // }
+      this.updateCollectionData();
+      // this.collections = data.filter((item: any) => item.collection_id);
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
   }
 
   private updateCollectionData(): void {
@@ -52,9 +56,10 @@ export class YourWorkCollectionsComponent implements OnInit {
     
     const validEndIndex = Math.min(endIndex, this.collections.length);
     
-    const collectionsForCurrentPage = this.collections.slice(startIndex, validEndIndex);
+    this.collection_ids_current = this.collections.slice(startIndex, validEndIndex);
   
-    this.collection_ids_current = collectionsForCurrentPage.map(collection => collection.collection_id);
+    //  = collectionsForCurrentPage;
+    // console.log("error eorro", this.collections)
     this.check_is_start_end();
   }
   

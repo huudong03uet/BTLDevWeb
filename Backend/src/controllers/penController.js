@@ -144,8 +144,8 @@ async function getPenByUser(req, res) {
 async function getInfoPen(req, res) {
   const penId = req.query.pen_id;
   const user_id = req.query.user_id;
-  console.log(penId, user_id);
-  console.log(123333);
+  // console.log(penId, user_id);
+  // console.log(123333);
   try {
     // console.log(penId);
     const pen = await Pen.findByPk(penId);

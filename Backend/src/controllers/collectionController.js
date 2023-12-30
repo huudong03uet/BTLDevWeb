@@ -3,39 +3,18 @@ const CollectionPen = require('../models/collection_pen');
 
 async function createOrUpdateCollection(req, res) {
   try {
-    const { collectionId, name, user_id, penIds, isPublic } = req.body;
+    const { name, user_id, penIds, isPublic } = req.body;
+    const newCollection = await Collection.create({
+      name : name,
+      status: isPublic ? 'public' : 'private',
+      user_id: user_id,
+    });
 
-    if (collectionId) {
-      const [updatedRows] = await Collection.update(
-        { name, status: isPublic ? 'public' : 'private', user_id },
-        { where: { collection_id: collectionId } }
-      );
-
-      if (updatedRows === 0) {
-        return res.status(404).json({ code: 404, message: 'Không tìm thấy collection để cập nhật' });
-      }
-
-      if (penIds && penIds.length > 0) {
-        await CollectionPen.destroy({ where: { collection_id: collectionId } });
-        await CollectionPen.bulkCreate(penIds.map(penId => ({ collection_id: collectionId, pen_id: penId })));
-      }
-
-      const updatedCollection = await Collection.findByPk(collectionId);
-      return res.status(200).json({ code: 200, collection: updatedCollection, message: 'Cập nhật collection thành công' });
-    } else {
-      const newCollection = await Collection.create({
-        name,
-        status: isPublic ? 'public' : 'private',
-        user_id,
-        collectionId,
-      });
-
-      if (penIds && penIds.length > 0) {
-        await CollectionPen.bulkCreate(penIds.map(penId => ({ collection_id: newCollection.collection_id, pen_id: penId })));
-      }
-
-      return res.status(201).json({ code: 201, collection: newCollection, message: 'Tạo mới collection thành công' });
+    if (penIds && penIds.length > 0) {
+      await CollectionPen.bulkCreate(penIds.map(penId => ({ collection_id: newCollection.collection_id, pen_id: penId })));
     }
+
+    return res.status(201).json({ code: 201, collection: newCollection, message: 'Tạo mới collection thành công' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ code: 500, error: 'Lỗi trong quá trình tạo hoặc cập nhật collection', detailedError: error.message });
