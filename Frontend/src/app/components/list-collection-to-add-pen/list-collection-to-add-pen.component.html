@@ -21,9 +21,9 @@
             <li class="item-list" *ngFor="let collection of data_views">
                 <div class="item-list-container">
                     <div class="right-content">
-                        <div class="item-list-image">
+                        <!-- <div class="item-list-image">
                             <img src={{collection.avatar}} alt="">
-                        </div>
+                        </div> -->
                         <div class="name-and-description">
                             <div class="item-list-name">
                                 <span>{{collection.collection_name}}</span>
@@ -46,10 +46,7 @@
         </ul>
     </div>
     <div class="create-new-collection">
-
+        <button class="create-collection-button" (click)="openCreateNewCollection()">Create New Collection</button>
+        <app-create-new-collection *ngIf="childVisible" (close)="handleChildClose()"></app-create-new-collection>
     </div>
-
-
-
-
 </div>

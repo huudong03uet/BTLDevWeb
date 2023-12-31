@@ -11,8 +11,8 @@ import User from '../models/user';
 let updateView = async (req, res) => {
     try {
         const { userId, penId } = req.body;
-        console.log(userId);
-        console.log(penId);
+        // console.log(userId);
+        // console.log(penId);
         const [view, created] = await View.findOrCreate({
             where: {
                 user_id: userId,

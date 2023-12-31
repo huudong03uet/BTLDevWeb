@@ -22,18 +22,18 @@ export class PinnedCollectionComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(13221)
+    // console.log(13221)
     if(this.userData.getUserData() === null) {
       this.router.navigate(['/login']);
     } else {
       const url = `http://localhost:3000/pin/getPinnedUser/${this.userData.getUserData()?.user_id}`;
-      console.log(url)
+      // console.log(url)
       axios.get(url)
       .then(response => {
         // Xử lý dữ liệu trả về từ API
-        console.log(123);
+        // console.log(123);
         this.data = response.data.pins;
-        console.log(this.data, 12341341)
+        // console.log(this.data, 12341341)
 
         this.updatePenIds();
 
@@ -54,7 +54,7 @@ export class PinnedCollectionComponent implements OnInit {
 
   updatePenIds() {
     this.pen_ids = this.data.filter((item: { type: any; }) => item.type === 'pen').map((item: { pen_id: any; }) => item.pen_id);
-    console.log(this.pen_ids)
+    // console.log(this.pen_ids)
   }
 
 

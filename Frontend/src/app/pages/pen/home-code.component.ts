@@ -29,9 +29,9 @@ export class HomeCodeComponent implements OnInit {
       this.penId = params['id'];
       if (this.penId != null) {
         try {
-          console.log(this.penId, this.userData.getUserData());
+          // console.log(this.penId, this.userData.getUserData());
           let data = await axios.get(`http://localhost:3000/pen/getInfoPen?pen_id=${this.penId}&user_id=${this.userData.getUserData()?.user_id}`); 
-          console.log(data)
+          // console.log(data)
           this.data = data.data;
           if(this.data.pen.status === "private") {
             this.router.navigate(['/**']);
@@ -67,7 +67,7 @@ export class HomeCodeComponent implements OnInit {
       return;
     }
     try {
-      console.log(this.data);
+      // console.log(this.data);
       const response = await axios.post('http://localhost:3000/pen/savePen', {
         data: this.data,
         user: this.userData.getUserData(),

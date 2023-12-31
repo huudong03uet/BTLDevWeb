@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnChanges, OnInit, SecurityContext } from '@angular/core';
+import { Component, HostListener, Input, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -12,10 +12,11 @@ import { has, hasIn } from 'lodash';
   styleUrls: ['./content-grid-collection-full-inf.component.scss']
 })
 export class ContentGridCollectionFullInfComponent implements OnInit {
-  @Input() collection_id: any = [1];
-  pen_ids = [1, 2, 3, 4];
+  @Input() collection: any;
+  pen_ids = [1, 2 , 3];
   collectionName: string = "";
   iframeContents: SafeHtml[] = ['', '', '', ''];
+  collection_id: any;
 
   data_collection = {
     "like": 0,
@@ -35,7 +36,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   get_data_pen(pen_id: number, index: number) {
     // init data -> data = response.data
     let data_pen: any;
-    const apiUrl = `http://localhost:3000/pen/getInfoPen?pen_id=${pen_id}&user_id=${null}`;
+    const apiUrl = `http://localhost:3000/pen/getInfoPen/${pen_id}`;
     axios.get(apiUrl)
       .then((response) => {
         data_pen = response.data;
@@ -82,59 +83,37 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // ngOnInit(): void {
-      // console.log("loi loi vaf loi", this.collection_id)
-      if (!this.collection_id) {
-        console.error('Collection ID is missing.');
-        return;
+    if (!this.collection.collection_id) {
+      console.error('Collection ID is missing.');
+      return;
+    }
+    this.collection_id = this.collection.collection_id;
+    const apiUrl = `http://localhost:3000/your-work/collections/${this.collection_id}/pens`;
+
+    this.http.get(apiUrl).subscribe(
+      (response: any) => {
+        this.pen_ids = response.pens || [];
+        this.collectionName = response.collectionName || "";
+        console.log(this.collectionName);
+      },
+      (error) => {
+        console.error('Error fetching pen_ids:', error);
       }
+    );
 
-      this.collectionName = this.collection_id.name;
-  
-      const apiUrl = `http://localhost:3000/your-work/collections/${this.collection_id.collection_id}/pens`;
-  
-      axios.get(apiUrl).then((response) => {
-        this.pen_ids = response.data.pen_ids;
-
-        for (let i = 0; i < this.pen_ids.length; i++) {
-          this.get_data_pen(this.pen_ids[i], i);
-        }
-        for (let i = this.pen_ids.length; i < 4; i++) {
-          this.get_data_pen_null(i);
-        }
-      }).catch((error) => {
-        console.error('Error:', error);
-      });
+    for (let i = 0; i < this.pen_ids.length; i++) {
+      this.get_data_pen(this.pen_ids[i], i);
+    }
+    for (let i = this.pen_ids.length; i < 4; i++) {
+      this.get_data_pen_null(i);
     }
 
-    ngOnChanges(): void {
-      if (!this.collection_id) {
-        console.error('Collection ID is missing.');
-        return;
-      }
-
-      this.collectionName = this.collection_id.name;
-  
-      const apiUrl = `http://localhost:3000/your-work/collections/${this.collection_id.collection_id}/pens`;
-  
-      axios.get(apiUrl).then((response) => {
-        this.pen_ids = response.data.pen_ids;
-
-        for (let i = 0; i < this.pen_ids.length; i++) {
-          this.get_data_pen(this.pen_ids[i], i);
-        }
-        for (let i = this.pen_ids.length; i < 4; i++) {
-          this.get_data_pen_null(i);
-        }
-      }).catch((error) => {
-        console.error('Error:', error);
-      });
-    }
+  }
 
 
   handlePageClick(): void {
     // link to collection/123
-    this.router.navigate([`/collection/${this.collection_id}`])
+    this.router.navigate([`/collection/${this.collection.collection_id}`])
   }
 
 
@@ -220,9 +199,8 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   }
 
   clickGridCollectionFullInf() {
-    this.router.navigate([`/collection/${this.collection_id}`], { relativeTo: null });
+    this.router.navigate([`/collection/${this.collection.collection_id}`], { relativeTo: null });
   }
 }
-
 
 

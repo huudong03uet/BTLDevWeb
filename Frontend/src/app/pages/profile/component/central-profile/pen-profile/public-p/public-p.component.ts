@@ -22,7 +22,7 @@ export class PublicPComponent implements OnInit {
 
     axios.get(apiUrl).then((response) => {
       this.pen_ids = response.data;
-      console.log(this.pen_ids);
+      // console.log(this.pen_ids);
     }).catch((error) => {
       console.error('Error:', error);
     });
