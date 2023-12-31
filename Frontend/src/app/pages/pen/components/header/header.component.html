@@ -61,7 +61,7 @@
                 <li class="submenu" (click)="toggleMenu()"><a><i class="fas fa-square-caret-down"></i></a></li>
                 <li *ngIf="!user"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
                 <li *ngIf="!user"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
-                <li *ngIf="user"><img src="path_to_avatar_image.jpg" alt="User Avatar"></li>
+                <li *ngIf="user"><img style="border-radius: 4px;" src="https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=36&height=36" alt="User Avatar"></li>
             </ul>
         </div>
         <ul class="mobile-menu" [style.right]="isMenuOpen ? '75px' : '-400px'" id="side-menu">
