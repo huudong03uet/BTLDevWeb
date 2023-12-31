@@ -92,7 +92,8 @@ import { ListItemGridProjectFullInfComponent } from './components/list-item-grid
 import { ContentGridProjectFullInfComponent } from './components/content-grid-project-full-inf/content-grid-project-full-inf.component';
 import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/your-work-projects.component';
 import { CodeBoxDetailPenComponent } from './components/detail-pen/code-box-detail-pen/code-box-detail-pen.component';
-
+import { ContentGridCollectionComponent } from './components/content-grid-collection/content-grid-collection.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -176,6 +177,8 @@ import { CodeBoxDetailPenComponent } from './components/detail-pen/code-box-deta
     ContentGridProjectFullInfComponent,
     YourWorkProjectsComponent,
     CodeBoxDetailPenComponent,
+    ContentGridCollectionComponent,
+    SearchPageComponent
   ],
   imports: [
     FormsModule,
@@ -194,6 +197,7 @@ import { CodeBoxDetailPenComponent } from './components/detail-pen/code-box-deta
       { path: "trending", component: TrendingComponent },
       { path: "following", component: FollowingComponent },
       { path: "your-work", component: YourWorkComponent },
+      {path: "search-page", component: SearchPageComponent},
       { path: "project/123", component: ProjectComponent },
       {
         path: "profile", component: ProfileComponent, children: [

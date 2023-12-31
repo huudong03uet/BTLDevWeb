@@ -1,22 +1,17 @@
+import { PinnedCollectionComponent } from './../pinned-collection/pinned-collection.component';
+import { UserDataService } from './../../services/user-data.service';
 import { Component, HostListener, Input, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-
 import axios from 'axios';
 import { has, hasIn } from 'lodash';
-<<<<<<< HEAD
-import { HostService } from 'src/app/host.service';
-=======
-import { UserDataService } from 'src/app/services/user-data.service';
->>>>>>> refs/remotes/origin/main
-
+import { HttpClient } from '@angular/common/http';
 @Component({
-  selector: 'app-content-grid-collection-full-inf',
-  templateUrl: './content-grid-collection-full-inf.component.html',
-  styleUrls: ['./content-grid-collection-full-inf.component.scss']
+  selector: 'app-content-grid-collection',
+  templateUrl: './content-grid-collection.component.html',
+  styleUrls: ['./content-grid-collection.component.scss']
 })
-export class ContentGridCollectionFullInfComponent implements OnInit {
+export class ContentGridCollectionComponent implements OnInit {
   @Input() collection: any;
   pen_ids = [1, 2 , 3];
   collectionName: string = "";
@@ -35,18 +30,14 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
     private router: Router,
     private sanitizer: DomSanitizer,
     private http: HttpClient,
-<<<<<<< HEAD
-    private myService: HostService,
-=======
     private userData: UserDataService,
->>>>>>> refs/remotes/origin/main
   ) { }
 
 
   get_data_pen(pen_id: number, index: number) {
     // init data -> data = response.data
     let data_pen: any;
-    const apiUrl =  this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${pen_id}&user_id=null`;
+    const apiUrl = `http://localhost:3000/pen/getInfoPen?pen_id=${pen_id}&user_id=null`;
     
     axios.get(apiUrl)
       .then((response) => {
@@ -100,7 +91,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
       return;
     }
     this.collection_id = this.collection.collection_id;
-    const apiUrl =  this.myService.getApiHost() + `/your-work/collections/${this.collection_id}/pens`;
+    const apiUrl = `http://localhost:3000/your-work/collections/${this.collection_id}/pens`;
 
     this.http.get(apiUrl).subscribe(
       (response: any) => {
@@ -123,6 +114,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
 
 
   }
+
 
   handlePageClick(): void {
     // link to collection/123
@@ -153,7 +145,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   informationPen = [
     "Make Private",
     "Add to Pins",
-    "Delete",
+    "Unfollow User",
   ]
 
 
@@ -200,27 +192,9 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
     }
   }
 
-  handleDeleteClick() {
-    const confirmed = confirm("Are you sure you want to delete this collection?");
-    if (confirmed) {
-      const url = `http://localhost:3000/your-work/collections/removeCollection`;
-      const data = {
-        collection_id: this.collection_id,
-        delete: true
-      };
-  
-      axios.post(url, data)
-        .then(response => {
-          console.log(response);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    }
-  }
 
   onMouseEnterGridCode() {
-
+    console.log(1234567)
     var x = document.getElementsByClassName("background-code");
     if (x != null) {
       for (let i = 0; i < x.length; i++) {
@@ -228,6 +202,17 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
           x.item(i)!.classList.add("enter-show");
         } else {
           x.item(i)!.classList.remove("enter-show");
+        }
+      }
+    }
+
+    var y = document.getElementsByClassName("footer-code-grid-container");
+    if (y != null) {
+      for (let i = 0; i < y.length; i++) {
+        if (y.item(i)!.classList.contains(this.random_number.toString())) {
+          y.item(i)!.classList.add("enter-show");
+        } else {
+          y.item(i)!.classList.remove("enter-show");
         }
       }
     }
@@ -245,11 +230,20 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
       }
     }
 
+    var y = document.getElementsByClassName("footer-code-grid-container");
+    if (y != null) {
+      for (let i = 0; i < y.length; i++) {
+        if (y.item(i)!.classList.contains(this.random_number.toString())) {
+          y.item(i)!.classList.remove("enter-show");
+        }
+      }
+    }
+
+
   }
 
   clickGridCollectionFullInf() {
     this.router.navigate([`/collection/${this.collection.collection_id}`], { relativeTo: null });
   }
+
 }
-
-
