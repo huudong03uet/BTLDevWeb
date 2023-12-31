@@ -70,8 +70,36 @@ async function getPensInCollection(req, res) {
 }
 
 
+async function addPenToCollection(req, res) {
+  try {
+    const { collection_id, pen_id } = req.body;
+
+    const collection = await Collection.findByPk(collection_id);
+
+    if (!collection) {
+      return res.status(404).json({ code: 404, message: 'Không tìm thấy collection' });
+    }
+
+    const penInCollection = await CollectionPen.findOne({
+      where: { collection_id: collection_id, pen_id: pen_id },
+    });
+
+    if (penInCollection) {
+      return res.status(400).json({ code: 400, message: 'Pen already exists in the collection' });
+    }
+
+    await CollectionPen.create({ collection_id, pen_id });
+
+    return res.status(200).json({ code: 200, message: 'Pen added to collection successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình thêm pen vào collection' });
+  }
+}
+
 module.exports = {
   createOrUpdateCollection,
   getCollectionsByUser,
   getPensInCollection,
+  addPenToCollection,
 };

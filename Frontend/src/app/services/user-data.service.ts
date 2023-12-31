@@ -22,7 +22,7 @@ export class UserDataService {
   }
 
   setUserDataUsername(username: string) {
-    console.log(username);
+    // console.log(username);
     if (this.userData) {
       this.userData.user_name = username;
       this.setUserData(this.userData);

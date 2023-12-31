@@ -22,7 +22,7 @@ export class PopularPComponent implements OnInit {
 
     axios.get(apiUrl).then((response) => {
       this.listItem = response.data;
-      console.log(this.listItem);
+      // console.log(this.listItem);
     }).catch((error) => {
       console.error('Error:', error);
     });

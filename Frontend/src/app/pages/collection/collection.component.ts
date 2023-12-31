@@ -29,7 +29,7 @@ export class CollectionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    console.log(this.currentCollectionID);
 
     const user = this.userData.getUserData();
     if (!user) {

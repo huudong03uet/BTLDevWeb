@@ -40,7 +40,7 @@ export class CodeEditorComponent implements AfterViewInit {
     }
     
     this.initializeEditors();
-    console.log(this.data)
+    // console.log(this.data)
     if(this.data) {
       if(this.data.pen.html_code) {
         this.htmlEditor.setValue(this.data.pen.html_code);
@@ -83,7 +83,7 @@ export class CodeEditorComponent implements AfterViewInit {
   onLanguageChange() {
     this.stylesheetEditor.setOption('mode', this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
     this.data.pen.type_css = this.stylesheetLanguage;
-    console.log(this.stylesheetLanguage)
+    // console.log(this.stylesheetLanguage)
     this.dataChange.emit(this.data);
     this.run();
   }

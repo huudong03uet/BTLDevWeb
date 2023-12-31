@@ -99,24 +99,22 @@ let createOrUpdatePen = async (req, res) => {
   
 // Hàm để lấy thông tin pen bằng id
 async function getPenById(req, res) {
-    const { pen_id } = req.body;
-  
-    try {
+  const { pen_id } = req.body;
+
+  try {
       const pen = await Pen.findOne({ where: { pen_id: pen_id } });
 
-      console.log("em khong biet", pen);
-  
       if (!pen) {
-        return res.status(404).json({ code: 404, message: 'Không tìm thấy pen với id đã cho' });
+          return res.status(404).json({ code: 404, message: 'Không tìm thấy pen với id đã cho' });
       }
 
-      
       return res.status(200).json({ code: 200, pen, message: 'Lấy thông tin pen thành công' });
-    } catch (error) {
+  } catch (error) {
       console.error(error);
       return res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy thông tin pen' });
-    }
+  }
 }
+
 
 async function _getPenByUserID(user_id) {
   try {

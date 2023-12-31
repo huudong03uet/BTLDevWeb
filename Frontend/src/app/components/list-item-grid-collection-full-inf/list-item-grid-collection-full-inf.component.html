@@ -1,7 +1,7 @@
 <div class="list-item-grid-collection-full">
     <div class="list-pens">
         <app-content-grid-collection-full-inf *ngFor="let dataItem of collection_ids_current"
-            [collection_id]="dataItem"></app-content-grid-collection-full-inf>
+            [collection]="dataItem"></app-content-grid-collection-full-inf>
     </div>
     <nav class="next-page">
         <button class="button-next-page" (click)="clickPrevPageButton()" *ngIf="!is_start">
