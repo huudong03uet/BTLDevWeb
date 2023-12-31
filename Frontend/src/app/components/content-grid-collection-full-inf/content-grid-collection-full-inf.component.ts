@@ -116,7 +116,6 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
 
   }
 
-
   handlePageClick(): void {
     // link to collection/123
     this.router.navigate([`/collection/${this.collection.collection_id}`])
@@ -193,6 +192,24 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
     }
   }
 
+  handleDeleteClick() {
+    const confirmed = confirm("Are you sure you want to delete this collection?");
+    if (confirmed) {
+      const url = `http://localhost:3000/your-work/collections/removeCollection`;
+      const data = {
+        collection_id: this.collection_id,
+        delete: true
+      };
+  
+      axios.post(url, data)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  }
 
   onMouseEnterGridCode() {
 
