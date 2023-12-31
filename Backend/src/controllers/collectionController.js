@@ -117,6 +117,10 @@ async function removePenFromCollection(req, res) {
 
     await penInCollection.destroy();
 
+    if (penInCollection.pen.deleted) {
+      await CollectionPen.destroy({ where: { pen_id: pen_id } });
+    }
+
     return res.status(200).json({ code: 200, message: 'Pen removed from collection successfully' });
   } catch (error) {
     console.error(error);
