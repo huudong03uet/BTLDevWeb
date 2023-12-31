@@ -11,7 +11,6 @@ router.get("/getPenByUser/:id", penController.getPenByUser);
 router.get("/getPenByUserIDForFollow/:id", penController.getPenByUserIDForFollow);
 router.get("/getFollow/:id", penController.getFollow);
 router.post("/savePen", penController.savePen);
-
 router.get("/getPenByUserSort/", penController.getPenByUserSort);
 
 module.exports = router;

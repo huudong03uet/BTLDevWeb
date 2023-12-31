@@ -20,19 +20,19 @@ export class ListCollectionToAddPenComponent implements OnInit {
     private http: HttpClient,
     private userData: UserDataService,
     private router: Router,
-  ) {}
+  ) { }
 
   async getPenName(penId: number): Promise<string> {
     try {
       const apiUrl = `http://localhost:3000/pen/getPenById`;
-      const response = await axios.post(apiUrl, { pen_id: penId }); 
+      const response = await axios.post(apiUrl, { pen_id: penId });
       return response.data.pen.name;
     } catch (error) {
       console.error('Error fetching pen name:', error);
       throw error;
     }
   }
-  
+
   async getPensInCollection(collectionId: number): Promise<any> {
     try {
       const apiUrl = `http://localhost:3000/your-work/collections/${collectionId}/pens`;
@@ -89,7 +89,7 @@ export class ListCollectionToAddPenComponent implements OnInit {
       // Check the response and perform any additional actions if needed
       if (response.data.code === 200) {
         console.log('Pen added to collection successfully.');
-        // Add any additional logic here
+        alert('Pen added to collection successfully!');
       } else {
         console.error('Error adding pen to collection:', response.data.error);
       }
@@ -98,11 +98,26 @@ export class ListCollectionToAddPenComponent implements OnInit {
     }
   }
 
+  async removePenFromCollection(collection_id: number) {
+    try {
+      const apiUrl = `http://localhost:3000/your-work/collections/removePenFromCollection`;
+      const response = await axios.post(apiUrl, { collection_id, pen_id: this.pen_id });
+
+      if (response.data.code === 200) {
+        console.log('Pen removed from collection successfully.');
+        alert('Pen removed from collection successfully!');
+      } else {
+        console.error('Error removing pen from collection:', response.data.error);
+      }
+    } catch (error) {
+      console.error('Error removing pen from collection:', error);
+    }
+  }
+
   viewCollection(collection_id: number) {
-    // Sử dụng Router để điều hướng đến trang collection với collection_id
     this.router.navigate([`/collection/${collection_id}`]);
   }
-  
+
 
   search: string = "";
 
@@ -128,5 +143,5 @@ export class ListCollectionToAddPenComponent implements OnInit {
   handleChildClose() {
     this.childVisible = false;
   }
-  
+
 }

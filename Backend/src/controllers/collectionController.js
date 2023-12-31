@@ -97,9 +97,37 @@ async function addPenToCollection(req, res) {
   }
 }
 
+async function removePenFromCollection(req, res) {
+  try {
+    const { collection_id, pen_id } = req.body;
+
+    const collection = await Collection.findByPk(collection_id);
+
+    if (!collection) {
+      return res.status(404).json({ code: 404, message: 'Không tìm thấy collection' });
+    }
+
+    const penInCollection = await CollectionPen.findOne({
+      where: { collection_id: collection_id, pen_id: pen_id },
+    });
+
+    if (!penInCollection) {
+      return res.status(400).json({ code: 400, message: 'Pen not found in the collection' });
+    }
+
+    await penInCollection.destroy();
+
+    return res.status(200).json({ code: 200, message: 'Pen removed from collection successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa pen khỏi collection' });
+  }
+}
+
 module.exports = {
   createOrUpdateCollection,
   getCollectionsByUser,
   getPensInCollection,
   addPenToCollection,
+  removePenFromCollection,
 };
