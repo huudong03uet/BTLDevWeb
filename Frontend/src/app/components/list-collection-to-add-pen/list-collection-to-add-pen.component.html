@@ -44,6 +44,14 @@
                                 <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
                             </svg>
                         </button>
+                        <button *ngIf="collection.has_this_pen" class="remove-from-collection-button"
+                            (click)="removePenFromCollection(collection.collection_id)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none">
+                                <path d="M6 12L18 12" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
         </ul>
