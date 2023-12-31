@@ -29,7 +29,7 @@ export class SupportComponent {
   question_answering = [
     {
       question: "How do I verify my email?",
-      answer: "Click the link in the verification email from verify@codepen.io (be sure to check your spam folder or other email tabs if it's not in your inbox).\nOr, send an email with the subject \"Verify\" to verify@codepen.io from the email address you use for your CodePen account."
+      answer: "Click the link in the verification email from verify@code.io (be sure to check your spam folder or other email tabs if it's not in your inbox).\nOr, send an email with the subject \"Verify\" to verify@code.io from the email address you use for your CODE account."
     },
     {
       question: "My Pen loads infinitely or crashes the browser.",
@@ -40,7 +40,7 @@ export class SupportComponent {
       answer: "You can leave a comment on any public Pen. Click the \"Comments\" link in the Pen editor view, or visit the Details page."
     },
     {
-      question: "What version of [library] does CodePen use?",
+      question: "What version of [library] does CODE use?",
       answer: "We have our current list of library versions here."
     },
     {
@@ -49,7 +49,7 @@ export class SupportComponent {
     },
     {
       question: "Receipts, account cancellation and more",
-      answer: "If you're investigating a charge from CodePen, need a receipt or need to cancel your account check out our comprehensive doc at the link below."
+      answer: "If you're investigating a charge from CODE, need a receipt or need to cancel your account check out our comprehensive doc at the link below."
     }
 
 

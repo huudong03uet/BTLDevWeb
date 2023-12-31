@@ -79,25 +79,27 @@
       <div class="menu-your">
         <ul>
           <li class="button-click"><a (click)="clickYourWork()">Your Work</a></li>
-          <li class="button-click"><a (click)="clickYourWork()">Activity</a></li>
-          <li class="button-click"><a (click)="clickYourWork()">Assets</a></li>
-          <li class="button-click"><a (click)="openPinnedComponent()">Pinned Items</a></li>
-
+          <!-- <li class="button-click"><a (click)="clickYourWork()">Activity</a></li> -->
+          <!-- <li class="button-click"><a (click)="clickYourWork()">Assets</a></li> -->
+          <li class="button-click"><a (click)="clickFollowing()">Following</a></li>
+          <li class="button-click"><a (click)="clickTrending()">Trending</a></li>
         </ul>
       </div>
   
       <div class="menu-world">
         <ul>
-          <li class="button-click"><a (click)="clickFollowing()">Following</a></li>
-          <li class="button-click"><a (click)="clickTrending()">Trending</a></li>
-          <li class="button-click"><a (click)="clickYourWork()">Challengers</a></li>
-          <li class="button-click"><a (click)="clickYourWork()">Spark</a></li>
+          <li class="button-click"><a (click)="openPinnedComponent()">Pinned Items</a></li>
+
+          <!-- <li class="button-click"><a (click)="clickYourWork()">Challengers</a></li> -->
+          <!-- <li class="button-click"><a (click)="clickYourWork()">Spark</a></li> -->
           
         </ul>
       </div>
-      <div class="menu-code-pen">
+
+ <div class="menu-code-pen"> 
         <ul>
-          <li class="button-click"><a (click)="clickYourWork()">
+
+          <!-- <li class="button-click"><a (click)="clickYourWork()">
             CODE
             <svg fill="none" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg" title="PRO" style="width: 32px; height: 16px;">
                 <rect fill="#ffdd40" height="16" rx="1.5" width="32">
@@ -107,9 +109,9 @@
                     </path>
                 </g>
             </svg>
-          </a></li>
+          </a></li> -->
         </ul>
-      </div>
+      </div> 
   
       <!-- <div id="carbonads">
         <span class="carbon-wrap">
