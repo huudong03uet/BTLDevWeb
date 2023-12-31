@@ -266,23 +266,72 @@ async function getTrending(req, res) {
   try {
     const penIds = await Like.findAll({
       attributes: [
-        'pen_id',
+       'pen_id',
         [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'numlikes'],
       ],
       group: ['pen_id'],
     });
 
+    const penIds1 = await View.findAll({
+      attributes: [
+        'pen_id',
+        [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'numview'],
+      ],
+      group: ['pen_id'],
+    });
+
     penIds.sort(function(a,b) {
-      return a.numlikes - b.numlike;
+      return a.pen_id - b.pen_id;
     })
 
-    const penIdValues = penIds.map((pen) => pen.pen_id);
+    penIds1.sort(function(a,b) {
+      return a.pen_id - b.pen_id;
+    })
+
+    let mergeArr = [];
+
+    let i = 0;
+    let j = 0;
+    while (i < penIds.length && j < penIds1.length) {
+      if (penIds[i].pen_id < penIds1[j].pen_id) {
+        mergeArr.push({ pen_id: penIds[i].dataValues.pen_id, count: penIds[i].dataValues.numlikes });
+        i += 1;
+      } else if (penIds[i].pen_id > penIds1[j].pen_id) {
+        mergeArr.push({ pen_id: penIds1[j].dataValues.pen_id, count: penIds1[j].dataValues.numview });
+        j += 1;
+      } else if (penIds[i].dataValues.pen_id === penIds1[j].dataValues.pen_id) {
+        mergeArr.push({
+          pen_id: penIds[i].dataValues.pen_id,
+          count: penIds[i].dataValues.numlikes + penIds1[j].dataValues.numview,
+        });
+        i += 1;
+        j += 1;
+      }
+    }
+
+    while (i < penIds.length) {
+      mergeArr.push({ pen_id: penIds[i].pen_id, count: penIds[i].numlikes });
+      i += 1;
+    }
+
+    while (j < penIds1.length) {
+      mergeArr.push({ pen_id: penIds1[j].pen_id, count: penIds1[j].numview });
+      j += 1;
+    }
+
+    mergeArr.sort(function(a,b) {
+      return b.count - a.count;
+    })
+
+    console.log(mergeArr);
+
+    const penIdValues = mergeArr.map((pen) => pen.pen_id);
     res.status(200).json(penIdValues);
   } catch (error) {
     console.error('Error fetching pen ids:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-}
+} 
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
