@@ -197,4 +197,59 @@ overflow: scroll;
       }
     }
   }
+
+  .center-detail-pen {
+    .header-center-detail {
+      background: #252525;
+      height: 60px;
+      -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+      box-shadow: 0 1px 3px rgba(0,0,0,.3);
+      padding-left: 8px;
+      position: relative;
+      z-index: 1;
+      padding-top: 12px;
+      padding-bottom: 6px;
+      button {
+        color: #e3e4e8;
+        background-color: #444857;
+        border-radius: 2px;
+        display: inline-block;
+        margin-right: 1px;
+        padding: 6px 16px;
+        height: 100%;
+        border: none;
+
+        text-decoration: none;
+        letter-spacing: .6px;
+        font-size: 16px;
+        font-weight: 500;
+        &:hover {
+              background-color: #444857;
+        }
+      }
+      .active {
+        background-color: #5a5f73;
+        color: #e3e4e8;
+        box-shadow: inset 0px 3px #868ca0;
+
+        &:hover {
+              background-color: #5a5f73;
+        }
+      }
+      
+
+      
+
+
+    }
+
+    .body-center-detail {
+      display: grid;
+      height: 250px;;
+
+      grid-template-columns: 1fr 1fr;
+overflow: hidden;
+    overflow-y: clip;
+    }
+  }
 }

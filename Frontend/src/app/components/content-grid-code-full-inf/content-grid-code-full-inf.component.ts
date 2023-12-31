@@ -20,7 +20,8 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   informationPen = [
     "Add to Collection",
     "Remove from Pins",
-    "Unfollow User"
+    "Make Private",
+    "Delete"
   ]
 
   constructor(
@@ -57,7 +58,9 @@ export class ContentGridCodeFullInfComponent implements OnInit {
         this.informationPen = [
           "Add to Collection",
           "Remove from Pins",
-          "Unfollow " + this.data.user.user_name
+          // "Unfollow " + this.data.user.user_name
+          "Make Private",
+          "Delete"
         ]
       })
       .catch((error) => {
@@ -72,7 +75,7 @@ export class ContentGridCodeFullInfComponent implements OnInit {
         this.pined = response.data.pined;
         this.followed = response.data.followed;
         this.informationPen[1] = !this.pined ? "Add to Pins" : "Remove to Pins";
-        this.informationPen[2] = !this.followed ? `Follow ${this.data.user.user_name}` : `Unfollow ${this.data.user.user_name}`;
+        // this.informationPen[2] = !this.followed ? `Follow ${this.data.user.user_name}` : `Unfollow ${this.data.user.user_name}`;
       })
       .catch((error) => {
         console.error('Error:', error);

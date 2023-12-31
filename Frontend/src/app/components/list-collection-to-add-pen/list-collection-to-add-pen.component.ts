@@ -1,15 +1,21 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import axios from 'axios';
+import { CreateNewCollectionServiceService } from 'src/app/services/create-new-collection-service.service';
 
 @Component({
   selector: 'app-list-collection-to-add-pen',
   templateUrl: './list-collection-to-add-pen.component.html',
-  styleUrls: ['./list-collection-to-add-pen.component.scss']
+  styleUrls: ['./list-collection-to-add-pen.component.scss'],
+
 })
 export class ListCollectionToAddPenComponent implements OnInit {
+
+
+
   @Input() pen_id: any;
   collection_ids: any[] = [];
   data_views: any[] = [];
@@ -18,19 +24,20 @@ export class ListCollectionToAddPenComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private userData: UserDataService,
-  ) {}
+    private router: Router,
+  ) { }
 
   async getPenName(penId: number): Promise<string> {
     try {
       const apiUrl = `http://localhost:3000/pen/getPenById`;
-      const response = await axios.post(apiUrl, { pen_id: penId }); 
+      const response = await axios.post(apiUrl, { pen_id: penId });
       return response.data.pen.name;
     } catch (error) {
       console.error('Error fetching pen name:', error);
       throw error;
     }
   }
-  
+
   async getPensInCollection(collectionId: number): Promise<any> {
     try {
       const apiUrl = `http://localhost:3000/your-work/collections/${collectionId}/pens`;
@@ -67,7 +74,7 @@ export class ListCollectionToAddPenComponent implements OnInit {
 
         // Assuming the response structure includes collection_name
         collections[i].collection_name = pensInCollection.collectionName;
-        console.log(collections[i].collection_name);
+        // console.log(collections[i].collection_name);
       }
 
       // Lấy tên của pen
@@ -87,13 +94,33 @@ export class ListCollectionToAddPenComponent implements OnInit {
       // Check the response and perform any additional actions if needed
       if (response.data.code === 200) {
         console.log('Pen added to collection successfully.');
-        // Add any additional logic here
+        alert('Pen added to collection successfully!');
       } else {
         console.error('Error adding pen to collection:', response.data.error);
       }
     } catch (error) {
       console.error('Error adding pen to collection:', error);
     }
+  }
+
+  async removePenFromCollection(collection_id: number) {
+    try {
+      const apiUrl = `http://localhost:3000/your-work/collections/removePenFromCollection`;
+      const response = await axios.post(apiUrl, { collection_id, pen_id: this.pen_id });
+
+      if (response.data.code === 200) {
+        console.log('Pen removed from collection successfully.');
+        alert('Pen removed from collection successfully!');
+      } else {
+        console.error('Error removing pen from collection:', response.data.error);
+      }
+    } catch (error) {
+      console.error('Error removing pen from collection:', error);
+    }
+  }
+
+  viewCollection(collection_id: number) {
+    this.router.navigate([`/collection/${collection_id}`]);
   }
 
 
@@ -116,10 +143,13 @@ export class ListCollectionToAddPenComponent implements OnInit {
 
   openCreateNewCollection() {
     this.childVisible = true;
+
+    // this.createNewCollectionService.appendComponentToBody();
+
   }
 
   handleChildClose() {
     this.childVisible = false;
   }
-  
+
 }

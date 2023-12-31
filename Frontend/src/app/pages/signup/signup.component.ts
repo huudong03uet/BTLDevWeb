@@ -16,7 +16,7 @@ export class SignupComponent {
     private userData: UserDataService,
     ) {} // Inject Router vào constructor
 
-  hiddenRegisterEmail: boolean = true;
+  hiddenRegisterEmail: boolean = false;
   signupError: string | null = null;
   name: string = '';
   username: string = '';
@@ -28,7 +28,9 @@ export class SignupComponent {
   }
 
   changeStatusHiddenRegisterEmail() {
-    this.hiddenRegisterEmail = !this.hiddenRegisterEmail;
+    this.hiddenRegisterEmail = false;
+    // to -> login
+    this.router.navigate(['/login']);
     // console.log(this.hiddenRegisterEmail)
   }
   

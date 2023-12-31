@@ -36,10 +36,12 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   get_data_pen(pen_id: number, index: number) {
     // init data -> data = response.data
     let data_pen: any;
-    const apiUrl = `http://localhost:3000/pen/getInfoPen/${pen_id}`;
+    const apiUrl = `http://localhost:3000/pen/getInfoPen?pen_id=${pen_id}&user_id=null`;
+    
     axios.get(apiUrl)
       .then((response) => {
         data_pen = response.data;
+        console.log("data_pen: ", data_pen)
         const iframeContent = `
         <html>
           <head>
@@ -92,21 +94,23 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
 
     this.http.get(apiUrl).subscribe(
       (response: any) => {
-        this.pen_ids = response.pens || [];
+        this.pen_ids = response.pen_ids || [];
         this.collectionName = response.collectionName || "";
         console.log(this.collectionName);
+        console.log("this.pen_ids: ", this.pen_ids)
+        for (let i = 0; i < this.pen_ids.length; i++) {
+          this.get_data_pen(this.pen_ids[i], i);
+        }
+        for (let i = this.pen_ids.length; i < 4; i++) {
+          this.get_data_pen_null(i);
+        }
       },
       (error) => {
         console.error('Error fetching pen_ids:', error);
       }
     );
 
-    for (let i = 0; i < this.pen_ids.length; i++) {
-      this.get_data_pen(this.pen_ids[i], i);
-    }
-    for (let i = this.pen_ids.length; i < 4; i++) {
-      this.get_data_pen_null(i);
-    }
+
 
   }
 
