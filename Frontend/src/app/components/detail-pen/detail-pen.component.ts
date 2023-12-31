@@ -12,7 +12,7 @@ import axios from 'axios';
 export class DetailPenComponent {
   @Output() closeDetailPen = new EventEmitter<void>();
 
-  @Input() pen_id: any;
+  @Input() pen_id: any = 0;
   data: any;
   namePen: any;
   iframeContent: SafeHtml | undefined;

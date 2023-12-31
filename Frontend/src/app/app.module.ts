@@ -91,6 +91,7 @@ import { ListItemGridCollectionFullInfComponent } from './components/list-item-g
 import { ListItemGridProjectFullInfComponent } from './components/list-item-grid-project-full-inf/list-item-grid-project-full-inf.component';
 import { ContentGridProjectFullInfComponent } from './components/content-grid-project-full-inf/content-grid-project-full-inf.component';
 import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/your-work-projects.component';
+import { CodeBoxDetailPenComponent } from './components/detail-pen/code-box-detail-pen/code-box-detail-pen.component';
 
 @NgModule({
   declarations: [
@@ -174,6 +175,7 @@ import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/
     ListItemGridProjectFullInfComponent,
     ContentGridProjectFullInfComponent,
     YourWorkProjectsComponent,
+    CodeBoxDetailPenComponent,
   ],
   imports: [
     FormsModule,

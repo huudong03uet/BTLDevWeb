@@ -185,6 +185,27 @@
               }
             }
           }
+          .list-collection-add.show {
+
+            transform: translateY(0px);
+            opacity: 1;
+            visibility: visible;
+          }
+  
+          .list-collection-add {
+            color: white;
+            position: absolute;
+            bottom: 30px;
+            right: 0px;
+            width: max-content;
+  
+            transform: translateY(-10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: transform 0.15s ease-in-out, opacity 0.15s linear,
+              visibility 0s linear;
+  
+          }
         }
       }
   
