@@ -1,4 +1,4 @@
-<div class="list-collection-to-add-pen">
+<div class="list-collection-to-add-pen" *ngIf="data_views && data_views.length > 0">
     <div class="header-list">
         Add <span>&nbsp; {{pen_name}} &nbsp;</span> to Collection
     </div>
@@ -12,8 +12,8 @@
                     </path>
                 </svg>
             </button>
-            <input type="search" placeholder="SEACRH COLLECTIONS" [(ngModel)]="search" (ngModelChange)="searchFiles(search)"
-                style="    width: inherit;">
+            <input type="search" placeholder="SEACRH COLLECTIONS" [(ngModel)]="search"
+                (ngModelChange)="searchFiles(search)" style="    width: inherit;">
         </nav>
     </div>
     <div class="center-list">
@@ -30,16 +30,19 @@
                             </div>
                             <div class="item-list-description">
                                 <span>{{collection.collection_number_pens}} items</span>
-                                <button>
-                                    View Collection &rarr; 
+                                <button (click)="viewCollection(collection.collection_id)">
+                                    View Collection &rarr;
                                 </button>
                             </div>
                         </div>
                     </div>
 
                     <div class="item-list-button">
-                        <button class="add-to-collection-button" (click)="addPenToCollection(collection.collection_id)">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                        <button *ngIf="!collection.has_this_pen" class="add-to-collection-button"
+                            (click)="addPenToCollection(collection.collection_id)">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -47,6 +50,6 @@
     </div>
     <!-- <div class="create-new-collection">
         <button class="create-collection-button" (click)="openCreateNewCollection()">Create New Collection</button>
+        <app-create-new-collection *ngIf="childVisible" (close)="handleChildClose()"></app-create-new-collection>
     </div> -->
 </div>
-<!-- <app-create-new-collection style="position: fixed; top: 0; right: 0;" *ngIf="childVisible" (close)="handleChildClose()"></app-create-new-collection> -->
