@@ -17,6 +17,12 @@ export class DetailPenComponent {
   namePen: any;
   iframeContent: SafeHtml | undefined;
 
+  htmlFile = "<div>Hello world</div>"
+  cssFile = "body { background-color: yellow; }"
+  jsFile = "console.log('Hello world!');"
+
+
+
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
@@ -121,6 +127,36 @@ export class DetailPenComponent {
   }
   goToDetailPen() {
     this.router.navigate(['/pen/' + this.pen_id]);
+  }
+  tinh_nang_vo_dung: boolean = false;
+
+  objectView = 'html'
+  clickHTML() {
+    this.objectView = 'html'
+    this.tinh_nang_vo_dung = !this.tinh_nang_vo_dung
+    // add html-button -> active
+
+    document.getElementsByClassName("html-button")?.item(0)?.classList.add("active");
+    // remove css-button -> active
+    document.getElementsByClassName("css-button")?.item(0)?.classList.remove("active");
+    // remove js-button -> active
+    document.getElementsByClassName("js-button")?.item(0)?.classList.remove("active");
+  }
+
+  clickCSS() {
+    this.objectView = 'css'
+    this.tinh_nang_vo_dung = !this.tinh_nang_vo_dung
+    document.getElementsByClassName("css-button")?.item(0)?.classList.add("active");
+    document.getElementsByClassName("html-button")?.item(0)?.classList.remove("active");
+    document.getElementsByClassName("js-button")?.item(0)?.classList.remove("active");
+  }
+
+  clickJS() {
+    this.objectView = 'js'
+    this.tinh_nang_vo_dung = !this.tinh_nang_vo_dung
+    document.getElementsByClassName("js-button")?.item(0)?.classList.add("active");
+    document.getElementsByClassName("css-button")?.item(0)?.classList.remove("active");
+    document.getElementsByClassName("html-button")?.item(0)?.classList.remove("active");
   }
 
 }
