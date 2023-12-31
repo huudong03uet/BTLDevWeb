@@ -3,6 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-trending-center',
@@ -17,6 +18,7 @@ export class TrendingCenterComponent  {
   constructor(
     private route: ActivatedRoute,
     private userData: UserDataService,
+    private myService: HostService,
   ) { }
 
 
@@ -25,7 +27,7 @@ export class TrendingCenterComponent  {
 
       const userId = this.userData.getUserData()?.user_id;
       if (userId) {
-        let apiUrl = `http://localhost:3000/pen/getTrending`;
+        let apiUrl = this.myService.getApiHost() +  `/pen/getTrending`;
 
         axios.get(apiUrl).then((response) => {
           this.pen_ids = response.data;
@@ -38,7 +40,7 @@ export class TrendingCenterComponent  {
           console.error('Error:', error);
         });
 
-        apiUrl = `http://localhost:3000/user/getNotFollow/${userId}`;
+        apiUrl = this.myService.getApiHost() + `/user/getNotFollow/${userId}`;
         axios.get(apiUrl).then((response) => {
           this.data = response.data;
           console.log('trendding', this.data)

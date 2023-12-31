@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import axios from 'axios';
-
+import { HostService } from 'src/app/host.service';
 @Injectable({
   providedIn: 'root',
 })
 export class UserDataService {
   private userData: User | null = null;
 
-  constructor() {
+  constructor(
+    private myService: HostService,
+  ) {
     const token = localStorage.getItem('dataUser');
 
     if (typeof token === 'string') {
@@ -34,7 +36,7 @@ export class UserDataService {
   }
 
   getUserInfoFromBackend(user_id: number): Promise<User> {
-    return axios.get<User>(`http://localhost:3000/user/getInfoUser?user_id=${user_id}`)
+    return axios.get<User>(this.myService.getApiHost() + `/user/getInfoUser?user_id=${user_id}`)
       .then(response => response.data)
       .catch(error => {
         console.error('Error fetching user information:', error);
@@ -43,7 +45,7 @@ export class UserDataService {
   }
 
   updateProfile(user_id: number, profileData: any): Promise<User> {
-    return axios.post<User>(`http://localhost:3000/user/updateProfile/${user_id}`, profileData)
+    return axios.post<User>(this.myService.getApiHost() + `/user/updateProfile/${user_id}`, profileData)
       .then(response => response.data)
       .catch(error => {
         console.error('Error updating user profile:', error);
@@ -54,7 +56,7 @@ export class UserDataService {
   // Add the following methods to your UserDataService class
 
   updateUsername(user_id: number, newUsername: string): Promise<any> {
-    return axios.post<any>(`http://localhost:3000/user/changeUsername/${user_id}`, { newUsername })
+    return axios.post<any>(this.myService.getApiHost() + `/user/changeUsername/${user_id}`, { newUsername })
       .then(response => response.data)
       .catch(error => {
         console.error('Error changing username:', error);
@@ -63,7 +65,7 @@ export class UserDataService {
   }
 
   updatePassword(user_id: number, currentPassword: string, newPassword: string): Promise<any> {
-    return axios.post<any>(`http://localhost:3000/auth/updatePassword/${user_id}`, { currentPassword, newPassword })
+    return axios.post<any>(this.myService.getApiHost() + `/auth/updatePassword/${user_id}`, { currentPassword, newPassword })
       .then(response => response.data)
       .catch(error => {
         console.error('Error updating password:', error);
@@ -72,7 +74,7 @@ export class UserDataService {
   }
 
   updateEmail(user_id: number, newEmail: string): Promise<any> {
-    return axios.post<any>(`http://localhost:3000/user/changeEmail/${user_id}`, { newEmail })
+    return axios.post<any>(this.myService.getApiHost() + `/user/changeEmail/${user_id}`, { newEmail })
       .then(response => response.data)
       .catch(error => {
         console.error('Error changing email:', error);
@@ -81,7 +83,7 @@ export class UserDataService {
   }
 
   deleteAccount(user_id: number): Promise<any> {
-    return axios.delete<any>(`http://localhost:3000/user/deleteUser/${user_id}`)
+    return axios.delete<any>(this.myService.getApiHost() + `/user/deleteUser/${user_id}`)
       .then(response => response.data)
       .catch(error => {
         console.error('Error deleting account:', error);

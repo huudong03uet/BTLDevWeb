@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Params, Router } from '@angular/router';
-
+import { HostService } from 'src/app/host.service';
 @Component({
   selector: 'app-project-profile',
   templateUrl: './project-profile.component.html',
@@ -13,7 +13,7 @@ export class ProjectProfileComponent {
   showPopularProject = true;
   currentURL = "";
   // constructor(private router: Router) {}
-  constructor(private router: Router) {
+  constructor(private myService: HostService,private router: Router) {
     //  print when route changes 
     // this.ngAfterViewChecked();
   }
@@ -47,7 +47,7 @@ export class ProjectProfileComponent {
       const span = document.createElement('span');
 
       // <a class="link-settings account">Account</a>
-      //  currentURL = http://localhost:4200/profile/projects/popular
+      //  currentURL = this.myService.getWebHost() + /profile/projects/popular
       var check_currentURL = this.currentURL.split('/')[5] + "Project"
       if (link.classList.contains(check_currentURL)) {
         link.classList.add('active');

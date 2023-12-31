@@ -4,6 +4,7 @@ import { UserDataService } from 'src/app/services/user-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { RouterTestingHarness } from '@angular/router/testing';
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-home-code',
@@ -21,6 +22,7 @@ export class HomeCodeComponent implements OnInit {
     private userData: UserDataService,
     private router: Router,
     private route: ActivatedRoute,
+    private myService: HostService,
   ) {}
 
   ngOnInit(): void {
@@ -30,7 +32,7 @@ export class HomeCodeComponent implements OnInit {
       if (this.penId != null) {
         try {
           // console.log(this.penId, this.userData.getUserData());
-          let data = await axios.get(`http://localhost:3000/pen/getInfoPen?pen_id=${this.penId}&user_id=${this.userData.getUserData()?.user_id}`); 
+          let data = await axios.get(this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${this.penId}&user_id=${this.userData.getUserData()?.user_id}`); 
           // console.log(data)
           this.data = data.data;
           if(this.data.pen.status === "private") {
@@ -50,7 +52,7 @@ export class HomeCodeComponent implements OnInit {
   }
 
   loadPinAndFollow(penId: any) {
-    const url = `http://localhost:3000/grid/getInfoGrid?pen_id=${penId}&user_id=${this.userData.getUserData()?.user_id}`;
+    const url = this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${penId}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(url)
       .then((response) => {
         this.data.followed = response.data.followed;
@@ -68,7 +70,7 @@ export class HomeCodeComponent implements OnInit {
     }
     try {
       // console.log(this.data);
-      const response = await axios.post('http://localhost:3000/pen/savePen', {
+      const response = await axios.post(this.myService.getApiHost() + '/pen/savePen', {
         data: this.data,
         user: this.userData.getUserData(),
       });

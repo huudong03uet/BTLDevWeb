@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
-
+import { HostService } from 'src/app/host.service';
 @Component({
   selector: 'app-your-work-pens',
   templateUrl: './your-work-pens.component.html',
@@ -34,12 +34,13 @@ export class YourWorkPensComponent {
   constructor(
     private route: ActivatedRoute,
     private userData: UserDataService,
+    private myService: HostService,
   ) { }
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const userId = this.userData.getUserData()?.user_id;
       if (userId) {
-        const apiUrl = `http://localhost:3000/pen/getPenByUser/${userId}`;
+        const apiUrl = this.myService.getApiHost() + `/pen/getPenByUser/${userId}`;
 
         axios.get(apiUrl)
           .then((response) => {

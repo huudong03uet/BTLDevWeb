@@ -4,6 +4,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import axios from 'axios';
 
+import { HostService } from 'src/app/host.service';
+
 @Component({
   selector: 'app-detail-pen',
   templateUrl: './detail-pen.component.html',
@@ -26,10 +28,11 @@ export class DetailPenComponent {
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
+    private myService: HostService,
   ) { }
   ngOnInit(): void {
     
-    // const apiUrl = `http://localhost:3000/pen/getInfoPen/${this.pen_id}`;
+    // const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen/${this.pen_id}`;
     // axios.get(apiUrl)
     //   .then((response) => {
     //     this.data = response.data;
@@ -173,8 +176,8 @@ export class DetailPenComponent {
 //         console.error('User ID not available.');
 //         return;
 //       }
-
-//       const response = await axios.post(`http://localhost:3000/your-work/collections/`, {
+        // let url = this.myService.getApiHost() + '/your-work/collections';
+//       const response = await axios.post(url, {
 //         name: this.createForm.value.collectionTitle,
 //         user_id: userId,
 //         // Add other fields if needed
