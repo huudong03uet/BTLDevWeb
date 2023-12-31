@@ -26,7 +26,7 @@ async function getCollectionsByUser(req, res) {
     const userId = req.params.userId;
 
     const collections = await Collection.findAll({
-      where: { user_id: userId },
+      where: { user_id: userId, deleted: false }, // Add condition for deleted: false
     });
 
     return res.status(200).json({ code: 200, collections, message: 'Lấy danh sách collection thành công' });
@@ -42,6 +42,7 @@ async function getPensInCollection(req, res) {
 
     const collection = await Collection.findByPk(collectionId, {
       attributes: ['collection_id', 'name'],
+      where: { deleted: false }, // Add condition for deleted: false
     });
 
     if (!collection) {
@@ -51,6 +52,11 @@ async function getPensInCollection(req, res) {
     const pens = await CollectionPen.findAll({
       where: { collection_id: collectionId },
       attributes: ['pen_id'],
+      include: [{
+        model: Collection,
+        attributes: [],
+        where: { deleted: false }, // Add condition for deleted: false
+      }],
     });
 
     return res.status(200).json({
@@ -68,7 +74,6 @@ async function getPensInCollection(req, res) {
     res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy danh sách pen trong collection' });
   }
 }
-
 
 async function addPenToCollection(req, res) {
   try {
@@ -117,10 +122,34 @@ async function removePenFromCollection(req, res) {
 
     await penInCollection.destroy();
 
+    if (penInCollection.pen.deleted) {
+      await CollectionPen.destroy({ where: { pen_id: pen_id } });
+    }
+
     return res.status(200).json({ code: 200, message: 'Pen removed from collection successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa pen khỏi collection' });
+  }
+}
+
+async function removeCollection(req, res) {
+  try {
+    const { collection_id } = req.body;
+
+    const collection = await Collection.findByPk(collection_id);
+
+    if (!collection) {
+      return res.status(404).json({ code: 404, message: 'Không tìm thấy collection' });
+    }
+
+    // Set the 'deleted' property to true
+    await collection.update({ deleted: true });
+
+    return res.status(200).json({ code: 200, message: 'Collection deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa collection' });
   }
 }
 
@@ -130,4 +159,5 @@ module.exports = {
   getPensInCollection,
   addPenToCollection,
   removePenFromCollection,
+  removeCollection,
 };

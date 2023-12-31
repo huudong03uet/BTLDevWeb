@@ -283,4 +283,23 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   handleChildDetailPenClose() {
     this.childDetailPenVisible = false;
   }
+
+  handleDeleteClick() {
+    const confirmed = confirm("Are you sure you want to delete this pen?");
+    if (confirmed) {
+      const url = `http://localhost:3000/pen/createOrUpdatePen`;
+      const data = {
+        pen_id: this.pen_id,
+        delete: true
+      };
+  
+      axios.post(url, data)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  }
 }
