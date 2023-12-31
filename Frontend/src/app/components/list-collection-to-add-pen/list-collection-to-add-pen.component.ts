@@ -3,13 +3,18 @@ import { UserDataService } from 'src/app/services/user-data.service';
 import { HttpClient } from '@angular/common/http';
 
 import axios from 'axios';
+import { CreateNewCollectionServiceService } from 'src/app/services/create-new-collection-service.service';
 
 @Component({
   selector: 'app-list-collection-to-add-pen',
   templateUrl: './list-collection-to-add-pen.component.html',
-  styleUrls: ['./list-collection-to-add-pen.component.scss']
+  styleUrls: ['./list-collection-to-add-pen.component.scss'],
+
 })
 export class ListCollectionToAddPenComponent implements OnInit {
+
+
+
   @Input() pen_id: any;
   collection_ids: any[] = [];
   data_views: any[] = [];
@@ -18,6 +23,7 @@ export class ListCollectionToAddPenComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private userData: UserDataService,
+    private createNewCollectionService: CreateNewCollectionServiceService
   ) {}
 
   async getPenName(penId: number): Promise<string> {
@@ -116,10 +122,13 @@ export class ListCollectionToAddPenComponent implements OnInit {
 
   openCreateNewCollection() {
     this.childVisible = true;
+
+    this.createNewCollectionService.appendComponentToBody();
+
   }
 
   handleChildClose() {
     this.childVisible = false;
   }
-  
+
 }

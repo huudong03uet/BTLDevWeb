@@ -23,6 +23,8 @@
 
 .login-header {
     margin: 50px 0 20px;
+    justify-content: center;
+    display: grid;
 }
 
 .login-header .login-logo {
@@ -49,14 +51,15 @@
 
 .flex-grid {
     display: flex;
+    justify-content: center;
 }
 
 .flex-grid .login-half {
-
+    // justify-self: center;
 }
 
 .flex-grid .left {
-    padding-right: 10%;
+    // padding-right: 10%;
     width: 45%;
 }
 
@@ -126,7 +129,7 @@ form {
 }
 
 .flex-grid .right {
-    padding-left: 10%;
+    // padding-left: 10%;
     width: 55%;
 }
 

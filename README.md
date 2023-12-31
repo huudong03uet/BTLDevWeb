@@ -32,13 +32,13 @@ BTLDevWeb
 git clone https://github.com/huudong03uet/BTLDevWeb.git
 ```
 
-## Bước 2: cd vào file Front end
+## Bước 2: Đi vào thư muc Frontend
 ```
 cd Frontend
 ```
 
-## Bước 3: chỉnh lại file angular.js trong folder Frontend
-- thêm phụ thuộc các js trong build -> options.
+## Bước 3: Chỉnh lại file angular.js trong folder Frontend
+- Thêm phụ thuộc các js trong build -> options.
 ```
 "options": {
     **"allowedCommonJsDependencies": [
@@ -49,7 +49,7 @@ cd Frontend
 ```
 
   
-- thuộc tính "build" có thuộc tính con "outputPath". Chỉnh lại "outputPath" thành "dist" ("outputPath": "dist")
+- Thuộc tính "build" có thuộc tính con "outputPath". Chỉnh lại "outputPath" thành "dist" ("outputPath": "dist")
 
 ```
 "build": {
@@ -62,7 +62,7 @@ cd Frontend
 ```
 
   
-- ở phần "configurations" có thuộc tính con "production". Ở trong "production" có thuộc tính con "budgets". Chỉnh lại "maximumError" ở cả init và anyComponentStyle thành 2mb (Thực ra chỉnh số nào thì tùy thuộc vào chương trình báo lỗi, có thể tăng số này lên)
+- Ở phần "configurations" có thuộc tính con "production". Ở trong "production" có thuộc tính con "budgets". Chỉnh lại "maximumError" ở cả init và anyComponentStyle thành 2mb (Thực ra chỉnh số nào thì tùy thuộc vào chương trình báo lỗi, có thể tăng số này lên)
 ```
 "configurations": {
     "production": {
@@ -84,9 +84,9 @@ cd Frontend
 ```
 
 
-## Bước 4: npm run build hoặc ng build 
-## Bước 5: từ thư mục gốc vào lại Backend
-## Bước 6: trong Backend có 2 file "src/models/sequelize.js" và "src/server.js".
+## Bước 4: Chạy lệnh npm run build hoặc ng build 
+## Bước 5: Từ thư mục gốc vào lại Backend
+## Bước 6: Trong Backend có 2 file "src/models/sequelize.js" và "src/server.js".
 - "src/models/sequelize.js": chỉnh lại tên và cơ sở dữ liệu và password
 ```
 const sequelize = new Sequelize('database_name', 'user_name', 'password', {
