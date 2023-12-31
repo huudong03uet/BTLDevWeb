@@ -57,7 +57,28 @@
             
         </div>
         <div class="center-detail-pen">
+            <div class="header-center-detail">
+                <button class="html-button active" (click)="clickHTML()">HTML</button>
+                <button class="css-button" (click)="clickCSS()">CSS</button>
+                <button class="js-button" (click)="clickJS()">JS</button>
+            </div>
+            <div class="body-center-detail">
+                <div class="left-content-body-center-detail">
+                    <app-code-box-detail-pen [codeObject]="objectView" [codeHTML]="htmlFile"  [codeCSS]="cssFile" [codeJS]="jsFile" *ngIf="!tinh_nang_vo_dung"
+                    ></app-code-box-detail-pen>
+                    <app-code-box-detail-pen [codeObject]="objectView" [codeHTML]="htmlFile"  [codeCSS]="cssFile" [codeJS]="jsFile" *ngIf="tinh_nang_vo_dung"
+                    ></app-code-box-detail-pen>
+                </div>
+                <div class="right-content-body-center-detail">
+                    <!--   @Input() codeObject!: string;
+  @Input() codeHTML!: string;
+  @Input() codeCSS!: string;
+  @Input() codeJS!: string; -->
+                    <app-code-box-detail-pen [codeObject]="'iframe'" [codeHTML]="htmlFile"  [codeCSS]="cssFile" [codeJS]="jsFile"
+                    ></app-code-box-detail-pen>
+                </div>
 
+            </div>
         </div>
         <div class="comment-detail-pen">
             <app-comment-area [pen_id]="pen_id" ></app-comment-area>

@@ -8,8 +8,12 @@ declare let CodeMirror: any;
   styleUrls: ['./code-box-detail-pen.component.scss']
 })
 export class CodeBoxDetailPenComponent {
+[x: string]: any;
   @Input() codeObject!: string;
-  @Input() codecode!: string;
+  @Input() codeHTML!: string;
+  @Input() codeCSS!: string;
+  @Input() codeJS!: string;
+
   @ViewChild('htmlTextarea') htmlTextarea: ElementRef | undefined;
   @ViewChild('cssTextarea') cssTextarea: ElementRef | undefined;
   // scss
@@ -60,6 +64,7 @@ export class CodeBoxDetailPenComponent {
       readOnly: true
     });
     this.jsEditor.on('change', () => this.run());
+    this.run();
 
     // this.scssEditor = CodeMirror.fromTextArea(this.scssTextarea.nativeElement, {
     //   mode: 'scss',
@@ -72,12 +77,13 @@ export class CodeBoxDetailPenComponent {
     // });
   }
 
+
+
   run() {
     const htmlCode = this.htmlEditor.getValue();
     const cssCode = this.cssEditor.getValue();
     const jsCode = this.jsEditor.getValue();
     const output = this.outputFrame?.nativeElement;
-
     // const scssCode = this.scssEditor.getValue();
 
     // Hiển thị HTML và CSS trong iframe
@@ -96,46 +102,10 @@ export class CodeBoxDetailPenComponent {
     const scriptTag = document.createElement('script');
     scriptTag.innerHTML = jsCode;
     output.contentDocument.body.appendChild(scriptTag);
+
+
+
   }
 
-
-//   ngOnChanges(changes: SimpleChanges) {
-//       if (changes['codeObject']) {
-//       this.htmlEditor = CodeMirror.fromTextArea(this.htmlTextarea?.nativeElement, {
-//         mode: 'xml',
-//         lineNumbers: true,
-//         lineWrapping: true,
-//         theme: 'monokai',
-//         autoCloseBrackets: true,
-//         autoCloseTags: true,
-//         // font
-//         // only read
-//       });
-//       this.htmlEditor.on('change', () => this.run());
-
-//       this.cssEditor = CodeMirror.fromTextArea(this.cssTextarea?.nativeElement, {
-//         mode: 'css',
-//         lineNumbers: true,
-//         lineWrapping: true,
-//         theme: 'monokai',
-//         autoCloseBrackets: true,
-//         autoCloseTags: true,
-//       });
-//       this.cssEditor.on('change', () => this.run());
-
-      
-      
-
-//       this.jsEditor = CodeMirror.fromTextArea(this.jsTextarea?.nativeElement, {
-//         mode: 'javascript',
-//         lineNumbers: true,
-//         lineWrapping: true,
-//         theme: 'monokai',
-//         autoCloseBrackets: true,
-//         autoCloseTags: true,
-//       });
-//       this.jsEditor.on('change', () => this.run());
-//     }
-// //  reload code
-//   }
+  
 }
