@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import axios from 'axios';
 
@@ -18,6 +19,7 @@ export class ListCollectionToAddPenComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private userData: UserDataService,
+    private router: Router,
   ) {}
 
   async getPenName(penId: number): Promise<string> {
@@ -67,7 +69,7 @@ export class ListCollectionToAddPenComponent implements OnInit {
 
         // Assuming the response structure includes collection_name
         collections[i].collection_name = pensInCollection.collectionName;
-        console.log(collections[i].collection_name);
+        // console.log(collections[i].collection_name);
       }
 
       // Lấy tên của pen
@@ -96,6 +98,11 @@ export class ListCollectionToAddPenComponent implements OnInit {
     }
   }
 
+  viewCollection(collection_id: number) {
+    // Sử dụng Router để điều hướng đến trang collection với collection_id
+    this.router.navigate([`/collection/${collection_id}`]);
+  }
+  
 
   search: string = "";
 
