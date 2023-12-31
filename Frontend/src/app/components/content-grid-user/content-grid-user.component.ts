@@ -21,9 +21,8 @@ export class ContentGridUserComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    for (let idx = 0; idx < this.user.length; ++idx) {
-      this.name = this.user[idx].user_name;
-      const apiUrl = `http://localhost:3000/pen/getPenByUserIDForFollow/${this.user[idx].user_id}`;
+      this.name = this.user.user_name;
+      const apiUrl = `http://localhost:3000/pen/getPenByUserIDForFollow/${this.user.user_id}`;
       axios.get(apiUrl).then((response) => {
         this.data = response.data;
         // console.log('user_id:', this.user[idx].user_id);
@@ -61,7 +60,6 @@ export class ContentGridUserComponent implements OnInit {
       });
     }
 
-  }
 
   handlePageClick(): void {
     // console.log(`/pen/${this.pen_id}`);
