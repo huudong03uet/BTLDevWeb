@@ -1,6 +1,6 @@
 import express from "express";
 import penController from "../controllers/penController"
-
+import deletedController from "../controllers/deletedController"
 const router = express.Router();
 
 router.post('/getPenById', penController.getPenById);
@@ -12,5 +12,6 @@ router.get("/getPenByUserIDForFollow/:id", penController.getPenByUserIDForFollow
 router.get("/getFollow/:id", penController.getFollow);
 router.post("/savePen", penController.savePen);
 router.get("/getPenByUserSort/", penController.getPenByUserSort);
+router.post('/deletePenPermanently', deletedController.deletePenPermanently); 
 
 module.exports = router;

@@ -16,8 +16,7 @@ interface DeletedItem {
 export class YourWorkDeletedComponent implements OnInit {
   list_deleted: DeletedItem[] = [];
 
-  constructor(private http: HttpClient,
-    private myService: HostService,) { }
+  constructor(private http: HttpClient, private myService: HostService) { }
 
   ngOnInit() {
     this.http.post<any>(this.myService.getApiHost() + '/your-work/deleted', {}).subscribe(response => {
@@ -26,19 +25,36 @@ export class YourWorkDeletedComponent implements OnInit {
   }
 
   restoreItem(item: DeletedItem) {
-    if (item.type === 'pen') {
-      this.http.post<any>(this.myService.getApiHost() + '/pen/createOrUpdatePen', {
-        pen_id: item.id,
-        restore: true
-      }).subscribe(response => {
-        console.log(response);
-      });
-    } else if (item.type === 'collection') {
-      this.http.post<any>(this.myService.getApiHost() + '/your-work/collections/restore', {
-        collection_id: item.id
-      }).subscribe(response => {
-        console.log(response);
-      });
+    const endpoint = item.type === 'pen' ? '/pen/createOrUpdatePen' : '/your-work/collections/restore';
+    
+    this.http.post<any>(this.myService.getApiHost() + endpoint, {
+      [item.type + '_id']: item.id, // Dynamic key based on item type
+      restore: true
+    }).subscribe(response => {
+      console.log(response);
+    });
+  }
+
+  deletePermanently(item: DeletedItem) {
+    const deleteEndpoint = item.type === 'pen'
+      ? '/pen/deletePenPermanently'
+      : '/your-work/deleteCollectionPermanently';
+
+    const confirmed = confirm(`Are you sure you want to permanently delete ${item.name}?`);
+
+    if (confirmed) {
+      this.http.post<any>(this.myService.getApiHost() + deleteEndpoint, {
+        [item.type + '_id']: item.id, // Dynamic key based on item type
+      }).subscribe(
+        response => {
+          console.log(response);
+          alert('Item deleted permanently successfully!');
+        },
+        error => {
+          console.error(error);
+          alert('Error deleting item permanently. Please try again.');
+        }
+      );
     }
   }
 }
