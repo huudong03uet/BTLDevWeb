@@ -110,9 +110,9 @@ let _handlePinCollection = async (user_id, collection_id) => {
     } else {
       // Nếu chưa có trong Pin, thêm vào Pin
       await Pin.create({
-        user_id:user_id,
+        user_id: user_id,
         collection_id: collection_id,
-        type:"collection"
+        type: "collection"
       });
       return true;
     }
@@ -131,7 +131,7 @@ let handlePin = async (req, res) => {
     if (type == "pen") {
       let x = await _handlePinPen(user_id, pen_id);
       res.status(200).json({ pinned: x });
-    } else if(type == "collection") {
+    } else if (type == "collection") {
       let x = await _handlePinCollection(user_id, pen_id);
       res.status(200).json({ pinned: x });
     }

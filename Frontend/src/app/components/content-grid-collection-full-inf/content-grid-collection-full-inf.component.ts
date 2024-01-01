@@ -2,11 +2,12 @@ import { Component, HostListener, Input, OnInit, SecurityContext } from '@angula
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { UserDataService } from 'src/app/services/user-data.service';
+
 
 import axios from 'axios';
-import { has, hasIn } from 'lodash';
 import { HostService } from 'src/app/host.service';
-import { UserDataService } from 'src/app/services/user-data.service';
+
 
 @Component({
   selector: 'app-content-grid-collection-full-inf',
@@ -127,7 +128,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url = `http://localhost:3000/grid/handlePin?collection_id=${this.collection_id}&user_id=${this.userData.getUserData()?.user_id}&type=collection`;
+    const url = this.myService.getApiHost() + '/grid/handlePin?collection_id=${this.collection_id}&user_id=${this.userData.getUserData()?.user_id}&type=collection';
     console.log("url: ", url)
     axios.get(url)
       .then((response) => {
@@ -197,7 +198,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   handleDeleteClick() {
     const confirmed = confirm("Are you sure you want to delete this collection?");
     if (confirmed) {
-      const url = `http://localhost:3000/your-work/collections/removeCollection`;
+      const url = this.myService.getApiHost() + '/your-work/collections/removeCollection';
       const data = {
         collection_id: this.collection_id,
         delete: true

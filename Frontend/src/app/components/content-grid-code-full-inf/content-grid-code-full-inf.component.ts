@@ -290,7 +290,7 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   handleDeleteClick() {
     const confirmed = confirm("Are you sure you want to delete this pen?");
     if (confirmed) {
-      const url = `http://localhost:3000/pen/createOrUpdatePen`;
+      const url = this.myService.getApiHost() + `/pen/createOrUpdatePen`;
       const data = {
         pen_id: this.pen_id,
         delete: true

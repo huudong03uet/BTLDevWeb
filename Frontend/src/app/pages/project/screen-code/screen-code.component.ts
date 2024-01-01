@@ -69,6 +69,15 @@ export class ScreenCodeComponent {
       if (message) {
         // FileProject
         // check not duplicate
+        if (message.is_remove) {
+          this.listFilesOpen = this.listFilesOpen.filter((file) => file.id !== message.id);
+          if (message.id === this.file_selected.id) {
+            this.file_selected = this.listFilesOpen[0];
+            this.count = !this.count;
+            
+          }
+          return;
+        }
 
         const id_push = this.listFilesOpen.findIndex((file) => file.id === message.id);
         if (id_push === -1) {

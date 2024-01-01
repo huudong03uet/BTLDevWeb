@@ -90,15 +90,53 @@
   background-color: #252731;
 
   .folder-tree-project {
-    h2 {
-      margin: 1rem;
-      color: white;
-      text-transform: none;
-      font-size: 1.125rem;
-      padding-bottom: 0.625rem;
-      margin-bottom: 0;
+    .header-folder-tree-project {
+      display: flex;
       border-bottom: 3px solid hsl(227.37deg 12.26% 30.39%);
+      justify-content: space-between;
+      h2 {
+
+
+        margin: 1rem;
+        color: white;
+        text-transform: none;
+        font-size: 1.125rem;
+        padding-bottom: 0.625rem;
+        margin-bottom: 0;
+      }
+      .button-controler-file-folder {
+        // on right of header
+        display: flex;
+        margin-top: 0.5rem;
+        margin-right: 1rem;
+        div {
+          cursor: pointer;
+          svg {
+            fill: hsl(228deg 12.2% 40.2%);
+            color:hsl(228deg 12.2% 40.2%);
+            width: 20px;
+            height: 20px;
+          }
+
+          padding : 0px 2px;
+          
+        }
+
+        div:hover {
+          opacity: 1;
+          background-color:#252731;
+          svg {
+            fill: white;
+            color: white;
+          }
+        }
+
+
+        
+      }
     }
+    
+
   }
 }
 
@@ -129,4 +167,15 @@ svg {
   left: 0.1rem;
   bottom: 0.1rem;
   margin-right: 0.5rem;
+}
+
+li .close-file {
+  display: none;
+}
+
+li.active {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  opacity: 1;
+
 }
