@@ -110,9 +110,9 @@ let _handlePinCollection = async (user_id, collection_id) => {
     } else {
       // Nếu chưa có trong Pin, thêm vào Pin
       await Pin.create({
-        user_id:user_id,
+        user_id: user_id,
         collection_id: collection_id,
-        type:"collection"
+        type: "collection"
       });
       return true;
     }
@@ -131,7 +131,7 @@ let handlePin = async (req, res) => {
     if (type == "pen") {
       let x = await _handlePinPen(user_id, pen_id);
       res.status(200).json({ pinned: x });
-    } else if(type == "collection") {
+    } else if (type == "collection") {
       let x = await _handlePinCollection(user_id, pen_id);
       res.status(200).json({ pinned: x });
     }
@@ -227,62 +227,6 @@ async function getInfoGrid(req, res) {
   }
 }
 
-
-  let _handlePinPen = async (user_id, pen_id) => {
-    try {
-      const existingPin = await Pin.findOne({
-        where: {
-          user_id: user_id,
-          pen_id: pen_id,
-          type: "pen"
-        },
-      });
-  
-      if (existingPin) {
-        await existingPin.destroy();
-        res.status(200).json({ pinned: false });
-      } else {
-        // Nếu chưa có trong Pin, thêm vào Pin
-        await Pin.create({
-          user_id: user_id,
-          pen_id: pen_id,
-          type: "pen"
-        });
-        res.status(200).json({ pinned: true });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  }
-  
-  let _handlePinCollection = async (user_id, collection_id) => {
-    try {
-      const existingPin = await Collection.findOne({
-        where: {
-          user_id: user_id,
-          collection_id: collection_id,
-          type: "collection"
-        },
-      });
-  
-      if (existingPin) {
-        await existingPin.destroy();
-        return false;
-      } else {
-        // Nếu chưa có trong Pin, thêm vào Pin
-        await Pin.create({
-          user_id:user_id,
-          collection_id: collection_id,
-          type:"collection"
-        });
-        return true;
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  }
 
 module.exports = {
   updateView, handleLike, handlePin, handleFollow, getInfoGrid

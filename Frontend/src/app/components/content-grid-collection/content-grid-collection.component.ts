@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 import { has, hasIn } from 'lodash';
 import { HttpClient } from '@angular/common/http';
+import { HostService } from 'src/app/host.service';
+
 @Component({
   selector: 'app-content-grid-collection',
   templateUrl: './content-grid-collection.component.html',
@@ -31,13 +33,14 @@ export class ContentGridCollectionComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private http: HttpClient,
     private userData: UserDataService,
+    private myService: HostService,
   ) { }
 
 
   get_data_pen(pen_id: number, index: number) {
     // init data -> data = response.data
     let data_pen: any;
-    const apiUrl = `http://localhost:3000/pen/getInfoPen?pen_id=${pen_id}&user_id=null`;
+    const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${pen_id}&user_id=null`;
     
     axios.get(apiUrl)
       .then((response) => {
@@ -91,7 +94,7 @@ export class ContentGridCollectionComponent implements OnInit {
       return;
     }
     this.collection_id = this.collection.collection_id;
-    const apiUrl = `http://localhost:3000/your-work/collections/${this.collection_id}/pens`;
+    const apiUrl = this.myService.getApiHost() + `/your-work/collections/${this.collection_id}/pens`;
 
     this.http.get(apiUrl).subscribe(
       (response: any) => {
@@ -125,7 +128,7 @@ export class ContentGridCollectionComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url = `http://localhost:3000/grid/handlePin?collection_id=${this.collection_id}&user_id=${this.userData.getUserData()?.user_id}&type=collection`;
+    const url = this.myService.getApiHost() + `/grid/handlePin?collection_id=${this.collection_id}&user_id=${this.userData.getUserData()?.user_id}&type=collection`;
     console.log("url: ", url)
     axios.get(url)
       .then((response) => {
