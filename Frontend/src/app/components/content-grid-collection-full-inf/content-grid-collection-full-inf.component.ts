@@ -5,7 +5,11 @@ import { HttpClient } from '@angular/common/http';
 
 import axios from 'axios';
 import { has, hasIn } from 'lodash';
+<<<<<<< HEAD
+import { HostService } from 'src/app/host.service';
+=======
 import { UserDataService } from 'src/app/services/user-data.service';
+>>>>>>> refs/remotes/origin/main
 
 @Component({
   selector: 'app-content-grid-collection-full-inf',
@@ -31,14 +35,18 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
     private router: Router,
     private sanitizer: DomSanitizer,
     private http: HttpClient,
+<<<<<<< HEAD
+    private myService: HostService,
+=======
     private userData: UserDataService,
+>>>>>>> refs/remotes/origin/main
   ) { }
 
 
   get_data_pen(pen_id: number, index: number) {
     // init data -> data = response.data
     let data_pen: any;
-    const apiUrl = `http://localhost:3000/pen/getInfoPen?pen_id=${pen_id}&user_id=null`;
+    const apiUrl =  this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${pen_id}&user_id=null`;
     
     axios.get(apiUrl)
       .then((response) => {
@@ -92,7 +100,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
       return;
     }
     this.collection_id = this.collection.collection_id;
-    const apiUrl = `http://localhost:3000/your-work/collections/${this.collection_id}/pens`;
+    const apiUrl =  this.myService.getApiHost() + `/your-work/collections/${this.collection_id}/pens`;
 
     this.http.get(apiUrl).subscribe(
       (response: any) => {

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
+import { HostService } from 'src/app/host.service';
+
 @Component({
   selector: 'app-content-grid-user',
   templateUrl: './content-grid-user.component.html',
@@ -17,12 +19,13 @@ export class ContentGridUserComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private myService: HostService
   ) { }
 
   ngOnInit(): void {
       this.name = this.user.user_name;
-      const apiUrl = `http://localhost:3000/pen/getPenByUserIDForFollow/${this.user.user_id}`;
+      const apiUrl =  this.myService.getApiHost() + `/pen/getPenByUserIDForFollow/${this.user.user_id}`;
       axios.get(apiUrl).then((response) => {
         this.data = response.data;
         // console.log('user_id:', this.user[idx].user_id);
