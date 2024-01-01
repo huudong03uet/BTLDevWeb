@@ -1,5 +1,6 @@
 const express = require('express');
 const collectionController = require('../controllers/collectionController');
+const deletedController = require('../controllers/deletedController'); // Import the new controller
 
 const router = express.Router();
 
@@ -9,5 +10,7 @@ router.get('/collections/:collectionId/pens', collectionController.getPensInColl
 router.post('/collections/addPenToCollection', collectionController.addPenToCollection);
 router.post('/collections/removePenFromCollection', collectionController.removePenFromCollection); 
 router.post('/collections/removeCollection', collectionController.removeCollection); 
+router.post('/collections/restore', collectionController.restoreCollection);
+router.post('/deleted', deletedController.getDeletedCollectionsAndPens); 
 
 module.exports = router;

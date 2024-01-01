@@ -153,6 +153,31 @@ async function removeCollection(req, res) {
   }
 }
 
+async function restoreCollection(req, res) {
+  try {
+    const { collection_id } = req.body;
+
+    const collection = await Collection.findByPk(collection_id);
+
+    if (!collection) {
+      return res.status(404).json({ code: 404, message: 'Không tìm thấy collection' });
+    }
+
+    if (!collection.deleted) {
+      return res.status(200).json({ code: 200, message: 'Collection is not deleted' });
+    }
+
+    // Set the 'deleted' property to false to restore the collection
+    await collection.update({ deleted: false });
+
+    return res.status(200).json({ code: 200, message: 'Collection restored successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình khôi phục collection' });
+  }
+}
+
+
 module.exports = {
   createOrUpdateCollection,
   getCollectionsByUser,
@@ -160,4 +185,5 @@ module.exports = {
   addPenToCollection,
   removePenFromCollection,
   removeCollection,
+  restoreCollection,
 };
