@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HttpClient } from '@angular/common/http';
 import axios from 'axios';
-
+import { HostService } from 'src/app/host.service';
 
 interface Collection {
   collection_id: number;
@@ -21,7 +21,8 @@ export class YourWorkCollectionsComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private userData: UserDataService
+    private userData: UserDataService,
+    private myService: HostService,
   ) {}
 
   ngOnInit(): void {
@@ -31,7 +32,7 @@ export class YourWorkCollectionsComponent implements OnInit {
     }
 
     const userId = user.user_id;
-    let apiUrl = `http://localhost:3000/your-work/collections/user/${userId}`;
+    let apiUrl = this.myService.getApiHost() + `/your-work/collections/user/${userId}`;
 
     axios.get(apiUrl).then((response) => {
       let collections = response.data.collections;

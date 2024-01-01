@@ -3,6 +3,8 @@ import { UserDataService } from 'src/app/services/user-data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+import { HostService } from 'src/app/host.service';
+
 import axios from 'axios';
 import { CreateNewCollectionServiceService } from 'src/app/services/create-new-collection-service.service';
 
@@ -25,11 +27,12 @@ export class ListCollectionToAddPenComponent implements OnInit {
     private http: HttpClient,
     private userData: UserDataService,
     private router: Router,
+    private myService: HostService,
   ) { }
 
   async getPenName(penId: number): Promise<string> {
     try {
-      const apiUrl = `http://localhost:3000/pen/getPenById`;
+      const apiUrl = this.myService.getApiHost() + `/pen/getPenById`;
       const response = await axios.post(apiUrl, { pen_id: penId });
       return response.data.pen.name;
     } catch (error) {
@@ -40,7 +43,7 @@ export class ListCollectionToAddPenComponent implements OnInit {
 
   async getPensInCollection(collectionId: number): Promise<any> {
     try {
-      const apiUrl = `http://localhost:3000/your-work/collections/${collectionId}/pens`;
+      const apiUrl = this.myService.getApiHost() + `/your-work/collections/${collectionId}/pens`;
       const response = await axios.get(apiUrl);
       return response.data; // Assume the response structure includes collection_name
     } catch (error) {
@@ -56,7 +59,7 @@ export class ListCollectionToAddPenComponent implements OnInit {
     }
 
     const userId = user.user_id;
-    let apiUrl = `http://localhost:3000/your-work/collections/user/${userId}`;
+    let apiUrl = this.myService.getApiHost() + `/your-work/collections/user/${userId}`;
 
     try {
       const response = await axios.get(apiUrl);
@@ -88,7 +91,7 @@ export class ListCollectionToAddPenComponent implements OnInit {
 
   async addPenToCollection(collection_id: number) {
     try {
-      const apiUrl = `http://localhost:3000/your-work/collections/addPenToCollection`;
+      const apiUrl = this.myService.getApiHost() + `/your-work/collections/addPenToCollection`;
       const response = await axios.post(apiUrl, { collection_id, pen_id: this.pen_id });
 
       // Check the response and perform any additional actions if needed
@@ -105,7 +108,7 @@ export class ListCollectionToAddPenComponent implements OnInit {
 
   async removePenFromCollection(collection_id: number) {
     try {
-      const apiUrl = `http://localhost:3000/your-work/collections/removePenFromCollection`;
+      const apiUrl = this.myService.getApiHost() + `/your-work/collections/removePenFromCollection`;
       const response = await axios.post(apiUrl, { collection_id, pen_id: this.pen_id });
 
       if (response.data.code === 200) {

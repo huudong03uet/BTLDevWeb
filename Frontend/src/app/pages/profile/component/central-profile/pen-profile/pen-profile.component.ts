@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Params, Router } from '@angular/router';
+import { HostService } from 'src/app/host.service';
 @Component({
   selector: 'app-pen-profile',
   templateUrl: './pen-profile.component.html',
@@ -13,7 +14,7 @@ export class PenProfileComponent {
   showPopular = true;
   currentURL = "";
   // constructor(private router: Router) {}
-  constructor(private router: Router) {
+  constructor(private router: Router, private myService: HostService,) {
     //  print when route changes 
     // this.ngAfterViewChecked();
   }
@@ -61,7 +62,7 @@ export class PenProfileComponent {
       const span = document.createElement('span');
 
       // <a class="link-settings account">Account</a>
-      //  currentURL = http://localhost:4200/settings/account
+      //  currentURL = this.myService.getWebHost() + /settings/account
       var check_currentURL = this.currentURL.split('/')[5]
       if (link.classList.contains(check_currentURL)) {
         // console.log('check_currentURLTrue', check_currentURL)

@@ -3,6 +3,7 @@ import { UserDataService } from 'src/app/services/user-data.service';
 import { Router } from '@angular/router';
 import axios from 'axios';
 
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-pinned-collection',
@@ -24,7 +25,8 @@ export class PinnedCollectionComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userData: UserDataService
+    private userData: UserDataService,
+    private myService: HostService,
   ) {}
 
 
@@ -33,7 +35,7 @@ export class PinnedCollectionComponent implements OnInit {
     if(this.userData.getUserData() === null) {
       this.router.navigate(['/login']);
     } else {
-      const url = `http://localhost:3000/pin/getPinnedUser/${this.userData.getUserData()?.user_id}`;
+      const url = this.myService.getApiHost() + `/pin/getPinnedUser/${this.userData.getUserData()?.user_id}`;
       // console.log(url)
       axios.get(url)
       .then(response => {
