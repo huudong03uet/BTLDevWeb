@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ContentGridCollectionComponent implements OnInit {
   @Input() collection: any;
+  @Input() is_pinned: boolean = false;
   pen_ids = [1, 2 , 3];
   collectionName: string = "";
   iframeContents: SafeHtml[] = ['', '', '', ''];
@@ -85,7 +86,23 @@ export class ContentGridCollectionComponent implements OnInit {
 
   }
 
+  cssDoanNay() {
+    // find id: preview-code and if is_pinned == true -> set style: height: 100%
+    // console.log("is_pinned: ", this.is_pinned);
+    console.log("is_pinned: ", this.is_pinned)
+    if (this.is_pinned == true) {
+      var x = document.getElementById("preview-code");
+      if (x != null) {
+        x.classList.add("preview-code-pinned");
+
+      }
+    }
+  }
+
   ngOnInit(): void {
+    
+
+
     if (!this.collection.collection_id) {
       console.error('Collection ID is missing.');
       return;
@@ -111,6 +128,8 @@ export class ContentGridCollectionComponent implements OnInit {
       }
     );
 
+
+    this.cssDoanNay();
 
 
   }

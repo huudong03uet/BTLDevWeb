@@ -17,7 +17,7 @@
         <div class="item-grid" *ngIf="pen_collection_ids.length!=0" >
             <div *ngFor="let dataItem of pen_collection_ids">
                 <app-content-grid-code *ngIf="dataItem.type =='pen'" [pen_id]="dataItem.id"></app-content-grid-code>
-                <app-content-grid-collection *ngIf="dataItem.type =='collection'" [collection]="dataItem.id"></app-content-grid-collection>
+                <app-content-grid-collection *ngIf="dataItem.type =='collection'" [collection]="dataItem.id" [is_pinned]="true"></app-content-grid-collection>
             </div>
         </div>
         <div class="item-grid no-pinned" *ngIf="pen_collection_ids.length==0">

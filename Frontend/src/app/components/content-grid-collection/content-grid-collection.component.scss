@@ -9,14 +9,14 @@
     border-radius: 10px;
     .background-code {
         position: absolute;
-        background-color: hsl(232.5deg 11.76% 13.33%);
+        background-color: hsl(232.5, 11.76%, 13.33%);
         right: -3%;
-        bottom: -42%;
+        bottom: -4%;
         width: 107%;
-        height: 150%;
+        height: 110%;
         border-radius: 10px;
-        transition: all .3s ease .1s;
-        clip-path: inset(7% 0rem 8% 8% round 10px);
+        transition: all 0.3s ease 0.1s;
+        clip-path: inset(10% 0rem 9% 8% round 10px);
     }
     .background-code.enter-show {
       transition: all .3s ease .1s;
@@ -38,12 +38,14 @@
         cursor: pointer;
         display: flex;
         align-items: center;
-        height: 100%;
-  
+        .preview.preview-code-pinned {
+            // width: 200px;
+        }
         .preview {
             //   display: inline-block;
             display: grid;
             // 2 x 2
+            width: 512px;height: 240px;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             grid-gap: 0rem 0.5rem;
     
@@ -54,7 +56,6 @@
             width: 100%;
             overflow: hidden;
             grid-auto-rows: 53%;
-            height: 100%;
     
             img {
               width: 100%;
@@ -100,8 +101,8 @@
       }
   
       .header {
-        margin: 0.5rem 0rem;
-        height: 20%;
+        margin: 0.15rem 0rem;
+        height: 64px;
         display: flex;
         align-items: center;
         padding: 0px 0px;
@@ -218,11 +219,12 @@
   
       .footer-code-grid-container {
         padding-left: 0px;
-        height: 10%;
+        height: 28px;
           visibility: hidden;
           transition: all .5s ease;
           opacity: 0;
           display: flex;
+          padding: 2px 0px;
         button {
           margin-right: 5px;
           border-radius: 8px;
