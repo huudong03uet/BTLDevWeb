@@ -228,7 +228,7 @@ async function getInfoGrid(req, res) {
 }
 
 
-  let _handlePinPen = async (user_id, pen_id) => {
+  let handlePinPen = async (user_id, pen_id) => {
     try {
       const existingPin = await Pin.findOne({
         where: {
@@ -256,7 +256,7 @@ async function getInfoGrid(req, res) {
     }
   }
   
-  let _handlePinCollection = async (user_id, collection_id) => {
+  let handlePinCollection = async (user_id, collection_id) => {
     try {
       const existingPin = await Collection.findOne({
         where: {
@@ -285,5 +285,5 @@ async function getInfoGrid(req, res) {
   }
 
 module.exports = {
-  updateView, handleLike, handlePin, handleFollow, getInfoGrid
+  updateView, handleLike, handlePin, handleFollow, getInfoGrid, handlePinPen, handlePinCollection
 };

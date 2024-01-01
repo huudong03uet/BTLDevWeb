@@ -3,7 +3,7 @@
     <div class="center-container-grid-code" >
      <div class="link" (mousedown)="handlePageClick()">
          <!-- add height =100px if is_pinned=true -->
-        <a class="preview" id="preview-code">
+        <a class="preview preview-code" id="preview-code">
             <!-- width:300px; height: 180px; -->
             <div class="output-field" *ngFor="let iframeContent of iframeContents">
                         <iframe [srcdoc]="iframeContent" sandbox="allow-scripts"></iframe>

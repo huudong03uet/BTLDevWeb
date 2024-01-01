@@ -91,11 +91,18 @@ export class ContentGridCollectionComponent implements OnInit {
     // console.log("is_pinned: ", this.is_pinned);
     console.log("is_pinned: ", this.is_pinned)
     if (this.is_pinned == true) {
-      var x = document.getElementById("preview-code");
+      var x = document.getElementsByClassName("code-grid-container");
       if (x != null) {
-        x.classList.add("preview-code-pinned");
+        for (let i = 0; i < x.length; i++) {
+          // if (x.item(i)!.classList.contains(this.random_number.toString())) {
+            x.item(i)!.classList.add("code-grid-container-pinned");
+          // }
+        }
+
+
 
       }
+
     }
   }
 
@@ -122,6 +129,8 @@ export class ContentGridCollectionComponent implements OnInit {
         for (let i = this.pen_ids.length; i < 4; i++) {
           this.get_data_pen_null(i);
         }
+        this.cssDoanNay();
+
       },
       (error) => {
         console.error('Error fetching pen_ids:', error);
@@ -129,7 +138,6 @@ export class ContentGridCollectionComponent implements OnInit {
     );
 
 
-    this.cssDoanNay();
 
 
   }
