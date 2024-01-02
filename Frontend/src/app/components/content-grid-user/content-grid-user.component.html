@@ -17,7 +17,7 @@
                     </h2>
                 </div>
                 <span class="ContentGridUser_minimalPenCount">
-                    860 Pens
+                    {{ pens?.length || 0 }} Pens 
                     <button class="ContentGridUser_followButton" *ngIf=!user.followed (click)="handleFollowClick()">
                         <svg viewBox="0 0 132.4 132.4" class="FollowButton-module_statusIcon-U62Ef">
                             <path

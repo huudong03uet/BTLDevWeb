@@ -14,6 +14,7 @@ export class ContentGridUserComponent implements OnInit {
   @Input() user: any;
   data: any;
   name: any;
+  pens: any;
   iframeContent_1: SafeHtml | undefined;
   iframeContent_2: SafeHtml | undefined;
 
@@ -25,6 +26,7 @@ export class ContentGridUserComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
       this.name = this.user.user_name;
       const apiUrl =  this.myService.getApiHost() + `/pen/getPenByUserIDForFollow/${this.user.user_id}`;
       axios.get(apiUrl).then((response) => {
@@ -59,6 +61,12 @@ export class ContentGridUserComponent implements OnInit {
         </html>
       `;
         this.iframeContent_2 = this.sanitizer.bypassSecurityTrustHtml(iframeContent_2);
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
+
+      axios.get(this.myService.getApiHost() + `/pen/getPenByUser/${this.user.user_id}`).then((response) => {
+        this.pens = response.data;
       }).catch((error) => {
         console.error('Error:', error);
       });
