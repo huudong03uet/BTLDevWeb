@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HostService } from 'src/app/host.service';
+import { UserDataService } from 'src/app/services/user-data.service';
 
 interface DeletedItem {
   id: number;
@@ -16,17 +17,22 @@ interface DeletedItem {
 export class YourWorkDeletedComponent implements OnInit {
   list_deleted: DeletedItem[] = [];
 
-  constructor(private http: HttpClient, private myService: HostService) { }
+  constructor(
+    private http: HttpClient,
+    private myService: HostService,
+    private UserData: UserDataService
+  ) {}
 
   ngOnInit() {
-    this.http.post<any>(this.myService.getApiHost() + '/your-work/deleted', {}).subscribe(response => {
+    const user_id = this.UserData.getUserData()?.user_id; // Get the user_id from UserDataService
+    this.http.post<any>(this.myService.getApiHost() + '/your-work/deleted', { user_id }).subscribe(response => {
       this.list_deleted = response.deletedItems;
     });
   }
 
   restoreItem(item: DeletedItem) {
     const endpoint = item.type === 'pen' ? '/pen/createOrUpdatePen' : '/your-work/collections/restore';
-    
+
     this.http.post<any>(this.myService.getApiHost() + endpoint, {
       [item.type + '_id']: item.id, // Dynamic key based on item type
       restore: true

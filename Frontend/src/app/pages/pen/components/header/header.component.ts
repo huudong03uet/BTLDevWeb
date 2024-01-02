@@ -77,8 +77,6 @@ export class PenHeaderComponent implements OnInit {
     this.isEditingTitle = false;
   }
 
- 
-
   toggleFavorite(): void {
     if (this.myPen && this.myPen.pen_id) {
       console.log('Toggle favorite', this.myPen);

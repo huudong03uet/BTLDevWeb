@@ -55,7 +55,9 @@
         <div class="center-content">
             <app-list-item-grid-code *ngIf="type=='pen'" [pen_ids]="pen_ids"></app-list-item-grid-code>
             <!-- <app-list-item-grid-collection *ngIf="type=='collection'" [collection]="collection_ids"></app-list-item-grid-collection> -->
+
             <app-list-item-grid-collection *ngIf="type=='collection'" [collection_ids]="pen_ids"></app-list-item-grid-collection>
+
             
             <app-list-item-grid-code *ngIf="type=='project'" [pen_ids]="collection_ids"></app-list-item-grid-code>
 

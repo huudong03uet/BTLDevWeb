@@ -1,9 +1,7 @@
 const Sequelize = require('sequelize');
-// const { Op } = require("sequelize");
-
+const { Op } = require("sequelize");
 import followController from './followControler';
 import User from '../models/user';
-import penController from './penController';
 import Follow from '../models/followTable';
 
 // Add the missing function
@@ -106,8 +104,6 @@ async function getAllUserExclude(arrUserID, user_id) {
       },
       attributes: ['user_id', 'user_name', 'avatar_path']
     });
-
-    users = countPenOfUser(users);
 
     return users;
   } catch (error) {
