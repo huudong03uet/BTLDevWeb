@@ -77,7 +77,7 @@ export class ContentGridCodeComponent implements OnInit {
         this.pined = response.data.pined;
         this.followed = response.data.followed;
         this.informationPen[1] = !this.pined ? "Add to Pins" : "Remove to Pins";
-        this.informationPen[2] = !this.followed ? `Unfollow ${this.data.user.user_name}` : `Follow ${this.data.user.user_name}`;
+        this.informationPen[2] = !this.followed ? `Follow ${this.data.user.user_name}` : `Unfollow ${this.data.user.user_name}`;
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -273,7 +273,7 @@ export class ContentGridCodeComponent implements OnInit {
       axios.get(url)
           .then((response) => {
               this.followed = response.data.followed;
-              this.informationPen[2] = !this.followed ? `Unfollow ${this.data.user.user_name}` : `Follow ${this.data.user.user_name}`;
+              this.informationPen[2] = !this.followed ? `Follow ${this.data.user.user_name}` : `Unfollow ${this.data.user.user_name}`;
             })
           .catch((error) => {
               console.error('Error:', error);
