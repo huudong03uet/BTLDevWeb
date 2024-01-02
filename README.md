@@ -53,4 +53,17 @@ BTLDevWeb
 
 │ │ ├── Router
 
+<<<<<<< HEAD
 │ │ └── server.js
+=======
+│ │ └── server.js
+
+# Cách deploy
+Bước 1: ```/etc/jupyter/bin/expose 3000```
+
+Bước 2: ```cd Backend```
+
+Bước 3: ```npm start```
+
+Link video demo: https://youtu.be/mt1vxgTYrrY
+>>>>>>> 42fd3083819364c74a4d3351720dbb4670288831

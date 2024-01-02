@@ -64,7 +64,7 @@ export class SignupComponent {
     };
 
     try {
-      const response = await axios.post(this.myService.getApiHost() + '/auth/signup', {full_name: this.name, user_name: this.username, gmail: this.email, password: this.password });
+      const response = await axios.post(this.myService.getApiHost() + '/auth/signup', { full_name: this.name, user_name: this.username, gmail: this.email, password: this.password });
 
       if (response.status === 200) {
         if(response.data.code == 200) {

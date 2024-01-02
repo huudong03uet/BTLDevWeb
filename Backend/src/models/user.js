@@ -18,6 +18,7 @@ const User = sequelize.define('user', {
     location: {
         type: DataTypes.TEXT,
         allowNull: false,
+        defaultValue: 'Unknow',
     },  
     bio: DataTypes.TEXT,        
     links: DataTypes.JSON,      
