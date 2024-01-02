@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import axios, { AxiosError } from 'axios';
 import { UserDataService } from 'src/app/services/user-data.service';
+
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-create-new-collection',
@@ -14,7 +16,12 @@ export class CreateNewCollectionComponent {
   createForm: FormGroup;
   maxCharacterLimit = 1000;
 
-  constructor(private fb: FormBuilder, private userData: UserDataService) {
+  constructor(
+    private fb: FormBuilder, 
+    private userData: UserDataService,
+    private myService: HostService,
+  ) 
+  {
     this.createForm = this.fb.group({
       collectionTitle: ['', [Validators.required, Validators.maxLength(this.maxCharacterLimit)]],
       collectionDescription: ['', [Validators.maxLength(this.maxCharacterLimit)]],
@@ -46,7 +53,7 @@ export class CreateNewCollectionComponent {
 
         console.log('Name:', collectionTitle);
 
-        const response = await axios.post(`http://localhost:3000/your-work/collections/`, {
+        const response = await axios.post(this.myService.getApiHost() + `/your-work/collections/`, {
           name: collectionTitle,
           user_id: userId,
           isPublic: this.createForm.value.isPublic,

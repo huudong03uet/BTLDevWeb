@@ -2,58 +2,50 @@ import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-your-work',
   templateUrl: './your-work.component.html',
   styleUrls: ['./your-work.component.scss']
 })
-export class YourWorkComponent implements OnInit, AfterViewChecked  {
+export class YourWorkComponent implements OnInit, AfterViewChecked {
   data: any;
 
   constructor(
     private route: ActivatedRoute,
     private userData: UserDataService,
-    private router: Router
-    ) {}
+    private router: Router,
+    private myService: HostService,
+  ) { }
 
-    currentURL = "";
-
-
-    addClassActive() {
-      const links = document.querySelectorAll('.home-your-work-button');
-      links.forEach(link => {
-  
-        // <a class="link-settings account">Account</a>
-        //  currentURL = http://localhost:4200/your-work/account
-        var check_currentURL = this.currentURL.split('/')[4];
-        if (link.classList.contains(check_currentURL + "-button")) {
-          link.classList.add('active');
-
-  
-        } else {
-          link.classList.remove('active');
-
-        }
-      });
-    }
+  currentURL = "";
 
 
-    ngAfterViewChecked() {
-      if (this.currentURL != window.location.href) {
-        this.currentURL = window.location.href;
-        this.addClassActive();
+  addClassActive() {
+    const links = document.querySelectorAll('.home-your-work-button');
+    links.forEach(link => {
+      var check_currentURL = this.currentURL.split('/')[4];
+      if (link.classList.contains(check_currentURL + "-button")) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
       }
+    });
+  }
 
+  ngAfterViewChecked() {
+    if (this.currentURL != window.location.href) {
+      this.currentURL = window.location.href;
+      this.addClassActive();
     }
+  }
   ngOnInit(): void {
-
-
     this.route.params.subscribe((params) => {
-      const userId = this.userData.getUserData()?.user_id; 
+      const userId = this.userData.getUserData()?.user_id;
       if (userId) {
-        const apiUrl = `http://localhost:3000/pen/getPenByUser/${userId}`;
-        
+        const apiUrl = this.myService.getApiHost() + `/pen/getPenByUser/${userId}`;
+
         axios.get(apiUrl)
           .then((response) => {
             this.data = response.data;
@@ -69,8 +61,6 @@ export class YourWorkComponent implements OnInit, AfterViewChecked  {
 
 
   linkToYourWorkPens() {
-    // this.router.navigate(['/settings/billing']);
-    // window.location.href = '/your-work/pens';
     this.router.navigate(['/your-work/pens']);
   }
 
@@ -82,5 +72,7 @@ export class YourWorkComponent implements OnInit, AfterViewChecked  {
     this.router.navigate(['/your-work/deleted']);
   }
 
-
+  linkToYourWorkProjects() {
+    this.router.navigate(['/your-work/projects']);
+  }
 }

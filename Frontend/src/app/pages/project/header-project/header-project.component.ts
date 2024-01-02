@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { UserDataService } from 'src/app/services/user-data.service';
 import axios from 'axios';
 import { HomeCodeComponent } from '../../pen/home-code.component';
-
+import { HostService } from 'src/app/host.service';
 @Component({
   selector: 'app-header-project',
   templateUrl: './header-project.component.html',
@@ -32,7 +32,7 @@ export class HeaderProjectComponent implements OnInit {
   public isEditingTitle = false;
   public isLoggedIn = false;
 
-  constructor(private router: Router, private userDataService: UserDataService) { }
+  constructor(private router: Router, private userDataService: UserDataService,private myService: HostService,) { }
 
   ngOnInit(): void {
     // this.isLoggedIn = !!this.userDataService.getUserData();
@@ -80,7 +80,7 @@ export class HeaderProjectComponent implements OnInit {
     //   return;
     // }
     // try {
-    //   const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {
+    //   const response = await axios.post(this.myService.getApiHost() + '/pen/createOrUpdatePen', {
     //     user_id: this.webCodeData.user_id, 
     //     pen_id: this.webCodeData.pen_id, 
     //     html_code: this.webCodeData.html, 

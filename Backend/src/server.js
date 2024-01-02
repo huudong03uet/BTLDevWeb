@@ -13,7 +13,7 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(express.static('../Frontend/dist')); 
+app.use(express.static('../dist')); 
 app.use(morgan("combined"));
 
 
@@ -24,7 +24,7 @@ app.get('/hello', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile('index.html', { root: '../Frontend/dist/btlweb' });
+  res.sendFile('index.html', { root: '../dist' });
 });
 
 app.listen(PORT, () => {

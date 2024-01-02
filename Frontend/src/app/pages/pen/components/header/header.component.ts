@@ -3,7 +3,9 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnInit }
 import { Router } from '@angular/router';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HomeCodeComponent } from '../../home-code.component';
+
 import axios from 'axios';
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'pen-header',
@@ -11,16 +13,17 @@ import axios from 'axios';
   styleUrls: ['./header.component.scss']
 })
 export class PenHeaderComponent implements OnInit {
-  @Output() saveDataParent = new EventEmitter<void>();
-  @Input() webCodeData: { html: string; js: string; css: string; pen_id: string; user_id: Number; name: string; } = {
-    html: '',
-    js: '',
-    css: '',
-    pen_id: '',
-    user_id: 0,
-    name: '',
-  };
-  @Input() owner : any;
+  user: any;
+  constructor(private router: Router, 
+    private userData: UserDataService,
+    private myService: HostService,
+    ) { 
+      this.user = this.userData.getUserData();
+    }
+
+  @Input() data: any;
+  @Output() dataChange = new EventEmitter();
+  @Output() saveData = new EventEmitter()
   @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
   @ViewChild(HomeCodeComponent) homeCodeComponent!: HomeCodeComponent;
 
@@ -35,17 +38,12 @@ export class PenHeaderComponent implements OnInit {
   public isEditingTitle = false;
   public isLoggedIn = false;
 
-  currentUser: any;
   isFollowing = false;
 
-  constructor(private router: Router, private userDataService: UserDataService) { }
 
-  ngOnInit(): void {
-    this.isLoggedIn = !!this.userDataService.getUserData();
-    this.currentUser = this.userDataService.getUserData();
-    if (this.webCodeData.pen_id) {
-      this.getProjectTitle();
-    }
+  ngOnInit(): void { 
+    this.projectTitle = this.data?.pen?.name ? this.data.pen.name : 'Untitled';
+    // console.log(this.projectTitle);
   }
 
   toggleMenu(): void {
@@ -77,11 +75,6 @@ export class PenHeaderComponent implements OnInit {
 
   stopEditingTitle(): void {
     this.isEditingTitle = false;
-    this.webCodeData.name = this.projectTitle;
-  }
-
-  saveData(): void {
-    // console.log("header", this.webCodeData)
   }
 
   toggleFavorite(): void {
@@ -91,46 +84,86 @@ export class PenHeaderComponent implements OnInit {
   }
 
   async toggleSave() {
-    console.log("header", this.webCodeData)
-    if (this.webCodeData.user_id == null) {
-      this.router.navigate(['/login']);
-      return;
-    }
-    try {
-      const response = await axios.post('http://localhost:3000/pen/createOrUpdatePen', {
-        user_id: this.webCodeData.user_id, 
-        pen_id: this.webCodeData.pen_id, 
-        html_code: this.webCodeData.html, 
-        css_code: this.webCodeData.css, 
-        js_code: this.webCodeData.js, 
-        name: this.projectTitle,
-      });
-      this.myPen = response.data.pen;
-
-      if (this.myPen && this.myPen.name) {
-        this.projectTitle = this.myPen.name;
-      }
-    } catch (error) {
-      console.error('Error save pen:', error);
-    }
-  }
-
-  async getProjectTitle() {
-    try {
-      const response = await axios.post('http://localhost:3000/pen/getPenById', { pen_id: this.webCodeData.pen_id });
-      const pen = response.data.pen;
-      if (pen && pen.name) {
-        this.projectTitle = pen.name;
-      }
-    } catch (error) {
-      console.error('Error getting pen title:', error);
-    }
+    this.data.pen.name = this.projectTitle;
+    this.dataChange.emit(this.data);
+    this.saveData.emit();
   }
 
   toggleFollow(): void {
     if (this.myPen && this.myPen.user && this.myPen.user.id) {
       console.log('Toggle follow user:', this.myPen.user.id);
       this.isFollowing = !this.isFollowing;
+    }
+  }
+  handleLikeClick() {
+    if(this.userData.getUserData == null) {
+      this.router.navigate([`/login`]);
+    }
+    const url = this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+
+    axios.get(url)
+        .then((response) => {    
+            this.data.liked = response.data.liked;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+
+            // Nếu xảy ra lỗi, đảm bảo đồng bộ lại giá trị 'liked' và 'like'
+            this.data.liked = this.data.liked;
+        });
+  }
+
+  handlePinClick() {
+    if(this.userData.getUserData == null) {
+      this.router.navigate([`/login`]);
+    }
+    const url = this.myService.getApiHost() + `/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+
+    axios.get(url)
+        .then((response) => {
+            this.data.pined = response.data.pinned;
+          })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+  }
+
+  handleFollowClick() {
+    if(this.userData.getUserData == null) {
+      this.router.navigate([`/login`]);
+    } else {
+      const url = this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
+
+      axios.get(url)
+          .then((response) => {
+              this.data.followed = response.data.followed;
+            })
+          .catch((error) => {
+              console.error('Error:', error);
+          });  
+    }
+  }
+
+
+  changeSvg(isEnter: boolean) {
+    const button = document.getElementById('follow-button-following');
+    if (button) {
+      if (isEnter) {
+        button.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="FollowButton-module_unfollowIcon-9G6hv" style="fill: black;width: 10px;
+          margin-right: 3px;"><path d="M96.8 83.7 63.1 50l33.7-33.7c3.6-3.6 3.6-9.4 0-13.1s-9.5-3.6-13.1 0L50 36.9 16.3 3.2C12.7-.4 6.9-.4 3.2 3.2s-3.6 9.5 0 13.1L36.9 50 3.2 83.7c-3.6 3.6-3.6 9.4 0 13.1s9.5 3.6 13.1 0L50 63.1l33.7 33.7c3.6 3.6 9.4 3.6 13.1 0s3.6-9.5 0-13.1z"></path></svg>
+          Unfollow
+        `;
+      } else {
+        button.innerHTML = `
+          <svg viewBox="0 0 100 100" class="FollowButton-module_statusIcon-U62Ef" style="fill: white;width: 10px;
+          margin-right: 3px;" >
+            <path d="M34.6 82.4c-2.3 0-4.6-.9-6.3-2.6L8.8 60.7c-3.5-3.5-3.6-9.2-.1-12.7s9.2-3.6 12.7-.1l13.1 12.9L78.3 17c3.5-3.5 9.2-3.5 12.7 0s3.5 9.2 0 12.7L40.9 79.8c-1.7 1.8-4 2.6-6.3 2.6z"></path>
+          </svg>
+          Following
+        `;
+      }
     }
   }
 }

@@ -3,39 +3,18 @@ const CollectionPen = require('../models/collection_pen');
 
 async function createOrUpdateCollection(req, res) {
   try {
-    const { collectionId, name, user_id, penIds, isPublic } = req.body;
+    const { name, user_id, penIds, isPublic } = req.body;
+    const newCollection = await Collection.create({
+      name : name,
+      status: isPublic ? 'public' : 'private',
+      user_id: user_id,
+    });
 
-    if (collectionId) {
-      const [updatedRows] = await Collection.update(
-        { name, status: isPublic ? 'public' : 'private', user_id },
-        { where: { collection_id: collectionId } }
-      );
-
-      if (updatedRows === 0) {
-        return res.status(404).json({ code: 404, message: 'Không tìm thấy collection để cập nhật' });
-      }
-
-      if (penIds && penIds.length > 0) {
-        await CollectionPen.destroy({ where: { collection_id: collectionId } });
-        await CollectionPen.bulkCreate(penIds.map(penId => ({ collection_id: collectionId, pen_id: penId })));
-      }
-
-      const updatedCollection = await Collection.findByPk(collectionId);
-      return res.status(200).json({ code: 200, collection: updatedCollection, message: 'Cập nhật collection thành công' });
-    } else {
-      const newCollection = await Collection.create({
-        name,
-        status: isPublic ? 'public' : 'private',
-        user_id,
-        collectionId,
-      });
-
-      if (penIds && penIds.length > 0) {
-        await CollectionPen.bulkCreate(penIds.map(penId => ({ collection_id: newCollection.collection_id, pen_id: penId })));
-      }
-
-      return res.status(201).json({ code: 201, collection: newCollection, message: 'Tạo mới collection thành công' });
+    if (penIds && penIds.length > 0) {
+      await CollectionPen.bulkCreate(penIds.map(penId => ({ collection_id: newCollection.collection_id, pen_id: penId })));
     }
+
+    return res.status(201).json({ code: 201, collection: newCollection, message: 'Tạo mới collection thành công' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ code: 500, error: 'Lỗi trong quá trình tạo hoặc cập nhật collection', detailedError: error.message });
@@ -47,7 +26,7 @@ async function getCollectionsByUser(req, res) {
     const userId = req.params.userId;
 
     const collections = await Collection.findAll({
-      where: { user_id: userId },
+      where: { user_id: userId, deleted: false }, // Add condition for deleted: false
     });
 
     return res.status(200).json({ code: 200, collections, message: 'Lấy danh sách collection thành công' });
@@ -63,6 +42,7 @@ async function getPensInCollection(req, res) {
 
     const collection = await Collection.findByPk(collectionId, {
       attributes: ['collection_id', 'name'],
+      where: { deleted: false }, // Add condition for deleted: false
     });
 
     if (!collection) {
@@ -72,6 +52,11 @@ async function getPensInCollection(req, res) {
     const pens = await CollectionPen.findAll({
       where: { collection_id: collectionId },
       attributes: ['pen_id'],
+      include: [{
+        model: Collection,
+        attributes: [],
+        where: { deleted: false }, // Add condition for deleted: false
+      }],
     });
 
     return res.status(200).json({
@@ -90,9 +75,115 @@ async function getPensInCollection(req, res) {
   }
 }
 
+async function addPenToCollection(req, res) {
+  try {
+    const { collection_id, pen_id } = req.body;
+
+    const collection = await Collection.findByPk(collection_id);
+
+    if (!collection) {
+      return res.status(404).json({ code: 404, message: 'Không tìm thấy collection' });
+    }
+
+    const penInCollection = await CollectionPen.findOne({
+      where: { collection_id: collection_id, pen_id: pen_id },
+    });
+
+    if (penInCollection) {
+      return res.status(400).json({ code: 400, message: 'Pen already exists in the collection' });
+    }
+
+    await CollectionPen.create({ collection_id, pen_id });
+
+    return res.status(200).json({ code: 200, message: 'Pen added to collection successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình thêm pen vào collection' });
+  }
+}
+
+async function removePenFromCollection(req, res) {
+  try {
+    const { collection_id, pen_id } = req.body;
+
+    const collection = await Collection.findByPk(collection_id);
+
+    if (!collection) {
+      return res.status(404).json({ code: 404, message: 'Không tìm thấy collection' });
+    }
+
+    const penInCollection = await CollectionPen.findOne({
+      where: { collection_id: collection_id, pen_id: pen_id },
+    });
+
+    if (!penInCollection) {
+      return res.status(400).json({ code: 400, message: 'Pen not found in the collection' });
+    }
+
+    await penInCollection.destroy();
+
+    if (penInCollection.pen.deleted) {
+      await CollectionPen.destroy({ where: { pen_id: pen_id } });
+    }
+
+    return res.status(200).json({ code: 200, message: 'Pen removed from collection successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa pen khỏi collection' });
+  }
+}
+
+async function removeCollection(req, res) {
+  try {
+    const { collection_id } = req.body;
+
+    const collection = await Collection.findByPk(collection_id);
+
+    if (!collection) {
+      return res.status(404).json({ code: 404, message: 'Không tìm thấy collection' });
+    }
+
+    // Set the 'deleted' property to true
+    await collection.update({ deleted: true });
+
+    return res.status(200).json({ code: 200, message: 'Collection deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa collection' });
+  }
+}
+
+async function restoreCollection(req, res) {
+  try {
+    const { collection_id } = req.body;
+
+    const collection = await Collection.findByPk(collection_id);
+
+    if (!collection) {
+      return res.status(404).json({ code: 404, message: 'Không tìm thấy collection' });
+    }
+
+    if (!collection.deleted) {
+      return res.status(200).json({ code: 200, message: 'Collection is not deleted' });
+    }
+
+    // Set the 'deleted' property to false to restore the collection
+    await collection.update({ deleted: false });
+
+    return res.status(200).json({ code: 200, message: 'Collection restored successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình khôi phục collection' });
+  }
+}
+
 
 module.exports = {
   createOrUpdateCollection,
   getCollectionsByUser,
   getPensInCollection,
+  addPenToCollection,
+  removePenFromCollection,
+  removeCollection,
+  restoreCollection,
 };

@@ -48,15 +48,7 @@ import { CollectionsProfileComponent } from './pages/profile/component/central-p
 import { PopularPComponent } from './pages/profile/component/central-profile/pen-profile/popular-p/popular-p.component';
 import { PublicPComponent } from './pages/profile/component/central-profile/pen-profile/public-p/public-p.component';
 import { PrivatePComponent } from './pages/profile/component/central-profile/pen-profile/private-p/private-p.component';
-import { TemplatePComponent } from './pages/profile/component/central-profile/pen-profile/template-p/template-p.component';
-import { ForkedPComponent } from './pages/profile/component/central-profile/pen-profile/forked-p/forked-p.component';
 import { LovedPComponent } from './pages/profile/component/central-profile/pen-profile/loved-p/loved-p.component';
-import { TaggedPComponent } from './pages/profile/component/central-profile/pen-profile/tagged-p/tagged-p.component';
-import { PopularCComponent } from './pages/profile/component/central-profile/collections-profile/popular-c/popular-c.component';
-import { PublicCComponent } from './pages/profile/component/central-profile/collections-profile/public-c/public-c.component';
-import { PrivateCComponent } from './pages/profile/component/central-profile/collections-profile/private-c/private-c.component';
-import { LovedCComponent } from './pages/profile/component/central-profile/collections-profile/loved-c/loved-c.component';
-import { ShowcasePComponent } from './pages/profile/component/central-profile/pen-profile/showcase-p/showcase-p.component';
 import { CreateNewCollectionComponent } from './components/create-new-collection/create-new-collection.component'
 import { MatDialogModule } from '@angular/material/dialog';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
@@ -85,7 +77,25 @@ import { DetailPenComponent } from './components/detail-pen/detail-pen.component
 import { CodeBoxProjectComponent } from './pages/project/screen-code/code-box-project/code-box-project.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ListCollectionToAddPenComponent } from './components/list-collection-to-add-pen/list-collection-to-add-pen.component';
-
+import { PopularCComponent } from './pages/profile/component/central-profile/collections-profile/popular-c/popular-c.component';
+import { PublicCComponent } from './pages/profile/component/central-profile/collections-profile/public-c/public-c.component';
+import { PrivateCComponent } from './pages/profile/component/central-profile/collections-profile/private-c/private-c.component';
+import { LovedCComponent } from './pages/profile/component/central-profile/collections-profile/loved-c/loved-c.component';
+import { PopularProjectComponent } from './pages/profile/component/central-profile/project-profile/popular-project/popular-project.component';
+import { PrivateProjectComponent } from './pages/profile/component/central-profile/project-profile/private-project/private-project.component';
+import { LovedProjectComponent } from './pages/profile/component/central-profile/project-profile/loved-project/loved-project.component';
+import { PublicProjectComponent } from './pages/profile/component/central-profile/project-profile/public-project/public-project.component';
+import { ProjectProfileComponent } from './pages/profile/component/central-profile/project-profile/project-profile.component';
+import { ListItemGridCodeFullInfComponent } from './components/list-item-grid-code-full-inf/list-item-grid-code-full-inf.component';
+import { ListItemGridCollectionFullInfComponent } from './components/list-item-grid-collection-full-inf/list-item-grid-collection-full-inf.component';
+import { ListItemGridProjectFullInfComponent } from './components/list-item-grid-project-full-inf/list-item-grid-project-full-inf.component';
+import { ContentGridProjectFullInfComponent } from './components/content-grid-project-full-inf/content-grid-project-full-inf.component';
+import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/your-work-projects.component';
+import { CodeBoxDetailPenComponent } from './components/detail-pen/code-box-detail-pen/code-box-detail-pen.component';
+import { ContentGridCollectionComponent } from './components/content-grid-collection/content-grid-collection.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { ListItemGridCollectionComponent } from './components/list-item-grid-collection/list-item-grid-collection.component';
+import { ListItemGridProjectComponent } from './components/list-item-grid-project/list-item-grid-project.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -127,15 +137,16 @@ import { ListCollectionToAddPenComponent } from './components/list-collection-to
     PopularPComponent,
     PublicPComponent,
     PrivatePComponent,
-    TemplatePComponent,
-    ForkedPComponent,
     LovedPComponent,
-    TaggedPComponent,
     PopularCComponent,
     PublicCComponent,
     PrivateCComponent,
     LovedCComponent,
-    ShowcasePComponent,
+    PopularProjectComponent,
+    PublicProjectComponent,
+    PrivateProjectComponent,
+    LovedProjectComponent,
+    ProjectProfileComponent,
     CreateNewCollectionComponent,
     PageNotFoundComponent,
     CommentAreaComponent,
@@ -162,6 +173,16 @@ import { ListCollectionToAddPenComponent } from './components/list-collection-to
     DetailPenComponent,
     CodeBoxProjectComponent,
     ListCollectionToAddPenComponent,
+    ListItemGridCodeFullInfComponent,
+    ListItemGridCollectionFullInfComponent,
+    ListItemGridProjectFullInfComponent,
+    ContentGridProjectFullInfComponent,
+    YourWorkProjectsComponent,
+    CodeBoxDetailPenComponent,
+    ContentGridCollectionComponent,
+    SearchPageComponent,
+    ListItemGridCollectionComponent,
+    ListItemGridProjectComponent
   ],
   imports: [
     FormsModule,
@@ -180,21 +201,18 @@ import { ListCollectionToAddPenComponent } from './components/list-collection-to
       { path: "trending", component: TrendingComponent },
       { path: "following", component: FollowingComponent },
       { path: "your-work", component: YourWorkComponent },
-      {path: "project/123", component: ProjectComponent},
+      {path: "search-page", component: SearchPageComponent},
+      { path: "project/123", component: ProjectComponent },
       {
         path: "profile", component: ProfileComponent, children: [
           { path: "", redirectTo: "pens", pathMatch: "full" },
           {
             path: "pens", component: CentralProfileComponent, children: [
-              { path: "", redirectTo: "showcase", pathMatch: "full" },
-              { path: "showcase", component: ShowcasePComponent },
+              { path: "", redirectTo: "popular", pathMatch: "full" },
               { path: "popular", component: PopularPComponent },
               { path: "public", component: PublicPComponent },
               { path: "private", component: PrivatePComponent },
-              { path: "template", component: TemplatePComponent },
-              { path: "forked", component: ForkedPComponent },
               { path: "loved", component: LovedPComponent },
-              { path: "tags", component: TaggedPComponent }
 
             ]
           },
@@ -207,7 +225,18 @@ import { ListCollectionToAddPenComponent } from './components/list-collection-to
               { path: "loved", component: CollectionsProfileComponent }
 
             ]
+          },
+          {
+            path: "projects", component: CentralProfileComponent, children: [
+              { path: "", redirectTo: "popular", pathMatch: "full" },
+              { path: "popular", component: PopularProjectComponent },
+              { path: "private", component: PrivateProjectComponent },
+              { path: "public", component: PublicProjectComponent },
+              { path: "loved", component: LovedProjectComponent }
+
+            ]
           }
+
         ]
       },
       { path: "trending", component: TrendingComponent },
@@ -217,6 +246,7 @@ import { ListCollectionToAddPenComponent } from './components/list-collection-to
           { path: "", redirectTo: "pens", pathMatch: "full" },
           { path: "pens", component: YourWorkPensComponent },
           { path: "collections", component: YourWorkCollectionsComponent },
+          { path: "projects", component: YourWorkProjectsComponent},
           { path: "deleted", component: YourWorkDeletedComponent }
         ]
       },

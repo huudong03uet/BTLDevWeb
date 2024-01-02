@@ -5,6 +5,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { has, hasIn } from 'lodash';
+
+import { HostService } from 'src/app/host.service';
+
 @Component({
   selector: 'app-content-grid-code',
   templateUrl: './content-grid-code.component.html',
@@ -28,14 +31,14 @@ export class ContentGridCodeComponent implements OnInit {
     private router: Router,
     private sanitizer: DomSanitizer,
     private userData: UserDataService,
+    private myService: HostService,
   ) { }
 
   ngOnInit(): void {
-    const apiUrl = `http://localhost:3000/pen/getInfoPen?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
+    const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(apiUrl)
       .then((response) => {
         this.data = response.data;
-        console.log('Data grid code:', this.data.user);
         this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
         const iframeContent = `
         <html>
@@ -68,12 +71,11 @@ export class ContentGridCodeComponent implements OnInit {
   }
 
   loadPinAndFollow() {
-    const url = `http://localhost:3000/grid/getInfoGrid?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
+    const url =  this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(url)
       .then((response) => {
         this.pined = response.data.pined;
         this.followed = response.data.followed;
-        console.log(response.data)
         this.informationPen[1] = !this.pined ? "Add to Pins" : "Remove to Pins";
         this.informationPen[2] = !this.followed ? `Follow ${this.data.user.user_name}` : `Unfollow ${this.data.user.user_name}`;
       })
@@ -217,7 +219,7 @@ export class ContentGridCodeComponent implements OnInit {
     if(this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url = `http://localhost:3000/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url =  this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url)
         .then((response) => {
@@ -248,7 +250,7 @@ export class ContentGridCodeComponent implements OnInit {
     if(this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url = `http://localhost:3000/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url =  this.myService.getApiHost() + `/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url)
         .then((response) => {
@@ -261,11 +263,12 @@ export class ContentGridCodeComponent implements OnInit {
 
   }
 
+  
   handleFollowClick() {
     if(this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     } else {
-      const url = `http://localhost:3000/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
+      const url =  this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
 
       axios.get(url)
           .then((response) => {

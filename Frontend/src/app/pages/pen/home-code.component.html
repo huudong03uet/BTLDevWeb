@@ -1,2 +1,2 @@
-<pen-header [webCodeData]="webCodeData" [owner]="owner"></pen-header>
-<app-code-editor (webCodeChanged)="onWebCodeChanged($event)"></app-code-editor>
+<pen-header  *ngIf="data || !penId" [data]="data" (dataChange)="onDataChange($event)" (saveData)="onSaveData()"></pen-header>
+<app-code-editor *ngIf="data || !penId" [data]="data" (dataChange)="onDataChange($event)"></app-code-editor>

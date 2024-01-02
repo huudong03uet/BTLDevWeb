@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Params, Router } from '@angular/router';
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-collections-profile',
@@ -13,7 +14,7 @@ export class CollectionsProfileComponent {
   showPopularC = true;
   currentURL = "";
   // constructor(private router: Router) {}
-  constructor(private router: Router) {
+  constructor(private myService: HostService, private router: Router) {
     //  print when route changes 
     // this.ngAfterViewChecked();
   }
@@ -35,10 +36,10 @@ export class CollectionsProfileComponent {
     // console.log('private')
     this.router.navigate(['/profile/collections/private']);
   }
-  navigateToCPublic(){
+  navigateToCPublic() {
     this.router.navigate(['/profile/collections/public']);
   }
-  navigateToCLoved(){
+  navigateToCLoved() {
     this.router.navigate(['/profile/collections/loved']);
   }
   addClassActive() {
@@ -47,7 +48,7 @@ export class CollectionsProfileComponent {
       const span = document.createElement('span');
 
       // <a class="link-settings account">Account</a>
-      //  currentURL = http://localhost:4200/settings/account
+      //  currentURL = this.myService.getWebHost() + /settings/account
       var check_currentURL = this.currentURL.split('/')[5] + "C"
       if (link.classList.contains(check_currentURL)) {
         link.classList.add('active');

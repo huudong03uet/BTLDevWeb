@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 import { User } from 'src/app/models/user';
 import { UserDataService } from 'src/app/services/user-data.service';
-
+import { HostService } from 'src/app/host.service';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -14,9 +14,10 @@ export class SignupComponent {
   constructor(
     private router: Router,    
     private userData: UserDataService,
-    ) {} // Inject Router vào constructor
+    private myService: HostService,
+    ) {} 
 
-  hiddenRegisterEmail: boolean = true;
+  hiddenRegisterEmail: boolean = false;
   signupError: string | null = null;
   name: string = '';
   username: string = '';
@@ -28,7 +29,9 @@ export class SignupComponent {
   }
 
   changeStatusHiddenRegisterEmail() {
-    this.hiddenRegisterEmail = !this.hiddenRegisterEmail;
+    this.hiddenRegisterEmail = false;
+    // to -> login
+    this.router.navigate(['/login']);
     // console.log(this.hiddenRegisterEmail)
   }
   
@@ -61,7 +64,7 @@ export class SignupComponent {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/signup', {full_name: this.name, user_name: this.username, gmail: this.email, password: this.password });
+      const response = await axios.post(this.myService.getApiHost() + '/auth/signup', { full_name: this.name, user_name: this.username, gmail: this.email, password: this.password });
 
       if (response.status === 200) {
         if(response.data.code == 200) {

@@ -71,7 +71,7 @@ export class HeaderComponent {
   }
 
   clickYourWork() {
-    this.router.navigate(['/your-work']);
+    this.router.navigate(['/your-work/pens']);
   }
 
   clickFollowing() {

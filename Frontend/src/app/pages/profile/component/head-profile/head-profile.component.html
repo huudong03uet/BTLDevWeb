@@ -1,14 +1,14 @@
 <div class="content-container">
     <div class="background-profile">
-      <img class="wallpaper" src="../../../../../assets/images/background_profile.jpg">
+      <img class="wallpaper" src="https://th.bing.com/th/id/R.f111cfb63d11b49ab1db8df63e6a007a?rik=Cetc68Y0lzhw9Q&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f04%2fcode-wallpaper-4.png&ehk=hTl%2bAta%2bwA%2bcGQcrGBHzad0F%2f6ZsvZNZJ6%2bLR%2fy90N4%3d&risl=&pid=ImgRaw&r=0">
       <div class="profile-avatar">
         <div class="profile-header-name">
           <h1 id="user-header-name">
-            <span class="user-name">{{ user.user_name }}</span>
+            <span class="user-full-name">{{ user.full_name }}</span>
           </h1>
         </div>
-        <div class="user-id">
-            <span>@{{ user.user_id }}</span>
+        <div class="user-name">
+            <span>@{{ user.user_name }}</span>
           </div>
         <img class="avatar-profile" [src]="user.avatar_path || 'https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=80&height=80'">
         <div class="follower-num">

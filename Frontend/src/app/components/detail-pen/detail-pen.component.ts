@@ -1,8 +1,10 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import axios from 'axios';
+
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-detail-pen',
@@ -12,39 +14,46 @@ import axios from 'axios';
 export class DetailPenComponent {
   @Output() closeDetailPen = new EventEmitter<void>();
 
-  @Input() pen_id: any;
+  @Input() pen_id: any = 0;
   data: any;
   namePen: any;
   iframeContent: SafeHtml | undefined;
 
+  htmlFile = "<div>Hello world</div>"
+  cssFile = "body { background-color: yellow; }"
+  jsFile = "console.log('Hello world!');"
+
+
+
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
+    private myService: HostService,
   ) { }
-
   ngOnInit(): void {
-    const apiUrl = `http://localhost:3000/pen/getInfoPen/${this.pen_id}`;
-    axios.get(apiUrl)
-      .then((response) => {
-        this.data = response.data;
-        // console.log('Data:', this.data);
-        this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
-        const iframeContent = `
-        <html>
-          <head>
-            <style>${this.data.pen.css_code}</style>
-          </head>
-          <body>
-            ${this.data.pen.html_code}
-            <script>${this.data.pen.js_code}</script>
-          </body>
-        </html>
-      `;
-        this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    
+    // const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen/${this.pen_id}`;
+    // axios.get(apiUrl)
+    //   .then((response) => {
+    //     this.data = response.data;
+    //     // console.log('Data:', this.data);
+    //     this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
+    //     const iframeContent = `
+    //     <html>
+    //       <head>
+    //         <style>${this.data.pen.css_code}</style>
+    //       </head>
+    //       <body>
+    //         ${this.data.pen.html_code}
+    //         <script>${this.data.pen.js_code}</script>
+    //       </body>
+    //     </html>
+    //   `;
+    //     this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
   }
 
   handlePageClick(): void {
@@ -122,6 +131,37 @@ export class DetailPenComponent {
   goToDetailPen() {
     this.router.navigate(['/pen/' + this.pen_id]);
   }
+  tinh_nang_vo_dung: boolean = false;
+
+  objectView = 'html'
+  clickHTML() {
+    this.objectView = 'html'
+    this.tinh_nang_vo_dung = !this.tinh_nang_vo_dung
+    // add html-button -> active
+
+    document.getElementsByClassName("html-button")?.item(0)?.classList.add("active");
+    // remove css-button -> active
+    document.getElementsByClassName("css-button")?.item(0)?.classList.remove("active");
+    // remove js-button -> active
+    document.getElementsByClassName("js-button")?.item(0)?.classList.remove("active");
+  }
+
+  clickCSS() {
+    this.objectView = 'css'
+    this.tinh_nang_vo_dung = !this.tinh_nang_vo_dung
+    document.getElementsByClassName("css-button")?.item(0)?.classList.add("active");
+    document.getElementsByClassName("html-button")?.item(0)?.classList.remove("active");
+    document.getElementsByClassName("js-button")?.item(0)?.classList.remove("active");
+  }
+
+  clickJS() {
+    this.objectView = 'js'
+    this.tinh_nang_vo_dung = !this.tinh_nang_vo_dung
+    document.getElementsByClassName("js-button")?.item(0)?.classList.add("active");
+    document.getElementsByClassName("css-button")?.item(0)?.classList.remove("active");
+    document.getElementsByClassName("html-button")?.item(0)?.classList.remove("active");
+  }
+
 }
 
 
@@ -136,8 +176,8 @@ export class DetailPenComponent {
 //         console.error('User ID not available.');
 //         return;
 //       }
-
-//       const response = await axios.post(`http://localhost:3000/your-work/collections/`, {
+        // let url = this.myService.getApiHost() + '/your-work/collections';
+//       const response = await axios.post(url, {
 //         name: this.createForm.value.collectionTitle,
 //         user_id: userId,
 //         // Add other fields if needed

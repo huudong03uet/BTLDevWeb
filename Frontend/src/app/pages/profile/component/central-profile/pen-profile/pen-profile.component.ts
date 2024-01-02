@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Params, Router } from '@angular/router';
+import { HostService } from 'src/app/host.service';
 @Component({
   selector: 'app-pen-profile',
   templateUrl: './pen-profile.component.html',
@@ -7,17 +8,13 @@ import { Params, Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
 })
 export class PenProfileComponent {
-  showForked = false;
   showLoved = false;
-  showTemplate = false;
   showPrivate = false;
   showPublic = false;
-  showPopular = false;
-  showTagged = false;
-  showShowcase = true;
+  showPopular = true;
   currentURL = "";
   // constructor(private router: Router) {}
-  constructor(private router: Router) {
+  constructor(private router: Router, private myService: HostService,) {
     //  print when route changes 
     // this.ngAfterViewChecked();
   }
@@ -32,9 +29,9 @@ export class PenProfileComponent {
       this.addClassActive();
     }
   }
-  navigateToShowcase() {
-    this.router.navigate(['/profile/pens/showcase']);
-  }
+  // navigateToShowcase() {
+  //   this.router.navigate(['/profile/pens/showcase']);
+  // }
 
   navigateToPopular() {
     this.router.navigate(['/profile/pens/popular']);
@@ -46,26 +43,26 @@ export class PenProfileComponent {
     this.router.navigate(['/profile/pens/private']);
   }
 
-  navigateToTemplate() {
-    this.router.navigate(['/profile/pens/template']);
-  }
+  // navigateToTemplate() {
+  //   this.router.navigate(['/profile/pens/template']);
+  // }
 
-  navigateToForked() {
-    this.router.navigate(['/profile/pens/forked']);
-  }
+  // navigateToForked() {
+  //   this.router.navigate(['/profile/pens/forked']);
+  // }
   navigateToLoved() { 
     this.router.navigate(['/profile/pens/loved']);
   }
-  navigateToTags() {
-    this.router.navigate(['/profile/pens/tags']);
-  }
+  // navigateToTags() {
+  //   this.router.navigate(['/profile/pens/tags']);
+  // }
   addClassActive() {
     const links = document.querySelectorAll('.links-pens');
     links.forEach(link => {
       const span = document.createElement('span');
 
       // <a class="link-settings account">Account</a>
-      //  currentURL = http://localhost:4200/settings/account
+      //  currentURL = this.myService.getWebHost() + /settings/account
       var check_currentURL = this.currentURL.split('/')[5]
       if (link.classList.contains(check_currentURL)) {
         // console.log('check_currentURLTrue', check_currentURL)
