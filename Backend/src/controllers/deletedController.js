@@ -4,13 +4,15 @@ const Pen = require('../models/pen');
 
 async function getDeletedCollectionsAndPens(req, res) {
   try {
+    const { user_id } = req.body; // Assuming user_id is in the request body
+
     const deletedCollections = await Collection.findAll({
-      where: { deleted: true },
+      where: { deleted: true, user_id }, // Add user_id to the query
       attributes: ['collection_id', 'name'],
     });
 
     const deletedPens = await Pen.findAll({
-      where: { deleted: true },
+      where: { deleted: true, user_id }, // Add user_id to the query
       attributes: ['pen_id', 'name'],
     });
 
@@ -38,6 +40,7 @@ async function getDeletedCollectionsAndPens(req, res) {
     res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy danh sách collection và pen đã xóa' });
   }
 }
+
 
 async function deletePenPermanently(req, res) {
   try {
