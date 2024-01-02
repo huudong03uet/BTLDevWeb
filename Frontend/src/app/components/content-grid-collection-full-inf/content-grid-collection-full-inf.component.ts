@@ -107,7 +107,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
         this.collectionName = response.collectionName || "";
         console.log(this.collectionName);
         console.log("this.pen_ids: ", this.pen_ids)
-        for (let i = 0; i < this.pen_ids.length; i++) {
+        for (let i = 0; i < this.pen_ids.length && i < 4; i++) {
           this.get_data_pen(this.pen_ids[i], i);
         }
         for (let i = this.pen_ids.length; i < 4; i++) {

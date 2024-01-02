@@ -22,13 +22,6 @@ export class YourWorkPensComponent {
 
 
   sortByOptions() {
-    console.log("searchFor", this.searchFor)
-    console.log("sortBy", this.sortBy)
-    console.log("sortDirection", this.sortDirection)
-    console.log("publicPrivate", this.publicPrivate)
-
-
-    console.log("before searchFor", this.pen_full)
     let pen_full_searchFor = this.pen_full.filter((pen: { name: any; }) => { 
       // if name != string, set name = "Chưa đặt tên"
       if (typeof pen.name !== 'string') {
@@ -61,14 +54,12 @@ export class YourWorkPensComponent {
         }
       });
     }
-    console.log("after sort", pen_full_searchFor)
     if (this.publicPrivate === 'public') {
       pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "public");
     }
     if (this.publicPrivate === 'private') {
       pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "private");
     }
-    console.log("after publicPrivate", pen_full_searchFor)
     return pen_full_searchFor.map((pen: { pen_id: any; }) => pen.pen_id);
   }
 
@@ -87,10 +78,8 @@ export class YourWorkPensComponent {
         axios.get(apiUrl)
           .then((response) => {
             this.pen_full = response.data
-            console.log(response)
             this.pen_ids = this.pen_full.map((pen: { pen_id: any; }) => pen.pen_id);
 
-            console.log(this.pen_ids)
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -102,18 +91,14 @@ export class YourWorkPensComponent {
 
     this.fullOptionControlItemService.currentMessageSortBy.subscribe(message => {
       if (message) {
-        console.log("sortBy " + message)
         this.sortBy = message;
-        console.log("123", this.pen_ids)
         this.pen_ids = this.sortByOptions();
-        console.log("1234", this.pen_ids)
       }
     }
     );
 
     this.fullOptionControlItemService.currentMessageSortDirection.subscribe(message => {
       if (message) {
-        console.log("sortDirection " + message)
         this.sortDirection = message;
         this.pen_ids = this.sortByOptions();
       }
@@ -122,7 +107,6 @@ export class YourWorkPensComponent {
 
     this.fullOptionControlItemService.currentMessageSearchFor.subscribe(message => {
       if (message) {
-        console.log("searchFor " + message)
 
         if(message === "qwertyuiop"){
           message = ""
@@ -137,7 +121,6 @@ export class YourWorkPensComponent {
 
     this.fullOptionControlItemService.currentMessageSelectPublicPrivate.subscribe(message => {
       if (message) {
-        console.log("publicPrivate " + message)
         this.publicPrivate = message;
         this.pen_ids = this.sortByOptions();
       }

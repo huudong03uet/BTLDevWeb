@@ -85,7 +85,6 @@ export class ContentGridCodeComponent implements OnInit {
   }
 
   handlePageClick(): void {
-    // console.log(`/pen/${this.pen_id}`);
     this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
   }
   
@@ -95,7 +94,6 @@ export class ContentGridCodeComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
-    // console.log("hasInformationPen: ", this.hasInformationPen)
     if (this.hasInformationPen == true) {
       var x = document.getElementsByClassName("list-items");
       if (x != null) {

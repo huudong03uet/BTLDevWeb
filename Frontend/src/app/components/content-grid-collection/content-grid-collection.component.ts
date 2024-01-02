@@ -90,8 +90,6 @@ export class ContentGridCollectionComponent implements OnInit {
   }
 
   cssDoanNay() {
-    // find id: preview-code and if is_pinned == true -> set style: height: 100%
-    // console.log("is_pinned: ", this.is_pinned);
     console.log("is_pinned: ", this.is_pinned)
     if (this.is_pinned == true) {
       var x = document.getElementsByClassName("code-grid-container");
@@ -124,8 +122,6 @@ export class ContentGridCollectionComponent implements OnInit {
       (response: any) => {
         this.pen_ids = response.pen_ids || [];
         this.collectionName = response.collectionName || "";
-        console.log(this.collectionName);
-        console.log("this.pen_ids: ", this.pen_ids)
         for (let i = 0; i < this.pen_ids.length; i++) {
           this.get_data_pen(this.pen_ids[i], i);
         }
@@ -185,7 +181,6 @@ export class ContentGridCollectionComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
-    // console.log("hasInformationPen: ", this.hasInformationPen)
     if (this.hasInformationPen == true) {
       var x = document.getElementsByClassName("list-items");
       if (x != null) {

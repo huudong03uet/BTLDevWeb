@@ -51,13 +51,11 @@ export class YourWorkCollectionsComponent implements OnInit {
       // this.collections = data.filter((item: any) => item.collection_id);
       this.collection_full = collections;
       this.collection_ids = this.collection_full;
-      console.log("tessttt", this.collection_ids)
     }).catch((error) => {
       console.error('Error:', error);
     });
     this.fullOptionControlItemService.currentMessageSortBy.subscribe(message => {
       if (message) {
-        console.log("sortBy " + message)
         this.sortBy = message;
         this.collection_ids = this.sortByOptions();
       }
@@ -66,7 +64,6 @@ export class YourWorkCollectionsComponent implements OnInit {
 
     this.fullOptionControlItemService.currentMessageSortDirection.subscribe(message => {
       if (message) {
-        console.log("sortDirection " + message)
         this.sortDirection = message;
         this.collection_ids = this.sortByOptions();
       }
@@ -75,7 +72,6 @@ export class YourWorkCollectionsComponent implements OnInit {
 
     this.fullOptionControlItemService.currentMessageSearchFor.subscribe(message => {
       if (message) {
-        console.log("searchFor " + message)
 
         if(message === "qwertyuiop"){
           message = ""
@@ -90,7 +86,6 @@ export class YourWorkCollectionsComponent implements OnInit {
 
     this.fullOptionControlItemService.currentMessageSelectPublicPrivate.subscribe(message => {
       if (message) {
-        console.log("publicPrivate " + message)
         this.publicPrivate = message;
         this.collection_ids = this.sortByOptions();
       }
@@ -100,13 +95,6 @@ export class YourWorkCollectionsComponent implements OnInit {
 
 
   sortByOptions() {
-    console.log("searchFor", this.searchFor)
-    console.log("sortBy", this.sortBy)
-    console.log("sortDirection", this.sortDirection)
-    console.log("publicPrivate", this.publicPrivate)
-
-
-    console.log("before searchFor", this.collection_full)
     let collection_full_searchFor = this.collection_full.filter((pen: { name: any; }) => { 
       // if name != string, set name = "Chưa đặt tên"
       if (typeof pen.name !== 'string') {
@@ -114,7 +102,6 @@ export class YourWorkCollectionsComponent implements OnInit {
       }
       return pen.name.toLowerCase().includes(this.searchFor.toLowerCase())
     });
-    console.log("after searchFor", collection_full_searchFor)
 
     if (this.sortBy === 'date_created') {
       // "2023-11-18T09:46:39.000Z" -> is date format
@@ -139,14 +126,12 @@ export class YourWorkCollectionsComponent implements OnInit {
         }
       });
     }
-    console.log("after sort", collection_full_searchFor)
     if (this.publicPrivate === 'public') {
       collection_full_searchFor = collection_full_searchFor.filter((pen: { status: string; }) => pen.status === "public");
     }
     if (this.publicPrivate === 'private') {
       collection_full_searchFor = collection_full_searchFor.filter((pen: { status: string; }) => pen.status === "private");
     }
-    console.log("after publicPrivate", collection_full_searchFor)
     return collection_full_searchFor;
   }
 }

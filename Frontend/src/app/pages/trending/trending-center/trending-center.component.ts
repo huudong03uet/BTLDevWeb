@@ -43,7 +43,6 @@ export class TrendingCenterComponent  {
         apiUrl = this.myService.getApiHost() + `/user/getNotFollow/${userId}`;
         axios.get(apiUrl).then((response) => {
           this.data = response.data;
-          console.log('trendding', this.data)
         }).catch((error) => {
           console.error('Error:', error);
         });

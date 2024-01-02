@@ -1,6 +1,6 @@
 # Hướng dẫn 
 
-### 1. Cách Deploy
+### 1. Cách Deploy (trên hệ thống fall2324g3w5)
 
 Bước 1: Từ root: ```cd 123web/testweb/Backend```
 
