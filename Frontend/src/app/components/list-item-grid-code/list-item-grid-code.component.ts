@@ -66,17 +66,8 @@ export class ListItemGridCodeComponent implements OnInit {
 
 
   ngOnInit(): void {
-<<<<<<< HEAD
 
-    console.log(this.pen_ids)
-    
-=======
-    //  len pen_ids_current <= 4
-    //  len pen_ids_next <= 4
-
-
->>>>>>> refs/remotes/origin/main
-    this.pen_ids_current = [];
+      this.pen_ids_current = [];
     this.pen_ids_next = [];
     for (let i = this.index_first_current; i < this.index_first_current + 4; i++) {
       if (i < this.pen_ids.length) {
