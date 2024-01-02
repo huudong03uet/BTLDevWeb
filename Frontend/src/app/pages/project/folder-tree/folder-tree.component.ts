@@ -448,7 +448,6 @@ export class FolderTreeComponent {
   }
 
   removeFileCurrent() {
-    console.log("file_datas", this.datas)
     if (this.file_selected == undefined) {
       return;
     }
@@ -475,7 +474,6 @@ export class FolderTreeComponent {
 
 
     this.file_selected = undefined;
-    console.log("datas", this.datas)
 
 
   }
@@ -521,13 +519,9 @@ export class FolderTreeComponent {
       code: "",
       children: []
     }
-    console.log("fileNewOpen", fileNewOpen)
     this.datas = this.addFileOrFolder(this.datas, this.file_selected.id, fileNewOpen);
-    console.log("datas 1", this.datas)
     this.reRenderTree();
-    console.log("datas 2", this.datas)
     this.fileOpen(fileNewOpen.id);
-    console.log("datas 3", this.datas)
 
     this.file_selected = fileNewOpen;
   }

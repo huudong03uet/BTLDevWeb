@@ -52,7 +52,6 @@ export class ProfileSettingsComponent implements OnInit {
     // console.log(profileData);
 
     axios.put(this.myService.getApiHost() + `/user/updateProfile/${user_id}`, profileData).then(response => {
-        console.log('Profile updated successfully:', response.data);
         alert('Profile updated successfully!');
       }).catch(error => {
         console.error('Error updating profile:', error);
