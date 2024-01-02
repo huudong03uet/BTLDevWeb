@@ -3,6 +3,7 @@ import { UserDataService } from 'src/app/services/user-data.service';
 import { HttpClient } from '@angular/common/http';
 import axios from 'axios';
 import { HostService } from 'src/app/host.service';
+import { FullOptionControlItemService } from 'src/app/services/full-option-control-item.service';
 
 interface Collection {
   collection_id: number;
@@ -18,11 +19,17 @@ interface Collection {
 })
 export class YourWorkCollectionsComponent implements OnInit {
   collection_ids: any[] = [];
+  collection_full: any = [];
+  searchFor: string = '';
+  sortBy: string = 'date_updated';
+  sortDirection: string = 'asc';
+  publicPrivate: string = 'all';
 
   constructor(
     private http: HttpClient,
     private userData: UserDataService,
     private myService: HostService,
+    private fullOptionControlItemService: FullOptionControlItemService,
   ) {}
 
   ngOnInit(): void {
@@ -42,12 +49,104 @@ export class YourWorkCollectionsComponent implements OnInit {
       // }
       // this.updateCollectionData();
       // this.collections = data.filter((item: any) => item.collection_id);
-      
-      this.collection_ids = collections
+      this.collection_full = collections;
+      this.collection_ids = this.collection_full;
+      console.log("tessttt", this.collection_ids)
     }).catch((error) => {
       console.error('Error:', error);
     });
+    this.fullOptionControlItemService.currentMessageSortBy.subscribe(message => {
+      if (message) {
+        console.log("sortBy " + message)
+        this.sortBy = message;
+        this.collection_ids = this.sortByOptions();
+      }
+    }
+    );
+
+    this.fullOptionControlItemService.currentMessageSortDirection.subscribe(message => {
+      if (message) {
+        console.log("sortDirection " + message)
+        this.sortDirection = message;
+        this.collection_ids = this.sortByOptions();
+      }
+    }
+    );
+
+    this.fullOptionControlItemService.currentMessageSearchFor.subscribe(message => {
+      if (message) {
+        console.log("searchFor " + message)
+
+        if(message === "qwertyuiop"){
+          message = ""
+        }
+        this.searchFor = message;
+
+        
+        this.collection_ids = this.sortByOptions();
+      }
+    }
+    );
+
+    this.fullOptionControlItemService.currentMessageSelectPublicPrivate.subscribe(message => {
+      if (message) {
+        console.log("publicPrivate " + message)
+        this.publicPrivate = message;
+        this.collection_ids = this.sortByOptions();
+      }
+    }
+    );
   }
 
 
+  sortByOptions() {
+    console.log("searchFor", this.searchFor)
+    console.log("sortBy", this.sortBy)
+    console.log("sortDirection", this.sortDirection)
+    console.log("publicPrivate", this.publicPrivate)
+
+
+    console.log("before searchFor", this.collection_full)
+    let collection_full_searchFor = this.collection_full.filter((pen: { name: any; }) => { 
+      // if name != string, set name = "Chưa đặt tên"
+      if (typeof pen.name !== 'string') {
+        pen.name = "Chưa đặt tên"
+      }
+      return pen.name.toLowerCase().includes(this.searchFor.toLowerCase())
+    });
+    console.log("after searchFor", collection_full_searchFor)
+
+    if (this.sortBy === 'date_created') {
+      // "2023-11-18T09:46:39.000Z" -> is date format
+      collection_full_searchFor.sort((a: { createdAt: string; }, b: { createdAt: string; }) => {
+        let dateA = new Date(a.createdAt);
+        let dateB = new Date(b.createdAt);
+        if (this.sortDirection === 'asc') {
+          return dateA.getTime() - dateB.getTime();
+        } else {
+          return dateB.getTime() - dateA.getTime();
+        }
+      }
+      );
+    } else if (this.sortBy === 'date_updated') {
+      collection_full_searchFor.sort((a: { updatedAt: string; }, b: { updatedAt: string; }) => {
+        let dateA = new Date(a.updatedAt);
+        let dateB = new Date(b.updatedAt);
+        if (this.sortDirection === 'asc') {
+          return dateA.getTime() - dateB.getTime();
+        } else {
+          return dateB.getTime() - dateA.getTime();
+        }
+      });
+    }
+    console.log("after sort", collection_full_searchFor)
+    if (this.publicPrivate === 'public') {
+      collection_full_searchFor = collection_full_searchFor.filter((pen: { status: string; }) => pen.status === "public");
+    }
+    if (this.publicPrivate === 'private') {
+      collection_full_searchFor = collection_full_searchFor.filter((pen: { status: string; }) => pen.status === "private");
+    }
+    console.log("after publicPrivate", collection_full_searchFor)
+    return collection_full_searchFor;
+  }
 }

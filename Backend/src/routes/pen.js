@@ -13,5 +13,5 @@ router.get("/getFollow/:id", penController.getFollow);
 router.post("/savePen", penController.savePen);
 router.get("/getPenByUserSort/", penController.getPenByUserSort);
 router.post('/deletePenPermanently', deletedController.deletePenPermanently); 
-
+router.get("/getPenByUserIdFullOption/:id", penController.getPenByUserIdFullOption);
 module.exports = router;

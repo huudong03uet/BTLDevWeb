@@ -1,6 +1,20 @@
-# Hướng dẫn Build Ứng Dụng
+# Hướng dẫn 
 
-### Cây thư mục
+### 1. Cách Deploy
+
+Bước 1: Từ root: ```cd 123web/testweb/Backend```
+
+Bước 1: ```/etc/jupyter/bin/expose 3000```
+
+Bước 2: ```cd Backend```
+
+Bước 3: ```npm start```
+
+Link video demo: https://youtu.be/mt1vxgTYrrY
+
+
+### 2. Cấu trúc Ứng dụng
+
 BTLDevWeb
 
 ├── Frontend
@@ -9,7 +23,21 @@ BTLDevWeb
 
 │ ├── angular.js
 
-│ └── src
+│ ├── src
+
+│ │ ├── app
+
+│ │ │ ├── components
+
+│ │ │ ├── models
+
+│ │ │ ├── pages
+
+│ │ │ ├── pipes
+
+│ │ │ ├── services
+
+│ │ │ └── app.module.ts
 
 ├── Backend
 
@@ -26,75 +54,3 @@ BTLDevWeb
 │ │ ├── Router
 
 │ │ └── server.js
-
-## Bước 1: Clone Repository
-```
-git clone https://github.com/huudong03uet/BTLDevWeb.git
-```
-
-## Bước 2: Đi vào thư muc Frontend
-```
-cd Frontend
-```
-
-## Bước 3: Chỉnh lại file angular.js trong folder Frontend
-- Thêm phụ thuộc các js trong build -> options.
-```
-"options": {
-    **"allowedCommonJsDependencies": [
-      "lodash"
-    ],**
-...
-}
-```
-
-  
-- Thuộc tính "build" có thuộc tính con "outputPath". Chỉnh lại "outputPath" thành "dist" ("outputPath": "dist")
-
-```
-"build": {
-  "builder": "@angular-devkit/build-angular:browser",
-  "options": {
-    "allowedCommonJsDependencies": [
-      "lodash"
-    ],
-    **"outputPath": "dist",**
-```
-
-  
-- Ở phần "configurations" có thuộc tính con "production". Ở trong "production" có thuộc tính con "budgets". Chỉnh lại "maximumError" ở cả init và anyComponentStyle thành 2mb (Thực ra chỉnh số nào thì tùy thuộc vào chương trình báo lỗi, có thể tăng số này lên)
-```
-"configurations": {
-    "production": {
-      "budgets": [
-        {
-          "type": "initial",
-          "maximumWarning": "1mb",
-          **"maximumError": "1.5mb"**
-        },
-        {
-          "type": "anyComponentStyle",
-          "maximumWarning": "2kb",
-          **"maximumError": "6.5kb"**
-        }
-      ],
-      "outputHashing": "all"
-    },
-....
-```
-
-
-## Bước 4: Chạy lệnh npm run build hoặc ng build 
-## Bước 5: Từ thư mục gốc vào lại Backend
-## Bước 6: Trong Backend có 2 file "src/models/sequelize.js" và "src/server.js".
-- "src/models/sequelize.js": chỉnh lại tên và cơ sở dữ liệu và password
-```
-const sequelize = new Sequelize('database_name', 'user_name', 'password', {
-  host: 'localhost', // chỉnh lại cái này. nếu chạy trên web của thầy là process.env.MYSQL_SERVICE_HOST
-  dialect: 'mysql',
-  port: 3306,
-});
-```
-- "src/server.js": chỉnh lại app.get('*', ...) thành đúng đường dẫn tới thư mục dist
-  
-Hết.

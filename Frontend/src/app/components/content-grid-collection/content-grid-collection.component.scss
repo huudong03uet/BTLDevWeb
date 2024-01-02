@@ -46,15 +46,15 @@
 
 
     .background-code {
-        position: absolute;
-        background-color: hsl(232.5, 11.76%, 13.33%);
-        right: -3%;
-        bottom: -4%;
-        width: 107%;
-        height: 110%;
-        border-radius: 10px;
-        transition: all 0.3s ease 0.1s;
-        clip-path: inset(10% 0rem 9% 8% round 10px);
+      position: absolute;
+      background-color: hsl(232.5, 11.76%, 13.33%);
+      right: -3%;
+      bottom: -30%;
+      width: 107%;
+      height: 138%;
+      border-radius: 10px;
+      transition: all 0.3s ease 0.1s;
+      clip-path: inset(9% 0rem 8% 8% round 10px);
     }
     .background-code.enter-show {
       transition: all .3s ease .1s;

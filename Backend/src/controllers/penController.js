@@ -140,6 +140,8 @@ async function _getPenByUserID(user_id) {
   }
 }
 
+
+
 async function _getPenByUser(user_id) {
   try {
     const pen = await _getPenByUserID(user_id);
@@ -160,6 +162,32 @@ async function getPenByUser(req, res) {
     return res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy thông tin pen' });
   }
 }
+
+// async function _getPenByUserFullOption(user_id) {
+//   try {
+//     const pen = await Pen.findAll({
+//       where: { user_id: user_id, deleted: false },
+//       attributes: ['pen_id', 'createdAt', 'updatedAt', 'css_code', 'type_css'],
+//       raw: true,
+//     });
+//     return pen;
+//   } catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// }
+
+
+// async function getPenByUserFullOption(req, res) {
+//   const user_id = req.params.id;
+//   try {
+//     const pen = await _getPenByUserFullOption(user_id)
+//     return res.status(200).json(pen);
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy thông tin pen' });
+//   }
+// }
 
 async function _getPenStatusByUserID(user_id, status) {
   try {
@@ -394,6 +422,21 @@ async function getFollow(req, res) {
   }
 }
 
+async function getPenByUserIdFullOption(req, res) {
+  const user_id = req.params.id;
+  try {
+    const pen = await Pen.findAll({
+      where: { user_id: user_id, deleted: false },
+      attributes: ['pen_id', 'status', 'updatedAt', 'createdAt', 'name'],
+      raw: true,
+    });
+    res.status(200).json(pen);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy thông tin pen' });
+  }
+}
+
 
 module.exports = {
   createOrUpdatePen,
@@ -406,4 +449,5 @@ module.exports = {
   savePen,
   _getPenByUser,
   getPenByUserSort,
+  getPenByUserIdFullOption,
 };

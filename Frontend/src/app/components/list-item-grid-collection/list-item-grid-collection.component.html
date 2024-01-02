@@ -1,7 +1,7 @@
 <div class="item-grid-code-center">
     <div class="background-item-grid-code prev" *ngIf="!is_start" (click)="onClickPrevGridCode()">
         <div class="item-grid-code-prev">
-            <app-content-grid-collection *ngFor="let dataItem of pen_ids_prev" [collection]="collection_ids"></app-content-grid-collection>    
+            <app-content-grid-collection *ngFor="let dataItem of pen_ids_prev" [collection]="collection_ids" [is_pinned]="false"></app-content-grid-collection>    
             
         </div>
         <button class="prev-page button-page">
