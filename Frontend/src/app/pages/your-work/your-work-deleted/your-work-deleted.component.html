@@ -11,10 +11,10 @@
             {{item.name}}
             </h2>
             <div class="restore-delete-button">
-                <button  class="restore-button" >
+                <button class="restore-button" (click)="restoreItem(item)">
                     Restore
                 </button>
-                <button  class="delete-button">
+                <button  class="delete-button" (click)="deletePermanently(item)">
                     Delete Permanently
                 </button>
             </div>

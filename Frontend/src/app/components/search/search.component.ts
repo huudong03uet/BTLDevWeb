@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { SearchService } from 'src/app/search.service';
 
 @Component({
   selector: 'app-search',
@@ -8,18 +9,22 @@ import { Router } from '@angular/router';
 })
 export class SearchComponent {
   isLogin: boolean = false;
-
   search: string = '';
+
+  constructor(
+    private router: Router,
+    private searchService: SearchService
+  ) { }
+  
   changeSearch(search: string) {
     this.search = search;
+    this.searchService.setSearch(search);
   }
-  constructor(private router: Router) {
-    
-  }
+  
 
   searchFile(search: string) {
     // console.log(search)
     // go to search page
-    this.router.navigate(['/search-page'], { queryParams: { search: search } });
+    this.router.navigate(['/search-page']);
   }
 }

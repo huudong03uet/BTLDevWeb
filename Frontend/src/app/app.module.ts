@@ -94,6 +94,8 @@ import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/
 import { CodeBoxDetailPenComponent } from './components/detail-pen/code-box-detail-pen/code-box-detail-pen.component';
 import { ContentGridCollectionComponent } from './components/content-grid-collection/content-grid-collection.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { ListItemGridCollectionComponent } from './components/list-item-grid-collection/list-item-grid-collection.component';
+import { ListItemGridProjectComponent } from './components/list-item-grid-project/list-item-grid-project.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -178,7 +180,9 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     YourWorkProjectsComponent,
     CodeBoxDetailPenComponent,
     ContentGridCollectionComponent,
-    SearchPageComponent
+    SearchPageComponent,
+    ListItemGridCollectionComponent,
+    ListItemGridProjectComponent
   ],
   imports: [
     FormsModule,

@@ -2,11 +2,13 @@ import { Component, HostListener, Input, OnInit, SecurityContext } from '@angula
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { UserDataService } from 'src/app/services/user-data.service';
+
 
 import axios from 'axios';
 import { has, hasIn } from 'lodash';
 import { HostService } from 'src/app/host.service';
-import { UserDataService } from 'src/app/services/user-data.service';
+
 
 @Component({
   selector: 'app-content-grid-collection-full-inf',
@@ -32,9 +34,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
     private router: Router,
     private sanitizer: DomSanitizer,
     private http: HttpClient,
-
     private myService: HostService,
-
     private userData: UserDataService,
 
   ) { }
@@ -92,6 +92,8 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('abc', this.collection)
+
     if (!this.collection.collection_id) {
       console.error('Collection ID is missing.');
       return;
@@ -201,6 +203,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
     const confirmed = confirm("Are you sure you want to delete this collection?");
     if (confirmed) {
       const url = this.myService.getApiHost() + `/your-work/collections/removeCollection`;
+
       const data = {
         collection_id: this.collection_id,
         delete: true

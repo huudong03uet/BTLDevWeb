@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Renderer2, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, Renderer2, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ProjectFileService } from 'src/app/services/project-file.service';
 @Component({
@@ -14,7 +14,7 @@ export class FolderTreeComponent {
 
   click_search: boolean = false;
 
-
+  file_selected: any;
   datas = [
     {
       id: 2,
@@ -106,13 +106,81 @@ export class FolderTreeComponent {
   // constructor(private sanitizer: DomSanitizer, private projectFile: ProjectFileService) { }
   constructor(private renderer: Renderer2, private el: ElementRef, private projectFile: ProjectFileService, private sanitizer: DomSanitizer) { }
 
-  ngOnInit(): void {
-    let tree = this.renderTree(this.datas);
-    let folderTreeFileElement = this.el.nativeElement.querySelector('#folder-tree-file');
-    while (folderTreeFileElement.firstChild) {
-      this.renderer.removeChild(folderTreeFileElement, folderTreeFileElement.firstChild);
+  /**
+   * sort data
+   */
+  sortData() {
+    // folder, after file , if the same folder or file, sort by name
+    this.datas.sort((a, b) => {
+      if (a.type == b.type) {
+        if (a.title < b.title) {
+          return -1;
+        } else {
+          return 1;
+        }
+      } else {
+        if (a.type == "folder") {
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+    });
+    for (let i = 0; i < this.datas.length; i++) {
+      if (this.datas[i].children.length > 0) {
+        this.sortDataChild(this.datas[i].children);
+      }
     }
-    this.renderer.appendChild(folderTreeFileElement, tree);
+  }
+
+  sortDataChild(obj: any) {
+    obj.sort((a: any, b: any) => {
+      if (a.type == b.type) {
+        if (a.title < b.title) {
+          return -1;
+        } else {
+          return 1;
+        }
+      } else {
+        if (a.type == "folder") {
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+    });
+    for (let i = 0; i < obj.length; i++) {
+      if (obj[i].children.length > 0) {
+        this.sortDataChild(obj[i].children);
+      }
+    }
+  }
+
+  reRenderTree() {
+    this.sortData();
+    let tree = this.renderTree(this.datas);
+    console.log("12345")
+    let folderTreeFileElement = this.el.nativeElement.querySelector('#folder-tree-file');
+    console.log("1234")
+
+    if (folderTreeFileElement) {
+      if (folderTreeFileElement.firstChild) {
+        this.renderer.removeChild(folderTreeFileElement, folderTreeFileElement.firstChild);
+      }
+      console.log("123")
+      this.renderer.appendChild(folderTreeFileElement, tree);
+      this.renderer.appendChild(folderTreeFileElement, tree);
+
+    } else {
+      console.error('Element #folder-tree-file not found');
+    }
+    console.log("123")
+  }
+
+
+  ngOnInit(): void {
+    this.reRenderTree();
+
   }
 
   getSafeHtml(html: string): SafeHtml {
@@ -122,11 +190,15 @@ export class FolderTreeComponent {
   renderTree(obj: any) {
     let ul = this.renderer.createElement('ul');
     for (let i = 0; i < obj.length; i++) {
+      let obj_id = obj[i];
       let li = this.renderer.createElement('li');
       this.renderer.addClass(li, obj[i].type);
       this.renderer.setProperty(li, 'id', obj[i].id);
       this.renderer.setProperty(li, 'innerHTML', this.renderSvg(obj[i].type) + `<span>${obj[i].title}</span>`);
-      this.renderer.listen(li, 'click', () => this.fileOpen(obj[i]));
+      this.renderer.listen(li, 'click', (event) => {
+        event.stopPropagation();
+        this.fileOpen(obj_id.id);
+      });
       if (obj[i].children.length > 0) {
         let childUl = this.renderTree(obj[i].children);
         this.renderer.appendChild(li, childUl);
@@ -138,31 +210,12 @@ export class FolderTreeComponent {
 
 
 
-  // renderTree(obj: any) {
-  //   // random number for id_ref
-  //   let html = `<ul>`;
-  //   for (let i = 0; i < obj.length; i++) {
 
-  //     html += `<li class="${obj[i].type}" id="${obj[i].id}" (click)="fileOpen(${obj[i]})">`;
-  //     html += (this.renderSvg(obj[i].type));
-  //     html += `<span>${obj[i].title}</span>`;
-  //     if (obj[i].children.length > 0) {
-  //       html += this.renderTree(obj[i].children);
-  //     }
-  //     html += `</li>`;
-  //   }
-  //   html += `</ul>`;
-
-  //   // return html;
-  //   // return html has svg
-  //   return html;
-
-
-  // }
 
   renderSvg(obj: string) {
     if (obj == "folder") {
-      return `<svg class="icon icon-folder" viewBox="0 0 23 15"><path d="M2.004 14.458A1.88 1.88 0 0 1 .125 12.58V1.31C.125.655.656.124 1.31.124h4.964c.452 0 .858.25 1.06.655l.317.635c.245.49.736.793 1.283.793h9.896a1.88 1.88 0 0 1 1.878 1.879v8.493a1.88 1.88 0 0 1-1.878 1.878H2.004z" fill="#CBCBCB"></path><path class="folder-front" d="M2.004 14.458A1.88 1.88 0 0 1 .125 12.58V4.087a1.88 1.88 0 0 1 1.879-1.879H18.83a1.88 1.88 0 0 1 1.878 1.879v8.493a1.88 1.88 0 0 1-1.878 1.878H2.004z" fill="#828282"></path></svg>`
+      return `<svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path fill="rgb(203, 203, 203)" d="M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z"/></svg>`
+
     } else if (obj == "html" || obj == "htm") {
       return `<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="50" height="50" rx="5" fill="#FF3C41"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M21.325 13.893a1.75 1.75 0 0 0-2.65-2.286l-11 12.75a1.75 1.75 0 0 0 0 2.286l11 12.75a1.75 1.75 0 0 0 2.65-2.286L11.311 25.5l10.014-11.607Zm7.35 0a1.75 1.75 0 0 1 2.65-2.286l11 12.75a1.75 1.75 0 0 1 0 2.286l-11 12.75a1.75 1.75 0 0 1-2.65-2.286L38.689 25.5 28.675 13.893Z" fill="#282828"></path></svg>`
     } else if (obj == "css" || obj == "scss" || obj == "sass") {
@@ -181,13 +234,14 @@ export class FolderTreeComponent {
   changeStatusNav() {
     this.click_search = !this.click_search;
   }
+
+
+
+  /**
+   * Search
+   */
   search: string = "";
-
-
   list_files_search: number[] = [];
-
-  // list has: folder1, folder1/file1, folder1/folder2/file2, folder1/folder2/file3, folder3/file4
-
   searchParentChild(obj: any, searchValue: string) {
     for (let i = 0; i < obj.length; i++) {
       if (obj[i].title.includes(searchValue)) {
@@ -202,17 +256,12 @@ export class FolderTreeComponent {
 
   }
   link_files_search: string[] = [];
-
-
   searchFiles(searchValue: string) {
     if (searchValue == "") {
       this.link_files_search = [];
       this.list_files_search = [];
       return;
     }
-
-
-
     this.search = searchValue;
     this.list_files_search = [];
     for (let i = 0; i < this.datas.length; i++) {
@@ -225,17 +274,19 @@ export class FolderTreeComponent {
     }
 
     this.convertListToLink();
-    console.log(this.link_files_search)
+    // console.log(this.link_files_search)
   }
 
-  // convert list_files_search to link_files_search
+  /**
+   * Convert
+   */
+
   convertListToLink() {
     this.link_files_search = [];
     for (let i = 0; i < this.list_files_search.length; i++) {
       this.link_files_search.push(this.convertIdToLink(this.list_files_search[i]));
     }
   }
-  // link file search: [folder/file1, folder/folder2/file2, folder/folder2/file3, folder/file4]
 
   convertIdToLink(id: number) {
     let link = "";
@@ -273,12 +324,246 @@ export class FolderTreeComponent {
     return link;
   }
 
+  hiddenAllChildren(folder: any) {
+    let children = folder.querySelectorAll('li');
+    for (let i = 0; i < children.length; i++) {
+      if (children[i].classList.contains("close-file")) {
+        this.renderer.removeClass(children[i], "close-file");
+      } else {
+        this.renderer.addClass(children[i], "close-file");
+      }
+    }
+  }
 
-  fileOpen(fileOpen: any) {
+
+
+  /**
+   * 
+   * file open
+   */
+
+  fileOpen(id_file: any) {
+
+    // console.log("file_open", fileOpen)
+    // find fileOpen in datas
+    let fileOpen: any = null;
+    for (let i = 0; i < this.datas.length; i++) {
+      if (this.datas[i].id == id_file) {
+        fileOpen = this.datas[i];
+        break;
+      }
+      if (this.datas[i].children.length > 0) {
+        fileOpen = this.fileOpenChild(this.datas[i].children, id_file);
+        if (fileOpen != null) {
+          break;
+        }
+      }
+    }
+
+
     if (fileOpen.type != "folder") {
       this.projectFile.changeMessage(fileOpen);
 
     }
+
+    if (fileOpen.type == "folder") {
+      let folder = document.getElementById(fileOpen.id);
+
+      if (folder?.classList.contains("close-folder")) {
+        this.renderer.removeClass(folder, "close-folder");
+        this.hiddenAllChildren(folder);
+        // change icon -> <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" viewBox="0 0 32 32" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M1,5.998l-0,16.002c-0,1.326 0.527,2.598 1.464,3.536c0.938,0.937 2.21,1.464 3.536,1.464c5.322,0 14.678,-0 20,0c1.326,0 2.598,-0.527 3.536,-1.464c0.937,-0.938 1.464,-2.21 1.464,-3.536c0,-3.486 0,-8.514 0,-12c0,-1.326 -0.527,-2.598 -1.464,-3.536c-0.938,-0.937 -2.21,-1.464 -3.536,-1.464c-0,0 -10.586,0 -10.586,0c0,-0 -3.707,-3.707 -3.707,-3.707c-0.187,-0.188 -0.442,-0.293 -0.707,-0.293l-5.002,0c-2.76,0 -4.998,2.238 -4.998,4.998Z"/><g id="Icon"/></svg>
+        folder?.querySelector('svg')?.setAttribute('viewBox', '0 0 576 512');
+        folder?.querySelector('path')?.setAttribute('d', 'M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z');
+
+
+
+
+      } else {
+        this.renderer.addClass(folder, "close-folder");
+        this.hiddenAllChildren(folder);
+        // change icon ->       <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path d="M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z"/></svg>
+        folder?.querySelector('svg')?.setAttribute('viewBox', '0 0 32 32');
+        folder?.querySelector('path')?.setAttribute('d', 'M1,5.998l-0,16.002c-0,1.326 0.527,2.598 1.464,3.536c0.938,0.937 2.21,1.464 3.536,1.464c5.322,0 14.678,-0 20,0c1.326,0 2.598,-0.527 3.536,-1.464c0.937,-0.938 1.464,-2.21 1.464,-3.536c0,-3.486 0,-8.514 0,-12c0,-1.326 -0.527,-2.598 -1.464,-3.536c-0.938,-0.937 -2.21,-1.464 -3.536,-1.464c-0,0 -10.586,0 -10.586,0c0,-0 -3.707,-3.707 -3.707,-3.707c-0.187,-0.188 -0.442,-0.293 -0.707,-0.293l-5.002,0c-2.76,0 -4.998,2.238 -4.998,4.998Z');
+
+      }
+
+    }
+    this.file_selected = fileOpen;
+    // add class active to li tag has id = fileOpen.id, and remove class active to other li
+    let li = document.querySelectorAll('li');
+    for (let i = 0; i < li.length; i++) {
+      if (li[i].classList.contains("active")) {
+        this.renderer.removeClass(li[i], "active");
+      }
+      if (li[i].id == fileOpen.id) {
+        this.renderer.addClass(li[i], "active");
+      }
+    }
+
+  }
+
+  fileOpenChild(children: { id: number; title: string; type: string; code: string; children: { id: number; title: string; type: string; code: string; children: never[]; }[]; }[], id_file: any): any {
+    let fileOpen: any = null;
+    for (let i = 0; i < children.length; i++) {
+      if (children[i].id == id_file) {
+        fileOpen = children[i];
+        break;
+      }
+      if (children[i].children.length > 0) {
+        fileOpen = this.fileOpenChild(children[i].children, id_file);
+        if (fileOpen != null) {
+          break;
+        }
+      }
+    }
+    return fileOpen;
+  }
+
+  onProjectClick(event: Event) {
+    this.file_selected = undefined;
+    let li = document.querySelectorAll('li');
+    for (let i = 0; i < li.length; i++) {
+      if (li[i].classList.contains("active")) {
+        this.renderer.removeClass(li[i], "active");
+      }
+    }
+
+
+
+  }
+
+
+  /**
+   * 
+   *  remove file
+   */
+  //  when enter keydown delete and select file != undefined
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Delete' && this.file_selected !== undefined) {
+      this.removeFileCurrent();
+    }
+  }
+
+  removeFileCurrent() {
+    console.log("file_datas", this.datas)
+    if (this.file_selected == undefined) {
+      return;
+    }
+
+    this.datas = this.removeFileOrFolder(this.datas, this.file_selected.id);
+    if (this.file_selected.type != "folder") {
+      //  remove in tree
+
+
+      let li = document.getElementById(this.file_selected.id);
+      let parent = li?.parentElement;
+      this.renderer.removeChild(parent, li);
+      this.file_selected.is_remove = true;
+      this.projectFile.changeMessage(this.file_selected);
+    } else {
+      this.removeChildren(this.file_selected.children);
+      let li = document.getElementById(this.file_selected.id);
+      let parent = li?.parentElement;
+      this.renderer.removeChild(parent, li);
+
+
+    }
+
+
+
+    this.file_selected = undefined;
+    console.log("datas", this.datas)
+
+
+  }
+  removeChildren(children: any) {
+    for (let i = 0; i < children.length; i++) {
+      if (children[i].children.length > 0) {
+        this.removeChildren(children[i].children);
+      }
+      let li = document.getElementById(children[i].id);
+      let parent = li?.parentElement;
+      this.renderer.removeChild(parent, li);
+    }
+  }
+
+  removeFileOrFolder(obj: any, id: number) {
+    for (let i = 0; i < obj.length; i++) {
+      if (obj[i].id == id) {
+        obj.splice(i, 1);
+        break;
+      }
+      if (obj[i].children.length > 0) {
+        this.removeFileOrFolder(obj[i].children, id);
+      }
+    }
+    return obj;
+  }
+
+
+  /**
+   * Add file
+   * 
+   */
+  addFile() {
+    if (this.file_selected == undefined || this.file_selected.type != "folder") {
+      return;
+    }
+
+    let fileNewOpen: any = {
+      //id random 10000000
+      id: Math.floor(Math.random() * 10000000),
+      title: "new_file.html",
+      type: "html",
+      code: "",
+      children: []
+    }
+    console.log("fileNewOpen", fileNewOpen)
+    this.datas = this.addFileOrFolder(this.datas, this.file_selected.id, fileNewOpen);
+    console.log("datas 1", this.datas)
+    this.reRenderTree();
+    console.log("datas 2", this.datas)
+    this.fileOpen(fileNewOpen.id);
+    console.log("datas 3", this.datas)
+
+    this.file_selected = fileNewOpen;
+  }
+  addFolder() {
+    if (this.file_selected == undefined || this.file_selected.type != "folder") {
+      return;
+
+    }
+
+    let folderNewOpen: any = {
+      id: Math.floor(Math.random() * 10000000),
+      title: "new_folder",
+      type: "folder",
+      code: "",
+      children: []
+    }
+
+    this.datas = this.addFileOrFolder(this.datas, this.file_selected.id, folderNewOpen);
+    this.reRenderTree();
+    this.fileOpen(folderNewOpen.id);
+
+    this.file_selected = folderNewOpen;
+
+
+
+  }
+  addFileOrFolder(obj: any, id: number, fileOrFolder: any) {
+    for (let i = 0; i < obj.length; i++) {
+      if (obj[i].id == id) {
+        obj[i].children.push(fileOrFolder);
+        break;
+      }
+      if (obj[i].children.length > 0) {
+        this.addFileOrFolder(obj[i].children, id, fileOrFolder);
+      }
+    }
+    return obj;
   }
 }
-

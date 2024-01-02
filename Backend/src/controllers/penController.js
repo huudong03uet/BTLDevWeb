@@ -65,13 +65,22 @@ async function createOrUpdatePen(req, res) {
           return res.status(200).json({ code: 200, message: 'Pen is already deleted' });
         }
 
-        existingPen.deleted = true; // Chuyển trạng thái deleted về true
+        existingPen.deleted = true;
         await existingPen.save();
 
         // Xóa pen khỏi tất cả các collection chứa nó
         await CollectionPen.destroy({ where: { pen_id: existingPen.pen_id } });
 
         return res.status(200).json({ code: 200, message: 'Pen deleted successfully' });
+      } else if (req.body.restore) {
+        if (!existingPen.deleted) {
+          return res.status(200).json({ code: 200, message: 'Pen is not deleted' });
+        }
+
+        existingPen.deleted = false; 
+        await existingPen.save();
+
+        return res.status(200).json({ code: 200, pen: existingPen, message: 'Pen restored successfully' });
       }
 
       existingPen.html_code = req.body.html_code;
