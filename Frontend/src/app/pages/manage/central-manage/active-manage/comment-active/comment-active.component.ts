@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./comment-active.component.scss']
 })
 export class CommentActiveComponent {
-
+  order_by: string = 'asc';
+  attr_sort: string = '';
 }

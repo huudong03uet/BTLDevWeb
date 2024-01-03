@@ -26,7 +26,7 @@
         <div class="option-setting" *ngIf="!hiddenSetting">
             <div class="option-setting-container">
                 <div class="user-setting">
-                    <a href="/manage">
+                    <a href="/manage" *ngIf="isAdmin">
                         Manage
                     </a>
                     <a (click)="clickYourWork()">

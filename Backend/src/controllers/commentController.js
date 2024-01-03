@@ -1,7 +1,11 @@
-const Comment =require('../models/commentTable')
-const User = require('../models/user')
+const Comment = require('../models/commentTable');
+const User = require('../models/user');
+const Pen = require('../models/pen');
+const Collection = require('../models/collection');
 const { DataTypes, literal } = require('sequelize');
 const Sequelize = require('sequelize');
+
+import { _formatDateString } from "./userController";
 
 function _calculateTimeAgo(time) {
     const commentDate = new Date(time);
@@ -47,7 +51,7 @@ function _calculateTimeAgo(time) {
         }
         return `${minutes} minutes ago`;
     } else {
-        
+
         return 'Just now';
     }
 }
@@ -60,7 +64,7 @@ async function _getAllCommentOfPen(pen_id) {
                 type: "pen",
             },
             order: [
-                ['createdAt', 'DESC'], 
+                ['createdAt', 'DESC'],
             ],
             include: [
                 {
@@ -73,7 +77,7 @@ async function _getAllCommentOfPen(pen_id) {
                 'comment',
                 'createdAt',
                 'updatedAt',
-                `type`, 
+                `type`,
                 `pen_id`,
                 `collection_id`,
                 `user_id`,
@@ -115,7 +119,7 @@ async function _getAllCommentOfCollection(collection_id) {
                 'comment',
                 'createdAt',
                 'updatedAt',
-                `type`, 
+                `type`,
                 `pen_id`,
                 `collection_id`,
                 `user_id`,
@@ -131,11 +135,11 @@ async function _getAllCommentOfCollection(collection_id) {
 
         return comments;
     } catch (error) {
-       throw error
+        throw error
     }
 }
 
-async function getAllComment(req, res) {
+async function getAllCommentByID(req, res) {
     const id = req.query.id;
     const type = req.query.type;
 
@@ -145,7 +149,7 @@ async function getAllComment(req, res) {
             x = await _getAllCommentOfPen(id);
         } else if (type == "collection") {
             x = await _getAllCommentOfCollection(id);
-        } 
+        }
         res.status(201).json(x);
     } catch (error) {
         console.log(error);
@@ -167,7 +171,7 @@ async function _setCommentReplyOfCollection(collection_id, user_id, comment, rep
         return newComment;
 
     } catch (error) {
-       throw error
+        throw error
     }
 }
 
@@ -185,7 +189,7 @@ async function _setCommentReplyOfPen(pen_id, user_id, comment, reply = null) {
         return newComment;
 
     } catch (error) {
-       throw error
+        throw error
     }
 }
 
@@ -193,14 +197,14 @@ async function createComment(req, res) {
     const id = req.query.id;
     const user_id = req.query.user_id;
     const comment = req.query.comment;
-    const reply = req.query.reply == 'null'? null: req.query.reply;
+    const reply = req.query.reply == 'null' ? null : req.query.reply;
     const type = req.query.type;
 
     let x = false;
 
     console.log(req.query)
 
-    if(comment == '') {
+    if (comment == '') {
         res.status(500).json(x);
     }
 
@@ -209,7 +213,7 @@ async function createComment(req, res) {
             x = await _setCommentReplyOfPen(id, user_id, comment, reply);
         } else if (type == "collection") {
             x = await _setCommentReplyOfCollection(id, user_id, comment, reply);
-        } 
+        }
 
         res.status(201).json(x);
     } catch (error) {
@@ -230,9 +234,9 @@ async function _updatecomment(comment_id, updatedCommentText) {
         );
 
         if (updatedComment[0] > 0) {
-            return {code: 200, success: true}
+            return { code: 200, success: true }
         } else {
-            return {code: 404, success: false}
+            return { code: 404, success: false }
         }
     } catch (error) {
         console.error(error);
@@ -280,8 +284,59 @@ async function deleteComment(req, res) {
     }
 }
 
+async function getAllComment(req, res) {
+    let attr_sort = req.query.attr_sort
+    let order_by = req.query.order_by;
+    const deleted = req.query.deleted == '' ? false : (req.query.deleted == "true" ? true : false);
+
+    if (attr_sort == 'pen' ) {
+        order_by = 'DESC'
+        attr_sort = 'type'
+    } else if (attr_sort == 'collection') {
+        order_by = 'ASC'
+        attr_sort = 'type'
+    }
+
+    try {
+        let comments = await Comment.findAll({
+            attributes: {
+                include: [
+                    [Sequelize.literal('(SELECT user_name FROM user WHERE user.user_id = comment_table.user_id)'), 'user_name'],
+                ],
+            },
+            include: [
+                {
+                    model: Pen,
+                    attributes: ['name'],
+                    required: false,
+                },
+                {
+                    model: Collection,
+                    attributes: ['name'],
+                    required: false,
+                },
+            ],
+            where: { deleted: deleted },
+            order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
+        });
+
+        comments = comments.map(comment => ({
+            ...comment.toJSON(),
+            name: (comment.pen == null? (comment.collection.name == null? "Untitled": comment.collection.name): (comment.pen.name == null? "Untitled": comment.pen.name)),
+            createdAt: _formatDateString(comment.createdAt),
+            updatedAt: _formatDateString(comment.updatedAt),
+        }));
+
+        res.status(200).json(comments);
+    } catch (error) {
+        console.log("chan gai 808", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 module.exports = {
     createComment,
+    getAllCommentByID,
     getAllComment,
     deleteComment,
     editComment,

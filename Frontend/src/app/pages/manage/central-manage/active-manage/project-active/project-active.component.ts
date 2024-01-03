@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./project-active.component.scss']
 })
 export class ProjectActiveComponent {
-
+  order_by: string = 'asc';
+  attr_sort: string = '';
 }

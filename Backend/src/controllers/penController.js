@@ -12,6 +12,7 @@ import CollectionPen from "../models/collection_pen";
 import followController, { getFollowByUserID } from './followControler';
 import { _getViewByPen } from './viewController';
 import { _getLikeByuserID } from "./likeController";
+import { _formatDateString } from "./userController";
 
 
 async function savePen(req, res) {
@@ -206,7 +207,7 @@ async function _getPenStatusByUserID(user_id, status) {
 async function getPenByUserSort(req, res) {
   const { user_id, sortby } = req.query;
 
-  console.log(req.query)
+  // console.log(req.query)
 
   try {
     if (sortby == 'private' || sortby == 'public') {
@@ -435,6 +436,37 @@ async function getPenByUserIdFullOption(req, res) {
   }
 }
 
+async function getAllPen(req, res) {
+  const attr_sort = req.query.attr_sort
+  const order_by = req.query.order_by;
+  const deleted = req.query.deleted == ''? false: (req.query.deleted == "true"? true: false);
+
+  try {
+    let pens = await Pen.findAll({
+      attributes: {
+        exclude: ['password', 'html_code', 'js_code', 'css_code', 'type_css'],
+        include: [
+          [Sequelize.literal('(SELECT user_name FROM user WHERE user_id = pen.user_id)'), 'user_name'],
+        ],
+      },
+      where: {deleted: deleted},
+      order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
+    });
+
+    pens = pens.map(pen => ({
+      ...pen.toJSON(),
+      id: pen.pen_id,
+      name: (pen.name == null ? "Untitled": pen.name),
+      createdAt: _formatDateString(pen.createdAt),
+      updatedAt: _formatDateString(pen.updatedAt),
+    }));
+    
+    res.status(200).json(pens);
+  } catch (error) {
+    console.log("chan gai 808", error);
+  }
+}
+
 async function checkPenStatus(req, res) {
   const penId = req.query.pen_id;
 
@@ -451,6 +483,7 @@ async function checkPenStatus(req, res) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
+
 
 async function togglePenStatus(req, res) {
   const { pen_id } = req.body;
@@ -485,6 +518,8 @@ module.exports = {
   _getPenByUser,
   getPenByUserSort,
   getPenByUserIdFullOption,
+
+  getAllPen,
   checkPenStatus,
   togglePenStatus,
 };
