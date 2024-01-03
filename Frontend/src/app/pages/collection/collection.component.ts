@@ -2,7 +2,7 @@ import { Component, OnInit, Input, AfterViewInit, HostListener } from '@angular/
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-
+import { Router } from '@angular/router';
 import { HostService } from 'src/app/host.service';
 import { FullOptionControlItemService } from 'src/app/services/full-option-control-item.service';
 import axios from 'axios';
@@ -51,6 +51,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private myService: HostService,
     private fullOptionControlItemService: FullOptionControlItemService,
+    private router: Router,
   ) { }
 
 
@@ -65,7 +66,6 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   hasInformationPen = false;
   followed = false;
   onClickInformationPen() {
-    // this.loadPinAndFollow();
     var x = document.getElementsByClassName("list-items");
     if (x != null) {
       for (let i = 0; i < x.length; i++) {
@@ -104,14 +104,21 @@ export class CollectionComponent implements OnInit, AfterViewInit {
         console.error('Error fetching user information and collection:', error);
       }
     );
+    const checkStatusUrl = this.myService.getApiHost() + `/your-work/collections/checkStatus?collection_id=${this.currentCollectionID}`;
 
+    axios.get(checkStatusUrl)
+      .then((response) => {
+        this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
+      })
+      .catch((error) => {
+        console.error('Error checking collection status:', error);
+      });
   }
 
   private getPensInCollection(collectionId: number): void {
     this.http.get(this.myService.getApiHost() + `/your-work/collections/${collectionId}/pens`).subscribe(
       (response: any) => {
         this.pen_ids = response.pen_ids || [];
-        // console.log(this.pen_ids);
         this.collectionName = response.collectionName;
 
         for (let i = 0; i < this.pen_ids.length; i++) {
@@ -133,17 +140,13 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.fullOptionControlItemService.currentMessageSortBy.subscribe(message => {
       if (message) {
-        // console.log("sortBy " + message)
         this.sortBy = message;
-        // console.log("123", this.pen_ids)
         this.pen_ids = this.sortByOptions();
-        // console.log("1234", this.pen_ids)
       }
     });
 
     this.fullOptionControlItemService.currentMessageSortDirection.subscribe(message => {
       if (message) {
-        // console.log("sortDirection " + message)
         this.sortDirection = message;
         this.pen_ids = this.sortByOptions();
       }
@@ -151,7 +154,6 @@ export class CollectionComponent implements OnInit, AfterViewInit {
 
     this.fullOptionControlItemService.currentMessageSearchFor.subscribe(message => {
       if (message) {
-        // console.log("searchFor " + message)
 
         if (message === "qwertyuiop") {
           message = ""
@@ -164,7 +166,6 @@ export class CollectionComponent implements OnInit, AfterViewInit {
 
     this.fullOptionControlItemService.currentMessageSelectPublicPrivate.subscribe(message => {
       if (message) {
-        // console.log("publicPrivate " + message)
         this.publicPrivate = message;
         this.pen_ids = this.sortByOptions();
       }
@@ -178,10 +179,8 @@ export class CollectionComponent implements OnInit, AfterViewInit {
       }
       return pen.name.toLowerCase().includes(this.searchFor.toLowerCase())
     });
-    // console.log("after searchFor", pen_full_searchFor)
 
     if (this.sortBy === 'date_created') {
-      // "2023-11-18T09:46:39.000Z" -> is date format
       pen_full_searchFor.sort((a: { createdAt: string; }, b: { createdAt: string; }) => {
         let dateA = new Date(a.createdAt);
         let dateB = new Date(b.createdAt);
@@ -202,14 +201,12 @@ export class CollectionComponent implements OnInit, AfterViewInit {
         }
       });
     }
-    // console.log("after sort", pen_full_searchFor)
     if (this.publicPrivate === 'public') {
       pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "public");
     }
     if (this.publicPrivate === 'private') {
       pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "private");
     }
-    // console.log("after publicPrivate", pen_full_searchFor)
     return pen_full_searchFor.map((pen: { pen_id: any; }) => pen.pen_id);
   }
 
@@ -253,7 +250,45 @@ export class CollectionComponent implements OnInit, AfterViewInit {
     );
   }
 
+  handleDeleteClick() {
+    const confirmed = confirm("Are you sure you want to delete this collection?");
+    if (confirmed) {
+      const url = this.myService.getApiHost() + `/your-work/collections/removeCollection`;
 
+      const data = {
+        collection_id: this.currentCollectionID,
+        delete: true
+      };
+
+      axios.post(url, data)
+        .then(response => {
+          console.log(response);
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([this.router.url]);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  }
+
+  
+  // Function to handle the "Make Private/Make Public" button click
+  handleToggleStatusClick() {
+    const toggleStatusUrl = this.myService.getApiHost() + `/your-work/collections/toggleStatus`;
+
+    axios.post(toggleStatusUrl, { collection_id: this.currentCollectionID})
+      .then((response) => {
+        this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([this.router.url]);
+      })
+      .catch((error) => {
+        console.error('Error toggling collection status:', error);
+      });
+  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
@@ -268,19 +303,6 @@ export class CollectionComponent implements OnInit, AfterViewInit {
         }
       }
     }
-
-    // if (this.hasListCollectionAdd == true) {
-    //   var x = document.getElementsByClassName("list-collection-add");
-    //   if (x != null) {
-    //     for (let i = 0; i < x.length; i++) {
-    //       if (x.item(i)!.classList.contains("show")) {
-    //         x.item(i)!.classList.remove("show");
-    //         this.hasListCollectionAdd = false;
-    //       }
-    //     }
-    //   }
-    
-
 
   }
 }

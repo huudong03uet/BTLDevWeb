@@ -270,7 +270,7 @@ export class ContentGridCodeFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url =  this.myService.getApiHost() + `/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url =  this.myService.getApiHost() + `/grid/handlePin?id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url)
       .then((response) => {
@@ -320,6 +320,9 @@ export class ContentGridCodeFullInfComponent implements OnInit {
       axios.post(url, data)
         .then(response => {
           console.log(response);
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([this.router.url]);
         })
         .catch(error => {
           console.error('Error:', error);

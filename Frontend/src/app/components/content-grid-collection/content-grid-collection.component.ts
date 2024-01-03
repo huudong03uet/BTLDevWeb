@@ -170,7 +170,7 @@ export class ContentGridCollectionComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url = this.myService.getApiHost() + `/grid/handlePin?collection_id=${this.collection_id}&user_id=${this.userData.getUserData()?.user_id}&type=collection`;
+    const url = this.myService.getApiHost() + `/grid/handlePin?id=${this.collection_id}&user_id=${this.userData.getUserData()?.user_id}&type=collection`;
     console.log("url: ", url)
     axios.get(url)
       .then((response) => {

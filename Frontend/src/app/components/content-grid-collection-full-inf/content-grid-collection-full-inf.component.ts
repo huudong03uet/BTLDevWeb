@@ -150,7 +150,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url = this.myService.getApiHost() + `/grid/handlePin?collection_id=${this.collection_id}&user_id=${this.userData.getUserData()?.user_id}&type=collection`;
+    const url = this.myService.getApiHost() + `/grid/handlePin?id=${this.collection_id}&user_id=${this.userData.getUserData()?.user_id}&type=collection`;
     // console.log("url: ", url)
     axios.get(url)
       .then((response) => {
@@ -163,8 +163,6 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
       });
 
   }
-
-
 
   user_name = "hihihi"
   informationPen = [
@@ -230,6 +228,9 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
       axios.post(url, data)
         .then(response => {
           console.log(response);
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([this.router.url]);
         })
         .catch(error => {
           console.error('Error:', error);
