@@ -1,0 +1,48 @@
+.pens-all {
+    font-size: 14px;
+    // color: #9596A4;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    color: #9596A4;
+
+    .header-pens {
+        font-size: 1.1rem;
+        margin: 0px 10px 10px 10px;
+    }
+
+    .links-pens {
+        padding: 3px 14px 5px 0;
+        display: inline-block;
+        text-align: center;
+        
+        &.active{
+            // color: rgb(250, 137, 156);
+            color: white;
+            // text-decoration: underline;
+        }
+        &:hover {
+            // color: rgb(250, 137, 156);
+            color: white;
+            // text-decoration: underline;
+        }
+    }
+
+    .links-pens.active {
+        text-decoration: none;
+        &.active{
+            // color: rgb(250, 137, 156);
+            text-decoration: none;
+        }
+        &:hover {
+            // color: rgb(250, 137, 156);
+            text-decoration: none;
+        }
+    }
+
+
+    .infor-pens {
+        width: 100%;
+        background-color: #131417;
+    }
+}

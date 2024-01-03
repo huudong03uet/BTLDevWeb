@@ -3,14 +3,13 @@ import { Params, Router } from '@angular/router';
 import { HostService } from 'src/app/host.service';
 
 @Component({
-  selector: 'app-central-profile',
-  templateUrl: './central-profile.component.html',
-  styleUrls: ['./central-profile.component.scss']
+  selector: 'app-central-manage',
+  templateUrl: './central-manage.component.html',
+  styleUrls: ['./central-manage.component.scss']
 })
-export class CentralProfileComponent {
-  showPens = true;
-  showCollections = false;
-  showProjects = false;
+export class CentralManageComponent {
+  showActive = true;
+  showDeleted = false;
   // constructor(
   //   private route: ActivatedRoute
   // ) {}
@@ -37,15 +36,11 @@ export class CentralProfileComponent {
   
   navigateToPens() {
     // console.log('profile')
-    this.router.navigate(['/profile/pens']);
+    this.router.navigate(['/manage/active']);
   }
 
   navigateToCollections() {
-    this.router.navigate(['/profile/collections']);
-  }
-
-  navigateToProjects() {
-    this.router.navigate(['/profile/projects']);
+    this.router.navigate(['/manage/deleted']);
   }
 
   
@@ -60,11 +55,11 @@ export class CentralProfileComponent {
       //  currentURL = this.myService.getWebHost() + /settings/account
       var check_currentURL = this.currentURL.split('/')[4]
       if (link.classList.contains(check_currentURL)) {
-        link.classList.add('active');
-        span.classList.add('active');
+        link.classList.add('actived');
+        span.classList.add('actived');
         link.appendChild(span);
       } else {
-        link.classList.remove('active');
+        link.classList.remove('actived');
         //  remove span
         const spanToRemove = link.querySelector('span');
         if (spanToRemove !== null) {

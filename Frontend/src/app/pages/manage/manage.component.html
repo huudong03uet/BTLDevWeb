@@ -1,1 +1,28 @@
-<p>manage works!</p>
+<!--  file này để + các component với nhau (sidebar, search, body-home, following-center, footer) -->
+
+<div class="full-page">
+    <div class="app-sidebar-component">
+        <app-sidebar class="app-side-bar-container"></app-sidebar>
+    </div>
+    <div class="right-content">
+        <div class="app-search-component">
+            <app-header></app-header>
+        </div>
+        <div class="center-content">
+            <div class="app-body-home-component">
+                <h2>Manage</h2>
+            </div>
+            <div class="central-profile-component">
+                <!-- <router-outlet></router-outlet> -->
+                <app-central-manage></app-central-manage>
+            </div>
+            
+            
+        </div>
+        <div class="app-footer-component">
+            <app-footer></app-footer>
+        </div>
+    </div>
+    
+
+</div>

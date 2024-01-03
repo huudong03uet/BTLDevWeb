@@ -1,0 +1,35 @@
+<div class="center-list-item">
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 10%;">User name</th>
+                <th style="width: 15%;">User email</th>
+                <th style="width: 15%;">Location</th>
+                <th style="width: 20%;">Bio</th>
+                <th style="width: 15%;">Create At</th>
+                <th style="width: 15%;">Update At</th>
+                <th style="text-align: center;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of datas">
+                <td class="title-row"><a [href]="item.link" target="_blank">{{item.title}}</a></td>
+                <td class="gmail-row">{{item.gmail}}</td>
+                <td class="location-row">{{item.location}}</td>
+                <td class="bio-row">{{item.bio}}</td>
+                <td class="created-row">{{item.created}}</td>
+                <td class="last-udpated-row">{{item.lastUpdated}}</td>
+
+
+
+                <td class="action-row">
+                    <!-- 123 -->
+                    <button *ngIf="deleted==false" class="delete-button"> Delete In System </button>
+                    <button *ngIf="deleted==true" class="restore-button"> Restore </button>
+                
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>

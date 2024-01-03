@@ -1,0 +1,34 @@
+<div class="pens-all">
+    <div class="header-pens">
+        <!--   showUser = true;
+  showPen = false;
+  showCollection = false;
+  showProject = false;
+  showComment = false; -->
+        <div class="links-pens users" (click)="showUser = true; showPen = false;
+         showCollection = false; showProject = false; showComment = false; navigateToUsers()">Users</div>
+        <div class="links-pens pens" (click)="showPen = true; showUser = false;
+         showCollection = false; showProject = false; showComment = false; navigateToPens()">Pens</div>
+        <div class="links-pens collections" (click)="showCollection = true; showPen = false;
+         showUser = false; showProject = false; showComment = false; navigateToCollections()">Collections</div>
+        <div class="links-pens projects" (click)="showProject = true; showPen = false;
+         showCollection = false; showUser = false; showComment = false; navigateToProjects()">Projects</div>
+
+        <div class="links-pens comments" (click)="showComment = true; showPen = false;
+            showCollection = false; showUser = false; showProject = false; navigateToComments()">Comments</div>
+
+
+    </div>
+    <div class="infor-pens">
+        <app-user-active *ngIf="showUser"></app-user-active>
+        <app-pen-active *ngIf="showPen"></app-pen-active>
+        <app-collection-active *ngIf="showCollection"></app-collection-active>
+        <app-project-active *ngIf="showProject"></app-project-active>
+        <app-comment-active *ngIf="showComment"></app-comment-active>
+    </div>
+
+
+
+
+
+</div>

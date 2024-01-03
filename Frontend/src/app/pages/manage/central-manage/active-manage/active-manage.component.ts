@@ -1,25 +1,22 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { HostService } from 'src/app/host.service';
-
 @Component({
-  selector: 'app-central-profile',
-  templateUrl: './central-profile.component.html',
-  styleUrls: ['./central-profile.component.scss']
+  selector: 'app-active-manage',
+  templateUrl: './active-manage.component.html',
+  styleUrls: ['./active-manage.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
-export class CentralProfileComponent {
-  showPens = true;
-  showCollections = false;
-  showProjects = false;
-  // constructor(
-  //   private route: ActivatedRoute
-  // ) {}
+export class ActiveManageComponent {
+
+  showUser = true;
+  showPen = false;
+  showCollection = false;
+  showProject = false;
+  showComment = false;
   currentURL = "";
   // constructor(private router: Router) {}
-  constructor(
-    private router: Router,
-    private myService: HostService,
-    ) {
+  constructor(private router: Router, private myService: HostService,) {
     //  print when route changes 
     // this.ngAfterViewChecked();
   }
@@ -34,36 +31,43 @@ export class CentralProfileComponent {
       this.addClassActive();
     }
   }
-  
-  navigateToPens() {
-    // console.log('profile')
-    this.router.navigate(['/profile/pens']);
-  }
+  // navigateToShowcase() {
+  //   this.router.navigate(['/profile/pens/showcase']);
+  // }
 
+  navigateToUsers() {
+    this.router.navigate(['/manage/active/users']);
+  }
+  navigateToPens() {
+    this.router.navigate(['/manage/active/pens']);
+  }
   navigateToCollections() {
-    this.router.navigate(['/profile/collections']);
+    this.router.navigate(['/manage/active/collections']);
   }
 
   navigateToProjects() {
-    this.router.navigate(['/profile/projects']);
+    this.router.navigate(['/manage/active/projects']);
   }
 
-  
-  
-  
+  navigateToComments() {
+    this.router.navigate(['/manage/active/comments']);
+  }
+
   addClassActive() {
-    const links = document.querySelectorAll('.links-centrals');
+    const links = document.querySelectorAll('.links-pens');
     links.forEach(link => {
       const span = document.createElement('span');
 
       // <a class="link-settings account">Account</a>
       //  currentURL = this.myService.getWebHost() + /settings/account
-      var check_currentURL = this.currentURL.split('/')[4]
+      var check_currentURL = this.currentURL.split('/')[5]
       if (link.classList.contains(check_currentURL)) {
+        // console.log('check_currentURLTrue', check_currentURL)
         link.classList.add('active');
         span.classList.add('active');
         link.appendChild(span);
       } else {
+        // console.log('check_currentURLFalse', check_currentURL)
         link.classList.remove('active');
         //  remove span
         const spanToRemove = link.querySelector('span');
