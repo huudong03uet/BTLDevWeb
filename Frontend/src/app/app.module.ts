@@ -96,6 +96,7 @@ import { ContentGridCollectionComponent } from './components/content-grid-collec
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { ListItemGridCollectionComponent } from './components/list-item-grid-collection/list-item-grid-collection.component';
 import { ListItemGridProjectComponent } from './components/list-item-grid-project/list-item-grid-project.component';
+
 import { ManageComponent } from './pages/manage/manage.component';
 import { ActiveManageComponent } from './pages/manage/central-manage/active-manage/active-manage.component';
 import { DeletedManageComponent } from './pages/manage/central-manage/deleted-manage/deleted-manage.component';
@@ -113,6 +114,7 @@ import { CollectionDeletedComponent } from './pages/manage/central-manage/delete
 import { ListPenCollectionProjectSComponent } from './pages/manage/central-manage/components/list-pen-collection-project-s/list-pen-collection-project-s.component';
 import { ListCommentsComponent } from './pages/manage/central-manage/components/list-comments/list-comments.component';
 import { ListUsersComponent } from './pages/manage/central-manage/components/list-users/list-users.component';
+
 @NgModule({
   declarations: [
     AppComponent,
