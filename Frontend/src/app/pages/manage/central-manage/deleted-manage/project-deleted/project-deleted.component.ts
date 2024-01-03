@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./project-deleted.component.scss']
 })
 export class ProjectDeletedComponent {
-
+  order_by: string = 'asc';
+  attr_sort: string = '';
 }

@@ -35,7 +35,7 @@ export class HomeCodeComponent implements OnInit {
           let data = await axios.get(this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${this.penId}&user_id=${this.userData.getUserData()?.user_id}`); 
           // console.log(data)
           this.data = data.data;
-          if(this.data.pen.status === "private") {
+          if(this.data.pen.status === "private" && this.data.pen.user_id != this.userData.getUserData()?.user_id) {
             this.router.navigate(['/**']);
           }
           this.loadPinAndFollow(this.penId);

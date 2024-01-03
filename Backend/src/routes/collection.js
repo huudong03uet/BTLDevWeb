@@ -5,11 +5,17 @@ const likeCollectionController = require('../controllers/likeCollectionControlle
 
 const router = express.Router();
 
-router.post('/collections', collectionController.createOrUpdateCollection);
+
 router.get('/collections/checkStatus', collectionController.checkCollectionStatus);
 router.post('/collections/toggleStatus', collectionController.toggleCollectionStatus);
+
 router.get('/collections/user/:userId', collectionController.getCollectionsByUser);
 router.get('/collections/:collectionId/pens', collectionController.getPensInCollection);
+router.get('/collection/:collection_id/likeCount', likeCollectionController.countLikesForCollection);
+router.get('/collection/:collection_id/likeStatus/:user_id', likeCollectionController.checkUserLikeForCollection);
+router.get('/getAllCollection', collectionController.getAllCollection);
+
+router.post('/collections', collectionController.createOrUpdateCollection);
 router.post('/collections/addPenToCollection', collectionController.addPenToCollection);
 router.post('/collections/addCollectionToCollection', collectionController.addCollectionToCollection);
 router.post('/collections/removePenFromCollection', collectionController.removePenFromCollection); 
@@ -17,8 +23,7 @@ router.post('/collections/removeCollection', collectionController.removeCollecti
 router.post('/collections/restore', collectionController.restoreCollection);
 router.post('/deleted', deletedController.getDeletedCollectionsAndPens); 
 router.post('/deleteCollectionPermanently', deletedController.deleteCollectionPermanently); 
-router.get('/collection/:collection_id/likeCount', likeCollectionController.countLikesForCollection);
-router.get('/collection/:collection_id/likeStatus/:user_id', likeCollectionController.checkUserLikeForCollection);
 router.post('/collection/addLike', likeCollectionController.addLike);
 router.post('/collection/removeLike', likeCollectionController.removeLike);
+
 module.exports = router;

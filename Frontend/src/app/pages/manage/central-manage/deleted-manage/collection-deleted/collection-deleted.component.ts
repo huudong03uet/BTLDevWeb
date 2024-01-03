@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./collection-deleted.component.scss']
 })
 export class CollectionDeletedComponent {
-
+  order_by: string = 'asc';
+  attr_sort: string = '';
 }
