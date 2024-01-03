@@ -25,21 +25,39 @@ export class SearchPageComponent implements OnInit, OnChanges {
       let apiUrl = ''
       if (this.type == 'pen') {
         apiUrl = this.myService.getApiHost() + `/search/pen?q=${search}`
+        axios.get(apiUrl).then((response) => {
+          this.pen_ids = response.data;
+          console.log(this.pen_ids)
+        }).catch((error) => {
+          console.error('Error:', error);
+        });
       } else if (this.type == "collection") {
         apiUrl = this.myService.getApiHost() + `/search/collection?q=${search}`
+        axios.get(apiUrl).then((response) => {
+          this.collection_ids = response.data;
+          console.log(this.collection_ids)
+        }).catch((error) => {
+          console.error('Error:', error);
+        });
       }
 
-      axios.get(apiUrl).then((response) => {
-        this.pen_ids = response.data;
-        console.log(this.pen_ids)
-      }).catch((error) => {
-        console.error('Error:', error);
-      });
+ 
+
     });
 
   }
 
   ngOnInit(): void {
+    let apiUrl = this.myService.getApiHost() + `/search/collection?q=`
+    axios.get(apiUrl).then((response) => {
+      this.collection_ids = response.data;
+      console.log(this.collection_ids)
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+
+
+
     const penButton = document.getElementById('pen-button');
     penButton?.classList.add('active');
   }
