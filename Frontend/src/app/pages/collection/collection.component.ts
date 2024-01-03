@@ -19,7 +19,6 @@ interface CollectionApiResponse {
   styleUrls: ['./collection.component.scss']
 })
 export class CollectionComponent implements OnInit, AfterViewInit {
-
   @Input() currentCollectionID: any;
   user: any = {};
   pen_ids: any[] = [1];
@@ -32,9 +31,6 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   sortDirection: string = 'asc';
   publicPrivate: string = 'all';
 
-
-
-
   constructor(
     private http: HttpClient,
     private userData: UserDataService,
@@ -44,35 +40,24 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    // console.log(this.currentCollectionID);
-
     const user = this.userData.getUserData();
     if (!user) {
       return;
     }
     const userId = user.user_id;
-
-    // Use ActivatedRoute to get the value of collection_id
     this.route.params.subscribe(params => {
       this.currentCollectionID = params['id'];
-
       this.getPensInCollection(this.currentCollectionID);
     });
-
 
     this.http.get<CollectionApiResponse>(this.myService.getApiHost() + `/your-work/collections/user/${userId}`).subscribe(
       (response) => {
         this.user = response.user || {};
         this.userName = this.user.name;
-        // console.log(this.userName);
-      },
-      (error) => {
+      }, (error) => {
         console.error('Error fetching user information and collection:', error);
       }
     );
-
-
-
   }
 
   private getPensInCollection(collectionId: number): void {
@@ -88,21 +73,17 @@ export class CollectionComponent implements OnInit, AfterViewInit {
           axios.get(apiUrl)
             .then((response) => {
               this.pen_full.push(response.data.pen);
-            })
-            .catch((error) => {
+            }).catch((error) => {
               console.error('Error:', error);
             });
         }
-      },
-      (error) => {
+      }, (error) => {
         console.error('Error fetching the list of pens in the collection:', error);
       }
     );
   }
 
   ngAfterViewInit(): void {
-
-
     this.fullOptionControlItemService.currentMessageSortBy.subscribe(message => {
       if (message) {
         console.log("sortBy " + message)
@@ -111,8 +92,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
         this.pen_ids = this.sortByOptions();
         console.log("1234", this.pen_ids)
       }
-    }
-    );
+    });
 
     this.fullOptionControlItemService.currentMessageSortDirection.subscribe(message => {
       if (message) {
@@ -120,8 +100,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
         this.sortDirection = message;
         this.pen_ids = this.sortByOptions();
       }
-    }
-    );
+    });
 
     this.fullOptionControlItemService.currentMessageSearchFor.subscribe(message => {
       if (message) {
@@ -132,11 +111,9 @@ export class CollectionComponent implements OnInit, AfterViewInit {
         }
         this.searchFor = message;
 
-        
         this.pen_ids = this.sortByOptions();
       }
-    }
-    );
+    });
 
     this.fullOptionControlItemService.currentMessageSelectPublicPrivate.subscribe(message => {
       if (message) {
@@ -144,23 +121,19 @@ export class CollectionComponent implements OnInit, AfterViewInit {
         this.publicPrivate = message;
         this.pen_ids = this.sortByOptions();
       }
-    }
-    );
-    
+    });
   }
 
 
 
   sortByOptions() {
-
     let pen_full_searchFor = this.pen_full.filter((pen: { name: any; }) => { 
-      // if name != string, set name = "Chưa đặt tên"
       if (typeof pen.name !== 'string') {
         pen.name = "Chưa đặt tên"
       }
       return pen.name.toLowerCase().includes(this.searchFor.toLowerCase())
     });
-    console.log("after searchFor", pen_full_searchFor)
+    // console.log("after searchFor", pen_full_searchFor)
 
     if (this.sortBy === 'date_created') {
       // "2023-11-18T09:46:39.000Z" -> is date format
@@ -172,8 +145,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
         } else {
           return dateB.getTime() - dateA.getTime();
         }
-      }
-      );
+      });
     } else if (this.sortBy === 'date_updated') {
       pen_full_searchFor.sort((a: { updatedAt: string; }, b: { updatedAt: string; }) => {
         let dateA = new Date(a.updatedAt);
@@ -185,14 +157,14 @@ export class CollectionComponent implements OnInit, AfterViewInit {
         }
       });
     }
-    console.log("after sort", pen_full_searchFor)
+    // console.log("after sort", pen_full_searchFor)
     if (this.publicPrivate === 'public') {
       pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "public");
     }
     if (this.publicPrivate === 'private') {
       pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "private");
     }
-    console.log("after publicPrivate", pen_full_searchFor)
+    // console.log("after publicPrivate", pen_full_searchFor)
     return pen_full_searchFor.map((pen: { pen_id: any; }) => pen.pen_id);
   }
 

@@ -96,6 +96,7 @@ import { ContentGridCollectionComponent } from './components/content-grid-collec
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { ListItemGridCollectionComponent } from './components/list-item-grid-collection/list-item-grid-collection.component';
 import { ListItemGridProjectComponent } from './components/list-item-grid-project/list-item-grid-project.component';
+
 @NgModule({
   declarations: [
     AppComponent,

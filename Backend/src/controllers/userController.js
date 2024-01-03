@@ -4,7 +4,6 @@ import followController from './followControler';
 import User from '../models/user';
 import Follow from '../models/followTable';
 
-// Add the missing function
 async function getFollowByUserID(user_id) {
   try {
     const getUser = await Follow.findAll({

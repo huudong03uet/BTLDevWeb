@@ -33,7 +33,7 @@ export class ListItemGridCollectionFullInfComponent {
     const validEndIndex = Math.min(endIndex, this.collections.length);
     
     this.collection_ids_current = this.collections.slice(startIndex, validEndIndex);
-    console.log("error eorro", this.collection_ids_current)
+    // console.log("error eorro", this.collection_ids_current)
     //  = collectionsForCurrentPage;
     // console.log("error eorro", this.collections)
     this.check_is_start_end();
