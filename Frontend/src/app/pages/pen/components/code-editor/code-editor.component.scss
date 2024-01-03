@@ -9,6 +9,7 @@
 #main-section {
     display: flex;
     flex-direction: column;
+    height: 660px;
 }
 
 .editor-field, .output-field {
@@ -17,14 +18,27 @@
 
 .input-section, .output-section {
     display: flex;
-    height: 46%;
-    overflow: auto;
+    height: 50%;
+    // overflow: auto;
+    min-height: 200px;
 }
 
 .input-section {
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+.output-section {
+    display: block;
+    .project-resizer-horizontal {
+        height: 10px;
+        background-color: #444857;
+        width: 100%;
+    }
+    .horizontal:hover {
+        cursor: n-resize;
+      }
 }
 
 .editor-field {
@@ -89,8 +103,8 @@ iframe {
     background: #fff;
     border: none;
     width: 100%;
-    // height: 100%;
-    min-height: 300px;
+    height: 100%;
+    // min-height: 200px;
 }
 
 .clear-btn {
