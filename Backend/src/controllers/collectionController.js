@@ -122,7 +122,8 @@ async function removePenFromCollection(req, res) {
 
     await penInCollection.destroy();
 
-    if (penInCollection.pen.deleted) {
+    // Check if penInCollection.pen is defined before accessing its properties
+    if (penInCollection.pen && penInCollection.pen.deleted) {
       await CollectionPen.destroy({ where: { pen_id: pen_id } });
     }
 
@@ -132,6 +133,7 @@ async function removePenFromCollection(req, res) {
     res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa pen khỏi collection' });
   }
 }
+
 
 async function removeCollection(req, res) {
   try {

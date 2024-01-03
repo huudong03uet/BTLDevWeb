@@ -45,15 +45,18 @@ async function getDeletedCollectionsAndPens(req, res) {
 async function deletePenPermanently(req, res) {
   try {
     const { pen_id } = req.body;
-    console.log(pen_id);
-    // Check if the pen with the specified ID and deleted=true exists
     const pen = await Pen.findOne({ where: { pen_id, deleted: true } });
 
     if (!pen) {
       return res.status(404).json({ code: 404, message: 'Không tìm thấy pen hoặc pen chưa bị xóa' });
     }
 
-    // Permanently delete the pen
+   const isReferencedInViewTable = await ViewTable.findOne({ where: { pen_id } });
+
+    if (isReferencedInViewTable) {
+      return res.status(400).json({ code: 400, message: 'Pen is still referenced in view_table' });
+    }
+
     await pen.destroy();
 
     return res.status(200).json({ code: 200, message: 'Pen deleted permanently successfully' });
@@ -62,6 +65,7 @@ async function deletePenPermanently(req, res) {
     res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa pen' });
   }
 }
+
 
 
 async function deleteCollectionPermanently(req, res) {
