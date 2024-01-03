@@ -16,18 +16,38 @@ function _calculateTimeAgo(time) {
     const year = Math.floor(month / 12);
 
     if (year > 0) {
-        return `${year} nam`;
+        if (year == 1) {
+            return `${year} year ago`;
+        }
+        return `${year} years ago`;
     } else if (month > 0) {
-        return `${month} thang`;
+        if (month == 1) {
+            return `${month} month ago`;
+        }
+        return `${month} months ago`;
+
     } else if (week > 0) {
-        return `${week} tuan`;
+        if (week == 1) {
+            return `${week} week ago`;
+        }
+        return `${week} weeks ago`;
     } else if (days > 0) {
-        return `${days} ngay`;
+        if (days == 1) {
+            return `${days} day ago`;
+        }
+        return `${days} days ago`;
     } else if (hours > 0) {
-        return `${hours} gio`;
+        if (hours == 1) {
+            return `${hours} hour ago`;
+        }
+        return `${hours} hours ago`;
     } else if (minutes > 0) {
-        return `${minutes} phut`;
+        if (minutes == 1) {
+            return `${minutes} minute ago`;
+        }
+        return `${minutes} minutes ago`;
     } else {
+        
         return 'Just now';
     }
 }
