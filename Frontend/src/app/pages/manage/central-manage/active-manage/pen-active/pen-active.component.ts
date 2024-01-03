@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./pen-active.component.scss']
 })
 export class PenActiveComponent {
-
+  order_by: string = 'asc';
+  attr_sort: string = '';
 }

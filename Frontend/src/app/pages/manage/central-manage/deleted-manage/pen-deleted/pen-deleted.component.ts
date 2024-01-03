@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./pen-deleted.component.scss']
 })
 export class PenDeletedComponent {
-
+  order_by: string = 'asc';
+  attr_sort: string = '';
 }

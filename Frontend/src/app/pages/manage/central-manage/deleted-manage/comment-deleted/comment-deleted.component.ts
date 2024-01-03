@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./comment-deleted.component.scss']
 })
 export class CommentDeletedComponent {
-
+  order_by: string = 'asc';
+  attr_sort: string = '';
 }

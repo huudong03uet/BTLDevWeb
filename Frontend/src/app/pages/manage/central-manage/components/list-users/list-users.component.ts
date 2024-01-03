@@ -1,93 +1,43 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { HostService } from 'src/app/host.service';
+import axios from 'axios';
 
 @Component({
   selector: 'app-list-users',
   templateUrl: './list-users.component.html',
   styleUrls: ['./list-users.component.scss']
 })
-export class ListUsersComponent {
+export class ListUsersComponent implements OnInit {
   @Input() deleted: boolean = false;
+  @Input() attr_sort: string = '';
+  @Input() order_by: string = '';
   
   @Input() datas: any = [
     {
-      "title": "Pen 1",
-      "gmail": "Comment 1",
-      "created": "2021-01-01",
-      "lastUpdated": "2021-01-01",
-      "location": "Ha Noi",
-      "bio": "I am a developer",
-      "link": "https://codepen.io/pen/1"
-    }, {
-      "title": "Pen 2",
-      "created": "2021-01-01",
-      "lastUpdated": "2021-01-01",
-      "gmail": "Comment 1",
-      "location": "Ha Noi",
-      "bio": "I am a developer",
-      "link": "https://codepen.io/pen/2"
-    }, {
-      "title": "Pen 3",
-      "created": "2021-01-01",
-      "lastUpdated": "2021-01-01",
-      "gmail": "Comment 1",
-      "location": "Ha Noi",
-      "bio": "I am a developer",
-      "link": "https://codepen.io/pen/3"
-    }, {
-      "title": "Pen 4",
-      "created": "2021-01-01",
-      "location": "Ha Noi",
-      "bio": "I am a developer",
-      "lastUpdated": "2021-01-01","gmail": "Comment 1",
-      "link": "https://codepen.io/pen/4"
-    }, {
-      "title": "Pen 5",
-      "created": "2021-01-01",
-      "location": "Ha Noi",
-      "bio": "I am a developer",
-      "lastUpdated": "2021-01-01",
-      "gmail": "Comment 1",
-      "link": "https://codepen.io/pen/5"
-    }, {
-      "title": "Pen 6",
-      "created": "2021-01-01",
-      "location": "Ha Noi",
-      "bio": "I am a developer",
-      "lastUpdated": "2021-01-01",
-      "gmail": "Comment 1",
-      "link": "https://codepen.io/pen/6"
-    }, {
-      "title": "Pen 7",
-      "created": "2021-01-01",
-       "location": "Ha Noi",
-      "bio": "I am a developer",
-      "lastUpdated": "2021-01-01",
-      "gmail": "Comment 1",
-      "link": "https://codepen.io/pen/7"
-    }, {
-      "title": "Pen 8",
-      "location": "Ha Noi",
-      "bio": "I am a developer",
-      "created": "2021-01-01",
-      "lastUpdated": "2021-01-01",
-      "gmail": "Comment 1",
-      "link": "https//codepen.io/pen/8"
-    }, {
-      "title": "Pen 9",
-      "created": "2021-01-01",
-      "lastUpdated": "2021-01-01",
-      "location": "Ha Noi",
-      "bio": "I am a developer",
-      "gmail": "Comment 1",
-      "link": "https://codepen.io/pen/9"
-    }, {
-      "title": "Pen 10",
-      "created": "2021-01-01",
-      "location": "Ha Noi",
-      "bio": "I am a developer",
-      "lastUpdated": "2021-01-01",
-      "gmail": "Comment 1",
-      "link": "https://codepen.io/pen/10"
-    }
+      "user_id": 1,
+      "avatar_path": null,
+      "user_name": "User1",
+      "gmail": "user1@gmail.com",
+      "full_name": "em khong biet",
+      "location": "em khong biet",
+      "bio": "em khong biet",
+      "links": null,
+      "createdAt": "2023-09-13T10:35:13.000Z",
+      "updatedAt": "2023-12-30T14:47:50.000Z"
+    },
   ]
+
+  constructor(
+    private myService: HostService,
+  ) {}
+
+  ngOnInit(): void {
+    let apiUrl = this.myService.getApiHost() + `/user/getAlluser?attr_sort=${this.attr_sort}&order_by=${this.order_by}&deleted=${this.deleted}`;
+
+    axios.get(apiUrl).then((response) => {
+      this.datas = response.data;
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+  }
 }

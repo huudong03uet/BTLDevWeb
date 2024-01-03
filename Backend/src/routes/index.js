@@ -18,7 +18,8 @@ function route(app) {
     app.use("/your-work", collectionRouter);
     app.use("/pin", pinRouter);
     app.use("/search", search);
-    app.use("/comment", comment) 
+    app.use("/comment", comment);
+    app.use("/collection", collectionRouter); // cai nay DAT them thoi con collection o your-work
 }
 
 module.exports = route;

@@ -12,9 +12,9 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of datas">
-                <td class="title-row"><a [href]="item.link" target="_blank">{{item.title}}</a></td>
-                <td class="created-row">{{item.created}}</td>
-                <td class="last-udpated-row">{{item.lastUpdated}}</td>
+                <td class="title-row"><a [href]="item.link" target="_blank">{{item.name}}</a></td>
+                <td class="created-row">{{item.createdAt}}</td>
+                <td class="last-udpated-row">{{item.updatedAt}}</td>
                 <td class="list-stats">
                     <div class="stat-value"><svg viewBox="-2 0 105 92">
                             <path

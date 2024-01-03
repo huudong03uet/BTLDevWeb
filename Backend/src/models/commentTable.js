@@ -19,7 +19,11 @@ const Comment = sequelize.define('comment_table', {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: "pen",
-    }
+    },
+    deleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    }, 
 },
     {
         tableName: 'comment_table',

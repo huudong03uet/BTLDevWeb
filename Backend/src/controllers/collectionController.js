@@ -1,5 +1,9 @@
+const Sequelize = require('sequelize');
+
 const Collection = require('../models/collection');
 const CollectionPen = require('../models/collection_pen');
+
+import { _formatDateString } from "./userController";
 
 async function createOrUpdateCollection(req, res) {
   try {
@@ -177,6 +181,39 @@ async function restoreCollection(req, res) {
   }
 }
 
+async function getAllCollection(req, res) {
+  const attr_sort = req.query.attr_sort
+  const order_by = req.query.order_by;
+  const deleted = req.query.deleted == ''? false: (req.query.deleted == "true"? true: false);
+
+  console.log(req.query)
+
+  try {
+    let collections = await Collection.findAll({
+      attributes: {
+        include: [
+          [Sequelize.literal('(SELECT user_name FROM user WHERE user.user_id = collection.user_id)'), 'user_name'],
+        ],
+      },
+      where: {deleted: deleted},
+      order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
+    });
+
+    collections = collections.map(collection => ({
+      ...collection.toJSON(),
+      id: collection.collection_id,
+      name: (collection.name == null ? "Untitled": collection.name),
+      createdAt: _formatDateString(collection.createdAt),
+      updatedAt: _formatDateString(collection.updatedAt),
+    }));
+    
+    res.status(200).json(collections);
+  } catch (error) {
+    console.log("chan gai 808", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 
 module.exports = {
   createOrUpdateCollection,
@@ -186,4 +223,6 @@ module.exports = {
   removePenFromCollection,
   removeCollection,
   restoreCollection,
+  getAllCollection,
+
 };

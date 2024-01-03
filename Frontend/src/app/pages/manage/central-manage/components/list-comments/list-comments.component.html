@@ -11,10 +11,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of datas">
-                <td class="title-row"><a [href]="item.link" target="_blank">{{item.title}}</a></td>
+                <td class="title-row"><a [href]="item.link" target="_blank">{{item.name}}</a></td>
                 <td class="comment-row">{{item.comment}}</td>
-                <td class="created-row">{{item.created}}</td>
-                <td class="last-udpated-row">{{item.lastUpdated}}</td>
+                <td class="created-row">{{item.createdAt}}</td>
+                <td class="last-udpated-row">{{item.updatedAt}}</td>
 
                 <td class="action-row">
                     <!-- 123 -->
