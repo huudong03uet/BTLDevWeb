@@ -344,7 +344,6 @@ export class FolderTreeComponent {
 
   fileOpen(id_file: any) {
 
-    // console.log("file_open", fileOpen)
     // find fileOpen in datas
     let fileOpen: any = null;
     for (let i = 0; i < this.datas.length; i++) {
@@ -507,45 +506,78 @@ export class FolderTreeComponent {
    * 
    */
   addFile() {
-    if (this.file_selected == undefined || this.file_selected.type != "folder") {
-      return;
+
+    if (this.file_selected == undefined) {
+      // add to root
+      let fileNewOpen: any = {
+        //id random 10000000
+        id: Math.floor(Math.random() * 10000000),
+        title: "new_file.html",
+        type: "html",
+        code: "",
+        children: []
+      }
+      this.datas.push(fileNewOpen);
+
+      this.reRenderTree();
+      this.fileOpen(fileNewOpen.id);
+      this.file_selected = fileNewOpen;
+
     }
 
-    let fileNewOpen: any = {
-      //id random 10000000
-      id: Math.floor(Math.random() * 10000000),
-      title: "new_file.html",
-      type: "html",
-      code: "",
-      children: []
-    }
-    this.datas = this.addFileOrFolder(this.datas, this.file_selected.id, fileNewOpen);
-    this.reRenderTree();
-    this.fileOpen(fileNewOpen.id);
+    else if (this.file_selected.type === "folder") {
 
-    this.file_selected = fileNewOpen;
+
+      let fileNewOpen: any = {
+        //id random 10000000
+        id: Math.floor(Math.random() * 10000000),
+        title: "new_file.html",
+        type: "html",
+        code: "",
+        children: []
+      }
+      this.datas = this.addFileOrFolder(this.datas, this.file_selected.id, fileNewOpen);
+      this.reRenderTree();
+      this.fileOpen(fileNewOpen.id);
+
+      this.file_selected = fileNewOpen;
+    }
   }
+
   addFolder() {
-    if (this.file_selected == undefined || this.file_selected.type != "folder") {
-      return;
+    if (this.file_selected == undefined) {
+      // add to root
+      let folderNewOpen: any = {
+        id: Math.floor(Math.random() * 10000000),
+        title: "new_folder",
+        type: "folder",
+        code: "",
+        children: []
+      }
+      this.datas.push(folderNewOpen);
+
+      this.reRenderTree();
+      this.fileOpen(folderNewOpen.id);
+      this.file_selected = folderNewOpen;
 
     }
 
-    let folderNewOpen: any = {
-      id: Math.floor(Math.random() * 10000000),
-      title: "new_folder",
-      type: "folder",
-      code: "",
-      children: []
+    else if (this.file_selected.type === "folder") {
+      let folderNewOpen: any = {
+        id: Math.floor(Math.random() * 10000000),
+        title: "new_folder",
+        type: "folder",
+        code: "",
+        children: []
+      }
+
+      this.datas = this.addFileOrFolder(this.datas, this.file_selected.id, folderNewOpen);
+      this.reRenderTree();
+      this.fileOpen(folderNewOpen.id);
+
+      this.file_selected = folderNewOpen;
+
     }
-
-    this.datas = this.addFileOrFolder(this.datas, this.file_selected.id, folderNewOpen);
-    this.reRenderTree();
-    this.fileOpen(folderNewOpen.id);
-
-    this.file_selected = folderNewOpen;
-
-
 
   }
   addFileOrFolder(obj: any, id: number, fileOrFolder: any) {
