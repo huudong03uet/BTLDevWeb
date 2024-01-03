@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/cor
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import axios, { AxiosError } from 'axios';
 import { UserDataService } from 'src/app/services/user-data.service';
-
+import { Router } from '@angular/router';
 import { HostService } from 'src/app/host.service';
 
 @Component({
@@ -20,6 +20,7 @@ export class CreateNewCollectionComponent {
     private fb: FormBuilder, 
     private userData: UserDataService,
     private myService: HostService,
+    private router: Router,
   ) 
   {
     this.createForm = this.fb.group({
@@ -64,6 +65,9 @@ export class CreateNewCollectionComponent {
 
         this.createForm.reset();
         this.onCloseCreateNewCollection();
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([this.router.url]);
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
           console.error('Error creating collection:', error);
