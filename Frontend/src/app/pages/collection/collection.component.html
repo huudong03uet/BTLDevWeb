@@ -44,65 +44,6 @@
 
                 </div>
                 <div class="control-module">
-                    <!-- <div class="control-row-module">
-                        <div class="grid-list">
-                            <label>GRID</label>
-                            <span>
-                                <button class="grid-button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-60.741 20.407 74.148 45.778"
-                                        xml:space="preserve" width="19">
-                                        <path
-                                            d="M-47.704 20.407h-8.666a4.332 4.332 0 0 0-4.37 4.37v8.742c0 2.37 1.925 4.37 4.37 4.37h8.74c2.37 0 4.37-1.926 4.37-4.37v-8.741c-.073-2.445-2-4.37-4.444-4.37zM-47.704 48.704h-8.666c-2.37 0-4.37 1.926-4.37 4.37v8.74c0 2.371 1.925 4.371 4.37 4.371h8.74c2.37 0 4.37-1.926 4.37-4.37v-8.74c-.073-2.371-2-4.371-4.444-4.371zM-19.333 20.407h-8.741c-2.37 0-4.37 1.926-4.37 4.37v8.742c0 2.37 1.925 4.37 4.37 4.37h8.74c2.371 0 4.371-1.926 4.371-4.37v-8.741c0-2.445-2-4.37-4.37-4.37zM-19.333 48.704h-8.741c-2.37 0-4.37 1.926-4.37 4.37v8.74c0 2.371 1.925 4.371 4.37 4.371h8.74c2.371 0 4.371-1.926 4.371-4.37v-8.74c0-2.371-2-4.371-4.37-4.371zM8.963 20.407H.296c-2.37 0-4.37 1.926-4.37 4.37v8.742c0 2.37 1.926 4.37 4.37 4.37h8.741c2.37 0 4.37-1.926 4.37-4.37v-8.741c-.074-2.445-2-4.37-4.444-4.37zM8.963 48.704H.296c-2.37 0-4.37 1.926-4.37 4.37v8.74c0 2.371 1.926 4.371 4.37 4.371h8.741c2.37 0 4.37-1.926 4.37-4.37v-8.74c-.074-2.371-2-4.371-4.444-4.371z">
-                                        </path>
-                                    </svg>
-                                </button>
-                                <button class="list-button">
-                                    <svg viewBox="0 0 17 13" xmlns="http://www.w3.org/2000/svg" width="16.5">
-                                        <path
-                                            d="M.5 1a1 1 0 0 1 1-1H16a1 1 0 1 1 0 2H1.5a1 1 0 0 1-1-1ZM.5 6.5a1 1 0 0 1 1-1H16a1 1 0 1 1 0 2H1.5a1 1 0 0 1-1-1ZM.5 12a1 1 0 0 1 1-1H16a1 1 0 1 1 0 2H1.5a1 1 0 0 1-1-1Z">
-                                        </path>
-                                    </svg>
-                                </button>
-                            </span>
-                            <label>LIST</label>
-                        </div>
-                        <div class="sort-by">
-                            <label>
-                                Sort By
-                            </label>
-                            <div class="selection-sort">
-                                <select class="choose-sort" id="collectionSortBy">
-                                    <option value="position">Order</option>
-                                    <option value="dateAddedMostRecent">Date Added (Most Recent)
-
-                                    </option>
-                                    <option value="dateAddedLeastRecent">Date Added (Least Recent)
-
-                                    </option>
-                                    <option value="dateCreatedOldest">Date Created (Oldest)
-
-                                    </option>
-                                    <option value="dateCreatedNewest">Date Created (Newest)
-
-                                    </option>
-                                    <option value="lastUpdatedOldest">Last Updated (Oldest)
-
-                                    </option>
-                                    <option value="lastUpdatedNewest">Last Updated (Newest)
-
-                                    </option>
-                                </select>
-                                <div class="icon-selection">
-                                    <svg viewBox="-122.9 121.1 105.9 61.9">
-                                        <path
-                                            d="m-63.2 180.3 43.5-43.5c1.7-1.7 2.7-4 2.7-6.5s-1-4.8-2.7-6.5c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.7L-69.9 161l-37.2-37.2c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.6c-1.9 1.8-2.8 4.2-2.8 6.6 0 2.3.9 4.6 2.6 6.5 11.4 11.5 41 41.2 43 43.3l.2.2c3.6 3.6 10.3 3.6 13.9 0z">
-
-                                        </path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                     <app-full-option-control-item></app-full-option-control-item>
                 </div>
                 <div class="pen-module">
@@ -113,10 +54,10 @@
                 <div class="comment-module">
                 </div>
             </div>
-            <app-comment-area></app-comment-area>
+            <app-comment-area [id]="currentCollectionID" [type]="'collection'"></app-comment-area>
         </div>
         <div class="app-footer-component">
-            <app-footer></app-footer>
+            <app-footer ></app-footer>
         </div>
     </div>
 </div>

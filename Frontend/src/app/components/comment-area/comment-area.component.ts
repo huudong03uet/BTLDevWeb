@@ -12,7 +12,8 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   data_loved = 234;
   data_view = 19876;
   defaultAvatar: String = "https://i.pravatar.cc/150?img=1";
-  @Input() pen_id: number = 1;
+  @Input() id: number = 1;
+  @Input() type: string = 'pen';
   data_comment = [
     {
       "comment_id": 8,
@@ -48,7 +49,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   }
 
   fetchComments() {
-    let apiUrl = this.myService.getApiHost() + `/comment/get?id=${this.pen_id}&type=pen`;
+    let apiUrl = this.myService.getApiHost() + `/comment/get?id=${this.id}&type=${this.type}`;
 
     axios.get(apiUrl).then((response) => {
       this.data_comment = response.data.map((comment: any) => ({
@@ -66,7 +67,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   }
 
   onSubmit() {
-    let apiUrl = this.myService.getApiHost() + `/comment/create?id=${this.pen_id}&type=pen&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&`;
+    let apiUrl = this.myService.getApiHost() + `/comment/create?id=${this.id}&type=${this.type}&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&`;
 
     axios.post(apiUrl).then((response) => {
       let x = response.data;
@@ -81,7 +82,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   }
 
   editComent() {
-    let apiUrl = this.myService.getApiHost() + `/comment/update?id=${this.pen_id}&type=pen&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&`;
+    let apiUrl = this.myService.getApiHost() + `/comment/update?id=${this.id}&type=${this.type}&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&`;
 
     axios.post(apiUrl).then((response) => {
       let x = response.data;

@@ -86,17 +86,17 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.fullOptionControlItemService.currentMessageSortBy.subscribe(message => {
       if (message) {
-        console.log("sortBy " + message)
+        // console.log("sortBy " + message)
         this.sortBy = message;
-        console.log("123", this.pen_ids)
+        // console.log("123", this.pen_ids)
         this.pen_ids = this.sortByOptions();
-        console.log("1234", this.pen_ids)
+        // console.log("1234", this.pen_ids)
       }
     });
 
     this.fullOptionControlItemService.currentMessageSortDirection.subscribe(message => {
       if (message) {
-        console.log("sortDirection " + message)
+        // console.log("sortDirection " + message)
         this.sortDirection = message;
         this.pen_ids = this.sortByOptions();
       }
@@ -104,7 +104,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
 
     this.fullOptionControlItemService.currentMessageSearchFor.subscribe(message => {
       if (message) {
-        console.log("searchFor " + message)
+        // console.log("searchFor " + message)
 
         if(message === "qwertyuiop"){
           message = ""
@@ -117,7 +117,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
 
     this.fullOptionControlItemService.currentMessageSelectPublicPrivate.subscribe(message => {
       if (message) {
-        console.log("publicPrivate " + message)
+        // console.log("publicPrivate " + message)
         this.publicPrivate = message;
         this.pen_ids = this.sortByOptions();
       }
