@@ -136,9 +136,28 @@ export class ContentGridCollectionComponent implements OnInit {
       }
     );
 
+    const checkStatusUrl = this.myService.getApiHost() + `/your-work/collections/checkStatus?collection_id=${this.collection_id}`;
 
+    axios.get(checkStatusUrl)
+      .then((response) => {
+        this.informationPen[0] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
+      })
+      .catch((error) => {
+        console.error('Error checking collection status:', error);
+      });
+  }
 
+  // Function to handle the "Make Private/Make Public" button click
+  handleToggleStatusClick() {
+    const toggleStatusUrl = this.myService.getApiHost() + `/your-work/collections/toggleStatus`;
 
+    axios.post(toggleStatusUrl, { collection_id: this.collection_id })
+      .then((response) => {
+        this.informationPen[0] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
+      })
+      .catch((error) => {
+        console.error('Error toggling collection status:', error);
+      });
   }
 
 

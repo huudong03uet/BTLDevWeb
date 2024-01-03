@@ -17,11 +17,10 @@ import { HostService } from 'src/app/host.service';
 })
 export class ContentGridCollectionFullInfComponent implements OnInit {
   @Input() collection: any;
-  pen_ids = [1, 2 , 3];
+  pen_ids = [1, 2, 3];
   collectionName: string = "";
   iframeContents: SafeHtml[] = ['', '', '', ''];
   collection_id: any;
-
   data_collection = {
     "like": 0,
     "name": "Chưa đặt tên",
@@ -43,8 +42,8 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   get_data_pen(pen_id: number, index: number) {
     // init data -> data = response.data
     let data_pen: any;
-    const apiUrl =  this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${pen_id}&user_id=null`;
-    
+    const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${pen_id}&user_id=null`;
+
     axios.get(apiUrl)
       .then((response) => {
         data_pen = response.data;
@@ -99,7 +98,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
       return;
     }
     this.collection_id = this.collection.collection_id;
-    const apiUrl =  this.myService.getApiHost() + `/your-work/collections/${this.collection_id}/pens`;
+    const apiUrl = this.myService.getApiHost() + `/your-work/collections/${this.collection_id}/pens`;
 
     this.http.get(apiUrl).subscribe(
       (response: any) => {
@@ -118,9 +117,28 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
         console.error('Error fetching pen_ids:', error);
       }
     );
+    const checkStatusUrl = this.myService.getApiHost() + `/your-work/collections/checkStatus?collection_id=${this.collection_id}`;
 
+    axios.get(checkStatusUrl)
+      .then((response) => {
+        this.informationPen[0] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
+      })
+      .catch((error) => {
+        console.error('Error checking collection status:', error);
+      });
+  }
 
+  // Function to handle the "Make Private/Make Public" button click
+  handleToggleStatusClick() {
+    const toggleStatusUrl = this.myService.getApiHost() + `/your-work/collections/toggleStatus`;
 
+    axios.post(toggleStatusUrl, { collection_id: this.collection_id })
+      .then((response) => {
+        this.informationPen[0] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
+      })
+      .catch((error) => {
+        console.error('Error toggling collection status:', error);
+      });
   }
 
   handlePageClick(): void {
@@ -208,7 +226,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
         collection_id: this.collection_id,
         delete: true
       };
-  
+
       axios.post(url, data)
         .then(response => {
           console.log(response);
