@@ -3,6 +3,8 @@ import penController from "../controllers/penController"
 import deletedController from "../controllers/deletedController"
 const router = express.Router();
 
+
+router.get("/checkStatus", penController.checkPenStatus);
 router.get("/getInfoPen", penController.getInfoPen);
 router.get("/getTrending", penController.getTrending);
 router.get("/getPenByUser/:id", penController.getPenByUser);
@@ -16,5 +18,6 @@ router.post('/getPenById', penController.getPenById);
 router.post("/createOrUpdatePen", penController.createOrUpdatePen);
 router.post("/savePen", penController.savePen);
 router.post('/deletePenPermanently', deletedController.deletePenPermanently); 
+router.post("/toggleStatus", penController.togglePenStatus);
 
 module.exports = router;

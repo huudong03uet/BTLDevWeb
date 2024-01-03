@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HostService } from 'src/app/host.service';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { Router } from '@angular/router';
 
 interface DeletedItem {
   id: number;
@@ -20,7 +21,8 @@ export class YourWorkDeletedComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private myService: HostService,
-    private UserData: UserDataService
+    private UserData: UserDataService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -38,6 +40,9 @@ export class YourWorkDeletedComponent implements OnInit {
       restore: true
     }).subscribe(response => {
       console.log(response);
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate([this.router.url]);
     });
   }
 
@@ -55,6 +60,9 @@ export class YourWorkDeletedComponent implements OnInit {
         response => {
           console.log(response);
           alert('Item deleted permanently successfully!');
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([this.router.url]);
         },
         error => {
           console.error(error);

@@ -98,6 +98,10 @@ export class ListCollectionToAddPenComponent implements OnInit {
       if (response.data.code === 200) {
         console.log('Pen added to collection successfully.');
         alert('Pen added to collection successfully!');
+        // Reload the current route to reflect the changes
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([this.router.url]);
       } else {
         console.error('Error adding pen to collection:', response.data.error);
       }
@@ -114,6 +118,9 @@ export class ListCollectionToAddPenComponent implements OnInit {
       if (response.data.code === 200) {
         console.log('Pen removed from collection successfully.');
         alert('Pen removed from collection successfully!');
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([this.router.url]);
       } else {
         console.error('Error removing pen from collection:', response.data.error);
       }

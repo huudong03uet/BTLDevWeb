@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, HostListener } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
@@ -52,6 +52,38 @@ export class CollectionComponent implements OnInit, AfterViewInit {
     private myService: HostService,
     private fullOptionControlItemService: FullOptionControlItemService,
   ) { }
+
+
+  informationPen = [
+    "Copy to Other Collection",
+    "Make Private",
+    "Delete Collection"
+  ]
+
+  random_number = Math.floor(Math.random() * 100000000);
+
+  hasInformationPen = false;
+  followed = false;
+  onClickInformationPen() {
+    // this.loadPinAndFollow();
+    var x = document.getElementsByClassName("list-items");
+    if (x != null) {
+      for (let i = 0; i < x.length; i++) {
+        if (x.item(i)!.classList.contains(this.random_number.toString())) {
+          if (x.item(i)!.classList.contains("show")) {
+            x.item(i)!.classList.remove("show");
+            this.hasInformationPen = false;
+          } else {
+            x.item(i)!.classList.add("show");
+            this.hasInformationPen = true;
+          }
+
+        } else {
+          x.item(i)!.classList.remove("show");
+        }
+      }
+    }
+  }
 
   ngOnInit(): void {
     const user = this.userData.getUserData();
@@ -219,6 +251,37 @@ export class CollectionComponent implements OnInit, AfterViewInit {
         console.error('Error checking like status:', error);
       }
     );
+  }
+
+
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: any) {
+    if (this.hasInformationPen == true) {
+      var x = document.getElementsByClassName("list-items");
+      if (x != null) {
+        for (let i = 0; i < x.length; i++) {
+          if (x.item(i)!.classList.contains("show")) {
+            x.item(i)!.classList.remove("show");
+            this.hasInformationPen = false;
+          }
+        }
+      }
+    }
+
+    // if (this.hasListCollectionAdd == true) {
+    //   var x = document.getElementsByClassName("list-collection-add");
+    //   if (x != null) {
+    //     for (let i = 0; i < x.length; i++) {
+    //       if (x.item(i)!.classList.contains("show")) {
+    //         x.item(i)!.classList.remove("show");
+    //         this.hasListCollectionAdd = false;
+    //       }
+    //     }
+    //   }
+    
+
+
   }
 }
 

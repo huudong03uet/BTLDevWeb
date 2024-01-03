@@ -282,6 +282,29 @@ let handlePinCollection = async (user_id, collection_id) => {
   }
 }
 
+const isUser1FollowingUser2 = async (user_id_1, user_id_2) => {
+  try {
+    const followRecord = await Follow.findOne({
+      where: {
+        user_id_1: user_id_1,
+        user_id_2: user_id_2,
+      },
+    });
+
+    return followRecord !== null;
+  } catch (error) {
+    console.error('Error checking follow:', error);
+    throw error;
+  }
+};
+
 module.exports = {
-  updateView, handleLike, handlePin, handleFollow, getInfoGrid, handlePinPen, handlePinCollection
+  updateView,
+  handleLike,
+  handlePin,
+  handleFollow,
+  getInfoGrid,
+  handlePinPen,
+  handlePinCollection,
+  isUser1FollowingUser2,
 };

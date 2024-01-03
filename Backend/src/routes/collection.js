@@ -5,6 +5,10 @@ const likeCollectionController = require('../controllers/likeCollectionControlle
 
 const router = express.Router();
 
+
+router.get('/collections/checkStatus', collectionController.checkCollectionStatus);
+router.post('/collections/toggleStatus', collectionController.toggleCollectionStatus);
+
 router.get('/collections/user/:userId', collectionController.getCollectionsByUser);
 router.get('/collections/:collectionId/pens', collectionController.getPensInCollection);
 router.get('/collection/:collection_id/likeCount', likeCollectionController.countLikesForCollection);
@@ -13,6 +17,7 @@ router.get('/getAllCollection', collectionController.getAllCollection);
 
 router.post('/collections', collectionController.createOrUpdateCollection);
 router.post('/collections/addPenToCollection', collectionController.addPenToCollection);
+router.post('/collections/addCollectionToCollection', collectionController.addCollectionToCollection);
 router.post('/collections/removePenFromCollection', collectionController.removePenFromCollection); 
 router.post('/collections/removeCollection', collectionController.removeCollection); 
 router.post('/collections/restore', collectionController.restoreCollection);
