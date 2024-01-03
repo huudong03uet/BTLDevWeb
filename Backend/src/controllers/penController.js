@@ -447,6 +447,9 @@ async function getAllPen(req, res) {
         exclude: ['password', 'html_code', 'js_code', 'css_code', 'type_css'],
         include: [
           [Sequelize.literal('(SELECT user_name FROM user WHERE user_id = pen.user_id)'), 'user_name'],
+          [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE like_table.pen_id = pen.pen_id)'), 'numlike'],
+          [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE view_table.pen_id = pen.pen_id)'), 'numview'],
+          [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.pen_id = pen.pen_id)'), 'numcomment'],
         ],
       },
       where: {deleted: deleted},
