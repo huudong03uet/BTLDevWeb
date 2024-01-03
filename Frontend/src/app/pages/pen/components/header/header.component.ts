@@ -117,7 +117,7 @@ export class PenHeaderComponent implements OnInit {
     if(this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url = this.myService.getApiHost() + `/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url = this.myService.getApiHost() + `/grid/handlePin?id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url)
         .then((response) => {

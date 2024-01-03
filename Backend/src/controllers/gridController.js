@@ -96,7 +96,7 @@ let _handlePinPen = async (user_id, pen_id) => {
 
 let _handlePinCollection = async (user_id, collection_id) => {
   try {
-    const existingPin = await Collection.findOne({
+    const existingPin = await Pin.findOne({
       where: {
         user_id: user_id,
         collection_id: collection_id,
@@ -124,15 +124,15 @@ let _handlePinCollection = async (user_id, collection_id) => {
 
 
 let handlePin = async (req, res) => {
-  const { user_id, pen_id, type } = req.query;
+  const { user_id, id, type } = req.query;
 
   try {
 
     if (type == "pen") {
-      let x = await _handlePinPen(user_id, pen_id);
+      let x = await _handlePinPen(user_id, id);
       res.status(200).json({ pinned: x });
     } else if (type == "collection") {
-      let x = await _handlePinCollection(user_id, pen_id);
+      let x = await _handlePinCollection(user_id, id);
       res.status(200).json({ pinned: x });
     }
   } catch (error) {
