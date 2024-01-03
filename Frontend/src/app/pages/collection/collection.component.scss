@@ -137,6 +137,94 @@
                             &:hover {
                                 background-color: hsl( 228deg 12.2% 40.2% );
                             }
+
+
+                            .three-dot-list {
+                                position: relative;
+                                color: white;
+                                margin-left: auto;
+                                width: 100%;
+                                    height: 100%;
+                                    justify-content: center;
+                                    display: flex;
+                                    align-items: center;
+                                span {
+                                    
+                                  cursor: pointer;
+                                }
+                        
+                        
+                        
+                                .list-items.show {
+                                  transform: translateY(0px);
+                                  opacity: 1;
+                                  visibility: visible;
+                                  position: absolute;
+                                  z-index: 1001;
+                                  top: 60px;
+                                }
+                        
+                                .list-items {
+                                  color: white;
+                                  position: absolute;
+                                  bottom: 30px;
+                                  right: 0px;
+                                  width: max-content;
+                        
+                        
+                                  transform: translateY(-10px);
+                                  opacity: 0;
+                                  visibility: hidden;
+                                  transition: transform 0.15s ease-in-out, opacity 0.15s linear,
+                                    visibility 0s linear;
+                        
+                        
+                                  ul {
+                                    list-style: none;
+                                    margin-bottom: 0px;
+                                    padding: 0.5rem;
+                                    border-radius: 5px;
+                                    background-color: hsl(232.5deg 11.76% 13.33%);
+                                    box-shadow: 0 2px 8px hsl(240deg 9.09% 4.31% / 60%);
+                        
+                                    li {
+                                    
+                                    &:hover {
+                                            background-color: #444857;
+                                    }
+                                    cursor: pointer;
+                                      padding: 0.4rem 0.6rem;
+                                    margin: 0px 3px;
+                                      svg {
+                                        width: 16px;
+                                        height: 16px;
+                                        fill: white;
+                                      }
+                                    }
+                                  }
+                                }
+                                .list-collection-add.show {
+                        
+                                  transform: translateY(0px);
+                                  opacity: 1;
+                                  visibility: visible;
+                                }
+                        
+                                .list-collection-add {
+                                  color: white;
+                                  position: absolute;
+                                  bottom: 30px;
+                                  right: 0px;
+                                  width: max-content;
+                        
+                                  transform: translateY(-10px);
+                                  opacity: 0;
+                                  visibility: hidden;
+                                  transition: transform 0.15s ease-in-out, opacity 0.15s linear,
+                                    visibility 0s linear;
+                        
+                                }
+                              }
                         }
                     }
                 }

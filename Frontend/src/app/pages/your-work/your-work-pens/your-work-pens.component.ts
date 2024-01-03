@@ -54,6 +54,8 @@ export class YourWorkPensComponent {
         }
       });
     }
+    console.log("after sort", pen_full_searchFor)
+
     if (this.publicPrivate === 'public') {
       pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "public");
     }
@@ -91,7 +93,7 @@ export class YourWorkPensComponent {
 
     this.fullOptionControlItemService.currentMessageSortBy.subscribe(message => {
       if (message) {
-        this.sortBy = message;
+        console.log("message", message)
         this.pen_ids = this.sortByOptions();
       }
     }
