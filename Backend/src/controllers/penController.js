@@ -358,8 +358,6 @@ async function getTrending(req, res) {
       return b.count - a.count;
     })
 
-    console.log(mergeArr);
-
     const penIdValues = mergeArr.map((pen) => pen.pen_id);
     res.status(200).json(penIdValues);
   } catch (error) {
@@ -386,7 +384,7 @@ async function getPenByUserIDForFollow(req, res) {
       raw: true,
     });
 
-    // pens = shuffleArray(pens);
+    pens = shuffleArray(pens);
     if (pens.length > 0) {
       pens = pens.slice(0, Math.min(2, pens.length));
       res.status(200).json(pens);
