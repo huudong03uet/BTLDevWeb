@@ -69,6 +69,16 @@ export class ContentGridCodeFullInfComponent implements OnInit {
       .catch((error) => {
         console.error('Error:', error);
       });
+
+      const checkStatusUrl = `${this.myService.getApiHost()}/pen/checkStatus?pen_id=${this.pen_id}`;
+      axios.get(checkStatusUrl)
+        .then((response) => {
+          const penStatus = response.data.status;
+          this.informationPen[2] = penStatus === 'public' ? 'Make Private' : 'Make Public';
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
   }
 
   loadPinAndFollow() {
@@ -87,6 +97,20 @@ export class ContentGridCodeFullInfComponent implements OnInit {
 
   handlePageClick(): void {
     this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
+  }
+  handleToggleStatusClick() {
+    const toggleStatusUrl = `${this.myService.getApiHost()}/pen/toggleStatus`;
+    const requestData = {
+      pen_id: this.pen_id,
+    };
+
+    axios.post(toggleStatusUrl, requestData)
+      .then((response) => {
+        this.informationPen[2] = response.data.pen.status === 'public' ? 'Make Private' : 'Make Public';
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 
   random_number = Math.floor(Math.random() * 100000000);

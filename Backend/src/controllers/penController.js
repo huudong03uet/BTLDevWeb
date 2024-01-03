@@ -435,6 +435,43 @@ async function getPenByUserIdFullOption(req, res) {
   }
 }
 
+async function checkPenStatus(req, res) {
+  const penId = req.query.pen_id;
+
+  try {
+    const pen = await Pen.findByPk(penId, { where: { deleted: false } });
+
+    if (!pen) {
+      return res.status(404).json({ error: 'Pen not found' });
+    }
+
+    return res.status(200).json({ status: pen.status, message: 'Lấy trạng thái pen thành công' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+async function togglePenStatus(req, res) {
+  const { pen_id } = req.body;
+
+  try {
+    const existingPen = await Pen.findOne({ where: { pen_id: pen_id, deleted: false } });
+
+    if (!existingPen) {
+      return res.status(404).json({ code: 404, message: 'Không tìm thấy pen' });
+    }
+
+    // Toggle the status between 'public' and 'private'
+    existingPen.status = existingPen.status === 'public' ? 'private' : 'public';
+    await existingPen.save();
+
+    return res.status(200).json({ code: 200, pen: existingPen, message: 'Chuyển đổi trạng thái pen thành công' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ code: 500, error: 'Lỗi trong quá trình chuyển đổi trạng thái pen' });
+  }
+}
 
 module.exports = {
   createOrUpdatePen,
@@ -448,4 +485,6 @@ module.exports = {
   _getPenByUser,
   getPenByUserSort,
   getPenByUserIdFullOption,
+  checkPenStatus,
+  togglePenStatus,
 };

@@ -5,6 +5,8 @@ const router = express.Router();
 
 router.post('/getPenById', penController.getPenById);
 router.post("/createOrUpdatePen", penController.createOrUpdatePen);
+router.get("/checkStatus", penController.checkPenStatus);
+router.post("/toggleStatus", penController.togglePenStatus);
 router.get("/getInfoPen", penController.getInfoPen);
 router.get("/getTrending", penController.getTrending);
 router.get("/getPenByUser/:id", penController.getPenByUser);
