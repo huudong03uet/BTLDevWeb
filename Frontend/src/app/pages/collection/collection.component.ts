@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HostService } from 'src/app/host.service';
 import { FullOptionControlItemService } from 'src/app/services/full-option-control-item.service';
 import axios from 'axios';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 interface CollectionApiResponse {
   collections?: any[];
@@ -16,7 +17,19 @@ interface CollectionApiResponse {
 @Component({
   selector: 'app-collection',
   templateUrl: './collection.component.html',
-  styleUrls: ['./collection.component.scss']
+  styleUrls: ['./collection.component.scss'],
+  animations: [
+    trigger('likeAnimation', [
+      state('unliked', style({
+        transform: 'scale(1)',
+      })),
+      state('liked', style({
+        transform: 'scale(1.2)',
+        color: '#FF1493'  // Change the color to the one you desire
+      })),
+      transition('unliked <=> liked', animate('300ms ease-in-out')),
+    ]),
+  ],
 })
 export class CollectionComponent implements OnInit, AfterViewInit {
   @Input() currentCollectionID: any;
@@ -25,7 +38,8 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   pen_full: any = [];
   collectionName: string = "em khong biet";
   userName: string = "em khong biet";
-
+  userLikedCollection: boolean = false;
+  likeAnimationState: string = 'unliked';
   searchFor: string = '';
   sortBy: string = 'date_updated';
   sortDirection: string = 'asc';
@@ -58,17 +72,18 @@ export class CollectionComponent implements OnInit, AfterViewInit {
         console.error('Error fetching user information and collection:', error);
       }
     );
+
   }
 
   private getPensInCollection(collectionId: number): void {
     this.http.get(this.myService.getApiHost() + `/your-work/collections/${collectionId}/pens`).subscribe(
       (response: any) => {
-        this.pen_ids = response.pen_ids || []; 
+        this.pen_ids = response.pen_ids || [];
         // console.log(this.pen_ids);
         this.collectionName = response.collectionName;
 
         for (let i = 0; i < this.pen_ids.length; i++) {
-      
+
           const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${this.pen_ids[i]}&user_id=${this.userData.getUserData()?.user_id}`;
           axios.get(apiUrl)
             .then((response) => {
@@ -106,7 +121,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
       if (message) {
         console.log("searchFor " + message)
 
-        if(message === "qwertyuiop"){
+        if (message === "qwertyuiop") {
           message = ""
         }
         this.searchFor = message;
@@ -123,8 +138,6 @@ export class CollectionComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
-
 
   sortByOptions() {
     let pen_full_searchFor = this.pen_full.filter((pen: { name: any; }) => { 
@@ -168,5 +181,44 @@ export class CollectionComponent implements OnInit, AfterViewInit {
     return pen_full_searchFor.map((pen: { pen_id: any; }) => pen.pen_id);
   }
 
+  isLiked: boolean = false;
 
+  toggleLike() {
+    const user = this.userData.getUserData();
+    if (!user) {
+      return;
+    }
+    this.isLiked = !this.isLiked;
+    this.likeAnimationState = this.isLiked ? 'liked' : 'unliked';
+    const user_id = user.user_id;
+
+    this.http.get(this.myService.getApiHost() + `/your-work/collection/${this.currentCollectionID}/likeStatus/${user_id}`).subscribe(
+      (response: any) => {
+        this.userLikedCollection = response.userLikedCollection;
+        if (this.userLikedCollection) {
+          this.http.post(this.myService.getApiHost() + `/your-work/collection/removeLike`, { collection_id: this.currentCollectionID, user_id }).subscribe(
+            () => {
+              this.userLikedCollection = false;
+            },
+            (error) => {
+              console.error('Error removing like:', error);
+            }
+          );
+        } else {
+          this.http.post(this.myService.getApiHost() + `/your-work/collection/addLike`, { collection_id: this.currentCollectionID, user_id }).subscribe(
+            () => {
+              this.userLikedCollection = true;
+            },
+            (error) => {
+              console.error('Error adding like:', error);
+            }
+          );
+        }
+      },
+      (error) => {
+        console.error('Error checking like status:', error);
+      }
+    );
+  }
 }
+
