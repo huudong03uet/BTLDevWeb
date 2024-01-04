@@ -47,7 +47,8 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+    this.fetchComments();
+    this.fetchLikesCount();
   }
 
   fetchComments() {
