@@ -19,10 +19,40 @@ export class DetailPenComponent {
   namePen: any;
   iframeContent: SafeHtml | undefined;
 
-  htmlFile = "<div>Hello world</div>"
-  cssFile = "body { background-color: yellow; }"
-  jsFile = "console.log('Hello world!');"
+  htmlFile = "nulls"
+  cssFile = "nulls"
+  jsFile = "nulls"
 
+
+  ngOnInit(): void {
+    const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?user_id=${null}&pen_id=${this.pen_id}`;
+    axios.get(apiUrl)
+      .then((response) => {
+        this.data = response.data;
+        // console.log('vai o:', this.data);
+        this.htmlFile = this.data.pen.html_code;
+        this.cssFile = this.data.pen.css_code;
+        this.jsFile = this.data.pen.js_code;
+        // console.log('vai o:', this.htmlFile);
+
+        this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
+        const iframeContent = `
+        <html>
+          <head>
+            <style>${this.data.pen.css_code}</style>
+          </head>
+          <body>
+            ${this.data.pen.html_code}
+            <script>${this.data.pen.js_code}</script>
+          </body>
+        </html>
+      `;
+        this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
 
 
   constructor(
@@ -30,31 +60,7 @@ export class DetailPenComponent {
     private sanitizer: DomSanitizer,
     private myService: HostService,
   ) { }
-  ngOnInit(): void {
-    
-    // const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen/${this.pen_id}`;
-    // axios.get(apiUrl)
-    //   .then((response) => {
-    //     this.data = response.data;
-    //     // console.log('Data:', this.data);
-    //     this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
-    //     const iframeContent = `
-    //     <html>
-    //       <head>
-    //         <style>${this.data.pen.css_code}</style>
-    //       </head>
-    //       <body>
-    //         ${this.data.pen.html_code}
-    //         <script>${this.data.pen.js_code}</script>
-    //       </body>
-    //     </html>
-    //   `;
-    //     this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //   });
-  }
+
 
   handlePageClick(): void {
     // console.log(`/pen/${this.pen_id}`);
