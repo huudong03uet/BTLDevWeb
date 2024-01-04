@@ -56,14 +56,17 @@
                         <i class="fas fa-heart" [style.color]="data?.liked ? 'red' : 'white'"></i>
                     </a>
                 </li>
+
                 <li class="save" *ngIf="user"><a (click)="toggleSave()"><i class="fas fa-cloud"></i> Save</a></li>
-                <li class="settings" *ngIf="user"><a><i class="fas fa-gear"></i> Settings</a></li>
+                <!-- <li class="settings" *ngIf="user"><a><i class="fas fa-gear"></i> Settings</a></li> -->
+
                 <li class="save" *ngIf="!user"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i>
                         Save</a></li>
-                <li class="settings" *ngIf="!user"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i>
-                        Settings</a></li>
-                <li class="view"><a><i class="fas fa-object-group"></i></a></li>
+                <!-- <li class="settings" *ngIf="!user"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i>Settings</a></li> -->
+
+                <!-- <li class="view"><a><i class="fas fa-object-group"></i></a></li> -->
                 <li class="submenu" (click)="toggleMenu()"><a><i class="fas fa-square-caret-down"></i></a></li>
+
                 <li *ngIf="!user"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
                 <li *ngIf="!user"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
                 <li *ngIf="user"><img style="border-radius: 4px;"
