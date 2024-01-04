@@ -100,6 +100,14 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   }
 
   deleteComent(comment_id: number) {
+    // alert -> confirm
+
+    let userResponse = confirm("Do you want to delete this comment?");
+    if (!userResponse) {
+      return;
+    }
+
+
     let apiUrl = this.myService.getApiHost() + `/comment/delete?comment_id=${comment_id}`;
 
     axios.delete(apiUrl).then((response) => {

@@ -36,7 +36,6 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   user: any = {};
   pen_ids: any[] = [1];
   pen_full: any = [];
-  pen_ids_full: any = [];
   collectionName: string = "Untitled";
   userName: string = "";
   userLikedCollection: boolean = false;
@@ -153,8 +152,6 @@ export class CollectionComponent implements OnInit, AfterViewInit {
           axios.get(apiUrl)
             .then((response) => {
               this.pen_full.push(response.data.pen);
-
-              this.pen_ids_full.push(response.data.pen.pen_id);
             }).catch((error) => {
               console.error('Error:', error);
             });
@@ -381,4 +378,3 @@ export class CollectionComponent implements OnInit, AfterViewInit {
     }
   }
 }
-
