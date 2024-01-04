@@ -1,0 +1,39 @@
+<div>
+    <section id="header">
+        <div class="left">
+            <a href="/following">
+                <h2 class="logo"  href="/following"><i class="fa-brands fa-codepen" style="color: #ffffff;"></i></h2>
+    
+                </a>
+            <!-- <h2 class="logo"><i class="fa-brands fa-codepen" style="color: #ffffff;"></i></h2> -->
+            <div class="project-details">
+                <h4 class="title" *ngIf="!isEditingTitle">
+                    {{ projectTitle }}
+                    <i class="fa-solid fa-pencil" style="color: #ffffff; cursor: pointer;"
+                        (click)="startEditingTitle()"></i>
+                </h4>
+                <input #projectTitleInput *ngIf="isEditingTitle" [(ngModel)]="projectTitle" class="project-title-input"
+                    (blur)="stopEditingTitle()" />
+                <p>Captain Anonymous</p>
+            </div>
+        </div>
+        <div class="right">
+            <ul>
+                <li class="save" *ngIf="isLoggedIn"><a (click)="toggleSave()"><i class="fas fa-cloud"></i> Save</a></li>
+                <li class="settings" *ngIf="isLoggedIn"><a><i class="fas fa-gear"></i> Settings</a></li>
+                <li class="save" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i> Save</a></li>
+                <li class="settings" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i> Settings</a></li>
+                <li class="view"><a><i class="fas fa-object-group"></i></a></li>
+                <li class="submenu" (click)="toggleMenu()"><a><i class="fas fa-square-caret-down"></i></a></li>
+                <li *ngIf="!isLoggedIn"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
+                <li *ngIf="!isLoggedIn"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
+                <li *ngIf="isLoggedIn"><img src="https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=36&height=36" alt="User Avatar"></li>
+            </ul>
+        </div>
+        <ul class="mobile-menu" [style.right]="isMenuOpen ? '75px' : '-400px'" id="side-menu">
+            <li class="save" (click)="toggleSave()"><a><i class="fa-solid fa-cloud"></i> Save</a></li>
+            <li class="settings"><a><i class="fa-solid fa-gear"></i> Settings</a></li>
+            <i class="fa-solid fa-xmark close" (click)="toggleMenu()"></i>
+        </ul>
+    </section>
+</div>

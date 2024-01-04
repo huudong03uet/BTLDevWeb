@@ -1,0 +1,12 @@
+<div class="code-box-container">
+    <div class="html-field" [hidden]="codeObject === 'html' ? false : true">
+        <textarea #htmlTextarea>{{codecode}}</textarea>
+    </div>
+    <div class="css-field" [hidden]="codeObject === 'css' ? false : true">
+        <textarea #cssTextarea>{{codecode}}</textarea>
+    </div>
+
+    <div class="js-field" [hidden]="codeObject === 'js' ? false : true">
+        <textarea #jsTextarea>{{codecode}}</textarea>
+    </div>
+</div>

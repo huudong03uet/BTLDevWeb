@@ -1,0 +1,56 @@
+.project-footer {
+    font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+    height: 30px;
+    line-height: 1;
+    width: 100%;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+    color: hsl( 233.33deg 9.89% 64.31% );
+    background-color: hsl( 222.86deg 13.73% 20% );
+    border-top: hsl( 227.37deg 12.26% 30.39% ) 1px solid;
+    .footer-right {
+        justify-content: end;
+        button {
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+            position: relative;
+            font-family: inherit;
+            text-shadow: none;
+            line-height: 1.2;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-decoration: none!important;
+            font-weight: 400!important;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 3px 7px;
+            margin: 0 4px 0 0;
+            border-radius: 2px;
+            border: 1px solid transparent;
+            background-color: hsl( 227.37deg 12.26% 30.39% );
+            color: white;
+
+
+            &:hover {
+                background-color: hsl( 228deg 12.2% 40.2% );
+            }
+
+            // click
+            &:active {
+                // xuống dưới 1px
+                transform: translateY(1px);
+            }
+            
+            svg {
+                fill: white;
+                width: 10px;
+                height: 10px;
+                vertical-align: middle;
+            }
+        }
+    }
+}

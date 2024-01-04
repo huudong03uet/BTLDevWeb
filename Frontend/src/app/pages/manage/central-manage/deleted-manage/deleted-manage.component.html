@@ -1,0 +1,37 @@
+<div class="pens-all">
+    <div class="header-pens">
+        <!--   showUser = true;
+  showPen = false;
+  showCollection = false;
+  showProject = false;
+  showComment = false; -->
+        <div class="links-pens users" (click)="showUser = true; showPen = false;
+         showCollection = false; showProject = false; showComment = false; navigateToUsers()">Users</div>
+        <div class="links-pens pens" (click)="showPen = true; showUser = false;
+         showCollection = false; showProject = false; showComment = false; navigateToPens()">Pens</div>
+        <div class="links-pens collections" (click)="showCollection = true; showPen = false;
+         showUser = false; showProject = false; showComment = false; navigateToCollections()">Collections</div>
+        <div class="links-pens projects" (click)="showProject = true; showPen = false;
+         showCollection = false; showUser = false; showComment = false; navigateToProjects()">Projects</div>
+
+        <div class="links-pens comments" (click)="showComment = true; showPen = false;
+            showCollection = false; showUser = false; showProject = false; navigateToComments()">Comments</div>
+
+
+    </div>
+    <!-- <div class="full-option">
+        <app-full-option-control-item></app-full-option-control-item>
+    </div> -->
+    <div class="infor-pens">
+        <app-user-deleted *ngIf="showUser"></app-user-deleted>
+        <app-pen-deleted *ngIf="showPen"></app-pen-deleted>
+        <app-collection-deleted *ngIf="showCollection"></app-collection-deleted>
+        <app-project-deleted *ngIf="showProject"></app-project-deleted>
+        <app-comment-deleted *ngIf="showComment"></app-comment-deleted>
+    </div>
+
+
+
+
+
+</div>

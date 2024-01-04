@@ -1,0 +1,6 @@
+<div style="height: 100vh">
+    <pen-header style="height:8%; display: block;"  *ngIf="data || !penId" [data]="data" (dataChange)="onDataChange($event)" (saveData)="onSaveData()"></pen-header>
+    <app-code-editor style="height: 92%; display: block;" *ngIf="data || !penId" [data]="data" (dataChange)="onDataChange($event)"></app-code-editor>
+    
+</div>
+

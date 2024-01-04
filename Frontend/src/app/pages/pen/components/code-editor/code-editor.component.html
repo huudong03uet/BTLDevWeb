@@ -1,0 +1,54 @@
+<div class="body" style="height:100%;">
+    <section id="main-section" style="height: 99%;">
+        <div class="input-section" #box1 style="height: 50%;">
+            <div class="editor-field html-field" style="height: 100%; overflow: hidden;">
+                <label><i class="fa-brands fa-html5 fa-lg" style="color: red;"></i> HTML</label>
+                <textarea #htmlTextarea></textarea>
+            </div>
+
+            <div class="editor-field stylesheet-field" style="height: 100%;overflow: hidden;">
+                <div class="stylesheet-header">
+                    <label><i
+                            [ngClass]="stylesheetLanguage === 'css' ? 'fa-brands fa-css3-alt fa-lg' : 'fa-brands fa-sass fa-lg'" style="color:aqua"></i>
+                        {{ stylesheetLanguage.toUpperCase() }}</label>
+                    <select class="stylesheet-select" [(ngModel)]="stylesheetLanguage" (change)="onLanguageChange()">
+                        <option value="css">CSS</option>
+                        <option value="scss">SCSS</option>
+                    </select>
+                </div>
+                <textarea #stylesheetTextarea></textarea>
+            </div>
+
+            <div class="editor-field js-field" style="height: 100%;overflow: hidden;">
+                <label><i class="fa-brands fa-js fa-lg" style="color: yellow;"></i> JS</label>
+                <textarea #jsTextarea></textarea>
+            </div>
+        </div>
+
+        <div class="output-section" #box2 style="height: 50%;">
+            <div class="project-resizer-horizontal resizer horizontal">
+            </div>
+            <div class="output-field" style="height: 95%">
+                <iframe id="output" title="Code Output Display" #outputFrame></iframe>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- nếu làm cái này thì nên để cái này là position: absolute, bottom = 0 -->
+    <!-- <div class="console-box-log">
+        <div class="console-box" *ngIf="showConsole" #consoleBox>
+            <div class="messages-box">
+                <pre *ngFor="let message of consoleMessages">{{ message }}</pre>
+            </div>
+        </div>    
+        
+        <div class="button-console-log-div">
+            <button class="console-button" (click)="toggleConsole()">Console</button>
+    
+        </div>
+        <button *ngIf="showConsole" (click)="clearConsole()" class="clear-btn">Clear Console</button>
+    </div> -->
+   
+
+</div>

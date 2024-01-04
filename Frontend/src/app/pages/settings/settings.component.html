@@ -1,0 +1,39 @@
+<!--  file này để + các component với nhau (sidebar, search, body-home, following-center, footer) -->
+
+<div class="full-page">
+    <div class="app-sidebar-component">
+        <app-sidebar class="app-side-bar-container"></app-sidebar>
+    </div>
+    <div class="right-content">
+        <div class="app-search-component">
+            <app-header></app-header>
+        </div>
+        <div class="center-content">
+            <div class="list-settings">
+                <div class="list-text">
+                    <h1 class="heading-settings-h1">Settings</h1>
+                    <a class="link-settings profile" (click)="navigateToProfile()">
+                        Profile
+                        <!-- <span class="active"></span> -->
+                    </a>
+                    <a class="link-settings account" (click)="navigateToAccount()"
+                    >Account</a>
+                    <!-- <a class="link-settings billing" (click)="navigateToBilling()">Billing</a>
+                
+                    <a class="link-settings notifications" (click)="navigateToNotifications()">Notifications</a>
+                    <a class="link-settings privacy" (click)="navigateToPrivacy()">Privacy</a>
+                    <a class="link-settings editor-preferences" (click)="navigateToEditorPreferences()">Editor Preferences</a>
+                    <a class="link-settings content-preferences" (click)="navigateToContentPreferences()">Content Preferences</a> -->
+                </div>
+            </div>
+            <div class="container-content-center">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <div class="app-footer-component">
+            <app-footer></app-footer>
+        </div>
+    </div>
+    
+
+</div>

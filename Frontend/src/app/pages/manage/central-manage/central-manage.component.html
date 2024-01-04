@@ -1,0 +1,11 @@
+<div class="bar">
+    <div class="navigate">
+        <h2 class="links-centrals active" (click)="showActive = true; showDeleted = false;  navigateToPens()">Active</h2>
+        <h2 class="links-centrals deleted" (click)="showDeleted = true; showActive = false; navigateToCollections()">Deleted</h2>
+    </div>
+
+    <div class="selection">
+        <app-active-manage *ngIf="showActive"></app-active-manage>
+        <app-deleted-manage *ngIf="showDeleted"></app-deleted-manage>
+    </div>
+</div>

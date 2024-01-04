@@ -1,0 +1,157 @@
+<div class="content-container">
+    <!-- Profile Image Section -->
+    <div class="row-section">
+        <div class="content-section">
+            <div class="information-about">
+                <h3 class="header-text">Profile Image</h3>
+            </div>
+            <div class="change-information">
+                <img class="settings-profile-image-avatar"
+                    src="https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&amp;version=0&amp;width=300&amp;height=300"
+                    width="150" height="150">
+                <div class="infor-change-image">
+                    <span class="label-button-text">Upload a New Profile Image</span>
+                    <button class="button-click-settings">Choose File</button>
+                    <div class="notification-image">
+                        <div class="text-italic">Ideal dimensions are 500px x 500px.</div>
+                        <div class="text-italic">Maximum file size is 5mb.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About You Section -->
+    <div class="row-section">
+        <div class="content-section">
+            <div class="information-about">
+                <h3 class="header-text">About You</h3>
+                <div class="text-normal">
+                    Let others know more about you by providing optional information.
+                </div>
+            </div>
+            <div class="change-information" style="display: inline;">
+                <div class="button-and-header-settings">
+                    <div class="header-button">
+                        Display Name
+                    </div>
+                    <input class="input-default-settings" type="text" [(ngModel)]="userData.full_name"
+                        [placeholder]="userData.full_name || 'Display Name'">
+                </div>
+                <div class="button-and-header-settings">
+                    <div class="header-button">
+                        Location
+                    </div>
+                    <input class="input-default-settings" type="text" [(ngModel)]="userData.location"
+                        [placeholder]="userData.location || 'Location'">
+                </div>
+                <div class="button-and-header-settings">
+                    <div class="header-button">
+                      Bio
+                    </div>
+                    <textarea class="input-default-settings" type="text" style="height: 100px;"
+                      [(ngModel)]="userData.bio" [placeholder]="getBioPlaceholder()"
+                      (input)="updateBioCharacterCount()"></textarea>
+                    <small>{{ bioCharacterCount }}/{{ maxBioCharacterLimit }} characters used.</small>
+                  </div>                  
+
+                <button class="button-click-settings" (click)="updateProfile()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Profile Links Section -->
+    <!-- <div class="row-section">
+        <div class="content-section">
+            <div class="information-about">
+                <h3 class="header-text">Profile Links
+                    </h3>
+                <div class="text-normal">
+                    You can add up to three links to your profile. Maybe you’d like to add your portfolio or GitHub profile?
+                </div>
+            </div>
+            <div class="change-information" style="display: inline;">
+                <div class="button-and-header-settings">
+                    <div class="header-button">
+                        Link #1
+                    </div>
+                    <input class="input-default-settings" type="url" id="url" placeholder="https://twitter.com/username, https://github.com/username ..." pattern="https?://([A-Za-z0-9][A-Za-z0-9\-.]+)?([A-Za-z0-9][A-Za-z0-9\-]*)?[A-Za-z0-9]\.[A-Za-z0-9]{2,}(/.*)?" maxlength="150" value="">
+                </div>
+                
+                <div class="button-and-header-settings">
+                    <div class="header-button">
+                        Link #2
+                    </div>
+                    <input class="input-default-settings" type="url" id="url" placeholder="https://twitter.com/username, https://github.com/username ..." pattern="https?://([A-Za-z0-9][A-Za-z0-9\-.]+)?([A-Za-z0-9][A-Za-z0-9\-]*)?[A-Za-z0-9]\.[A-Za-z0-9]{2,}(/.*)?" maxlength="150" value="">
+                </div>
+                <div class="button-and-header-settings">
+                    <div class="header-button">
+                        Link #3
+                    </div>
+                    <input class="input-default-settings"type="url" id="url" placeholder="https://twitter.com/username, https://github.com/username ..." pattern="https?://([A-Za-z0-9][A-Za-z0-9\-.]+)?([A-Za-z0-9][A-Za-z0-9\-]*)?[A-Za-z0-9]\.[A-Za-z0-9]{2,}(/.*)?" maxlength="150" value="">
+                </div>
+                
+                
+            </div>
+        </div>
+    </div> -->
+
+
+    <!-- Custom Header Section -->
+    <!-- <div class="row-section">
+        <div class="content-section">
+            <div class="information-about">
+                <h3 class="header-text">Custom Header</h3>
+                <div class="text-normal">
+                    Really love one of your Pens? You can choose it to appear in the background of your profile’s header
+                    for a more personalized look.
+                </div>
+            </div>
+            <div class="change-information" style="align-items: center; display: flex;">
+                <p style="margin: 0px"><a class="link-to-another" href="/accounts/signup">Upgrade your plan</a> to be
+                    able to use this feature!</p>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Custom CSS Section -->
+    <!-- <div class="row-section">
+        <div class="content-section">
+            <div class="information-about">
+                <h3 class="header-text">Custom CSS</h3>
+                <div class="text-normal">
+                    Want to customize the look and feel of your profile further? Add a Pen with CSS that will be applied
+                    to your profile.
+                </div>
+            </div>
+            <div class="change-information" style="display: inline;">
+                <div class="button-and-header-settings">
+                    <div class="header-button">
+                        Pen URL
+                    </div>
+                    <input class="input-default-settings" type="url"
+                        placeholder="https://codepen.io/NguyenHuuDong/pen/[slug]">
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Organize Showcase Section -->
+    <!-- <div class="row-section">
+        <div class="content-section">
+            <div class="information-about">
+                <h3 class="header-text">Organize Showcase</h3>
+                <div class="text-normal">
+                    You can choose and arrange the Pens displayed on your profile.
+                </div>
+            </div>
+            <div class="change-information">
+                <button class="button-click-settings green-button" (click)="organizeShowcase()">
+                    Organize Showcase
+                </button>
+            </div>
+        </div>
+    </div> -->
+</div>

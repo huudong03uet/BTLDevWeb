@@ -1,0 +1,30 @@
+<div class="pens">
+    <div class="header-pens">
+        <div class="links-pens popular" (click)="showPopular = true; showPublic = false;
+         showLoved = false; showPrivate = false;
+        ;navigateToPopular()">Popular</div>
+    <div class="links-pens public" (click)="showPublic = true; showPopular = false;
+         showLoved = false; showPrivate = false;
+        ;navigateToPublic()">Public</div>
+    <div class="links-pens private" (click)="showPrivate = true;showPublic = false;
+         showLoved = false; showPopular = false;
+        ;navigateToPrivate()">Private</div>
+
+    <div class="links-pens loved" (click)="showLoved = true;showPublic = false;
+        showPopular = false;
+        showPrivate = false ;navigateToLoved()">Loved</div>
+
+    </div>
+    <div class="infor-pens">
+        <app-popular-p *ngIf="showPopular"></app-popular-p>
+        <app-public-p *ngIf="showPublic"></app-public-p>
+        <app-private-p *ngIf="showPrivate"></app-private-p>
+    
+        <app-loved-p *ngIf="showLoved"></app-loved-p>
+    </div>
+
+
+ 
+
+
+</div>

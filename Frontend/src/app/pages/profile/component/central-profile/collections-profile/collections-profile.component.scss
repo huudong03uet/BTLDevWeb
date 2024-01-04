@@ -1,0 +1,98 @@
+.collections {
+    font-size: 14px;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    color: #9596A4;
+    .header-collections {
+        margin: 0px 10px 10px 10px;
+        font-size: 1.1rem;
+    }
+    .links-collections {
+        padding: 3px 14px 5px 0;
+        display: inline-block;
+        text-align: center;
+        &.active{
+            // color: rgb(250, 137, 156);
+            color: white;
+            // text-decoration: underline;
+        }
+        &:hover {
+            // color: rgb(250, 137, 156);
+            color: white;
+            // text-decoration: underline;
+        }
+
+
+
+    }
+
+
+    .links-collections.active {
+        text-decoration: none;
+        &.active{
+            // color: rgb(250, 137, 156);
+            text-decoration: none;
+        }
+        &:hover {
+            // color: rgb(250, 137, 156);
+            text-decoration: none;
+        }
+
+        
+    }
+
+    .infor-collections {
+        width: 100%;
+        background-color: #131417;
+    }
+    // .publicC{
+        
+    // }
+    // .privateC{
+    //     padding: 3px 14px 5px 0;
+    //     display: inline-block;
+    //     text-align: center;
+    //     &.active{
+    //         // color: rgb(250, 137, 156);
+    //         color: white;
+    //         text-decoration: underline;
+    //     }
+    //     &:hover {
+    //         // color: rgb(250, 137, 156);
+    //         color: white;
+    //         text-decoration: underline;
+    //     }
+    // }
+    // .lovedC{
+    //     padding: 3px 14px 5px 0;
+    //     display: inline-block;
+    //     text-align: center;
+    //     &.active{
+    //         // color: rgb(250, 137, 156);
+    //         color: white;
+    //         text-decoration: underline;
+    //     }
+    //     &:hover {
+    //         // color: rgb(250, 137, 156);
+    //         color: white;
+    //         text-decoration: underline;
+    //     }
+    // }
+    // .popularC{
+    //     padding: 3px 14px 5px 0;
+    //     display: inline-block;
+    //     text-align: center;
+    //     &.active{
+    //         // color: rgb(250, 137, 156);
+    //         color: white;
+    //         text-decoration: underline;
+    //     }
+    //     &:hover {
+    //         // color: rgb(250, 137, 156);
+    //         color: white;
+    //         text-decoration: underline;
+    //     }
+    // }
+
+}

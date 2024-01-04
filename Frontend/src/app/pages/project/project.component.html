@@ -1,0 +1,36 @@
+<div class="container-project" >
+    <div class="header-project">
+        <app-header-project></app-header-project>
+    </div>
+
+    <div class="body-project" >
+        <div #box1 class="folder-tree-project content-box top left">
+            <app-folder-tree style="   height: 100%;
+            display: grid;"></app-folder-tree>
+            <div class="resizer vertical project-resizer-vertical"></div>
+        </div>
+
+        <div #box2 class="screen-code-project content-box top right">
+            <app-screen-code></app-screen-code>
+        </div>
+
+        <div #box3 class="screen-preview-project content-box bottom right">
+            <div class="project-resizer-horizontal resizer horizontal">
+
+            </div>
+            <div style="display: block; margin-top: 26px;">
+                <app-screen-view></app-screen-view>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-project">
+        <app-footer-project></app-footer-project>
+    </div>
+<!-- 
+    <div id="day-la-tinh-nang" [hidden]="true" (click)="dayLaTinhNang()">
+
+    </div> -->
+
+</div>

@@ -1,0 +1,67 @@
+.full-page {
+    position: relative;
+    background: hsl( 225deg 9.52% 8.24% );
+     height: auto;
+    // height: fit-content;
+    display: flex;
+    overflow-x: hidden;
+    .app-sidebar-component {
+        width: 180px;
+    }
+    .right-content {
+        width: 88%;
+        height: fit-content;
+        .app-search-component {
+            width: 100%;
+            height: 15%;
+        }
+        .center-content {
+            padding: 40px;
+            padding-bottom: 75px;
+            .app-body-home-component {
+                width: 100%;
+                height: 15%;
+                padding-bottom: 50px;
+            }
+    
+            // .app-body-trending-component {
+            //     width: 100%;
+            //     height: 15%;
+            //     padding-bottom: 50px;
+            //     .content-grid-code {
+            //         // width: 1048px;
+            //         // height: 600px;
+            //         // grid to 2 x 2
+            //         margin-right: 15%;
+            //         margin-left: 5%;
+            //         display: grid;
+            //         grid-template-columns: 1fr 1fr;
+            //         grid-gap: 10%;
+            //         // gap top to bottom 10%
+            //         grid-row-gap: 15%;
+
+            //         // background-color: white;
+                    
+            //         .element-content-code{
+            //             // width: 400px;
+            //             // height: 300px;
+            //             justify-content: center;
+            //             display: flex;
+            //             position: relative;
+            //         }
+            //     }
+            // }
+            .following-center-component {
+                width: 100%;
+                height: 60%;
+            }
+
+        }
+        .app-footer-component {
+            width: 100%;
+
+        }
+    }
+
+}
+
