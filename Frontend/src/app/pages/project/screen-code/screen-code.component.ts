@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, SimpleChange, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, SimpleChange, ViewChild } from '@angular/core';
 import { ProjectFileService } from 'src/app/services/project-file.service';
 declare let CodeMirror: any;
 
@@ -16,49 +16,35 @@ interface FileProject {
   styleUrls: ['./screen-code.component.scss']
 })
 export class ScreenCodeComponent {
+  @Input() data: any;
+  @Output() dataChange = new EventEmitter();
+  
+
   hasFileSelected: boolean = true;
   fileNewOpen: any;
-  //  listFilesOpen = [
-  //   // {
-  //   //   id: 1,
-  //   //   title: "test_file1.css",
-  //   //   type: "css",
-  //   //   code: "body { background-color: red; }",
-  //   //   children: []
-  //   // },
-  //   // {
-  //   //   id: 2,
-  //   //   title: "test_file.html",
-  //   //   type: "html",
-  //   //   code: "<h1>Hello World</h1>",
-  //   //   children: []
-  //   // },
-  //   // {
-  //   //   id: 3,
-  //   //   title: "test_file.js",
-  //   //   type: "js",
-  //   //   code: "console.log('Hello World');",
-  //   //   children: []
-  //   // }
-  //  ]
-  // declare  fileNewOpen
   listFilesOpen: FileProject[] = [];
 
   file_selected: any = this.listFilesOpen?.[0] || null;
-  count: boolean = false;
 
   changeActiveFile(file: any) {
 
-    this.file_selected = file;
-    this.count = !this.count;
+    this.data.fileChoose = file;
+    this.data.sidebarChoose = file;
+    this.dataChange.emit(this.data);
   }
 
   clickCloseButton(id: number) {
-    this.listFilesOpen = this.listFilesOpen.filter((file) => file.id !== id);
-    if (id === this.file_selected.id) {
-      this.file_selected = this.listFilesOpen[0];
-      this.count = !this.count;
+    this.data.filesOpened.delete(id);
+    if(id == this.data.fileChoose && this.data.filesOpened.size > 0) {
+      // Chuyển đổi Set thành mảng
+      let filesArray: number[] = Array.from(this.data.filesOpened);
+
+      // Lấy phần tử đầu tiên của mảng
+      let firstElement: number | undefined = filesArray[0];
+      this.data.fileChoose = firstElement;
+      this.data.sidebarChoose = firstElement;
     }
+    this.dataChange.emit(this.data);
   }
 
 
@@ -83,11 +69,9 @@ export class ScreenCodeComponent {
           this.file_selected = fileProject;
           this.listFilesOpen.push(fileProject);
           this.hasFileSelected = true;
-          this.count = !this.count;
         }  else {
           this.file_selected = this.listFilesOpen[id_push];
           this.hasFileSelected = true;
-          this.count = !this.count;
         }
 
 
@@ -95,4 +79,10 @@ export class ScreenCodeComponent {
       }
     })
   }
+
+  onDataChange(data: any) {
+    this.data = data;
+    this.dataChange.emit(this.data);
+  }
+
 }

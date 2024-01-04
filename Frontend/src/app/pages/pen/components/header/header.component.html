@@ -20,12 +20,12 @@
                     {{ data?.user?.user_name && data.pen.pen_id ? data?.user?.user_name : (user ? user.user_name :
                     'Captain Anonymous' )}}
                     <button class="follow-button"
-                        *ngIf="data?.user?.user_id != user?.user_id  && data.pen.pen_id && data.followed"
+                        *ngIf="data?.user?.user_id != user?.user_id  && data.pen.pen_id && !data.followed"
                         (click)="handleFollowClick()">
                         + Follow
                     </button>
                     <button class="follow-button following" id="follow-button-following"
-                        *ngIf="data.user.user_id != user?.user_id && data.pen.pen_id && !data.followed"
+                        *ngIf="data.user.user_id != user?.user_id && data.pen.pen_id && data.followed"
                         (mouseenter)="changeSvg(true)" (mouseleave)="changeSvg(false)" (click)="handleFollowClick()">
                         <svg viewBox="0 0 100 100" class="FollowButton-module_statusIcon-U62Ef">
                             <path

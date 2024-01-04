@@ -91,7 +91,6 @@ import { ListItemGridCollectionFullInfComponent } from './components/list-item-g
 import { ListItemGridProjectFullInfComponent } from './components/list-item-grid-project-full-inf/list-item-grid-project-full-inf.component';
 import { ContentGridProjectFullInfComponent } from './components/content-grid-project-full-inf/content-grid-project-full-inf.component';
 import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/your-work-projects.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -192,7 +191,8 @@ import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/
       { path: "trending", component: TrendingComponent },
       { path: "following", component: FollowingComponent },
       { path: "your-work", component: YourWorkComponent },
-      { path: "project/123", component: ProjectComponent },
+      { path: "project/:id", component: ProjectComponent },
+      { path: "project/", component: ProjectComponent },
       {
         path: "profile", component: ProfileComponent, children: [
           { path: "", redirectTo: "pens", pathMatch: "full" },

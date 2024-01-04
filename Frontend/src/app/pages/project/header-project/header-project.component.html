@@ -8,26 +8,26 @@
             <!-- <h2 class="logo"><i class="fa-brands fa-codepen" style="color: #ffffff;"></i></h2> -->
             <div class="project-details">
                 <h4 class="title" *ngIf="!isEditingTitle">
-                    {{ projectTitle }}
+                    {{ this.data.data_source.project.name ? this.data.data_source.project.name : 'Untitled' }}
                     <i class="fa-solid fa-pencil" style="color: #ffffff; cursor: pointer;"
                         (click)="startEditingTitle()"></i>
                 </h4>
-                <input #projectTitleInput *ngIf="isEditingTitle" [(ngModel)]="projectTitle" class="project-title-input"
+                <input #projectTitleInput *ngIf="isEditingTitle" [(ngModel)]="this.data.data_source.project.name" class="project-title-input"
                     (blur)="stopEditingTitle()" />
                 <p>Captain Anonymous</p>
             </div>
         </div>
         <div class="right">
             <ul>
-                <li class="save" *ngIf="isLoggedIn"><a (click)="toggleSave()"><i class="fas fa-cloud"></i> Save</a></li>
-                <li class="settings" *ngIf="isLoggedIn"><a><i class="fas fa-gear"></i> Settings</a></li>
-                <li class="save" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i> Save</a></li>
-                <li class="settings" *ngIf="!isLoggedIn"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i> Settings</a></li>
+                <li class="save" *ngIf="this.userData"><a (click)="toggleSave()"><i class="fas fa-cloud"></i> Save</a></li>
+                <li class="settings" *ngIf="this.userData"><a><i class="fas fa-gear"></i> Settings</a></li>
+                <li class="save" *ngIf="!this.userData"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i> Save</a></li>
+                <li class="settings" *ngIf="!this.userData"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i> Settings</a></li>
                 <li class="view"><a><i class="fas fa-object-group"></i></a></li>
                 <li class="submenu" (click)="toggleMenu()"><a><i class="fas fa-square-caret-down"></i></a></li>
-                <li *ngIf="!isLoggedIn"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
-                <li *ngIf="!isLoggedIn"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
-                <li *ngIf="isLoggedIn"><img src="path_to_avatar_image.jpg" alt="User Avatar"></li>
+                <li *ngIf="!this.userData"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
+                <li *ngIf="!this.userData"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
+                <li *ngIf="this.userData"><img src="path_to_avatar_image.jpg" alt="User Avatar"></li>
             </ul>
         </div>
         <ul class="mobile-menu" [style.right]="isMenuOpen ? '75px' : '-400px'" id="side-menu">

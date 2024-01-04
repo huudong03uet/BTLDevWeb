@@ -29,13 +29,13 @@
         </nav>
 
         <div class="file-search-result" *ngIf="click_search">
-            <div class="file-search-result-item" *ngIf="link_files_search.length == 0">
+            <div class="file-search-result-item" *ngIf="list_files_search.length == 0">
                 <div class="file-search-result-item-name">
                     <span>There are no match yets.</span>
                 </div>
             </div>
 
-            <div class="file-search-result-item" *ngFor="let file of link_files_search">
+            <div class="file-search-result-item" *ngFor="let file of list_files_search" (click)="choose_search(file)">
                 <div class="file-search-result-item-name">
                     <span>{{file}}</span>
                 </div>

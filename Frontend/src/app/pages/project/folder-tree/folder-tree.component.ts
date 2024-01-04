@@ -1,4 +1,5 @@
-import { Component, ElementRef, Input, Renderer2, ViewEncapsulation } from '@angular/core';
+import { SidebarComponent } from './../../../components/sidebar/sidebar.component';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, Renderer2, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ProjectFileService } from 'src/app/services/project-file.service';
 @Component({
@@ -7,160 +8,119 @@ import { ProjectFileService } from 'src/app/services/project-file.service';
   styleUrls: ['./folder-tree.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class FolderTreeComponent {
+export class FolderTreeComponent implements OnChanges{
   @Input() project_id: number | undefined;
 
   project_name: string = "File Manager";
 
   click_search: boolean = false;
 
+  @Input() data: any;
+  @Output() dataChange = new EventEmitter();
 
-  datas = [
-    {
-      id: 2,
-      title: "test_folder",
-      type: "folder",
-      code: "",
-      children: [
-        {
-          id: 3,
-          title: "test_file.css",
-          type: "css",
-          code: "body { background-color: red; }",
-          children: []
-        },
-        {
-          id: 4,
-          title: "test_file.html",
-          type: "html",
-          code: "<h1>Hello World</h1>",
-          children: []
-        },
-        {
-          id: 5,
-          title: "test_file.js",
-          type: "js",
-          code: "console.log('Hello World');",
-          children: []
-        },
-        {
-          id: 10,
-          title: "test_folder2",
-          type: "folder",
-          code: "",
-          children: [
-            {
-              id: 11,
-              title: "test_file2.css",
-              type: "css",
-              code: "body { background-color: red; }",
-              children: []
-            },
-            {
-              id: 12,
-              title: "test_file2.html",
-              type: "html",
-              code: "<h1>Hello World</h1>",
-              children: []
-            },
-            {
-              id: 13,
-              title: "test_file2.js",
-              type: "js",
-              code: "console.log('Hello World');",
-              children: []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: 6,
-      title: "test_file",
-      type: "folder",
-      code: "console.log('Hello World');",
-      children: []
-    },
-    {
-      id: 7,
-      title: "test_file.png",
-      type: "png",
-      code: "",
-      children: []
-    },
-    {
-      id: 8,
-      title: "css_test.css",
-      type: "css",
-      code: "",
-      children: []
-    },
-    {
-      id: 9,
-      title: "html_test.html",
-      type: "html",
-      code: "",
-      children: []
-    }
-  ]
+  
   // constructor(private sanitizer: DomSanitizer, private projectFile: ProjectFileService) { }
   constructor(private renderer: Renderer2, private el: ElementRef, private projectFile: ProjectFileService, private sanitizer: DomSanitizer) { }
 
-  ngOnInit(): void {
-    let tree = this.renderTree(this.datas);
-    let folderTreeFileElement = this.el.nativeElement.querySelector('#folder-tree-file');
-    while (folderTreeFileElement.firstChild) {
-      this.renderer.removeChild(folderTreeFileElement, folderTreeFileElement.firstChild);
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('ngOnChanges is called:', changes);
+
+    if (changes['data']) {
+      // Xử lý khi dữ liệu từ cha thay đổi
+      console.log('Data from parent changed:', this.data);
+      this.run();
+      // Thực hiện các hành động khác nếu cần
     }
-    this.renderer.appendChild(folderTreeFileElement, tree);
+  }
+
+  run() {
+    if(this.data) {
+      console.log(this.data, 12345);
+      let tree = this.renderTree(this.data.data_key);
+      let folderTreeFileElement = this.el.nativeElement.querySelector('#folder-tree-file');
+      console.log(folderTreeFileElement)
+      if(folderTreeFileElement.firstChild) {
+        this.renderer.removeChild(folderTreeFileElement, folderTreeFileElement.firstChild);
+      }
+      this.renderer.appendChild(folderTreeFileElement, tree);  
+    }
+
   }
 
   getSafeHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
+
   renderTree(obj: any) {
+    console.log(obj)
     let ul = this.renderer.createElement('ul');
-    for (let i = 0; i < obj.length; i++) {
+    for (let folderName in obj.subfolders) {
+      let folder = obj.subfolders[folderName];
       let li = this.renderer.createElement('li');
-      this.renderer.addClass(li, obj[i].type);
-      this.renderer.setProperty(li, 'id', obj[i].id);
-      this.renderer.setProperty(li, 'innerHTML', this.renderSvg(obj[i].type) + `<span>${obj[i].title}</span>`);
-      this.renderer.listen(li, 'click', () => this.fileOpen(obj[i]));
-      if (obj[i].children.length > 0) {
-        let childUl = this.renderTree(obj[i].children);
+      this.renderer.addClass(li, 'folder');
+      this.renderer.setProperty(li, 'innerHTML', this.renderSvg('folder') + `<span>${folder.name}</span>`);
+      this.renderer.listen(li, 'click', () => this.folderOpen(folder));
+      if(folder.key == this.data.sidebarChoose) {
+        this.renderer.setStyle(li, 'color', 'red');
+      }
+      console.log(li, 123)
+      if(folder.status == 'open') {
+        let childUl = this.renderTree(folder);
         this.renderer.appendChild(li, childUl);
       }
       this.renderer.appendChild(ul, li);
     }
+    for (let i = 0; i < obj.files?.length; i++) {
+      let file = obj.files[i];
+      console.log(file)
+      let type  = file.name.split('.').pop();
+      let li = this.renderer.createElement('li');
+      this.renderer.addClass(li, type);
+      this.renderer.setProperty(li, 'innerHTML', this.renderSvg(type) + `<span>${file.name}</span>`);
+      this.renderer.listen(li, 'click', ($event) => this.fileOpen(file, $event));
+      if(file.key == this.data.sidebarChoose) {
+        this.renderer.setStyle(li, 'color', 'red');
+      }
+      this.renderer.appendChild(ul, li);
+    }
     return ul;
-  }
+}
 
 
+buildFolderTree(path: any, node: any, tree: any) {
+  if (path.length === 0) return;
 
-  // renderTree(obj: any) {
-  //   // random number for id_ref
-  //   let html = `<ul>`;
-  //   for (let i = 0; i < obj.length; i++) {
+ let part = path.shift();
 
-  //     html += `<li class="${obj[i].type}" id="${obj[i].id}" (click)="fileOpen(${obj[i]})">`;
-  //     html += (this.renderSvg(obj[i].type));
-  //     html += `<span>${obj[i].title}</span>`;
-  //     if (obj[i].children.length > 0) {
-  //       html += this.renderTree(obj[i].children);
-  //     }
-  //     html += `</li>`;
-  //   }
-  //   html += `</ul>`;
+ if (!tree[part]) {
+   tree[part] = {
+     ...node,
+     name: part,
+     subfolders: {},
+     files: []
+   };
+ }
 
-  //   // return html;
-  //   // return html has svg
-  //   return html;
+ this.buildFolderTree(path, node, tree[part].subfolders);
+}
 
+addFileToTree(path: any, file: any, tree: any) {
+  console.log(path)
+ let part = path.shift();
 
-  // }
+ if (path.length === 1) {
+   tree[part].files.push(file);
+ } else {
+   if (tree[part]) {
+     this.addFileToTree(path, file, tree[part].subfolders);
+   }
+ }
+}
+
 
   renderSvg(obj: string) {
+    
     if (obj == "folder") {
       return `<svg class="icon icon-folder" viewBox="0 0 23 15"><path d="M2.004 14.458A1.88 1.88 0 0 1 .125 12.58V1.31C.125.655.656.124 1.31.124h4.964c.452 0 .858.25 1.06.655l.317.635c.245.49.736.793 1.283.793h9.896a1.88 1.88 0 0 1 1.878 1.879v8.493a1.88 1.88 0 0 1-1.878 1.878H2.004z" fill="#CBCBCB"></path><path class="folder-front" d="M2.004 14.458A1.88 1.88 0 0 1 .125 12.58V4.087a1.88 1.88 0 0 1 1.879-1.879H18.83a1.88 1.88 0 0 1 1.878 1.879v8.493a1.88 1.88 0 0 1-1.878 1.878H2.004z" fill="#828282"></path></svg>`
     } else if (obj == "html" || obj == "htm") {
@@ -184,101 +144,53 @@ export class FolderTreeComponent {
   search: string = "";
 
 
-  list_files_search: number[] = [];
+  list_files_search: String[] = [];
 
-  // list has: folder1, folder1/file1, folder1/folder2/file2, folder1/folder2/file3, folder3/file4
 
-  searchParentChild(obj: any, searchValue: string) {
-    for (let i = 0; i < obj.length; i++) {
-      if (obj[i].title.includes(searchValue)) {
-        this.list_files_search.push(obj[i].id);
-      }
-      if (obj[i].children.length > 0) {
-        this.searchParentChild(obj[i].id, searchValue);
-      }
+  choose_search(id: String) {
+    console.log(this.data.data_map)
+    if(this.data.data_map.type == 'file') {
 
     }
-
-
   }
-  link_files_search: string[] = [];
-
 
   searchFiles(searchValue: string) {
     if (searchValue == "") {
-      this.link_files_search = [];
       this.list_files_search = [];
       return;
     }
-
-
-
-    this.search = searchValue;
-    this.list_files_search = [];
-    for (let i = 0; i < this.datas.length; i++) {
-      if (this.datas[i].title.includes(searchValue)) {
-        this.list_files_search.push(this.datas[i].id);
-      }
-      if (this.datas[i].children.length > 0) {
-        this.searchParentChild(this.datas[i].children, searchValue);
-      }
-    }
-
-    this.convertListToLink();
-    console.log(this.link_files_search)
+    this.list_files_search = []
+    this.searchParentChild(this.data.data_map, searchValue);
   }
 
-  // convert list_files_search to link_files_search
-  convertListToLink() {
-    this.link_files_search = [];
-    for (let i = 0; i < this.list_files_search.length; i++) {
-      this.link_files_search.push(this.convertIdToLink(this.list_files_search[i]));
-    }
-  }
-  // link file search: [folder/file1, folder/folder2/file2, folder/folder2/file3, folder/file4]
-
-  convertIdToLink(id: number) {
-    let link = "";
-    for (let i = 0; i < this.datas.length; i++) {
-      if (this.datas[i].id == id) {
-        link += this.datas[i].title;
-        break;
-      }
-      if (this.datas[i].children.length > 0) {
-        link += this.convertIdToLinkChild(this.datas[i].children, id);
-        if (link != "") {
-          link = this.datas[i].title + "/" + link;
-          break;
-        }
+  searchParentChild(obj: any, searchValue: string) {
+    for (let key in obj) {
+      if (key.includes(searchValue)) {
+        this.list_files_search.push(key);
       }
     }
-    return link;
   }
 
-  convertIdToLinkChild(obj: any, id: number) {
-    let link = "";
-    for (let i = 0; i < obj.length; i++) {
-      if (obj[i].id == id) {
-        link += obj[i].title;
-        break;
-      }
-      if (obj[i].children.length > 0) {
-        link += this.convertIdToLinkChild(obj[i].children, id);
-        if (link != "") {
-          link = obj[i].title + "/" + link;
-          break;
-        }
-      }
+  fileOpen(fileOpen: any, event: Event) {
+    this.data.filesOpened.add(fileOpen.key);
+    this.data.fileChoose = fileOpen.key;
+    this.data.sidebarChoose = fileOpen.key;
+    this.dataChange.emit(this.data);
+    event.stopPropagation();
+  }
+
+  folderOpen(folderOpen: any) {
+    console.log(123)
+    if(folderOpen.status == 'close') {
+      folderOpen.status = 'open'
+    } else {
+      folderOpen.status = 'close'
     }
-    return link;
+    this.data.sidebarChoose = folderOpen.key;
+    this.dataChange.emit(this.data);
   }
 
+ 
 
-  fileOpen(fileOpen: any) {
-    if (fileOpen.type != "folder") {
-      this.projectFile.changeMessage(fileOpen);
-
-    }
-  }
 }
 

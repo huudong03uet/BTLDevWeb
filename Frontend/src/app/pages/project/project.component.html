@@ -1,39 +1,32 @@
-<div class="container-project" >
+<div class="container-project" *ngIf="data">
     <div class="header-project">
-        <app-header-project></app-header-project>
+        <app-header-project [data]="data" (dataChange)="onDataChange($event)"></app-header-project>
     </div>
 
     <div class="body-project" >
         <div #box1 class="folder-tree-project content-box top left">
-            <app-folder-tree style="   height: 100%;
+            <app-folder-tree [data]="data" (dataChange)="onDataChange($event)" style="   height: 100%;
             display: grid;"></app-folder-tree>
             <div class="resizer vertical project-resizer-vertical"></div>
         </div>
 
         <div #box2 class="screen-code-project content-box top right">
-            <app-screen-code></app-screen-code>
+            <app-screen-code [data]="data" (dataChange)="onDataChange($event)"></app-screen-code>
         </div>
 
         <div #box3 class="screen-preview-project content-box bottom right">
             <div class="project-resizer-horizontal resizer horizontal">
-                <div class="preview-bar">
-                    <label class="render-choice-label">Preview:</label>
-                    <div class="select select-small">
-                        <select id="render-choice" class="render-choice-dropdown">
-                            <option value="index">index.html</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div style="display: block; margin-top: 26px;">
-                <app-screen-view></app-screen-view>
 
+            </div>
+
+            <div style="display: block; margin-top: 26px; height: 100%;">
+                <app-screen-view [data]="data" (dataChange)="onDataChange($event)"></app-screen-view>
             </div>
         </div>
     </div>
 
     <div class="footer-project">
-        <app-footer-project></app-footer-project>
+        <app-footer-project [data]="data" (dataChange)="onDataChange($event)"></app-footer-project>
     </div>
 <!-- 
     <div id="day-la-tinh-nang" [hidden]="true" (click)="dayLaTinhNang()">

@@ -1,6 +1,6 @@
 <div class="screen-code-full" id="screen-code-full-id">
 
-    <div class="no-file-selected" *ngIf="listFilesOpen.length == 0">
+    <div class="no-file-selected" [hidden]="this.data.filesOpened.size !== 0">
         <div class="instructional">
             <h2>Welcome to the Project Editor!</h2>
             <p>Open a file on the left to see its content. HTML files can be previewed below.</p>
@@ -8,14 +8,14 @@
     </div>
 
 
-    <div class="has-file-selected" *ngIf="listFilesOpen.length != 0">
+    <div class="has-file-selected" [hidden]="this.data.filesOpened.size == 0">
         <div class="screen-code-header">
             <nav class="project-editor-open-file">
                 <ul>
-                    <li *ngFor="let file of listFilesOpen" (click)="changeActiveFile(file)">
-                        <div class="file-container {{file.type}} {{file.id == file_selected.id ? 'active' : ''}}">
-                            <span>{{file.title}}</span>
-                            <button class="close-btn" style="display: inline-block;"  (click)="clickCloseButton(file.id)">
+                    <li *ngFor="let file of this.data.filesOpened" (click)="changeActiveFile(file)">
+                        <div class="file-container {{file.split('.').pop()}} {{file == this.data.fileChoose ? 'active' : ''}}">
+                            <span>{{this.data.data_map[file].name}}</span>
+                            <button class="close-btn" style="display: inline-block;"  (click)="clickCloseButton(file)">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="icon icon-x">
                                     <path
@@ -36,13 +36,7 @@
 
 
         <div class="screen-code-screen" id="screen-code-screen-id">
-            <app-code-box-project class="box-code1" [codeObject]="file_selected.type" [codecode]="file_selected.code "
-                *ngIf="count==false">
-            </app-code-box-project>
-            <app-code-box-project class="box-code1" [codeObject]="file_selected.type" [codecode]="file_selected.code"
-                *ngIf="count==true">
-            </app-code-box-project>
-
+            <app-code-box-project class="box-code1" [data]="data" (dataChange)="onDataChange($event)"></app-code-box-project>
         </div>
 
     </div>
