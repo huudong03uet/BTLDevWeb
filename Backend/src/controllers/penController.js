@@ -9,7 +9,7 @@ import Follow from "../models/followTable";
 import Pin from "../models/pin";
 import CollectionPen from "../models/collection_pen";
 
-import followController, { getFollowByUserID } from './followControler';
+import followController, { _getFollowByUserID } from './followControler';
 import { _getViewByPen } from './viewController';
 import { _getLikeByuserID } from "./likeController";
 import { _formatDateString } from "./userController";
@@ -398,18 +398,37 @@ async function getPenByUserIDForFollow(req, res) {
 }
 
 async function getFollow(req, res) {
-  const user_id = req.params.id;
+  const user_id = req.query.user_id;
+  const x = req.query.x;
+
+  console.log(user_id)
+
+  let attr_sort = "createdAt";
+  let sort_by = 'desc';
+
+  if (x != '') {
+    attr_sort='numpen';
+    sort_by = 'asc';
+  }
+
   try {
-    const followUsers = await followController.getFollowByUserID(user_id);
+    let followUsers = await followController._getFollowByUserID(user_id, attr_sort=attr_sort, sort_by=sort_by);
+
+    followUsers = followUsers.map(x => x.user_id_2);
+
+    followUsers = [...new Set(followUsers)];
 
     if (followUsers.length > 0) {
-      const penPromises = followUsers.map(async (followUser) => {
-        return await _getPenByUser(followUser);
-      });
+      let pens = [];
 
-      let pens = await Promise.all(penPromises);
+      for (let followUser of followUsers) {
+        const userPens = await _getPenByUser(followUser);
+        if (userPens.length > 0) {
+          pens.push(...userPens);
+        }
+      }
 
-      pens = pens.filter(pen => pen.length);
+      console.log(pens)
 
       res.status(200).json(pens.flat());
     } else {

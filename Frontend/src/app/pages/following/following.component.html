@@ -25,7 +25,7 @@
             <div class="select-option">
                 <label class="toggle">
                     <span class="toggle-label">Recent</span>
-                    <input class="toggle-checkbox" type="checkbox">
+                    <input class="toggle-checkbox" type="checkbox" [(ngModel)]="recentChecked" />
                     <div class="toggle-switch"></div>
                     <span class="toggle-label">Top</span>
                 </label>
@@ -33,7 +33,7 @@
             
             <div class="following-center-component">
                 <div class="content-grid-code"  >
-                    <app-following-center></app-following-center>
+                    <app-following-center [recentChecked]="recentChecked" ></app-following-center>
                 </div>
             </div>
             
