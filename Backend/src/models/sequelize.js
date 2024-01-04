@@ -1,12 +1,7 @@
 const { Sequelize } = require('sequelize');
 
-<<<<<<< HEAD
 const sequelize = new Sequelize('fall2324w3g5', 'root', 'Chouchou.44', {
-  host: 'localhost',
-=======
-const sequelize = new Sequelize('fall2324w3g5', 'root', '', {
   host: "localhost", // process.env.MYSQL_SERVICE_HOST
->>>>>>> aff3f4a1424698e4a2cf11a625147de1688226d9
   dialect: 'mysql',
   port: 3306,
 });
