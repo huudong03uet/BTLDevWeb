@@ -1,13 +1,10 @@
 <div class="all-comment-area">
     <div class="center-comment">
         <form class="comment-form" (ngSubmit)="onSubmit()">
-            <textarea class="comment-textarea" 
-                        placeholder="Want to know how I did this? Ask a question!
+            <textarea class="comment-textarea" placeholder="Want to know how I did this? Ask a question!
 Feeling inspired? Let me know! 
 Want to share how you used this Pen? 
-Give the creator a confidence boost!" 
-                        name="commentText"
-                        [(ngModel)]="commentText"></textarea>
+Give the creator a confidence boost!" name="commentText" [(ngModel)]="commentText"></textarea>
             <div class="button-area">
                 <button class="comment-button">Comment</button>
             </div>
@@ -28,7 +25,8 @@ Give the creator a confidence boost!"
                             <p class="name">{{comment.user.user_name}}</p>
                             <p class="time">{{comment.createdAt}}</p>
                         </div>
-                        <button class="reply-button" (click)="replyComent(comment.user_id, comment.user.user_name)">Reply</button>
+                        <button class="reply-button"
+                            (click)="replyComent(comment.user_id, comment.user.user_name)">Reply</button>
                     </div>
                     <div class="comment-text">
                         <p>{{comment.comment}}</p>
@@ -78,7 +76,8 @@ Give the creator a confidence boost!"
                         </path>
                     </svg>
                 </a>
-                <a class="copy-link" style="border-top-right-radius: 4px; border-bottom-right-radius: 4px">
+                <a class="copy-link" style="border-top-right-radius: 4px; border-bottom-right-radius: 4px"
+                    (click)="copyLink()">
                     <svg viewBox="0 0 8 8" class="ItemDetailsShare-module_shareIcon-4I9dI"
                         style="margin-right: 0.25em;">
                         <path

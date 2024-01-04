@@ -14,7 +14,7 @@ router.get('/collections/:collectionId/pens', collectionController.getPensInColl
 router.get('/collection/:collection_id/likeCount', likeCollectionController.countLikesForCollection);
 router.get('/collection/:collection_id/likeStatus/:user_id', likeCollectionController.checkUserLikeForCollection);
 router.get('/getAllCollection', collectionController.getAllCollection);
-
+router.get('/collections/getUserInfoByCollectionId/:collection_id', collectionController.getUserInfoByCollectionId);
 router.post('/collections', collectionController.createOrUpdateCollection);
 router.post('/collections/addPenToCollection', collectionController.addPenToCollection);
 router.post('/collections/addCollectionToCollection', collectionController.addCollectionToCollection);

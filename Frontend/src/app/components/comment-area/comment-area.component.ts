@@ -9,11 +9,12 @@ import { UserDataService } from 'src/app/services/user-data.service';
   styleUrls: ['./comment-area.component.scss']
 })
 export class CommentAreaComponent implements OnInit, OnChanges {
-  data_loved = 234;
-  data_view = 19876;
+  data_loved = 0;
+  data_view = 0;
   defaultAvatar: String = "https://i.pravatar.cc/150?img=1";
   @Input() id: number = 1;
   @Input() type: string = 'pen';
+
   data_comment = [
     {
       "comment_id": 8,
@@ -42,6 +43,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.fetchComments();
+    this.fetchLikesCount();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -111,6 +113,33 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   replyComent(reply: number, replyUser: string) {
     this.reply = reply;
     this.commentText = '@' + replyUser + ' ';
+  }
+
+  fetchLikesCount() {
+    if (this.type === 'collection') {
+      const apiUrl = this.myService.getApiHost() + `/your-work/collection/${this.id}/likeCount`;
+
+      axios.get(apiUrl).then((response) => {
+        this.data_loved = response.data.likesCount || 0;  // Update data_loved with the count
+        console.log(this.type);
+      }).catch((error) => {
+        console.error('Error fetching likes count:', error);
+      });
+    }
+  }
+
+  copyLink() {
+    const currentUrl = window.location.href;
+    const tempInput = document.createElement('input');
+    tempInput.value = currentUrl;
+    document.body.appendChild(tempInput);
+
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+    document.execCommand('copy');
+
+    document.body.removeChild(tempInput);
   }
 
 }

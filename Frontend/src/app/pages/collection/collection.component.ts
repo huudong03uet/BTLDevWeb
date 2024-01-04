@@ -36,14 +36,17 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   user: any = {};
   pen_ids: any[] = [1];
   pen_full: any = [];
-  collectionName: string = "em khong biet";
-  userName: string = "em khong biet";
+  collectionName: string = "Untitled";
+  userName: string = "";
   userLikedCollection: boolean = false;
   likeAnimationState: string = 'unliked';
   searchFor: string = '';
   sortBy: string = 'date_updated';
   sortDirection: string = 'asc';
   publicPrivate: string = 'all';
+  userId: any;
+  status: string = '';
+  flag: boolean = true;
 
   constructor(
     private http: HttpClient,
@@ -86,33 +89,42 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    const user = this.userData.getUserData();
-    if (!user) {
+    if (!this.userData.getUserData()) {
       return;
     }
-    const userId = user.user_id;
     this.route.params.subscribe(params => {
       this.currentCollectionID = params['id'];
       this.getPensInCollection(this.currentCollectionID);
     });
-
-    this.http.get<CollectionApiResponse>(this.myService.getApiHost() + `/your-work/collections/user/${userId}`).subscribe(
-      (response) => {
-        this.user = response.user || {};
-        this.userName = this.user.name;
-      }, (error) => {
-        console.error('Error fetching user information and collection:', error);
-      }
-    );
     const checkStatusUrl = this.myService.getApiHost() + `/your-work/collections/checkStatus?collection_id=${this.currentCollectionID}`;
-
     axios.get(checkStatusUrl)
       .then((response) => {
         this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
+        this.status = response.data.status;
       })
       .catch((error) => {
         console.error('Error checking collection status:', error);
       });
+
+
+
+      this.http.get(`${this.myService.getApiHost()}/your-work/collections/getUserInfoByCollectionId/${this.currentCollectionID}`)
+      .subscribe(
+        (response: any) => {
+          this.userId = response.user.user_id;
+          this.userName = response.user.user_name;
+          if (this.status === 'private' && this.userData.getUserData()?.user_id != this.userId) {
+            this.router.navigate(['/**']);
+            return;
+          }
+          if(this.userData.getUserData()?.user_id != this.userId) {
+            this.flag = false;
+          }
+        },
+        (error) => {
+          console.error('Error fetching user information and collection:', error);
+        }
+      );
   }
 
   private getPensInCollection(collectionId: number): void {
@@ -123,7 +135,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
 
         for (let i = 0; i < this.pen_ids.length; i++) {
 
-          const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${this.pen_ids[i]}&user_id=${this.userData.getUserData()?.user_id}`;
+          const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${this.pen_ids[i]}&user_id=${this.userId}`;
           axios.get(apiUrl)
             .then((response) => {
               this.pen_full.push(response.data.pen);
@@ -173,7 +185,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   }
 
   sortByOptions() {
-    let pen_full_searchFor = this.pen_full.filter((pen: { name: any; }) => { 
+    let pen_full_searchFor = this.pen_full.filter((pen: { name: any; }) => {
       if (typeof pen.name !== 'string') {
         pen.name = "Chưa đặt tên"
       }
@@ -219,13 +231,12 @@ export class CollectionComponent implements OnInit, AfterViewInit {
     }
     this.isLiked = !this.isLiked;
     this.likeAnimationState = this.isLiked ? 'liked' : 'unliked';
-    const user_id = user.user_id;
 
-    this.http.get(this.myService.getApiHost() + `/your-work/collection/${this.currentCollectionID}/likeStatus/${user_id}`).subscribe(
+    this.http.get(this.myService.getApiHost() + `/your-work/collection/${this.currentCollectionID}/likeStatus/${this.userId}`).subscribe(
       (response: any) => {
         this.userLikedCollection = response.userLikedCollection;
         if (this.userLikedCollection) {
-          this.http.post(this.myService.getApiHost() + `/your-work/collection/removeLike`, { collection_id: this.currentCollectionID, user_id }).subscribe(
+          this.http.post(this.myService.getApiHost() + `/your-work/collection/removeLike`, { collection_id: this.currentCollectionID, user_id:this.userId }).subscribe(
             () => {
               this.userLikedCollection = false;
             },
@@ -234,7 +245,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
             }
           );
         } else {
-          this.http.post(this.myService.getApiHost() + `/your-work/collection/addLike`, { collection_id: this.currentCollectionID, user_id }).subscribe(
+          this.http.post(this.myService.getApiHost() + `/your-work/collection/addLike`, { collection_id: this.currentCollectionID, user_id:this.userId }).subscribe(
             () => {
               this.userLikedCollection = true;
             },
@@ -273,12 +284,12 @@ export class CollectionComponent implements OnInit, AfterViewInit {
     }
   }
 
-  
+
   // Function to handle the "Make Private/Make Public" button click
   handleToggleStatusClick() {
     const toggleStatusUrl = this.myService.getApiHost() + `/your-work/collections/toggleStatus`;
 
-    axios.post(toggleStatusUrl, { collection_id: this.currentCollectionID})
+    axios.post(toggleStatusUrl, { collection_id: this.currentCollectionID })
       .then((response) => {
         this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;

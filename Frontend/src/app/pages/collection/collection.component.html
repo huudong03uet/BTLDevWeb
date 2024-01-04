@@ -47,7 +47,7 @@
                                             </svg>
                                             {{informationPen[0]}}
                                         </li>
-                                        <li (click)="handleToggleStatusClick()">
+                                        <li (click)="handleToggleStatusClick()" *ngIf=flag>
                                             <svg viewBox="0 0 100 125" class="ItemActionsPrivacy-module_icon-3Pn-9">
                                                 <path
                                                     d="M79.244 100H20.757a3.773 3.773 0 0 1-3.774-3.775V58.113a3.773 3.773 0 0 1 3.774-3.773h3.773V38.191c0-14.066 11.403-25.47 25.471-25.47 14.065 0 25.47 11.403 25.47 25.47V54.34h3.773a3.773 3.773 0 0 1 3.773 3.773v38.111A3.773 3.773 0 0 1 79.244 100zM63.482 38.945c0-7.445-6.037-13.48-13.481-13.48-7.446 0-13.481 6.035-13.481 13.48V54.34h26.963V38.945z">
@@ -56,7 +56,7 @@
                                             <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><rect y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect></svg> -->
                                             {{informationPen[1]}}
                                         </li>
-                                        <li (click)=handleDeleteClick()>
+                                        <li (click)=handleDeleteClick() *ngIf=flag>
                                             <svg viewBox="0 0 16 19">
                                                 <path
                                                     d="M.177 7.152A1 1 0 0 1 1.166 6h13.668a1 1 0 0 1 .989 1.152l-1.693 11a1 1 0 0 1-.988.848H2.858a1 1 0 0 1-.988-.848l-1.693-11ZM0 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1Z">

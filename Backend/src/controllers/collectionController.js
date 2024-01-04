@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const Collection = require('../models/collection');
 const CollectionPen = require('../models/collection_pen');
-
+const User = require('../models/user'); 
 import { _formatDateString } from "./userController";
 
 async function createOrUpdateCollection(req, res) {
@@ -310,6 +310,47 @@ async function toggleCollectionStatus(req, res) {
   }
 }
 
+async function getUserInfoByCollectionId(req, res) {
+  try {
+    const collectionId = req.params.collection_id;
+
+    const collection = await Collection.findByPk(collectionId, {
+      attributes: ['collection_id', 'user_id'],
+      where: { deleted: false },
+    });
+
+    if (!collection) {
+      return res.status(404).json({ code: 404, message: 'Không tìm thấy collection' });
+    }
+
+    const user = await User.findByPk(collection.user_id, {
+      attributes: ['user_id', 'user_name'],
+    });
+
+    if (!user) {
+      return res.status(404).json({ code: 404, message: 'Không tìm thấy người dùng' });
+    }
+
+    const userInfo = {
+      user_id: user.user_id,
+      user_name: user.user_name,
+    };
+
+    return res.status(200).json({
+      code: 200,
+      user: userInfo,
+      message: 'Lấy thông tin người dùng từ collection thành công',
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      code: 500,
+      error: 'Lỗi trong quá trình lấy thông tin người dùng từ collection',
+    });
+  }
+}
+
+
 module.exports = {
   createOrUpdateCollection,
   getCollectionsByUser,
@@ -318,9 +359,8 @@ module.exports = {
   removePenFromCollection,
   removeCollection,
   restoreCollection,
-
   getAllCollection,
-
+  getUserInfoByCollectionId,
   addCollectionToCollection,
   checkCollectionStatus,
   toggleCollectionStatus,
