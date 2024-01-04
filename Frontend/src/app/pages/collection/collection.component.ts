@@ -24,8 +24,8 @@ interface CollectionApiResponse {
         transform: 'scale(1)',
       })),
       state('liked', style({
-        transform: 'scale(1.2)',
-        color: '#FF1493'  // Change the color to the one you desire
+        transform: 'scale(1.1)',
+        color: 'red'  // Change the color to the one you desire
       })),
       transition('unliked <=> liked', animate('300ms ease-in-out')),
     ]),
@@ -36,6 +36,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   user: any = {};
   pen_ids: any[] = [1];
   pen_full: any = [];
+  pen_ids_full: any = [];
   collectionName: string = "Untitled";
   userName: string = "";
   userLikedCollection: boolean = false;
@@ -47,6 +48,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   userId: any;
   status: string = '';
   flag: boolean = true;
+  hasListCollectionAdd:boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -83,6 +85,18 @@ export class CollectionComponent implements OnInit, AfterViewInit {
 
         } else {
           x.item(i)!.classList.remove("show");
+        }
+      }
+    }
+
+    if (this.hasListCollectionAdd == true) {
+      var x = document.getElementsByClassName("list-collection-add");
+      if (x != null) {
+        for (let i = 0; i < x.length; i++) {
+          if (x.item(i)!.classList.contains("show")) {
+            x.item(i)!.classList.remove("show");
+            this.hasListCollectionAdd = false;
+          }
         }
       }
     }
@@ -139,10 +153,14 @@ export class CollectionComponent implements OnInit, AfterViewInit {
           axios.get(apiUrl)
             .then((response) => {
               this.pen_full.push(response.data.pen);
+
+              this.pen_ids_full.push(response.data.pen.pen_id);
             }).catch((error) => {
               console.error('Error:', error);
             });
         }
+
+        
       }, (error) => {
         console.error('Error fetching the list of pens in the collection:', error);
       }
@@ -301,6 +319,8 @@ export class CollectionComponent implements OnInit, AfterViewInit {
       });
   }
 
+
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
     if (this.hasInformationPen == true) {
@@ -315,6 +335,50 @@ export class CollectionComponent implements OnInit, AfterViewInit {
       }
     }
 
+    if (this.hasListCollectionAdd == true) {
+      var x = document.getElementsByClassName("list-collection-add");
+      if (x != null) {
+        for (let i = 0; i < x.length; i++) {
+          if (x.item(i)!.classList.contains("show")) {
+            x.item(i)!.classList.remove("show");
+            this.hasListCollectionAdd = false;
+          }
+        }
+      }
+    }
+
+  }
+  onClickAddCollection() {
+    var x = document.getElementsByClassName("list-collection-add");
+    if (x != null) {
+      for (let i = 0; i < x.length; i++) {
+        if (x.item(i)!.classList.contains(this.random_number.toString())) {
+          if (x.item(i)!.classList.contains("show")) {
+            x.item(i)!.classList.remove("show");
+            this.hasListCollectionAdd = false;
+          } else {
+            x.item(i)!.classList.add("show");
+            this.hasListCollectionAdd = true;
+          }
+
+        } else {
+          x.item(i)!.classList.remove("show");
+        }
+      }
+    }
+
+    // remove class show
+    if (this.hasInformationPen == true) {
+      var x = document.getElementsByClassName("list-items");
+      if (x != null) {
+        for (let i = 0; i < x.length; i++) {
+          if (x.item(i)!.classList.contains("show")) {
+            x.item(i)!.classList.remove("show");
+            this.hasInformationPen = false;
+          }
+        }
+      }
+    }
   }
 }
 

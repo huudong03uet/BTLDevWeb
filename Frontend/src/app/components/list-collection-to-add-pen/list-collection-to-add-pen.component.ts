@@ -16,9 +16,10 @@ import { CreateNewCollectionServiceService } from 'src/app/services/create-new-c
 })
 export class ListCollectionToAddPenComponent implements OnInit {
 
+  @Input() pen_ids_in_collection: any[] = [];
+  @Input() type: string = "pen";
 
-
-  @Input() pen_id: any;
+  @Input() pen_id: any = 1;
   collection_ids: any[] = [];
   data_views: any[] = [];
   pen_name: string = ""; // Thêm biến để lưu trữ pen_name

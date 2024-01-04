@@ -5,8 +5,9 @@
 
 .body_login {
     // set width and height = full screen
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: hidden;
     background: url(../../../assets/images/background.png);
     background-repeat: repeat;
     // get all screen
@@ -22,7 +23,7 @@
 }
 
 .login-header {
-    margin: 50px 0 20px;
+    margin: 30px 0 20px;
     justify-content: center;
     display: grid;
 }
@@ -31,6 +32,7 @@
     margin: 15px 0 5px;
     // background-size: 110px 24px;
     width: 220px;
+
     // auto height
     height: 50px;
     background-size: auto;
@@ -268,4 +270,74 @@ form {
 
 .error-message {
     color: red;
+}
+
+#forgot-password-form {
+    width: 55%;
+    padding: 20px;
+    position: relative;
+    background: hsl( 222.86deg 13.73% 20% );
+    border-radius: 6px;
+    margin: 0 0 20px;
+    background-color: hsl( 222.86deg 13.73% 20% );
+    margin-top: 1rem;
+    display: block;
+    h3 {
+        color: white;
+        border-bottom: 3px solid rgba(hsl( 0deg 0% 100% ),0.1);
+    padding-bottom: 10px;
+    position: relative;
+    font-size: 1.4rem;
+    font-weight: 700;
+
+    }
+
+    .field {
+        margin: 20px 0px 10px 0px;
+        label {
+            font-weight: 400;
+            display: block;
+            margin: 0 0 3px;
+            letter-spacing: .5px;
+        }
+        input {
+            padding: 10px;
+            width: 100%;
+        }
+
+        button {
+            
+
+
+            -webkit-appearance: none;
+            vertical-align: middle;
+            font-family: inherit;
+            text-shadow: none;
+            line-height: 1.2;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-decoration: none!important;
+            font-weight: 400!important;
+            cursor: pointer;
+            border-radius: 2px;
+            border: 1px solid transparent;
+
+            background-color: hsl( 227.37deg 12.26% 30.39% );
+            color: white;
+
+
+            font-size: 1.2rem;
+            max-width: 100%;
+
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin: 10px 0;
+
+            padding: 8px 12px;
+            &:hover {
+                background-color: hsl( 228deg 12.2% 40.2% );
+            }
+        }
+    }
 }

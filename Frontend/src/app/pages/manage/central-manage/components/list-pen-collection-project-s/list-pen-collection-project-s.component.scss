@@ -136,4 +136,40 @@
             }
         }
     }
+
+    .next-page {
+        display: flex;
+        justify-content: center;
+        margin-top: 3rem;
+        // margin-bottom: 3rem;
+        .button-next-page {
+            -webkit-appearance: none;
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+            position: relative;
+            font-family: inherit;
+            font-size: 1rem;
+            text-shadow: none;
+            line-height: 1.2;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-decoration: none!important;
+            font-weight: 400!important;
+            cursor: pointer;
+            background: hsl( 227.37deg 12.26% 30.39% );
+            color: white;
+            padding: 12px 16px;
+            margin: 1px 10px 1px 0px;
+            border-radius: 4px;
+            border: 3px solid transparent;
+            text-align: center;
+            justify-content: center;
+            svg {
+                width: 7px;
+    margin-left: 4px;
+    fill: white;
+            }
+        }
+    }
 }
