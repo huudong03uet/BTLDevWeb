@@ -17,6 +17,7 @@ export class ContentGridUserComponent implements OnInit {
   pens: any;
   iframeContent_1: SafeHtml | undefined;
   iframeContent_2: SafeHtml | undefined;
+  isUser1FollowingUser2: boolean | undefined;
 
   constructor(
     private router: Router,
@@ -70,30 +71,46 @@ export class ContentGridUserComponent implements OnInit {
       }).catch((error) => {
         console.error('Error:', error);
       });
-    }
 
+    this.fetchFollowStatus();
+  }
 
+  fetchFollowStatus() {
+    const isFollowingUrl = this.myService.getApiHost() + `/grid/isUser1FollowingUser2?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.user.user_id}`;
+    axios.get(isFollowingUrl)
+      .then((response) => {
+        this.isUser1FollowingUser2 = response.data.isFollowing;
+      })
+      .catch((error) => {
+        console.error('Error checking follow:', error);
+      });
+  }
   handlePageClick(): void {
     // console.log(`/pen/${this.pen_id}`);
     this.router.navigate([`/pen/${this.data.pen_id}`], { relativeTo: null });
   }
 
   handleFollowClick() {
-    if(this.userData.getUserData == null) {
+    if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     } else {
+      // Update the follow status through the API
       const url = this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.user.user_id}`;
-
+      
       axios.get(url)
-          .then((response) => {
-              this.data.followed = response.data.followed;
-            })
-          .catch((error) => {
-              console.error('Error:', error);
-          });  
+        .then((response) => {
+          this.isUser1FollowingUser2 = response.data.followed;
+
+          // Reload the current route to reflect the updated follow status
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([this.router.url]);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
     }
   }
-
   changeSvg(isEnter: boolean) {
     const button = document.getElementById('follow-button-following');
     if (button) {

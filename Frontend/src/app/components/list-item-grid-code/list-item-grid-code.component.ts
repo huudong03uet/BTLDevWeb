@@ -1,15 +1,18 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { FullOptionControlItemService } from 'src/app/services/full-option-control-item.service';
+
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-list-item-grid-code',
   templateUrl: './list-item-grid-code.component.html',
   styleUrls: ['./list-item-grid-code.component.scss']
 })
-export class ListItemGridCodeComponent implements OnInit{
+export class ListItemGridCodeComponent implements OnInit {
   // parent -> child: pen_ids
 
   @Input() pen_ids: any;
- 
+
 
   pen_ids_prev: any[] = [];
   pen_ids_next: any[] = [];
@@ -17,11 +20,9 @@ export class ListItemGridCodeComponent implements OnInit{
   is_start: boolean = true;
   is_end: boolean = false;
   index_first_current: number = 0;
-  constructor() { }
-
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['pen_ids']){
+    if (changes['pen_ids']) {
 
       this.pen_ids_current = [];
       this.pen_ids_next = [];
@@ -32,7 +33,7 @@ export class ListItemGridCodeComponent implements OnInit{
           this.pen_ids_current.push(this.pen_ids[i]);
         }
       }
-  
+
       for (let i = this.index_first_current + 4; i < this.index_first_current + 6; i++) {
         if (i < this.pen_ids.length) {
           this.pen_ids_next.push(this.pen_ids[i]);
@@ -55,7 +56,6 @@ export class ListItemGridCodeComponent implements OnInit{
       this.is_end = false;
     }
 
-    // convert pen_ids_current 1 and 2 if has
     if (this.pen_ids_current.length > 2) {
       const temp = this.pen_ids_current[1];
       this.pen_ids_current[1] = this.pen_ids_current[2];
@@ -68,6 +68,8 @@ export class ListItemGridCodeComponent implements OnInit{
   ngOnInit(): void {
     //  len pen_ids_current <= 4
     //  len pen_ids_next <= 4
+
+
     this.pen_ids_current = [];
     this.pen_ids_next = [];
     for (let i = this.index_first_current; i < this.index_first_current + 4; i++) {
@@ -81,6 +83,9 @@ export class ListItemGridCodeComponent implements OnInit{
         this.pen_ids_next.push(this.pen_ids[i]);
       }
     }
+
+
+
 
 
     this.check_is_start_end();

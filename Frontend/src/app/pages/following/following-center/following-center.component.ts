@@ -43,6 +43,8 @@ export class FollowingCenterComponent {
 
         axios.get(apiUrl).then((response) => {
           this.data = response.data;
+          // get 3 first
+          this.data = this.data.sort(() => Math.random() - Math.random()).slice(0, 3);
         }).catch((error) => {
           console.error('Error:', error);
         });

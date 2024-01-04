@@ -96,6 +96,25 @@ import { ContentGridCollectionComponent } from './components/content-grid-collec
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { ListItemGridCollectionComponent } from './components/list-item-grid-collection/list-item-grid-collection.component';
 import { ListItemGridProjectComponent } from './components/list-item-grid-project/list-item-grid-project.component';
+
+import { ManageComponent } from './pages/manage/manage.component';
+import { ActiveManageComponent } from './pages/manage/central-manage/active-manage/active-manage.component';
+import { DeletedManageComponent } from './pages/manage/central-manage/deleted-manage/deleted-manage.component';
+import { UserActiveComponent } from './pages/manage/central-manage/active-manage/user-active/user-active.component';
+import { PenActiveComponent } from './pages/manage/central-manage/active-manage/pen-active/pen-active.component';
+import { CollectionActiveComponent } from './pages/manage/central-manage/active-manage/collection-active/collection-active.component';
+import { ProjectActiveComponent } from './pages/manage/central-manage/active-manage/project-active/project-active.component';
+import { CommentActiveComponent } from './pages/manage/central-manage/active-manage/comment-active/comment-active.component';
+import { PenDeletedComponent } from './pages/manage/central-manage/deleted-manage/pen-deleted/pen-deleted.component';
+import { CommentDeletedComponent } from './pages/manage/central-manage/deleted-manage/comment-deleted/comment-deleted.component';
+import { CentralManageComponent } from './pages/manage/central-manage/central-manage.component';
+import { ProjectDeletedComponent } from './pages/manage/central-manage/deleted-manage/project-deleted/project-deleted.component';
+import { UserDeletedComponent } from './pages/manage/central-manage/deleted-manage/user-deleted/user-deleted.component';
+import { CollectionDeletedComponent } from './pages/manage/central-manage/deleted-manage/collection-deleted/collection-deleted.component';
+import { ListPenCollectionProjectSComponent } from './pages/manage/central-manage/components/list-pen-collection-project-s/list-pen-collection-project-s.component';
+import { ListCommentsComponent } from './pages/manage/central-manage/components/list-comments/list-comments.component';
+import { ListUsersComponent } from './pages/manage/central-manage/components/list-users/list-users.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -182,7 +201,24 @@ import { ListItemGridProjectComponent } from './components/list-item-grid-projec
     ContentGridCollectionComponent,
     SearchPageComponent,
     ListItemGridCollectionComponent,
-    ListItemGridProjectComponent
+    ListItemGridProjectComponent,
+    ManageComponent,
+    ActiveManageComponent,
+    DeletedManageComponent,
+    UserActiveComponent,
+    PenActiveComponent,
+    CollectionActiveComponent,
+    ProjectActiveComponent,
+    CommentActiveComponent,
+    PenDeletedComponent,
+    CommentDeletedComponent,
+    ProjectDeletedComponent,
+    UserDeletedComponent,
+    CentralManageComponent,
+    CollectionDeletedComponent,
+    ListPenCollectionProjectSComponent,
+    ListCommentsComponent,
+    ListUsersComponent
   ],
   imports: [
     FormsModule,
@@ -237,6 +273,31 @@ import { ListItemGridProjectComponent } from './components/list-item-grid-projec
             ]
           }
 
+        ]
+      },
+      {
+        path: "manage", component: ManageComponent, children: [
+          { path: "", redirectTo: "active", pathMatch: "full" },
+          {
+            path: "active", component: ActiveManageComponent, children: [
+              { path: "", redirectTo: "users", pathMatch: "full" },
+              { path: "users", component: UserActiveComponent },
+              { path: "pens", component: PenActiveComponent },
+              { path: "collections", component: CollectionActiveComponent },
+              { path: "projects", component: ProjectActiveComponent },
+              { path: "comments", component: CommentActiveComponent },
+            ]
+          },
+          {
+            path: "deleted", component: DeletedManageComponent, children: [
+              { path: "", redirectTo: "users", pathMatch: "full" },
+              { path: "users", component: UserDeletedComponent },
+              { path: "pens", component: PenDeletedComponent },
+              { path: "collections", component: CollectionDeletedComponent },
+              { path: "comments", component: CommentDeletedComponent },
+              { path: "projects", component: ProjectDeletedComponent },
+            ]
+          }
         ]
       },
       { path: "trending", component: TrendingComponent },

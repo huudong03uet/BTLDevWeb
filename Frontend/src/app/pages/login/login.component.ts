@@ -43,6 +43,7 @@ export class LoginComponent {
               user_name: response.data.data.user_name,
               gmail: response.data.data.gmail,
               full_name: response.data.data.full_name,
+              isAdmin: response.data.data.isAdmin,
             };
             this.userData.setUserData(user);
             this.router.navigate(['/']);
@@ -72,5 +73,12 @@ export class LoginComponent {
 
   loginWithFacebook() {
     //TODO
+  }
+
+
+  forgotPassword: boolean = false;
+
+  openForgotPassword() {
+    this.forgotPassword = !this.forgotPassword;
   }
 }

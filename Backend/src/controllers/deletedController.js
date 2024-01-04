@@ -1,18 +1,22 @@
 const CollectionPen = require('../models/collection_pen');
 const Collection = require('../models/collection');
 const Pen = require('../models/pen');
+const commentTable = require('../models/commentTable');
+const LikeCollectionTable = require('../models/likeCollection'); 
+const LikeTable = require('../models/likeTable'); 
+const viewTable = require('../models/viewTable');
 
 async function getDeletedCollectionsAndPens(req, res) {
   try {
-    const { user_id } = req.body; // Assuming user_id is in the request body
+    const { user_id } = req.body;
 
     const deletedCollections = await Collection.findAll({
-      where: { deleted: true, user_id }, // Add user_id to the query
+      where: { deleted: true, user_id }, 
       attributes: ['collection_id', 'name'],
     });
 
     const deletedPens = await Pen.findAll({
-      where: { deleted: true, user_id }, // Add user_id to the query
+      where: { deleted: true, user_id },
       attributes: ['pen_id', 'name'],
     });
 
@@ -45,15 +49,15 @@ async function getDeletedCollectionsAndPens(req, res) {
 async function deletePenPermanently(req, res) {
   try {
     const { pen_id } = req.body;
-    console.log(pen_id);
-    // Check if the pen with the specified ID and deleted=true exists
     const pen = await Pen.findOne({ where: { pen_id, deleted: true } });
 
     if (!pen) {
       return res.status(404).json({ code: 404, message: 'Không tìm thấy pen hoặc pen chưa bị xóa' });
     }
 
-    // Permanently delete the pen
+    await commentTable.destroy({ where: { pen_id } });
+    await LikeTable.destroy({ where: { pen_id } });
+    await viewTable.destroy({ where: { pen_id } });
     await pen.destroy();
 
     return res.status(200).json({ code: 200, message: 'Pen deleted permanently successfully' });
@@ -63,22 +67,19 @@ async function deletePenPermanently(req, res) {
   }
 }
 
-
 async function deleteCollectionPermanently(req, res) {
   try {
     const { collection_id } = req.body;
 
-    // Check if the collection exists
     const collection = await Collection.findByPk(collection_id);
 
     if (!collection) {
       return res.status(404).json({ code: 404, message: 'Không tìm thấy collection' });
     }
-
-    // Remove associations between the collection and pens
+    await commentTable.destroy({ where: { collection_id } });
+    await LikeCollectionTable.destroy({ where: { collection_id } });
     await CollectionPen.destroy({ where: { collection_id } });
-
-    // Permanently delete the collection
+    await viewTable.destroy({ where: { collection_id } });
     await collection.destroy();
 
     return res.status(200).json({ code: 200, message: 'Collection deleted permanently successfully' });
@@ -87,6 +88,7 @@ async function deleteCollectionPermanently(req, res) {
     res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa collection' });
   }
 }
+
 
 module.exports = {
   getDeletedCollectionsAndPens,

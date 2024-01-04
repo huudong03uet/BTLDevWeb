@@ -4,7 +4,6 @@ import followController from './followControler';
 import User from '../models/user';
 import Follow from '../models/followTable';
 
-// Add the missing function
 async function getFollowByUserID(user_id) {
   try {
     const getUser = await Follow.findAll({
@@ -283,6 +282,47 @@ async function deleteUser(req, res) {
   }
 }
 
+const _formatDateString = (dateString) => {
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZone: 'UTC',
+  });
+  return formattedDate;
+};
+
+async function getAlluser(req, res) {
+  const attr_sort = req.query.attr_sort
+  const order_by = req.query.order_by;
+  const deleted = req.query.deleted == ''? false: (req.query.deleted == "true"? true: false);
+
+  try {
+    let users = await User.findAll({
+      attributes: {
+        exclude: ['password',]
+      },
+      where: {deleted: deleted},
+      order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
+    });
+
+    users = users.map(user => ({
+      ...user.toJSON(),
+      createdAt: _formatDateString(user.createdAt),
+      updatedAt: _formatDateString(user.updatedAt),
+    }));
+    
+    res.status(200).json(users);
+  } catch (error) {
+    console.log("chan gai 808", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 module.exports = {
   getNotFollow,
   getInfoUser,
@@ -290,4 +330,7 @@ module.exports = {
   changeEmail,
   changeUsername,
   deleteUser,
+  getAlluser,
+  _formatDateString,
+
 };

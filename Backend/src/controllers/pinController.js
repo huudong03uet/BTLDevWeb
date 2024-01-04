@@ -9,8 +9,6 @@ const Follow = require('../models/followTable');
 let getPinnedUser = async (req, res) => {
     try {
         const userId = req.params.user_id;
-    
-        // Lấy danh sách các pin của người dùng
         const pins = await Pin.findAll({
           where: { user_id: userId }
         });

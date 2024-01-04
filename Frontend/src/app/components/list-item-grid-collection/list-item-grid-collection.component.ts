@@ -8,31 +8,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 export class ListItemGridCollectionComponent implements OnInit{
   // parent -> child: pen_ids
 
-   @Input() collection_ids = [{
-    "collection_id": 1,
-  },
-  {
-    "collection_id": 1,
-  },
-  {
-    "collection_id": 1,
-  },
-  {
-    "collection_id": 1,
-  },
-    {
-      "collection_id": 2,
-    },
-    {
-      "collection_id": 2,
-    },
-    {
-      "collection_id": 2,
-    },
-    {
-      "collection_id": 2,
-    }
-];
+   @Input() collection_ids = [];
 
   pen_ids_prev: any[] = [];
   pen_ids_next: any[] = [];
@@ -44,10 +20,13 @@ export class ListItemGridCollectionComponent implements OnInit{
 
 
   ngOnChanges(changes: SimpleChanges) {
+    
     if (changes['collection_ids']){
 
       this.pen_ids_current = [];
       this.pen_ids_next = [];
+
+      
 
 
       for (let i = this.index_first_current; i < this.index_first_current + 4; i++) {
@@ -61,6 +40,7 @@ export class ListItemGridCollectionComponent implements OnInit{
           this.pen_ids_next.push(this.collection_ids[i]);
         }
       }
+
       this.check_is_start_end();
     }
   }
@@ -89,8 +69,6 @@ export class ListItemGridCollectionComponent implements OnInit{
 
 
   ngOnInit(): void {
-    //  len pen_ids_current <= 4
-    //  len pen_ids_next <= 4
     this.pen_ids_current = [];
     this.pen_ids_next = [];
     for (let i = this.index_first_current; i < this.index_first_current + 4; i++) {

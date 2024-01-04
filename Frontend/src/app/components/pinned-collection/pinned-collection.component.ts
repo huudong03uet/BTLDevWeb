@@ -14,13 +14,7 @@ export class PinnedCollectionComponent implements OnInit {
 
   data: any;
   pen_ids = [];
-  collection_ids = [{
-    "collection_id": 1,
-  },
-    {
-      "collection_id": 2,
-    }
-];
+  collection_ids = [];
   pen_collection_ids: { id: any, type: string }[] = [];
 
   constructor(
@@ -63,8 +57,7 @@ export class PinnedCollectionComponent implements OnInit {
 
   updatePenIds() {
     this.pen_ids = this.data.filter((item: { type: any; }) => item.type === 'pen').map((item: { pen_id: any; }) => item.pen_id);
-    // console.log(this.pen_ids)
-    // for add {id: 1, type: 'pen'} to pen_collection
+    this.collection_ids = this.data.filter((item: { type: any; }) => item.type === 'collection').map((item: { collection_id: any; }) => item.collection_id);
 
     for (let i = 0; i < this.pen_ids.length; i++) {
       this.pen_collection_ids.push({id: this.pen_ids[i], type: 'pen'});
@@ -78,11 +71,5 @@ export class PinnedCollectionComponent implements OnInit {
     // shuffle array
     this.pen_collection_ids.sort(() => Math.random() - 0.5);
     console.log("1234", this.pen_collection_ids)
-
-  
-  
   }
-
-
-
 }

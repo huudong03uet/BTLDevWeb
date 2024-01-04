@@ -16,9 +16,10 @@ import { CreateNewCollectionServiceService } from 'src/app/services/create-new-c
 })
 export class ListCollectionToAddPenComponent implements OnInit {
 
+  @Input() pen_ids_in_collection: any[] = [];
+  @Input() type: string = "pen";
 
-
-  @Input() pen_id: any;
+  @Input() pen_id: any = 1;
   collection_ids: any[] = [];
   data_views: any[] = [];
   pen_name: string = ""; // Thêm biến để lưu trữ pen_name
@@ -98,6 +99,10 @@ export class ListCollectionToAddPenComponent implements OnInit {
       if (response.data.code === 200) {
         console.log('Pen added to collection successfully.');
         alert('Pen added to collection successfully!');
+        // Reload the current route to reflect the changes
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([this.router.url]);
       } else {
         console.error('Error adding pen to collection:', response.data.error);
       }
@@ -114,6 +119,9 @@ export class ListCollectionToAddPenComponent implements OnInit {
       if (response.data.code === 200) {
         console.log('Pen removed from collection successfully.');
         alert('Pen removed from collection successfully!');
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([this.router.url]);
       } else {
         console.error('Error removing pen from collection:', response.data.error);
       }

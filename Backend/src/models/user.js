@@ -21,7 +21,15 @@ const User = sequelize.define('user', {
         defaultValue: 'Unknow',
     },  
     bio: DataTypes.TEXT,        
-    links: DataTypes.JSON,      
+    links: DataTypes.JSON, 
+    deleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },     
+    isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    }
 }, {
     tableName: 'user',
 });

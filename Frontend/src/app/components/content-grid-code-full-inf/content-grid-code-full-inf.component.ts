@@ -69,6 +69,16 @@ export class ContentGridCodeFullInfComponent implements OnInit {
       .catch((error) => {
         console.error('Error:', error);
       });
+
+      const checkStatusUrl = `${this.myService.getApiHost()}/pen/checkStatus?pen_id=${this.pen_id}`;
+      axios.get(checkStatusUrl)
+        .then((response) => {
+          const penStatus = response.data.status;
+          this.informationPen[2] = penStatus === 'public' ? 'Make Private' : 'Make Public';
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
   }
 
   loadPinAndFollow() {
@@ -86,8 +96,21 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   }
 
   handlePageClick(): void {
-    // console.log(`/pen/${this.pen_id}`);
     this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
+  }
+  handleToggleStatusClick() {
+    const toggleStatusUrl = `${this.myService.getApiHost()}/pen/toggleStatus`;
+    const requestData = {
+      pen_id: this.pen_id,
+    };
+
+    axios.post(toggleStatusUrl, requestData)
+      .then((response) => {
+        this.informationPen[2] = response.data.pen.status === 'public' ? 'Make Private' : 'Make Public';
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 
   random_number = Math.floor(Math.random() * 100000000);
@@ -96,7 +119,6 @@ export class ContentGridCodeFullInfComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
-    // console.log("hasInformationPen: ", this.hasInformationPen)
     if (this.hasInformationPen == true) {
       var x = document.getElementsByClassName("list-items");
       if (x != null) {
@@ -223,7 +245,6 @@ export class ContentGridCodeFullInfComponent implements OnInit {
     const url =  this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url).then((response) => {
-      console.log(response);
 
       if (response.data.liked) {
         this.data.like++;
@@ -249,7 +270,7 @@ export class ContentGridCodeFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url =  this.myService.getApiHost() + `/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url =  this.myService.getApiHost() + `/grid/handlePin?id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url)
       .then((response) => {
@@ -299,6 +320,9 @@ export class ContentGridCodeFullInfComponent implements OnInit {
       axios.post(url, data)
         .then(response => {
           console.log(response);
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([this.router.url]);
         })
         .catch(error => {
           console.error('Error:', error);

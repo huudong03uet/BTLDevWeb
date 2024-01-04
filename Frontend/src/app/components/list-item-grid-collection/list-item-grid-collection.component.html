@@ -1,7 +1,7 @@
 <div class="item-grid-code-center">
     <div class="background-item-grid-code prev" *ngIf="!is_start" (click)="onClickPrevGridCode()">
         <div class="item-grid-code-prev">
-            <app-content-grid-collection *ngFor="let dataItem of pen_ids_prev" [collection]="collection_ids" [is_pinned]="false"></app-content-grid-collection>    
+            <app-content-grid-collection *ngFor="let dataItem of pen_ids_prev" [collection]="dataItem"></app-content-grid-collection>    
             
         </div>
         <button class="prev-page button-page">
@@ -13,14 +13,14 @@
     </div>
     <div class="item-grid-code">
         <!-- <app-content-grid-code *ngFor="let dataItem of pen_ids_current" [pen_id]="dataItem"></app-content-grid-code> -->
-        <app-content-grid-collection *ngFor="let dataItem of pen_ids_current" ></app-content-grid-collection>
+        <app-content-grid-collection *ngFor="let dataItem of pen_ids_current" [collection]="dataItem"></app-content-grid-collection>
     </div>
 
     <div class="background-item-grid-code next" *ngIf="!is_end" (click)="onClickNextGridCode()" >
         <div class="item-grid-code-next">
             <!-- <app-content-grid-code *ngFor="let dataItem of pen_ids_next" [pen_id]="dataItem"></app-content-grid-code> -->
 
-            <app-content-grid-collection *ngFor="let dataItem of pen_ids_next" ></app-content-grid-collection>
+            <app-content-grid-collection *ngFor="let dataItem of pen_ids_next" [collection]="dataItem"></app-content-grid-collection>
         </div>
     
         <button class="next-page button-page" >

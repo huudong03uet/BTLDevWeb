@@ -1,14 +1,14 @@
 # Hướng dẫn 
 
-### 1. Cách Deploy
+### 1. Cách Deploy (trên hệ thống fall2324g3w5)
 
 Bước 1: Từ root: ```cd 123web/testweb/Backend```
 
-Bước 1: ```/etc/jupyter/bin/expose 3000```
+Bước 2: ```/etc/jupyter/bin/expose 3000```
 
-Bước 2: ```cd Backend```
+Bước 3: ```cd Backend```
 
-Bước 3: ```npm start```
+Bước 4: ```npm start```
 
 Link video demo: https://youtu.be/mt1vxgTYrrY
 
@@ -53,17 +53,5 @@ BTLDevWeb
 
 │ │ ├── Router
 
-<<<<<<< HEAD
-│ │ └── server.js
-=======
 │ │ └── server.js
 
-# Cách deploy
-Bước 1: ```/etc/jupyter/bin/expose 3000```
-
-Bước 2: ```cd Backend```
-
-Bước 3: ```npm start```
-
-Link video demo: https://youtu.be/mt1vxgTYrrY
->>>>>>> 42fd3083819364c74a4d3351720dbb4670288831

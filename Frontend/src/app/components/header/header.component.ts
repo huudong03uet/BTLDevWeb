@@ -10,17 +10,25 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 })
 export class HeaderComponent {
+  isAdmin: boolean = this.userData?.getUserData()?.isAdmin || false;
+
   constructor(
     private userData: UserDataService | null,
     private router: Router,
     private dialog: MatDialog
-  ) { }
+  ) {
+    this.isAdmin = this.userData?.getUserData()?.isAdmin || false;
+
+    console.log(this.isAdmin)
+   }
 
   childVisible: boolean = false;
 
   childPinnedVisible: boolean = false;
 
   childProjectVisible: boolean = false;
+
+  
 
   openCreateNewComponent() {
     this.childVisible = !this.childVisible;

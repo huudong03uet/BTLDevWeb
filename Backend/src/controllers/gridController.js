@@ -78,7 +78,7 @@ let _handlePinPen = async (user_id, pen_id) => {
 
     if (existingPin) {
       await existingPin.destroy();
-      res.status(200).json({ pinned: false });
+      return false;
     } else {
       // Nếu chưa có trong Pin, thêm vào Pin
       await Pin.create({
@@ -86,7 +86,7 @@ let _handlePinPen = async (user_id, pen_id) => {
         pen_id: pen_id,
         type: "pen"
       });
-      res.status(200).json({ pinned: true });
+      return true;
     }
   } catch (error) {
     console.error(error);
@@ -96,7 +96,7 @@ let _handlePinPen = async (user_id, pen_id) => {
 
 let _handlePinCollection = async (user_id, collection_id) => {
   try {
-    const existingPin = await Collection.findOne({
+    const existingPin = await Pin.findOne({
       where: {
         user_id: user_id,
         collection_id: collection_id,
@@ -124,15 +124,15 @@ let _handlePinCollection = async (user_id, collection_id) => {
 
 
 let handlePin = async (req, res) => {
-  const { user_id, pen_id, type } = req.query;
+  const { user_id, id, type } = req.query;
 
   try {
 
     if (type == "pen") {
-      let x = await _handlePinPen(user_id, pen_id);
+      let x = await _handlePinPen(user_id, id);
       res.status(200).json({ pinned: x });
     } else if (type == "collection") {
-      let x = await _handlePinCollection(user_id, pen_id);
+      let x = await _handlePinCollection(user_id, id);
       res.status(200).json({ pinned: x });
     }
   } catch (error) {
@@ -226,64 +226,85 @@ async function getInfoGrid(req, res) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
+let handlePinPen = async (user_id, pen_id) => {
+  try {
+    const existingPin = await Pin.findOne({
+      where: {
+        user_id: user_id,
+        pen_id: pen_id,
+        type: "pen"
+      },
+    });
 
+    if (existingPin) {
+      await existingPin.destroy();
+      res.status(200).json({ pinned: false });
+    } else {
+      // Nếu chưa có trong Pin, thêm vào Pin
+      await Pin.create({
+        user_id: user_id,
+        pen_id: pen_id,
+        type: "pen"
+      });
+      res.status(200).json({ pinned: true });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
-  let handlePinPen = async (user_id, pen_id) => {
-    try {
-      const existingPin = await Pin.findOne({
-        where: {
-          user_id: user_id,
-          pen_id: pen_id,
-          type: "pen"
-        },
+let handlePinCollection = async (user_id, collection_id) => {
+  try {
+    const existingPin = await Collection.findOne({
+      where: {
+        user_id: user_id,
+        collection_id: collection_id,
+        type: "collection"
+      },
+    });
+
+    if (existingPin) {
+      await existingPin.destroy();
+      return false;
+    } else {
+      // Nếu chưa có trong Pin, thêm vào Pin
+      await Pin.create({
+        user_id: user_id,
+        collection_id: collection_id,
+        type: "collection"
       });
-  
-      if (existingPin) {
-        await existingPin.destroy();
-        res.status(200).json({ pinned: false });
-      } else {
-        // Nếu chưa có trong Pin, thêm vào Pin
-        await Pin.create({
-          user_id: user_id,
-          pen_id: pen_id,
-          type: "pen"
-        });
-        res.status(200).json({ pinned: true });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      return true;
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-  
-  let handlePinCollection = async (user_id, collection_id) => {
-    try {
-      const existingPin = await Collection.findOne({
-        where: {
-          user_id: user_id,
-          collection_id: collection_id,
-          type: "collection"
-        },
-      });
-  
-      if (existingPin) {
-        await existingPin.destroy();
-        return false;
-      } else {
-        // Nếu chưa có trong Pin, thêm vào Pin
-        await Pin.create({
-          user_id:user_id,
-          collection_id: collection_id,
-          type:"collection"
-        });
-        return true;
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
+}
+
+const isUser1FollowingUser2 = async (user_id_1, user_id_2) => {
+  try {
+    const followRecord = await Follow.findOne({
+      where: {
+        user_id_1: user_id_1,
+        user_id_2: user_id_2,
+      },
+    });
+
+    return followRecord !== null;
+  } catch (error) {
+    console.error('Error checking follow:', error);
+    throw error;
   }
+};
 
 module.exports = {
-  updateView, handleLike, handlePin, handleFollow, getInfoGrid, handlePinPen, handlePinCollection
+  updateView,
+  handleLike,
+  handlePin,
+  handleFollow,
+  getInfoGrid,
+  handlePinPen,
+  handlePinCollection,
+  isUser1FollowingUser2,
 };

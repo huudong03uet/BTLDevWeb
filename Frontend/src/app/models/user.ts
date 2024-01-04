@@ -3,5 +3,6 @@ export interface User {
     user_name: string;
     gmail: string;
     full_name: string;
+    isAdmin: boolean;
   }
   
