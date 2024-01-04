@@ -3,6 +3,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { UserDataService } from './../../services/user-data.service';
 import { Router } from '@angular/router';
 import axios from 'axios';
+import { has, hasIn } from 'lodash';
+
 import { HostService } from 'src/app/host.service';
 
 @Component({
@@ -10,16 +12,14 @@ import { HostService } from 'src/app/host.service';
   templateUrl: './content-grid-project-full-inf.component.html',
   styleUrls: ['./content-grid-project-full-inf.component.scss']
 })
-export class ContentGridProjectFullInfComponent implements OnInit {
-  @Input() pen_id: any;
+export class ContentGridCodeFullInfComponent implements OnInit {
+  @Input() project_id: any;
   data: any;
-  namePen: any;
+  nameProject: any;
   iframeContent: SafeHtml | undefined;
-  // iframeImage -> assets/images/project.png
-  iframeImage: any;
   pined: any;
   followed: any;
-  informationPen = [
+  informationProject = [
     "Add to Collection",
     "Remove from Pins",
     "Unfollow User"
@@ -30,21 +30,18 @@ export class ContentGridProjectFullInfComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private userData: UserDataService,
     private myService: HostService,
-  ) {
-    
-   }
+  ) { }
 
   ngOnInit(): void {
-    this.iframeImage = this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/project.png');
-    const apiUrl =  this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
+    const apiUrl =  this.myService.getApiHost() + `/project/getInfoProject?project_id=${this.project_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(apiUrl)
       .then((response) => {
         this.data = response.data;
-        this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
+        this.nameProject = (this.data.project.name == null) ? "Chưa đặt tên" : this.data.project.name;
         const iframeContent = `
         <html>
           <head>
-            <style>${this.data.pen.css_code}
+            <style>${this.data.project.css_code}
             html, body {
               position: absolute;
               top: 50%;
@@ -54,31 +51,42 @@ export class ContentGridProjectFullInfComponent implements OnInit {
             } </style>
           </head>
           <body>
-            ${this.data.pen.html_code}
-            <script>${this.data.pen.js_code}</script>
+            ${this.data.project.html_code}
+            <script>${this.data.project.js_code}</script>
           </body>
         </html>
       `;
         this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
-        this.informationPen = [
+        this.informationProject = [
           "Add to Collection",
           "Remove from Pins",
-          "Unfollow " + this.data.user.user_name
+          // "Unfollow " + this.data.user.user_name
+          "Make Private",
+          "Delete"
         ]
       })
       .catch((error) => {
         console.error('Error:', error);
       });
+
+      const checkStatusUrl = `${this.myService.getApiHost()}/project/checkStatus?project_id=${this.project_id}`;
+      axios.get(checkStatusUrl)
+        .then((response) => {
+          const projectStatus = response.data.status;
+          this.informationProject[2] = projectStatus === 'public' ? 'Make Private' : 'Make Public';
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
   }
 
   loadPinAndFollow() {
-    const url =  this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
+    const url =  this.myService.getApiHost() + `/grid/getInfoGrid?project_id=${this.project_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(url)
       .then((response) => {
         this.pined = response.data.pined;
         this.followed = response.data.followed;
-        this.informationPen[1] = !this.pined ? "Add to Pins" : "Remove to Pins";
-        this.informationPen[2] = !this.followed ? `Follow ${this.data.user.user_name}` : `Unfollow ${this.data.user.user_name}`;
+        this.informationProject[1] = !this.pined ? "Add to Pins" : "Remove to Pins";
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -86,24 +94,36 @@ export class ContentGridProjectFullInfComponent implements OnInit {
   }
 
   handlePageClick(): void {
-    // console.log(`/pen/${this.pen_id}`);
-    this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
+    this.router.navigate([`/project/${this.project_id}`], { relativeTo: null });
+  }
+  handleToggleStatusClick() {
+    const toggleStatusUrl = `${this.myService.getApiHost()}/project/toggleStatus`;
+    const requestData = {
+      project_id: this.project_id,
+    };
+
+    axios.post(toggleStatusUrl, requestData)
+      .then((response) => {
+        this.informationProject[2] = response.data.project.status === 'public' ? 'Make Private' : 'Make Public';
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 
   random_number = Math.floor(Math.random() * 100000000);
 
-  hasInformationPen = false;
+  hasInformationProject = false;
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
-    // console.log("hasInformationPen: ", this.hasInformationPen)
-    if (this.hasInformationPen == true) {
+    if (this.hasInformationProject == true) {
       var x = document.getElementsByClassName("list-items");
       if (x != null) {
         for (let i = 0; i < x.length; i++) {
           if (x.item(i)!.classList.contains("show")) {
             x.item(i)!.classList.remove("show");
-            this.hasInformationPen = false;
+            this.hasInformationProject = false;
           }
         }
       }
@@ -124,7 +144,7 @@ export class ContentGridProjectFullInfComponent implements OnInit {
 
   }
 
-  onClickInformationPen() {
+  onClickInformationProject() {
     this.loadPinAndFollow();
     var x = document.getElementsByClassName("list-items");
 
@@ -133,10 +153,10 @@ export class ContentGridProjectFullInfComponent implements OnInit {
         if (x.item(i)!.classList.contains(this.random_number.toString())) {
           if (x.item(i)!.classList.contains("show")) {
             x.item(i)!.classList.remove("show");
-            this.hasInformationPen = false;
+            this.hasInformationProject = false;
           } else {
             x.item(i)!.classList.add("show");
-            this.hasInformationPen = true;
+            this.hasInformationProject = true;
           }
 
         } else {
@@ -220,10 +240,9 @@ export class ContentGridProjectFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url =  this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url =  this.myService.getApiHost() + `/grid/handleLike?project_id=${this.data.project.project_id}&user_id=${this.userData.getUserData()?.user_id}&type=project`;
 
     axios.get(url).then((response) => {
-      console.log(response);
 
       if (response.data.liked) {
         this.data.like++;
@@ -249,12 +268,12 @@ export class ContentGridProjectFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url =  this.myService.getApiHost() + `/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url =  this.myService.getApiHost() + `/grid/handlePin?id=${this.data.project.project_id}&user_id=${this.userData.getUserData()?.user_id}&type=project`;
 
     axios.get(url)
       .then((response) => {
         this.pined = response.data.pinned;
-        this.informationPen[1] = !this.pined ? "Add to Pins" : "Remove to Pins";
+        this.informationProject[1] = !this.pined ? "Add to Pins" : "Remove to Pins";
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -271,7 +290,7 @@ export class ContentGridProjectFullInfComponent implements OnInit {
       axios.get(url)
         .then((response) => {
           this.followed = response.data.followed;
-          this.informationPen[2] = !this.followed ? `Follow ${this.data.user.user_name}` : `Unfollow ${this.data.user.user_name}`;
+          this.informationProject[2] = !this.followed ? `Follow ${this.data.user.user_name}` : `Unfollow ${this.data.user.user_name}`;
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -279,11 +298,33 @@ export class ContentGridProjectFullInfComponent implements OnInit {
     }
   }
 
-  childDetailPenVisible: boolean = false;
-  openDetailPen() {
-    this.childDetailPenVisible = !this.childDetailPenVisible;
+  childDetailProjectVisible: boolean = false;
+  openDetailProject() {
+    this.childDetailProjectVisible = !this.childDetailProjectVisible;
   }
-  handleChildDetailPenClose() {
-    this.childDetailPenVisible = false;
+  handleChildDetailProjectClose() {
+    this.childDetailProjectVisible = false;
+  }
+
+  handleDeleteClick() {
+    const confirmed = confirm("Are you sure you want to delete this project?");
+    if (confirmed) {
+      const url = this.myService.getApiHost() + `/project/createOrUpdateProject`;
+      const data = {
+        project_id: this.project_id,
+        delete: true
+      };
+  
+      axios.post(url, data)
+        .then(response => {
+          console.log(response);
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([this.router.url]);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
   }
 }
