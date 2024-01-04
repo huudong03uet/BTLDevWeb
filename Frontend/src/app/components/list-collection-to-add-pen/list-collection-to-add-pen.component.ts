@@ -16,10 +16,9 @@ import { CreateNewCollectionServiceService } from 'src/app/services/create-new-c
 })
 export class ListCollectionToAddPenComponent implements OnInit {
 
-  @Input() pen_ids_in_collection: any[] = [];
-  @Input() type: string = "pen";
+  @Input() currentCollectionID: any;
 
-  @Input() pen_id: any = 1;
+  @Input() pen_id: any;
   collection_ids: any[] = [];
   data_views: any[] = [];
   pen_name: string = ""; // Thêm biến để lưu trữ pen_name
@@ -66,24 +65,20 @@ export class ListCollectionToAddPenComponent implements OnInit {
       const response = await axios.get(apiUrl);
       let collections = response.data.collections;
 
-      // Lặp qua từng collection để lấy danh sách pen và cập nhật giá trị
       for (let i = 0; i < collections.length; i++) {
         const collectionId = collections[i].collection_id;
         const pensInCollection = await this.getPensInCollection(collectionId);
         const penIds = pensInCollection.pen_ids;
 
-        // Cập nhật giá trị collection_number_pens và has_this_pen
         collections[i].collection_number_pens = penIds.length;
-        collections[i].has_this_pen = penIds.includes(this.pen_id);
-
-        // Assuming the response structure includes collection_name
+        if (!this.currentCollectionID) {
+          collections[i].has_this_pen = penIds.includes(this.pen_id);
+        }
         collections[i].collection_name = pensInCollection.collectionName;
-        // console.log(collections[i].collection_name);
       }
-
-      // Lấy tên của pen
-      this.pen_name = await this.getPenName(this.pen_id);
-
+      if (!this.currentCollectionID) {
+        this.pen_name = await this.getPenName(this.pen_id);
+      }
       this.data_views = collections;
     } catch (error) {
       console.error('Error:', error);
@@ -132,6 +127,24 @@ export class ListCollectionToAddPenComponent implements OnInit {
 
   viewCollection(collection_id: number) {
     this.router.navigate([`/collection/${collection_id}`]);
+  }
+
+  async addCollectionToCollection(targetCollectionId: number) {
+    try {
+      const apiUrl = this.myService.getApiHost() + `/your-work/collections/addCollectionToCollection`;
+      const response = await axios.post(apiUrl, { sourceCollectionId: this.currentCollectionID, targetCollectionId });
+      if (response.data.code === 200) {
+        console.log('Collection added to collection successfully.');
+        alert('Collection added to collection successfully!');
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([this.router.url]);
+      } else {
+        console.error('Error adding collection to collection:', response.data.error);
+      }
+    } catch (error) {
+      console.error('Error adding collection to collection:', error);
+    }
   }
 
 

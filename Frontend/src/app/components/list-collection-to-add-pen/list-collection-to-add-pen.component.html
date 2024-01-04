@@ -1,7 +1,7 @@
 <div class="list-collection-to-add-pen" *ngIf="data_views && data_views.length > 0">
     <div class="header-list">
-        Add <span *ngIf="type=='pen'">&nbsp;{{pen_name}}&nbsp;</span> 
-            <span *ngIf="type=='collection'"> &nbsp;all pens&nbsp;</span>            
+        Add <span *ngIf=(!currentCollectionID)>&nbsp;{{pen_name}}&nbsp;</span>
+        <span *ngIf=(currentCollectionID)> &nbsp;all pens&nbsp;</span>
         to Collection
     </div>
     <div class="search-list">
@@ -40,20 +40,33 @@
                     </div>
 
                     <div class="item-list-button">
-                        <button *ngIf="!collection.has_this_pen" class="add-to-collection-button"
-                            (click)="addPenToCollection(collection.collection_id)">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                            </svg>
-                        </button>
-                        <button *ngIf="collection.has_this_pen" class="remove-from-collection-button"
-                            (click)="removePenFromCollection(collection.collection_id)">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none">
-                                <path d="M6 12L18 12" stroke="#fff" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </button>
+                        <ng-container *ngIf="currentCollectionID; else regularAddButton">
+                            <!-- If currentCollectionID exists, display Add All Pens button -->
+                            <button class="add-all-pens-button"
+                                (click)="addCollectionToCollection(collection.collection_id)">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                                </svg>
+                            </button>
+                        </ng-container>
+
+                        <!-- Regular Add to Collection button when currentCollectionID does not exist -->
+                        <ng-template #regularAddButton>
+                            <button *ngIf="!collection.has_this_pen" class="add-to-collection-button"
+                                (click)="addPenToCollection(collection.collection_id)">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                                </svg>
+                            </button>
+                            <button *ngIf="collection.has_this_pen" class="remove-from-collection-button"
+                                (click)="removePenFromCollection(collection.collection_id)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path d="M6 12L18 12" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        </ng-template>
                     </div>
                 </div>
         </ul>
