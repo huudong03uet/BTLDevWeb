@@ -9,7 +9,8 @@ import { HostService } from 'src/app/host.service';
   styleUrls: ['./your-work-projects.component.scss']
 })
 export class YourWorkProjectsComponent {
-  project_ids = []
+  project_ids = [] 
+
 
   // page_now: number = 1;
   // pen_ids_current: any[] = [];

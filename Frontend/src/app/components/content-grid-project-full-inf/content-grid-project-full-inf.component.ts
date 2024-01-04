@@ -23,7 +23,7 @@ export class ContentGridProjectFullInfComponent implements OnInit {
     "Add to Collection",
     "Remove from Pins",
     "Unfollow User"
-  ]
+  ] 
 
   constructor(
     private router: Router,

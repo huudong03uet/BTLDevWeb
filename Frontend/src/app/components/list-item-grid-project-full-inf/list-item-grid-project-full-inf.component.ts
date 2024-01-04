@@ -13,6 +13,7 @@ export class ListItemGridProjectFullInfComponent {
     1, 2, 1,
     1, 2
   ];
+  
 
   page_now: number = 1;
   pen_ids_current: any[] = [];
