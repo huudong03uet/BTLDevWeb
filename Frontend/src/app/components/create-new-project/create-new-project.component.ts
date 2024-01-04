@@ -32,7 +32,11 @@ export class CreateNewProjectComponent {
   }
 
   async onSubmit() {
-    window.location.href = this.myService.getWebHost + '/project/123';
+    // -> to localhost:3000/project/123
+    console.log(this.createForm.value.projectTitle);
+    // if(this.userData.getUserData)
+    // const data = await axios.post('http://localhost:3000/project/createProject', {project_name: this.createForm.value.projectTitle, project_description: this.createForm.value.project_description, user_id: this.userData.getUserData()?.user_id})
+    window.location.href = 'http://localhost:4200/project/123';
     
 
     // TODO: Implement this

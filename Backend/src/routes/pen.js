@@ -9,7 +9,7 @@ router.get("/getInfoPen", penController.getInfoPen);
 router.get("/getTrending", penController.getTrending);
 router.get("/getPenByUser/:id", penController.getPenByUser);
 router.get("/getPenByUserIDForFollow/:id", penController.getPenByUserIDForFollow);
-router.get("/getFollow/:id", penController.getFollow);
+router.get("/getFollow/", penController.getFollow);
 router.get("/getPenByUserSort/", penController.getPenByUserSort);
 router.get("/getPenByUserIdFullOption/:id", penController.getPenByUserIdFullOption);
 router.get("/getAllPen", penController.getAllPen);

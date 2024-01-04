@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-footer-project',
@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer-project.component.scss']
 })
 export class FooterProjectComponent {
+  @Input() data: any;
+  @Output() dataChange = new EventEmitter();
 
 }

@@ -1,138 +1,94 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 declare let CodeMirror: any;
+
 
 @Component({
   selector: 'app-code-box-project',
   templateUrl: './code-box-project.component.html',
   styleUrls: ['./code-box-project.component.scss']
 })
-export class CodeBoxProjectComponent {
-  @Input() codeObject!: string;
-  @Input() codecode!: string;
-  @ViewChild('htmlTextarea') htmlTextarea: ElementRef | undefined;
-  @ViewChild('cssTextarea') cssTextarea: ElementRef | undefined;
-  // scss
-  // @ViewChild('scssTextarea') scssTextarea!: ElementRef;
-  @ViewChild('jsTextarea') jsTextarea: ElementRef | undefined;
-  @ViewChild('outputFrame') outputFrame: ElementRef | undefined;
+export class CodeBoxProjectComponent implements AfterViewInit {
+  @ViewChild('codeTextarea', { static: false }) codeTextarea: ElementRef | undefined;
 
-  htmlEditor!: any;
-  cssEditor!: any;
-  jsEditor!: any;
-  // scssEditor!: any;
+  @Input() data: any;
+  @Output() dataChange = new EventEmitter();
+  currentCode: String = '';
+  lastFileChoose: any = null;
+
+  codeEditor: any;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data'] && this.data.fileChoose != this.lastFileChoose) {
+      if (this.codeTextarea && this.codeTextarea.nativeElement && this.data?.fileChoose) {
+        this.lastFileChoose = this.data.fileChoose;
+
+        this.currentCode = this.data?.data_map[this.data?.fileChoose]?.content;
+        const fileName = this.data?.fileChoose;
+        const fileExtension = fileName ? fileName.split('.').pop() : '';
+        const mode = this.getModeFromExtension(fileExtension);
+        this.codeEditor.setOption('mode', mode);
+        this.codeEditor.setValue(this.currentCode);
+      }
+    }
+  }
+
+  
 
   ngAfterViewInit() {
-    this.htmlEditor = CodeMirror.fromTextArea(this.htmlTextarea?.nativeElement, {
-      mode: 'xml',
-      lineNumbers: true,
-      lineWrapping: true,
-      theme: 'monokai',
-      autoCloseBrackets: true,
-      autoCloseTags: true,
-      // font
-      // only read
-    });
-    this.htmlEditor.on('change', () => this.run());
+    // Kiểm tra xem codeTextarea đã được khởi tạo và có giá trị hay không
+    if (this.codeTextarea && this.codeTextarea.nativeElement) {
+      this.initializeCodeMirrorEditor();
+      if(this.data.fileChoose) {
+        this.currentCode = this.data?.data_map[this.data?.fileChoose]?.content;
+        this.codeEditor.setValue(this.currentCode);  
+      }
 
-    this.cssEditor = CodeMirror.fromTextArea(this.cssTextarea?.nativeElement, {
-      mode: 'css',
-      lineNumbers: true,
-      lineWrapping: true,
-      theme: 'monokai',
-      autoCloseBrackets: true,
-      autoCloseTags: true,
-    });
-    this.cssEditor.on('change', () => this.run());
-
-    
-    
-
-    this.jsEditor = CodeMirror.fromTextArea(this.jsTextarea?.nativeElement, {
-      mode: 'javascript',
-      lineNumbers: true,
-      lineWrapping: true,
-      theme: 'monokai',
-      autoCloseBrackets: true,
-      autoCloseTags: true,
-    });
-    this.jsEditor.on('change', () => this.run());
-
-    // this.scssEditor = CodeMirror.fromTextArea(this.scssTextarea.nativeElement, {
-    //   mode: 'scss',
-    //   lineNumbers: false,
-    //   lineWrapping: true,
-    //   theme: 'monokai',
-    //   autoCloseBrackets: true,
-    //   autoCloseTags: true,
-    //   readOnly: true
-    // });
+    }
   }
 
-  run() {
-    const htmlCode = this.htmlEditor.getValue();
-    const cssCode = this.cssEditor.getValue();
-    const jsCode = this.jsEditor.getValue();
-    const output = this.outputFrame?.nativeElement;
+  initializeCodeMirrorEditor() {
+    let mode = 'html';
+    if(this.data?.filesOpened?.size > 0) {
+      const fileName = this.data?.fileChoose;
+      const fileExtension = fileName ? fileName.split('.').pop() : '';
+      console.log(fileName);
+      mode = this.getModeFromExtension(fileExtension);
+    }
 
-    // const scssCode = this.scssEditor.getValue();
+    this.codeEditor = CodeMirror.fromTextArea(this.codeTextarea?.nativeElement, {
+      mode: mode,
+      lineNumbers: true,
+      lineWrapping: true,
+      theme: 'monokai',
+      autoCloseBrackets: true,
+      autoCloseTags: true,
+      // Add any other configuration options you need
+    });
 
-    // Hiển thị HTML và CSS trong iframe
-    output.contentDocument.body.innerHTML = htmlCode;
-    const styleTag = document.createElement('style');
-    styleTag.innerHTML = cssCode;
-    output.contentDocument.head.appendChild(styleTag);
-
-    // Hiển thị SCSS trong iframe
-    // const styleTagSCSS = document.createElement('style');
-    // styleTagSCSS.innerHTML = scssCode;
-    // output.contentDocument.head.appendChild(styleTagSCSS);
-
-
-    // Chạy JavaScript
-    const scriptTag = document.createElement('script');
-    scriptTag.innerHTML = jsCode;
-    output.contentDocument.body.appendChild(scriptTag);
+    this.codeEditor.on('change', () => this.onCodeChange());
   }
 
+  getModeFromExtension(fileExtension: string): string {
+    // Map file extensions to CodeMirror modes
+    switch (fileExtension) {
+      case 'html':
+        return 'xml';
+      case 'css':
+        return 'css';
+      case 'js':
+        return 'javascript';
+      // Add more cases as needed
+      default:
+        return 'text/plain';
+    }
+  }
 
-//   ngOnChanges(changes: SimpleChanges) {
-//       if (changes['codeObject']) {
-//       this.htmlEditor = CodeMirror.fromTextArea(this.htmlTextarea?.nativeElement, {
-//         mode: 'xml',
-//         lineNumbers: true,
-//         lineWrapping: true,
-//         theme: 'monokai',
-//         autoCloseBrackets: true,
-//         autoCloseTags: true,
-//         // font
-//         // only read
-//       });
-//       this.htmlEditor.on('change', () => this.run());
-
-//       this.cssEditor = CodeMirror.fromTextArea(this.cssTextarea?.nativeElement, {
-//         mode: 'css',
-//         lineNumbers: true,
-//         lineWrapping: true,
-//         theme: 'monokai',
-//         autoCloseBrackets: true,
-//         autoCloseTags: true,
-//       });
-//       this.cssEditor.on('change', () => this.run());
-
-      
-      
-
-//       this.jsEditor = CodeMirror.fromTextArea(this.jsTextarea?.nativeElement, {
-//         mode: 'javascript',
-//         lineNumbers: true,
-//         lineWrapping: true,
-//         theme: 'monokai',
-//         autoCloseBrackets: true,
-//         autoCloseTags: true,
-//       });
-//       this.jsEditor.on('change', () => this.run());
-//     }
-// //  reload code
-//   }
+  onCodeChange() {
+    console.log(123333);
+    if(this.data.fileChoose) {
+      const newCode = this.codeEditor.getValue();
+      this.data.data_map[this.data.fileChoose].content = newCode;
+      this.dataChange.emit(this.data);
+      console.log(this.codeEditor.getOption('mode'));  
+    }
+  }
 }

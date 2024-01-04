@@ -114,7 +114,6 @@ import { CollectionDeletedComponent } from './pages/manage/central-manage/delete
 import { ListPenCollectionProjectSComponent } from './pages/manage/central-manage/components/list-pen-collection-project-s/list-pen-collection-project-s.component';
 import { ListCommentsComponent } from './pages/manage/central-manage/components/list-comments/list-comments.component';
 import { ListUsersComponent } from './pages/manage/central-manage/components/list-users/list-users.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -237,8 +236,9 @@ import { ListUsersComponent } from './pages/manage/central-manage/components/lis
       { path: "trending", component: TrendingComponent },
       { path: "following", component: FollowingComponent },
       { path: "your-work", component: YourWorkComponent },
+      { path: "project/:id", component: ProjectComponent },
+      { path: "project/", component: ProjectComponent },
       {path: "search-page", component: SearchPageComponent},
-      { path: "project/123", component: ProjectComponent },
       {
         path: "profile", component: ProfileComponent, children: [
           { path: "", redirectTo: "pens", pathMatch: "full" },

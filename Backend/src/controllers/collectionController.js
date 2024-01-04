@@ -188,8 +188,6 @@ async function getAllCollection(req, res) {
   const order_by = req.query.order_by;
   const deleted = req.query.deleted == ''? false: (req.query.deleted == "true"? true: false);
 
-  console.log(req.query)
-
   try {
     let collections = await Collection.findAll({
       attributes: {

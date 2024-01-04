@@ -1,4 +1,6 @@
-import { Component, ElementRef, HostListener, Input, Renderer2, ViewEncapsulation } from '@angular/core';
+
+import { SidebarComponent } from './../../../components/sidebar/sidebar.component';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, Renderer2, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ProjectFileService } from 'src/app/services/project-file.service';
 @Component({
@@ -7,131 +9,44 @@ import { ProjectFileService } from 'src/app/services/project-file.service';
   styleUrls: ['./folder-tree.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class FolderTreeComponent {
+export class FolderTreeComponent implements OnChanges{
   @Input() project_id: number | undefined;
 
   project_name: string = "File Manager";
 
   click_search: boolean = false;
 
-  file_selected: any;
-  datas = [
-    {
-      id: 2,
-      title: "test_folder",
-      type: "folder",
-      code: "",
-      children: [
-        {
-          id: 3,
-          title: "test_file.css",
-          type: "css",
-          code: "body { background-color: red; }",
-          children: []
-        },
-        {
-          id: 4,
-          title: "test_file.html",
-          type: "html",
-          code: "<h1>Hello World</h1>",
-          children: []
-        },
-        {
-          id: 5,
-          title: "test_file.js",
-          type: "js",
-          code: "console.log('Hello World');",
-          children: []
-        },
-        {
-          id: 10,
-          title: "test_folder2",
-          type: "folder",
-          code: "",
-          children: [
-            {
-              id: 11,
-              title: "test_file2.css",
-              type: "css",
-              code: "body { background-color: red; }",
-              children: []
-            },
-            {
-              id: 12,
-              title: "test_file2.html",
-              type: "html",
-              code: "<h1>Hello World</h1>",
-              children: []
-            },
-            {
-              id: 13,
-              title: "test_file2.js",
-              type: "js",
-              code: "console.log('Hello World');",
-              children: []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: 6,
-      title: "test_file",
-      type: "folder",
-      code: "console.log('Hello World');",
-      children: []
-    },
-    {
-      id: 7,
-      title: "test_file.png",
-      type: "png",
-      code: "",
-      children: []
-    },
-    {
-      id: 8,
-      title: "css_test.css",
-      type: "css",
-      code: "",
-      children: []
-    },
-    {
-      id: 9,
-      title: "html_test.html",
-      type: "html",
-      code: "",
-      children: []
-    }
-  ]
+  @Input() data: any;
+  @Output() dataChange = new EventEmitter();
+
+  
   // constructor(private sanitizer: DomSanitizer, private projectFile: ProjectFileService) { }
   constructor(private renderer: Renderer2, private el: ElementRef, private projectFile: ProjectFileService, private sanitizer: DomSanitizer) { }
 
-  /**
-   * sort data
-   */
-  sortData() {
-    // folder, after file , if the same folder or file, sort by name
-    this.datas.sort((a, b) => {
-      if (a.type == b.type) {
-        if (a.title < b.title) {
-          return -1;
-        } else {
-          return 1;
-        }
-      } else {
-        if (a.type == "folder") {
-          return -1;
-        } else {
-          return 1;
-        }
-      }
-    });
-    for (let i = 0; i < this.datas.length; i++) {
-      if (this.datas[i].children.length > 0) {
-        this.sortDataChild(this.datas[i].children);
-      }
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('ngOnChanges is called:', changes);
+
+    if (changes['data']) {
+      // Xử lý khi dữ liệu từ cha thay đổi
+      console.log('Data from parent changed:', this.data);
+      this.run();
+      // Thực hiện các hành động khác nếu cần
     }
   }
+
+  run() {
+    if(this.data) {
+      console.log(this.data, 12345);
+      let tree = this.renderTree(this.data.data_key);
+      let folderTreeFileElement = this.el.nativeElement.querySelector('#folder-tree-file');
+      console.log(folderTreeFileElement)
+      if(folderTreeFileElement.firstChild) {
+        this.renderer.removeChild(folderTreeFileElement, folderTreeFileElement.firstChild);
+      }
+      this.renderer.appendChild(folderTreeFileElement, tree);  
+    }
+  }
+  // constructor(private sanitizer: DomSanitizer, private projectFile: ProjectFileService) { }
 
   sortDataChild(obj: any) {
     obj.sort((a: any, b: any) => {
@@ -156,30 +71,10 @@ export class FolderTreeComponent {
     }
   }
 
-  reRenderTree() {
-    this.sortData();
-    let tree = this.renderTree(this.datas);
-    console.log("12345")
-    let folderTreeFileElement = this.el.nativeElement.querySelector('#folder-tree-file');
-    console.log("1234")
-
-    if (folderTreeFileElement) {
-      if (folderTreeFileElement.firstChild) {
-        this.renderer.removeChild(folderTreeFileElement, folderTreeFileElement.firstChild);
-      }
-      console.log("123")
-      this.renderer.appendChild(folderTreeFileElement, tree);
-      this.renderer.appendChild(folderTreeFileElement, tree);
-
-    } else {
-      console.error('Element #folder-tree-file not found');
-    }
-    console.log("123")
-  }
+ 
 
 
   ngOnInit(): void {
-    this.reRenderTree();
 
   }
 
@@ -187,32 +82,76 @@ export class FolderTreeComponent {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
+
   renderTree(obj: any) {
+    console.log(obj)
     let ul = this.renderer.createElement('ul');
-    for (let i = 0; i < obj.length; i++) {
-      let obj_id = obj[i];
+    for (let folderName in obj.subfolders) {
+      let folder = obj.subfolders[folderName];
       let li = this.renderer.createElement('li');
-      this.renderer.addClass(li, obj[i].type);
-      this.renderer.setProperty(li, 'id', obj[i].id);
-      this.renderer.setProperty(li, 'innerHTML', this.renderSvg(obj[i].type) + `<span>${obj[i].title}</span>`);
-      this.renderer.listen(li, 'click', (event) => {
-        event.stopPropagation();
-        this.fileOpen(obj_id.id);
-      });
-      if (obj[i].children.length > 0) {
-        let childUl = this.renderTree(obj[i].children);
+      this.renderer.addClass(li, 'folder');
+      this.renderer.setProperty(li, 'innerHTML', this.renderSvg('folder') + `<span>${folder.name}</span>`);
+      this.renderer.listen(li, 'click', () => this.folderOpen(folder));
+      if(folder.key == this.data.sidebarChoose) {
+        this.renderer.setStyle(li, 'color', 'red');
+      }
+      console.log(li, 123)
+      if(folder.status == 'open') {
+        let childUl = this.renderTree(folder);
+
         this.renderer.appendChild(li, childUl);
       }
       this.renderer.appendChild(ul, li);
     }
+    for (let i = 0; i < obj.files?.length; i++) {
+      let file = obj.files[i];
+      console.log(file)
+      let type  = file.name.split('.').pop();
+      let li = this.renderer.createElement('li');
+      this.renderer.addClass(li, type);
+      this.renderer.setProperty(li, 'innerHTML', this.renderSvg(type) + `<span>${file.name}</span>`);
+      this.renderer.listen(li, 'click', ($event) => this.fileOpen(file, $event));
+      if(file.key == this.data.sidebarChoose) {
+        this.renderer.setStyle(li, 'color', 'red');
+      }
+      this.renderer.appendChild(ul, li);
+    }
     return ul;
-  }
+}
 
 
+buildFolderTree(path: any, node: any, tree: any) {
+  if (path.length === 0) return;
 
+ let part = path.shift();
 
+ if (!tree[part]) {
+   tree[part] = {
+     ...node,
+     name: part,
+     subfolders: {},
+     files: []
+   };
+ }
+
+ this.buildFolderTree(path, node, tree[part].subfolders);
+}
+
+addFileToTree(path: any, file: any, tree: any) {
+  console.log(path)
+ let part = path.shift();
+
+ if (path.length === 1) {
+   tree[part].files.push(file);
+ } else {
+   if (tree[part]) {
+     this.addFileToTree(path, file, tree[part].subfolders);
+   }
+ }
+}
 
   renderSvg(obj: string) {
+    
     if (obj == "folder") {
       return `<svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path fill="rgb(203, 203, 203)" d="M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z"/></svg>`
 
@@ -241,88 +180,58 @@ export class FolderTreeComponent {
    * Search
    */
   search: string = "";
-  list_files_search: number[] = [];
-  searchParentChild(obj: any, searchValue: string) {
-    for (let i = 0; i < obj.length; i++) {
-      if (obj[i].title.includes(searchValue)) {
-        this.list_files_search.push(obj[i].id);
-      }
-      if (obj[i].children.length > 0) {
-        this.searchParentChild(obj[i].id, searchValue);
-      }
+
+
+  list_files_search: String[] = [];
+
+
+  choose_search(id: String) {
+    console.log(this.data.data_map)
+    if(this.data.data_map.type == 'file') {
 
     }
-
-
   }
-  link_files_search: string[] = [];
+
   searchFiles(searchValue: string) {
     if (searchValue == "") {
-      this.link_files_search = [];
       this.list_files_search = [];
       return;
     }
-    this.search = searchValue;
-    this.list_files_search = [];
-    for (let i = 0; i < this.datas.length; i++) {
-      if (this.datas[i].title.includes(searchValue)) {
-        this.list_files_search.push(this.datas[i].id);
-      }
-      if (this.datas[i].children.length > 0) {
-        this.searchParentChild(this.datas[i].children, searchValue);
-      }
-    }
-
-    this.convertListToLink();
-    // console.log(this.link_files_search)
+    this.list_files_search = []
+    this.searchParentChild(this.data.data_map, searchValue);
   }
 
-  /**
-   * Convert
-   */
+  searchParentChild(obj: any, searchValue: string) {
+    for (let key in obj) {
+      if (key.includes(searchValue)) {
+        this.list_files_search.push(key);
 
-  convertListToLink() {
-    this.link_files_search = [];
-    for (let i = 0; i < this.list_files_search.length; i++) {
-      this.link_files_search.push(this.convertIdToLink(this.list_files_search[i]));
+      }
     }
   }
 
-  convertIdToLink(id: number) {
-    let link = "";
-    for (let i = 0; i < this.datas.length; i++) {
-      if (this.datas[i].id == id) {
-        link += this.datas[i].title;
-        break;
-      }
-      if (this.datas[i].children.length > 0) {
-        link += this.convertIdToLinkChild(this.datas[i].children, id);
-        if (link != "") {
-          link = this.datas[i].title + "/" + link;
-          break;
-        }
-      }
-    }
-    return link;
+  fileOpen(fileOpen: any, event: Event) {
+    this.data.filesOpened.add(fileOpen.key);
+    this.data.fileChoose = fileOpen.key;
+    this.data.sidebarChoose = fileOpen.key;
+    this.dataChange.emit(this.data);
+    event.stopPropagation();
   }
 
-  convertIdToLinkChild(obj: any, id: number) {
-    let link = "";
-    for (let i = 0; i < obj.length; i++) {
-      if (obj[i].id == id) {
-        link += obj[i].title;
-        break;
-      }
-      if (obj[i].children.length > 0) {
-        link += this.convertIdToLinkChild(obj[i].children, id);
-        if (link != "") {
-          link = obj[i].title + "/" + link;
-          break;
-        }
-      }
+  folderOpen(folderOpen: any) {
+    console.log(123)
+    if(folderOpen.status == 'close') {
+      folderOpen.status = 'open'
+    } else {
+      folderOpen.status = 'close'
     }
-    return link;
+    this.data.sidebarChoose = folderOpen.key;
+    this.dataChange.emit(this.data);
   }
+
+ 
+
+
 
   hiddenAllChildren(folder: any) {
     let children = folder.querySelectorAll('li');
@@ -334,6 +243,7 @@ export class FolderTreeComponent {
       }
     }
   }
+  
 
 
 
@@ -342,65 +252,66 @@ export class FolderTreeComponent {
    * file open
    */
 
-  fileOpen(id_file: any) {
+//   fileOpen(id_file: any) {
 
-    // find fileOpen in datas
-    let fileOpen: any = null;
-    for (let i = 0; i < this.datas.length; i++) {
-      if (this.datas[i].id == id_file) {
-        fileOpen = this.datas[i];
-        break;
-      }
-      if (this.datas[i].children.length > 0) {
-        fileOpen = this.fileOpenChild(this.datas[i].children, id_file);
-        if (fileOpen != null) {
-          break;
-        }
-      }
-    }
-
-
-    if (fileOpen.type != "folder") {
-      this.projectFile.changeMessage(fileOpen);
-
-    }
-
-    if (fileOpen.type == "folder") {
-      let folder = document.getElementById(fileOpen.id);
-
-      if (folder?.classList.contains("close-folder")) {
-        this.renderer.removeClass(folder, "close-folder");
-        this.hiddenAllChildren(folder);
-        // change icon -> <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" viewBox="0 0 32 32" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M1,5.998l-0,16.002c-0,1.326 0.527,2.598 1.464,3.536c0.938,0.937 2.21,1.464 3.536,1.464c5.322,0 14.678,-0 20,0c1.326,0 2.598,-0.527 3.536,-1.464c0.937,-0.938 1.464,-2.21 1.464,-3.536c0,-3.486 0,-8.514 0,-12c0,-1.326 -0.527,-2.598 -1.464,-3.536c-0.938,-0.937 -2.21,-1.464 -3.536,-1.464c-0,0 -10.586,0 -10.586,0c0,-0 -3.707,-3.707 -3.707,-3.707c-0.187,-0.188 -0.442,-0.293 -0.707,-0.293l-5.002,0c-2.76,0 -4.998,2.238 -4.998,4.998Z"/><g id="Icon"/></svg>
-        folder?.querySelector('svg')?.setAttribute('viewBox', '0 0 576 512');
-        folder?.querySelector('path')?.setAttribute('d', 'M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z');
+//     // find fileOpen in datas
+//     let fileOpen: any = null;
+//     for (let i = 0; i < this.datas.length; i++) {
+//       if (this.datas[i].id == id_file) {
+//         fileOpen = this.datas[i];
+//         break;
+//       }
+//       if (this.datas[i].children.length > 0) {
+//         fileOpen = this.fileOpenChild(this.datas[i].children, id_file);
+//         if (fileOpen != null) {
+//           break;
+//         }
+//       }
+//     }
 
 
+//     if (fileOpen.type != "folder") {
+//       this.projectFile.changeMessage(fileOpen);
+
+//     }
+// >>>>>>> 9bae709592f6976fd2c2ea255cc934e6135ecd1f
+
+//     if (fileOpen.type == "folder") {
+//       let folder = document.getElementById(fileOpen.id);
+
+//       if (folder?.classList.contains("close-folder")) {
+//         this.renderer.removeClass(folder, "close-folder");
+//         this.hiddenAllChildren(folder);
+//         // change icon -> <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" viewBox="0 0 32 32" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M1,5.998l-0,16.002c-0,1.326 0.527,2.598 1.464,3.536c0.938,0.937 2.21,1.464 3.536,1.464c5.322,0 14.678,-0 20,0c1.326,0 2.598,-0.527 3.536,-1.464c0.937,-0.938 1.464,-2.21 1.464,-3.536c0,-3.486 0,-8.514 0,-12c0,-1.326 -0.527,-2.598 -1.464,-3.536c-0.938,-0.937 -2.21,-1.464 -3.536,-1.464c-0,0 -10.586,0 -10.586,0c0,-0 -3.707,-3.707 -3.707,-3.707c-0.187,-0.188 -0.442,-0.293 -0.707,-0.293l-5.002,0c-2.76,0 -4.998,2.238 -4.998,4.998Z"/><g id="Icon"/></svg>
+//         folder?.querySelector('svg')?.setAttribute('viewBox', '0 0 576 512');
+//         folder?.querySelector('path')?.setAttribute('d', 'M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z');
 
 
-      } else {
-        this.renderer.addClass(folder, "close-folder");
-        this.hiddenAllChildren(folder);
-        // change icon ->       <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path d="M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z"/></svg>
-        folder?.querySelector('svg')?.setAttribute('viewBox', '0 0 32 32');
-        folder?.querySelector('path')?.setAttribute('d', 'M1,5.998l-0,16.002c-0,1.326 0.527,2.598 1.464,3.536c0.938,0.937 2.21,1.464 3.536,1.464c5.322,0 14.678,-0 20,0c1.326,0 2.598,-0.527 3.536,-1.464c0.937,-0.938 1.464,-2.21 1.464,-3.536c0,-3.486 0,-8.514 0,-12c0,-1.326 -0.527,-2.598 -1.464,-3.536c-0.938,-0.937 -2.21,-1.464 -3.536,-1.464c-0,0 -10.586,0 -10.586,0c0,-0 -3.707,-3.707 -3.707,-3.707c-0.187,-0.188 -0.442,-0.293 -0.707,-0.293l-5.002,0c-2.76,0 -4.998,2.238 -4.998,4.998Z');
 
-      }
 
-    }
-    this.file_selected = fileOpen;
-    // add class active to li tag has id = fileOpen.id, and remove class active to other li
-    let li = document.querySelectorAll('li');
-    for (let i = 0; i < li.length; i++) {
-      if (li[i].classList.contains("active")) {
-        this.renderer.removeClass(li[i], "active");
-      }
-      if (li[i].id == fileOpen.id) {
-        this.renderer.addClass(li[i], "active");
-      }
-    }
+//       } else {
+//         this.renderer.addClass(folder, "close-folder");
+//         this.hiddenAllChildren(folder);
+//         // change icon ->       <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path d="M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z"/></svg>
+//         folder?.querySelector('svg')?.setAttribute('viewBox', '0 0 32 32');
+//         folder?.querySelector('path')?.setAttribute('d', 'M1,5.998l-0,16.002c-0,1.326 0.527,2.598 1.464,3.536c0.938,0.937 2.21,1.464 3.536,1.464c5.322,0 14.678,-0 20,0c1.326,0 2.598,-0.527 3.536,-1.464c0.937,-0.938 1.464,-2.21 1.464,-3.536c0,-3.486 0,-8.514 0,-12c0,-1.326 -0.527,-2.598 -1.464,-3.536c-0.938,-0.937 -2.21,-1.464 -3.536,-1.464c-0,0 -10.586,0 -10.586,0c0,-0 -3.707,-3.707 -3.707,-3.707c-0.187,-0.188 -0.442,-0.293 -0.707,-0.293l-5.002,0c-2.76,0 -4.998,2.238 -4.998,4.998Z');
 
-  }
+//       }
+
+//     }
+//     this.file_selected = fileOpen;
+//     // add class active to li tag has id = fileOpen.id, and remove class active to other li
+//     let li = document.querySelectorAll('li');
+//     for (let i = 0; i < li.length; i++) {
+//       if (li[i].classList.contains("active")) {
+//         this.renderer.removeClass(li[i], "active");
+//       }
+//       if (li[i].id == fileOpen.id) {
+//         this.renderer.addClass(li[i], "active");
+//       }
+//     }
+
+//   }
 
   fileOpenChild(children: { id: number; title: string; type: string; code: string; children: { id: number; title: string; type: string; code: string; children: never[]; }[]; }[], id_file: any): any {
     let fileOpen: any = null;
@@ -419,18 +330,18 @@ export class FolderTreeComponent {
     return fileOpen;
   }
 
-  onProjectClick(event: Event) {
-    this.file_selected = undefined;
-    let li = document.querySelectorAll('li');
-    for (let i = 0; i < li.length; i++) {
-      if (li[i].classList.contains("active")) {
-        this.renderer.removeClass(li[i], "active");
-      }
-    }
+  // onProjectClick(event: Event) {
+  //   this.file_selected = undefined;
+  //   let li = document.querySelectorAll('li');
+  //   for (let i = 0; i < li.length; i++) {
+  //     if (li[i].classList.contains("active")) {
+  //       this.renderer.removeClass(li[i], "active");
+  //     }
+  //   }
 
 
 
-  }
+  // }
 
 
   /**
@@ -439,157 +350,157 @@ export class FolderTreeComponent {
    */
   //  when enter keydown delete and select file != undefined
 
-  @HostListener('window:keydown', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Delete' && this.file_selected !== undefined) {
-      this.removeFileCurrent();
-    }
-  }
+  // @HostListener('window:keydown', ['$event'])
+  // handleKeyDown(event: KeyboardEvent) {
+  //   if (event.key === 'Delete' && this.file_selected !== undefined) {
+  //     this.removeFileCurrent();
+  //   }
+  // }
 
-  removeFileCurrent() {
-    if (this.file_selected == undefined) {
-      return;
-    }
+  // removeFileCurrent() {
+  //   if (this.file_selected == undefined) {
+  //     return;
+  //   }
 
-    this.datas = this.removeFileOrFolder(this.datas, this.file_selected.id);
-    if (this.file_selected.type != "folder") {
-      //  remove in tree
-
-
-      let li = document.getElementById(this.file_selected.id);
-      let parent = li?.parentElement;
-      this.renderer.removeChild(parent, li);
-      this.file_selected.is_remove = true;
-      this.projectFile.changeMessage(this.file_selected);
-    } else {
-      this.removeChildren(this.file_selected.children);
-      let li = document.getElementById(this.file_selected.id);
-      let parent = li?.parentElement;
-      this.renderer.removeChild(parent, li);
+  //   this.datas = this.removeFileOrFolder(this.datas, this.file_selected.id);
+  //   if (this.file_selected.type != "folder") {
+  //     //  remove in tree
 
 
-    }
+  //     let li = document.getElementById(this.file_selected.id);
+  //     let parent = li?.parentElement;
+  //     this.renderer.removeChild(parent, li);
+  //     this.file_selected.is_remove = true;
+  //     this.projectFile.changeMessage(this.file_selected);
+  //   } else {
+  //     this.removeChildren(this.file_selected.children);
+  //     let li = document.getElementById(this.file_selected.id);
+  //     let parent = li?.parentElement;
+  //     this.renderer.removeChild(parent, li);
+
+
+  //   }
 
 
 
-    this.file_selected = undefined;
+  //   this.file_selected = undefined;
 
 
-  }
-  removeChildren(children: any) {
-    for (let i = 0; i < children.length; i++) {
-      if (children[i].children.length > 0) {
-        this.removeChildren(children[i].children);
-      }
-      let li = document.getElementById(children[i].id);
-      let parent = li?.parentElement;
-      this.renderer.removeChild(parent, li);
-    }
-  }
+  // }
+  // removeChildren(children: any) {
+  //   for (let i = 0; i < children.length; i++) {
+  //     if (children[i].children.length > 0) {
+  //       this.removeChildren(children[i].children);
+  //     }
+  //     let li = document.getElementById(children[i].id);
+  //     let parent = li?.parentElement;
+  //     this.renderer.removeChild(parent, li);
+  //   }
+  // }
 
-  removeFileOrFolder(obj: any, id: number) {
-    for (let i = 0; i < obj.length; i++) {
-      if (obj[i].id == id) {
-        obj.splice(i, 1);
-        break;
-      }
-      if (obj[i].children.length > 0) {
-        this.removeFileOrFolder(obj[i].children, id);
-      }
-    }
-    return obj;
-  }
-
-
-  /**
-   * Add file
-   * 
-   */
-  addFile() {
-
-    if (this.file_selected == undefined) {
-      // add to root
-      let fileNewOpen: any = {
-        //id random 10000000
-        id: Math.floor(Math.random() * 10000000),
-        title: "new_file.html",
-        type: "html",
-        code: "",
-        children: []
-      }
-      this.datas.push(fileNewOpen);
-
-      this.reRenderTree();
-      this.fileOpen(fileNewOpen.id);
-      this.file_selected = fileNewOpen;
-
-    }
-
-    else if (this.file_selected.type === "folder") {
+  // removeFileOrFolder(obj: any, id: number) {
+  //   for (let i = 0; i < obj.length; i++) {
+  //     if (obj[i].id == id) {
+  //       obj.splice(i, 1);
+  //       break;
+  //     }
+  //     if (obj[i].children.length > 0) {
+  //       this.removeFileOrFolder(obj[i].children, id);
+  //     }
+  //   }
+  //   return obj;
+  // }
 
 
-      let fileNewOpen: any = {
-        //id random 10000000
-        id: Math.floor(Math.random() * 10000000),
-        title: "new_file.html",
-        type: "html",
-        code: "",
-        children: []
-      }
-      this.datas = this.addFileOrFolder(this.datas, this.file_selected.id, fileNewOpen);
-      this.reRenderTree();
-      this.fileOpen(fileNewOpen.id);
+  // /**
+  //  * Add file
+  //  * 
+  //  */
+  // addFile() {
 
-      this.file_selected = fileNewOpen;
-    }
-  }
+  //   if (this.file_selected == undefined) {
+  //     // add to root
+  //     let fileNewOpen: any = {
+  //       //id random 10000000
+  //       id: Math.floor(Math.random() * 10000000),
+  //       title: "new_file.html",
+  //       type: "html",
+  //       code: "",
+  //       children: []
+  //     }
+  //     this.datas.push(fileNewOpen);
 
-  addFolder() {
-    if (this.file_selected == undefined) {
-      // add to root
-      let folderNewOpen: any = {
-        id: Math.floor(Math.random() * 10000000),
-        title: "new_folder",
-        type: "folder",
-        code: "",
-        children: []
-      }
-      this.datas.push(folderNewOpen);
+  //     this.reRenderTree();
+  //     this.fileOpen(fileNewOpen.id);
+  //     this.file_selected = fileNewOpen;
 
-      this.reRenderTree();
-      this.fileOpen(folderNewOpen.id);
-      this.file_selected = folderNewOpen;
+  //   }
 
-    }
+  //   else if (this.file_selected.type === "folder") {
 
-    else if (this.file_selected.type === "folder") {
-      let folderNewOpen: any = {
-        id: Math.floor(Math.random() * 10000000),
-        title: "new_folder",
-        type: "folder",
-        code: "",
-        children: []
-      }
 
-      this.datas = this.addFileOrFolder(this.datas, this.file_selected.id, folderNewOpen);
-      this.reRenderTree();
-      this.fileOpen(folderNewOpen.id);
+  //     let fileNewOpen: any = {
+  //       //id random 10000000
+  //       id: Math.floor(Math.random() * 10000000),
+  //       title: "new_file.html",
+  //       type: "html",
+  //       code: "",
+  //       children: []
+  //     }
+  //     this.datas = this.addFileOrFolder(this.datas, this.file_selected.id, fileNewOpen);
+  //     this.reRenderTree();
+  //     this.fileOpen(fileNewOpen.id);
 
-      this.file_selected = folderNewOpen;
+  //     this.file_selected = fileNewOpen;
+  //   }
+  // }
 
-    }
+  // addFolder() {
+  //   if (this.file_selected == undefined) {
+  //     // add to root
+  //     let folderNewOpen: any = {
+  //       id: Math.floor(Math.random() * 10000000),
+  //       title: "new_folder",
+  //       type: "folder",
+  //       code: "",
+  //       children: []
+  //     }
+  //     this.datas.push(folderNewOpen);
 
-  }
-  addFileOrFolder(obj: any, id: number, fileOrFolder: any) {
-    for (let i = 0; i < obj.length; i++) {
-      if (obj[i].id == id) {
-        obj[i].children.push(fileOrFolder);
-        break;
-      }
-      if (obj[i].children.length > 0) {
-        this.addFileOrFolder(obj[i].children, id, fileOrFolder);
-      }
-    }
-    return obj;
-  }
+  //     this.reRenderTree();
+  //     this.fileOpen(folderNewOpen.id);
+  //     this.file_selected = folderNewOpen;
+
+  //   }
+
+  //   else if (this.file_selected.type === "folder") {
+  //     let folderNewOpen: any = {
+  //       id: Math.floor(Math.random() * 10000000),
+  //       title: "new_folder",
+  //       type: "folder",
+  //       code: "",
+  //       children: []
+  //     }
+
+  //     this.datas = this.addFileOrFolder(this.datas, this.file_selected.id, folderNewOpen);
+  //     this.reRenderTree();
+  //     this.fileOpen(folderNewOpen.id);
+
+  //     this.file_selected = folderNewOpen;
+
+  //   }
+
+  // }
+  // addFileOrFolder(obj: any, id: number, fileOrFolder: any) {
+  //   for (let i = 0; i < obj.length; i++) {
+  //     if (obj[i].id == id) {
+  //       obj[i].children.push(fileOrFolder);
+  //       break;
+  //     }
+  //     if (obj[i].children.length > 0) {
+  //       this.addFileOrFolder(obj[i].children, id, fileOrFolder);
+  //     }
+  //   }
+  //   return obj;
+  // }
 }

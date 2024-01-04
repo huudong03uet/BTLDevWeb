@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import axios from 'axios';
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-support',
@@ -6,25 +8,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./support.component.scss', '../../pages/settings/style-settings.scss']
 })
 export class SupportComponent {
-  // Thêm các biến và phương thức của bạn ở đây
+  textFile = "Không có tệp nào được chọn";
 
-  // Ví dụ: Phương thức xử lý khi file được chọn
-
-  textFile = "Không có tệp nào được chọn"
+  mess = '';
+  name = '';
+  mail = '';
+  file: any;
+  subject = '';
 
   onFileSelected(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput.files ? fileInput.files[0] : null;
     if (file) {
-      // change to -> this.file = file;
       this.textFile = file.name;
-      
+      this.file = file;
     } else {
       this.textFile = "Không có tệp nào được chọn"
     }
   }
-
-  // list question_answering
 
   question_answering = [
     {
@@ -51,8 +52,19 @@ export class SupportComponent {
       question: "Receipts, account cancellation and more",
       answer: "If you're investigating a charge from CODE, need a receipt or need to cancel your account check out our comprehensive doc at the link below."
     }
-
-
   ]
+
+  constructor (private myService: HostService) {}
+
+  onSubmit() {
+
+    axios.post(this.myService.getApiHost() + `/send-email/support?name=${this.name}&email=${this.mail}&message=${this.mess}&subject=${this.subject}`).then((response) => {
+      console.log(response.data);
+      alert('done');
+    }).catch((error) => {
+      console.error('Error:', error);
+      alert('Khong done');
+    });
+  }
 
 }

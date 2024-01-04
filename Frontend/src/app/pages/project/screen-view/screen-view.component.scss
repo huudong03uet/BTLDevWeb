@@ -1,41 +1,49 @@
 .screen-view-center {
 
-        .preview-bar {
+    position: relative;
+    height: 100%;
+
+    .preview-bar {
+        margin-top: -26px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        background-color: #444857;
+        label {
+          font-size: 0.85rem;
+          letter-spacing: 0.5px;
+          margin-right: 8px;
+          text-transform: uppercase;
+          display: inline-block;
+          vertical-align: middle;
+          opacity: 0.7;
+          position: relative;
+        }
+        .select-small {
+            cursor: pointer;
+            z-index: 1001;
+          position: relative;
+          display: inline-block;
+          vertical-align: top;
+          color: hsl(228deg 12.2% 40.2%);
+          select {
+            cursor: pointer;
             height: 100%;
-            margin-top: -26px;
-            align-items: center;
-            justify-content: center;
             display: flex;
-            background-color: #444857;
-            label {
-              font-size: 0.85rem;
-              letter-spacing: 0.5px;
-              margin-right: 8px;
-              text-transform: uppercase;
-              display: inline-block;
-              vertical-align: middle;
-              opacity: 0.7;
-              position: relative;
-            }
-            .select-small {
-                cursor: pointer;
-                z-index: 1001;
-              position: relative;
-              display: inline-block;
-              vertical-align: top;
-              color: hsl(228deg 12.2% 40.2%);
-              select {
-                cursor: pointer;
-                height: 100%;
-                display: flex;
-                vertical-align: middle;
-                border: 0;
-                padding: 4px 20px 4px 10px;
-                font-size: 0.7rem;
-                border-radius: 3px;
-          
-              }
-            }
+            vertical-align: middle;
+            border: 0;
+            padding: 4px 20px 4px 10px;
+            font-size: 0.7rem;
+            border-radius: 3px;
+      
           }
-    
+        }
+      }
+
 }
+
+.full-width-height {
+    width: 100%;
+    height: 100%;
+    border: none; /* Nếu bạn muốn loại bỏ đường viền */
+  }

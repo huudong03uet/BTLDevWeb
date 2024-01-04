@@ -1,22 +1,40 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize');
 
-const Pen = require('./pen');
-const Collection = require('./collection');
+import Project from "./project";
 
-const CollectionPen = sequelize.define('collection_pen', {
-    collection_pen_id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    }
-  },
-  {
-    tableName: 'collection_pen',
-  }
-);
+const Folder = sequelize.define('folder', {
+    folder_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+    },
+    name: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+        allowNull: false,
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+        allowNull: false,
+        onUpdate: DataTypes.NOW,
+    },
+    project_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+},{
+    tableName: 'folder',
+});
 
-CollectionPen.belongsTo(Collection, {foreignKey : 'collection_id'});
-CollectionPen.belongsTo(Pen, {foreignKey : 'pen_id'});
+Folder.belongsTo(Project, { foreignKey: 'project_id' });
 
-module.exports = CollectionPen;
+
+module.exports = Folder;
+

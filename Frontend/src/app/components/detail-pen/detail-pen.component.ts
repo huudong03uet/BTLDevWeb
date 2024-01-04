@@ -99,7 +99,7 @@ export class DetailPenComponent {
   }
 
   hasInformationPen = false;
-
+  randomNumber = Math.floor(Math.random() * 10000000);
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
@@ -108,9 +108,11 @@ export class DetailPenComponent {
       var x = document.getElementsByClassName("list-items");
       if (x != null) {
         for (let i = 0; i < x.length; i++) {
-          if (x.item(i)!.classList.contains("show")) {
-            x.item(i)!.classList.remove("show");
-            this.hasInformationPen = false;
+          if (x.item(i)!.classList.contains(this.randomNumber.toString())) {
+            if (x.item(i)!.classList.contains("show")) {
+              x.item(i)!.classList.remove("show");
+              this.hasInformationPen = false;
+            }
           }
         }
       }
@@ -123,14 +125,16 @@ export class DetailPenComponent {
     var x = document.getElementsByClassName("list-items");
     if (x != null) {
       for (let i = 0; i < x.length; i++) {
-        if (x.item(i)!.classList.contains("show")) {
-          x.item(i)!.classList.remove("show");
-          this.hasInformationPen = false;
-        } else {
-          x.item(i)!.classList.add("show");
-          this.hasInformationPen = true;
-        }
+        if (x.item(i)!.classList.contains(this.randomNumber.toString())) {
+          if (x.item(i)!.classList.contains("show")) {
+            x.item(i)!.classList.remove("show");
+            this.hasInformationPen = false;
+          } else {
+            x.item(i)!.classList.add("show");
+            this.hasInformationPen = true;
+          }
 
+        }
       }
     }
   }
@@ -182,7 +186,7 @@ export class DetailPenComponent {
 //         console.error('User ID not available.');
 //         return;
 //       }
-        // let url = this.myService.getApiHost() + '/your-work/collections';
+// let url = this.myService.getApiHost() + '/your-work/collections';
 //       const response = await axios.post(url, {
 //         name: this.createForm.value.collectionTitle,
 //         user_id: userId,

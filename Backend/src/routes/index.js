@@ -6,6 +6,8 @@ import girdRouter from "./grid"
 import collectionRouter from "./collection";
 import userRouter from "./user";
 import pinRouter from "./pin";
+import project from "./project";
+//import userRoute from "./user";
 import search from "./search";
 import comment from "./comment";
 
@@ -17,6 +19,7 @@ function route(app) {
     app.use("/user", userRouter);
     app.use("/your-work", collectionRouter);
     app.use("/pin", pinRouter);
+    app.use("/project", project);
     app.use("/search", search);
     app.use("/comment", comment);
     app.use("/collection", collectionRouter); // cai nay DAT them thoi con collection o your-work

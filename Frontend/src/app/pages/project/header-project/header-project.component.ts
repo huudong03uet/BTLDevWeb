@@ -1,3 +1,4 @@
+import { User } from './../../../models/user';
 import { Component, Input, Output, EventEmitter, ViewChild, AfterViewInit, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDataService } from 'src/app/services/user-data.service';
@@ -10,34 +11,30 @@ import { HostService } from 'src/app/host.service';
   styleUrls: ['./header-project.component.scss'],
 })
 export class HeaderProjectComponent implements OnInit {
-  @Output() saveDataParent = new EventEmitter<void>();
-  @Input() webCodeData: { html: string; js: string; css: string; pen_id: string; user_id: Number } = {
-    html: '',
-    js: '',
-    css: '',
-    pen_id: '',
-    user_id: 0,
-  };
+  isEditingTitle = false;
+  isMenuOpen = false;
+
+  userData: any = new UserDataService(this.myService);
   @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
-  @ViewChild(HomeCodeComponent) homeCodeComponent!: HomeCodeComponent;
-
-  htmlEditor!: any;
-  stylesheetEditor!: any;
-  jsEditor!: any;
-
-  myPen!: any;
-
-  public isMenuOpen = false;
-  public projectTitle = 'Untitled';
-  public isEditingTitle = false;
-  public isLoggedIn = false;
 
   constructor(private router: Router, private userDataService: UserDataService,private myService: HostService,) { }
 
   ngOnInit(): void {
-    // this.isLoggedIn = !!this.userDataService.getUserData();
+    console.log(this.data.data_source)
+  }
+  @Input() data: any;
+  @Output() dataChange = new EventEmitter();
+
+  startEditingTitle(): void {
+    this.isEditingTitle = true;
+    setTimeout(() => {
+      this.projectTitleInput.nativeElement.focus();
+    });
+    this.dataChange.emit(this.data);
   }
 
+
+  
   toggleMenu(): void {
     // this.isMenuOpen = !this.isMenuOpen;
   }
@@ -58,15 +55,8 @@ export class HeaderProjectComponent implements OnInit {
     // this.router.navigate(['/signin']);
   }
 
-  startEditingTitle(): void {
-    // this.isEditingTitle = true;
-    // setTimeout(() => {
-    //   this.projectTitleInput.nativeElement.focus();
-    // });
-  }
-
   stopEditingTitle(): void {
-    // this.isEditingTitle = false;
+    this.isEditingTitle = false;
   }
 
   saveData(): void {
@@ -93,4 +83,7 @@ export class HeaderProjectComponent implements OnInit {
     //   console.error('Error save pen:', error);
     // }
   }
+
+  
+
 }
