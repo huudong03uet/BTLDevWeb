@@ -129,17 +129,25 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   }
 
   copyLink() {
-    const currentUrl = window.location.href;
+    let currentUrl = '';
+  
+    if (this.type === 'pen') {
+      currentUrl = `${window.location.origin}/pen/${this.id}`;
+    } else {
+      currentUrl = `${window.location.origin}/collection/${this.id}`;
+    }
+  
     const tempInput = document.createElement('input');
     tempInput.value = currentUrl;
     document.body.appendChild(tempInput);
-
+  
     tempInput.select();
     tempInput.setSelectionRange(0, 99999); // For mobile devices
-
+  
     document.execCommand('copy');
-
+  
     document.body.removeChild(tempInput);
   }
+  
 
 }

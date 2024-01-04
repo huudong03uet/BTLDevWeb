@@ -16,11 +16,11 @@ import { HostService } from 'src/app/host.service';
 export class ContentGridCollectionComponent implements OnInit {
   @Input() collection: any;
   @Input() is_pinned: boolean = false;
-  pen_ids = [1, 2 , 3];
+  pen_ids = [1, 2, 3];
   collectionName: string = "";
   iframeContents: SafeHtml[] = ['', '', '', ''];
   collection_id: any;
-
+  userName: any;
   data_collection = {
     "like": 0,
     "name": "Chưa đặt tên",
@@ -42,11 +42,10 @@ export class ContentGridCollectionComponent implements OnInit {
     // init data -> data = response.data
     let data_pen: any;
     const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${pen_id}&user_id=null`;
-    
+
     axios.get(apiUrl)
       .then((response) => {
         data_pen = response.data;
-        console.log("data_pen: ", data_pen)
         const iframeContent = `
         <html>
           <head>
@@ -90,13 +89,12 @@ export class ContentGridCollectionComponent implements OnInit {
   }
 
   cssDoanNay() {
-    console.log("is_pinned: ", this.is_pinned)
     if (this.is_pinned == true) {
       var x = document.getElementsByClassName("code-grid-container");
       if (x != null) {
         for (let i = 0; i < x.length; i++) {
           // if (x.item(i)!.classList.contains(this.random_number.toString())) {
-            x.item(i)!.classList.add("code-grid-container-pinned");
+          x.item(i)!.classList.add("code-grid-container-pinned");
           // }
         }
 
@@ -108,14 +106,12 @@ export class ContentGridCollectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
-    console.log("tai sao khong in", this.collection)
 
-    if (!this.collection.collection_id) {
+    if (!this.collection) {
       console.error('Collection ID is missing.');
       return;
     }
-    this.collection_id = this.collection.collection_id;
+    this.collection_id = this.collection;
     const apiUrl = this.myService.getApiHost() + `/your-work/collections/${this.collection_id}/pens`;
 
     this.http.get(apiUrl).subscribe(
@@ -135,6 +131,16 @@ export class ContentGridCollectionComponent implements OnInit {
         console.error('Error fetching pen_ids:', error);
       }
     );
+
+    this.http.get(`${this.myService.getApiHost()}/your-work/collections/getUserInfoByCollectionId/${this.collection_id}`)
+      .subscribe(
+        (response: any) => {
+          this.userName = response.user.user_name;
+        },
+        (error) => {
+          console.error('Error fetching user information and collection:', error);
+        }
+      );
 
     const checkStatusUrl = this.myService.getApiHost() + `/your-work/collections/checkStatus?collection_id=${this.collection_id}`;
 
@@ -163,7 +169,7 @@ export class ContentGridCollectionComponent implements OnInit {
 
   handlePageClick(): void {
     // link to collection/123
-    this.router.navigate([`/collection/${this.collection.collection_id}`])
+    this.router.navigate([`/collection/${this.collection_id}`])
   }
 
   handlePinClick() {
@@ -171,10 +177,8 @@ export class ContentGridCollectionComponent implements OnInit {
       this.router.navigate([`/login`]);
     }
     const url = this.myService.getApiHost() + `/grid/handlePin?id=${this.collection_id}&user_id=${this.userData.getUserData()?.user_id}&type=collection`;
-    console.log("url: ", url)
     axios.get(url)
       .then((response) => {
-        console.log("response: ", response.data);
         let pined = response.data.pinned;
         this.informationPen[1] = !pined ? "Add to Pins" : "Remove to Pins";
       })
@@ -238,7 +242,6 @@ export class ContentGridCollectionComponent implements OnInit {
 
 
   onMouseEnterGridCode() {
-    console.log(1234567)
     var x = document.getElementsByClassName("background-code");
     if (x != null) {
       for (let i = 0; i < x.length; i++) {
@@ -287,7 +290,7 @@ export class ContentGridCollectionComponent implements OnInit {
   }
 
   clickGridCollectionFullInf() {
-    this.router.navigate([`/collection/${this.collection.collection_id}`], { relativeTo: null });
+    this.router.navigate([`/collection/${this.collection_id}`], { relativeTo: null });
   }
 
 }
