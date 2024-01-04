@@ -19,7 +19,7 @@
                         <div>
                             <h1 class="collection-name">{{ collectionName }}</h1>
                             <div class="user-name-container">
-                                <span class="user-name">{{userName}}</span>
+                                <span class="user-name" style="color: rgba(255, 255, 255, 0.543);">{{userName}}</span>
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
 
                                 <div class="list-items {{random_number}}">
                                     <ul>
-                                        <li class="list-collection-li {{random_number}}">
+                                        <li class="list-collection-li {{random_number}}" (click)="onClickAddCollection()">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <rect y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect>
                                                 <rect x="10.36" y="10.36" width="9.64" height="9.64" rx="1" ry="1">
@@ -70,9 +70,6 @@
                                     </ul>
 
                                 </div>
-                                <div class="list-collection-add {{random_number}}">
-                                    <!-- <app-list-collection-to-add-pen [pen_id]="pen_id"></app-list-collection-to-add-pen> -->
-                                </div>
                                 <span (click)="onClickInformationPen()">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                                         class="bi bi-three-dots" viewBox="0 0 16 16">
@@ -83,7 +80,11 @@
 
                                 </span>
                             </div>
-
+                            <div class="list-collection-add {{random_number}}">
+                                <app-list-collection-to-add-pen style="    right: -20px;
+                                top: 440px;
+                                position: absolute;" [pen_ids_in_collection]="pen_ids_full" [type]="'collection'"></app-list-collection-to-add-pen>
+                            </div>
                         </div>
                     </div>
 
