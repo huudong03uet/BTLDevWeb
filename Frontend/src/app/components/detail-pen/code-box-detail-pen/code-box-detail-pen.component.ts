@@ -26,6 +26,7 @@ export class CodeBoxDetailPenComponent {
   jsEditor!: any;
   // scssEditor!: any;
 
+
   ngAfterViewInit() {
     this.htmlEditor = CodeMirror.fromTextArea(this.htmlTextarea?.nativeElement, {
       mode: 'xml',

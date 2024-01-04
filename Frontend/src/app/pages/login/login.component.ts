@@ -74,4 +74,11 @@ export class LoginComponent {
   loginWithFacebook() {
     //TODO
   }
+
+
+  forgotPassword: boolean = false;
+
+  openForgotPassword() {
+    this.forgotPassword = !this.forgotPassword;
+  }
 }
