@@ -71,7 +71,6 @@ export class ScreenViewComponent implements OnInit {
       let content = file.content;
       content = this.addHtmlFile(content);
       content = this.addCssJs(content);
-      console.log(1233,content)
       return content;
     }
     
@@ -87,7 +86,6 @@ export class ScreenViewComponent implements OnInit {
     while (match !== null) {
       // const tag = match[1];
       const href = match[1];
-      console.log(match)
       // Kiểm tra xem href có nằm trong key_file_html hay không
       if (this.key_file_html.includes(href)) {
         // Thêm sự kiện onclick vào thẻ

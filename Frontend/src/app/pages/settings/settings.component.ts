@@ -1,5 +1,6 @@
 import { Component, OnChanges, ViewEncapsulation } from '@angular/core';
 import { Params, Router } from '@angular/router';
+import { HostService } from 'src/app/host.service';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -9,7 +10,7 @@ import { Params, Router } from '@angular/router';
 export class SettingsComponent {
   currentURL = "";
   // constructor(private router: Router) {}
-  constructor(private router: Router) {
+  constructor(private myService: HostService,private router: Router) {
     //  print when route changes 
     // this.ngAfterViewChecked();
   }
@@ -65,7 +66,7 @@ export class SettingsComponent {
       const span = document.createElement('span');
 
       // <a class="link-settings account">Account</a>
-      //  currentURL = http://localhost:4200/settings/account
+      //  currentURL = this.myService.getWebHost() +  /settings/account
       var check_currentURL = this.currentURL.split('/')[4]
       if (link.classList.contains(check_currentURL)) {
         link.classList.add('active');

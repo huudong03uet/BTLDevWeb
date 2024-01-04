@@ -18,8 +18,6 @@ export class BodyFollowingTrendingComponent {
     const links = document.querySelectorAll('.nav-item a');
     //  run this function in ngAfterViewChecked
     const currentURL = window.location.href.split('/')[3];
-    // console.log("current", currentURL)
-    // console.log("links", links)
     if (currentURL == 'following') {
       links[0].classList.add('active');
 

@@ -10,6 +10,7 @@ import { UserDataService } from 'src/app/services/user-data.service';
 })
 export class FollowingComponent implements OnInit {
   data: any;
+  recentChecked: boolean = true;
 
   constructor(
     ) {}

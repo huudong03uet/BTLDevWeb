@@ -5,6 +5,7 @@ import { UserDataService } from 'src/app/services/user-data.service';
 import { HomeCodeComponent } from '../../home-code.component';
 
 import axios from 'axios';
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'pen-header',
@@ -14,7 +15,9 @@ import axios from 'axios';
 export class PenHeaderComponent implements OnInit {
   user: any;
   constructor(private router: Router, 
-    private userData: UserDataService) { 
+    private userData: UserDataService,
+    private myService: HostService,
+    ) { 
       this.user = this.userData.getUserData();
     }
 
@@ -40,7 +43,7 @@ export class PenHeaderComponent implements OnInit {
 
   ngOnInit(): void { 
     this.projectTitle = this.data?.pen?.name ? this.data.pen.name : 'Untitled';
-    console.log(this.projectTitle);
+    // console.log(this.projectTitle);
   }
 
   toggleMenu(): void {
@@ -74,8 +77,6 @@ export class PenHeaderComponent implements OnInit {
     this.isEditingTitle = false;
   }
 
- 
-
   toggleFavorite(): void {
     if (this.myPen && this.myPen.pen_id) {
       console.log('Toggle favorite', this.myPen);
@@ -98,7 +99,7 @@ export class PenHeaderComponent implements OnInit {
     if(this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url = `http://localhost:3000/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url = this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url)
         .then((response) => {    
@@ -116,7 +117,7 @@ export class PenHeaderComponent implements OnInit {
     if(this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url = `http://localhost:3000/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url = this.myService.getApiHost() + `/grid/handlePin?id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url)
         .then((response) => {
@@ -132,7 +133,7 @@ export class PenHeaderComponent implements OnInit {
     if(this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     } else {
-      const url = `http://localhost:3000/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
+      const url = this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
 
       axios.get(url)
           .then((response) => {

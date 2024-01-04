@@ -11,10 +11,10 @@
             {{item.name}}
             </h2>
             <div class="restore-delete-button">
-                <button  class="restore-button" >
+                <button class="restore-button" (click)="restoreItem(item)">
                     Restore
                 </button>
-                <button  class="delete-button">
+                <button  class="delete-button" (click)="deletePermanently(item)">
                     Delete Permanently
                 </button>
             </div>
@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="right-content">
-        <h3>🕖 3 Days</h3>
-        <p>You’ll be able to restore a Deleted Item for 3 days after you delete it. After that, it’s gone forever.</p>
+        <h3>🕖 30 Days</h3>
+        <p>You’ll be able to restore a Deleted Item for 30 days after you delete it. After that, it’s gone forever.</p>
     </div>
 </div>

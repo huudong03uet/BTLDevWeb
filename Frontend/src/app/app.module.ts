@@ -91,6 +91,29 @@ import { ListItemGridCollectionFullInfComponent } from './components/list-item-g
 import { ListItemGridProjectFullInfComponent } from './components/list-item-grid-project-full-inf/list-item-grid-project-full-inf.component';
 import { ContentGridProjectFullInfComponent } from './components/content-grid-project-full-inf/content-grid-project-full-inf.component';
 import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/your-work-projects.component';
+import { CodeBoxDetailPenComponent } from './components/detail-pen/code-box-detail-pen/code-box-detail-pen.component';
+import { ContentGridCollectionComponent } from './components/content-grid-collection/content-grid-collection.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { ListItemGridCollectionComponent } from './components/list-item-grid-collection/list-item-grid-collection.component';
+import { ListItemGridProjectComponent } from './components/list-item-grid-project/list-item-grid-project.component';
+
+import { ManageComponent } from './pages/manage/manage.component';
+import { ActiveManageComponent } from './pages/manage/central-manage/active-manage/active-manage.component';
+import { DeletedManageComponent } from './pages/manage/central-manage/deleted-manage/deleted-manage.component';
+import { UserActiveComponent } from './pages/manage/central-manage/active-manage/user-active/user-active.component';
+import { PenActiveComponent } from './pages/manage/central-manage/active-manage/pen-active/pen-active.component';
+import { CollectionActiveComponent } from './pages/manage/central-manage/active-manage/collection-active/collection-active.component';
+import { ProjectActiveComponent } from './pages/manage/central-manage/active-manage/project-active/project-active.component';
+import { CommentActiveComponent } from './pages/manage/central-manage/active-manage/comment-active/comment-active.component';
+import { PenDeletedComponent } from './pages/manage/central-manage/deleted-manage/pen-deleted/pen-deleted.component';
+import { CommentDeletedComponent } from './pages/manage/central-manage/deleted-manage/comment-deleted/comment-deleted.component';
+import { CentralManageComponent } from './pages/manage/central-manage/central-manage.component';
+import { ProjectDeletedComponent } from './pages/manage/central-manage/deleted-manage/project-deleted/project-deleted.component';
+import { UserDeletedComponent } from './pages/manage/central-manage/deleted-manage/user-deleted/user-deleted.component';
+import { CollectionDeletedComponent } from './pages/manage/central-manage/deleted-manage/collection-deleted/collection-deleted.component';
+import { ListPenCollectionProjectSComponent } from './pages/manage/central-manage/components/list-pen-collection-project-s/list-pen-collection-project-s.component';
+import { ListCommentsComponent } from './pages/manage/central-manage/components/list-comments/list-comments.component';
+import { ListUsersComponent } from './pages/manage/central-manage/components/list-users/list-users.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -173,6 +196,28 @@ import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/
     ListItemGridProjectFullInfComponent,
     ContentGridProjectFullInfComponent,
     YourWorkProjectsComponent,
+    CodeBoxDetailPenComponent,
+    ContentGridCollectionComponent,
+    SearchPageComponent,
+    ListItemGridCollectionComponent,
+    ListItemGridProjectComponent,
+    ManageComponent,
+    ActiveManageComponent,
+    DeletedManageComponent,
+    UserActiveComponent,
+    PenActiveComponent,
+    CollectionActiveComponent,
+    ProjectActiveComponent,
+    CommentActiveComponent,
+    PenDeletedComponent,
+    CommentDeletedComponent,
+    ProjectDeletedComponent,
+    UserDeletedComponent,
+    CentralManageComponent,
+    CollectionDeletedComponent,
+    ListPenCollectionProjectSComponent,
+    ListCommentsComponent,
+    ListUsersComponent
   ],
   imports: [
     FormsModule,
@@ -193,6 +238,7 @@ import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/
       { path: "your-work", component: YourWorkComponent },
       { path: "project/:id", component: ProjectComponent },
       { path: "project/", component: ProjectComponent },
+      {path: "search-page", component: SearchPageComponent},
       {
         path: "profile", component: ProfileComponent, children: [
           { path: "", redirectTo: "pens", pathMatch: "full" },
@@ -227,6 +273,31 @@ import { YourWorkProjectsComponent } from './pages/your-work/your-work-projects/
             ]
           }
 
+        ]
+      },
+      {
+        path: "manage", component: ManageComponent, children: [
+          { path: "", redirectTo: "active", pathMatch: "full" },
+          {
+            path: "active", component: ActiveManageComponent, children: [
+              { path: "", redirectTo: "users", pathMatch: "full" },
+              { path: "users", component: UserActiveComponent },
+              { path: "pens", component: PenActiveComponent },
+              { path: "collections", component: CollectionActiveComponent },
+              { path: "projects", component: ProjectActiveComponent },
+              { path: "comments", component: CommentActiveComponent },
+            ]
+          },
+          {
+            path: "deleted", component: DeletedManageComponent, children: [
+              { path: "", redirectTo: "users", pathMatch: "full" },
+              { path: "users", component: UserDeletedComponent },
+              { path: "pens", component: PenDeletedComponent },
+              { path: "collections", component: CollectionDeletedComponent },
+              { path: "comments", component: CommentDeletedComponent },
+              { path: "projects", component: ProjectDeletedComponent },
+            ]
+          }
         ]
       },
       { path: "trending", component: TrendingComponent },

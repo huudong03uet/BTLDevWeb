@@ -1,0 +1,54 @@
+<div class="center-list-item">
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 10%;">User name</th>
+                <th style="width: 15%;">User email</th>
+                <th style="width: 15%;">Location</th>
+                <th style="width: 20%;">Bio</th>
+                <th style="width: 15%;">Create At</th>
+                <th style="width: 15%;">Update At</th>
+                <th style="text-align: center;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of pen_ids_current">
+                <td class="title-row"><a [href]="item.link" target="_blank">{{item.user_name}}</a></td>
+                <td class="gmail-row">{{item.gmail}}</td>
+                <td class="location-row">{{item.location}}</td>
+                <td class="bio-row">{{item.bio}}</td>
+                <td class="created-row">{{item.createdAt}}</td>
+                <td class="last-udpated-row">{{item.updatedAt}}</td>
+
+
+
+                <td class="action-row">
+                    <!-- 123 -->
+                    <button *ngIf="deleted==false" class="delete-button"> Delete In System </button>
+                    <button *ngIf="deleted==true" class="restore-button"> Restore </button>
+                
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <nav class="next-page">
+        <button class="button-next-page" (click)="clickPrevPageButton()" *ngIf="!is_start">
+            <svg viewBox="-100.9 99.1 61.9 105.9" style="width: 7px; margin-right: 4px; transform: rotate(180deg);">
+                <path
+                    d="m-41.7 145.3-43.5-43.5c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.7c-1.7 1.7-2.7 4-2.7 6.5s1 4.8 2.7 6.5L-61 152l-37.2 37.2c-1.7 1.7-2.7 4-2.7 6.5s1 4.8 2.6 6.5c1.8 1.9 4.2 2.8 6.6 2.8 2.3 0 4.6-.9 6.5-2.6 11.5-11.4 41.2-41 43.3-43l.2-.2c3.6-3.6 3.6-10.4 0-13.9z">
+                </path>
+            </svg>
+            Prev
+
+        </button>
+        <button class="button-next-page" (click)="clickNextPageButton()"  *ngIf="!is_end">
+            Next
+            <svg viewBox="-100.9 99.1 61.9 105.9" style="width: 7px; margin-left: 4px;">
+                <path
+                    d="m-41.7 145.3-43.5-43.5c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.7c-1.7 1.7-2.7 4-2.7 6.5s1 4.8 2.7 6.5L-61 152l-37.2 37.2c-1.7 1.7-2.7 4-2.7 6.5s1 4.8 2.6 6.5c1.8 1.9 4.2 2.8 6.6 2.8 2.3 0 4.6-.9 6.5-2.6 11.5-11.4 41.2-41 43.3-43l.2-.2c3.6-3.6 3.6-10.4 0-13.9z">
+                </path>
+            </svg></button>
+    </nav>
+</div>

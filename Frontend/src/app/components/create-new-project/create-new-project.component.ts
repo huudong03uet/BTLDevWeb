@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import axios, { AxiosError } from 'axios';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-create-new-project',
@@ -14,7 +15,12 @@ export class CreateNewProjectComponent {
   createForm: FormGroup;
   maxCharacterLimit = 1000;
 
-  constructor(private fb: FormBuilder, private userData: UserDataService) {
+  constructor(
+    private fb: FormBuilder, 
+    private userData: UserDataService,
+    private myService: HostService,
+  ) 
+  {
     this.createForm = this.fb.group({
       projectTitle: ['', [Validators.required, Validators.maxLength(this.maxCharacterLimit)]],
       projectDescription: ['', [Validators.maxLength(this.maxCharacterLimit)]],
@@ -44,7 +50,9 @@ export class CreateNewProjectComponent {
   //         return;
   //       }
 
-  //       const response = await axios.post(`http://localhost:3000/your-work/projects/`, {
+            // let url = this.myService.getApiHost() + "/your-work/projects/"
+
+  //       const response = await axios.post(url, {
   //         name: this.createForm.value.projectTitle,
   //         user_id: userId,
   //         // Add other fields if needed

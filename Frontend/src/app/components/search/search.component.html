@@ -4,6 +4,8 @@
 
         </path>
     </svg>
-    <input type="text" placeholder="Search CODE..." />
 
+<!-- when enter =>searchFile(search), when change => changeSearch(search) -->
+    <input type="text" placeholder="Search CODE..." [(ngModel)]="search" (ngModelChange)="changeSearch(search)"
+        (keyup.enter)="searchFile(search)">
 </div>

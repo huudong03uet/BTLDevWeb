@@ -28,6 +28,7 @@
                 <li *ngIf="!this.userData"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
                 <li *ngIf="!this.userData"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
                 <li *ngIf="this.userData"><img src="path_to_avatar_image.jpg" alt="User Avatar"></li>
+
             </ul>
         </div>
         <ul class="mobile-menu" [style.right]="isMenuOpen ? '75px' : '-400px'" id="side-menu">

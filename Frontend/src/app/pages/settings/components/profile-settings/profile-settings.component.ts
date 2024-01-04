@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import axios from 'axios';
-
+import { HostService } from 'src/app/host.service';
 @Component({
   selector: 'app-profile-settings',
   templateUrl: './profile-settings.component.html',
@@ -12,7 +12,7 @@ export class ProfileSettingsComponent implements OnInit {
   maxBioCharacterLimit = 100;
   bioCharacterCount = 0;
 
-  constructor(private userDataService: UserDataService) { }
+  constructor(private myService: HostService,private userDataService: UserDataService) { }
 
   ngOnInit(): void {
     // Load user data on component initialization
@@ -51,12 +51,9 @@ export class ProfileSettingsComponent implements OnInit {
 
     // console.log(profileData);
 
-    axios.put(`http://localhost:3000/user/updateProfile/${user_id}`, profileData)
-      .then(response => {
-        console.log('Profile updated successfully:', response.data);
+    axios.put(this.myService.getApiHost() + `/user/updateProfile/${user_id}`, profileData).then(response => {
         alert('Profile updated successfully!');
-      })
-      .catch(error => {
+      }).catch(error => {
         console.error('Error updating profile:', error);
         alert('Error updating profile!');
       });

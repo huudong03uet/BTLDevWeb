@@ -1,29 +1,8 @@
 const Sequelize = require('sequelize');
-// const { Op } = require("sequelize");
-
+const { Op } = require("sequelize");
 import followController from './followControler';
 import User from '../models/user';
-import penController from './penController';
 import Follow from '../models/followTable';
-
-// Add the missing function
-async function getFollowByUserID(user_id) {
-  try {
-    const getUser = await Follow.findAll({
-      where: { user_id_1: user_id },
-    });
-
-    if (getUser) {
-      const userIDs = getUser.map((user) => user.user_id_2);
-      return userIDs;
-    } else {
-      return [];
-    }
-  } catch (error) {
-    console.error('Get follow by id error:', error);
-    throw error;
-  }
-}
 
 async function getInfoUser(req, res) {
   try {
@@ -46,8 +25,8 @@ async function getInfoUser(req, res) {
       user_name: user.user_name,
       full_name: user.full_name,
       avatar_path: user.avatar_path,
-      location: user.location,  // Add location to the response
-      bio: user.bio,            // Add bio to the response
+      location: user.location,  
+      bio: user.bio, 
       followers_count,
       following_count,
     });
@@ -107,8 +86,6 @@ async function getAllUserExclude(arrUserID, user_id) {
       attributes: ['user_id', 'user_name', 'avatar_path']
     });
 
-    users = countPenOfUser(users);
-
     return users;
   } catch (error) {
     console.error('Get all users excluding some IDs error:', error);
@@ -124,7 +101,9 @@ async function getNotFollow(req, res) {
   try {
     const getOneUser = await getUserByID(user_id);
 
-    const getFollowUsers = await followController.getFollowByUserID(getOneUser);
+    let getFollowUsers = await followController._getFollowByUserID(getOneUser);
+
+    getFollowUsers = getFollowUsers.map(x => x.user_id_2)
 
     const getAllNotFollow = await getAllUserExclude(getFollowUsers, user_id);
 
@@ -287,6 +266,47 @@ async function deleteUser(req, res) {
   }
 }
 
+const _formatDateString = (dateString) => {
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZone: 'UTC',
+  });
+  return formattedDate;
+};
+
+async function getAlluser(req, res) {
+  const attr_sort = req.query.attr_sort
+  const order_by = req.query.order_by;
+  const deleted = req.query.deleted == ''? false: (req.query.deleted == "true"? true: false);
+
+  try {
+    let users = await User.findAll({
+      attributes: {
+        exclude: ['password',]
+      },
+      where: {deleted: deleted},
+      order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
+    });
+
+    users = users.map(user => ({
+      ...user.toJSON(),
+      createdAt: _formatDateString(user.createdAt),
+      updatedAt: _formatDateString(user.updatedAt),
+    }));
+    
+    res.status(200).json(users);
+  } catch (error) {
+    console.log("chan gai 808", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 module.exports = {
   getNotFollow,
   getInfoUser,
@@ -294,4 +314,7 @@ module.exports = {
   changeEmail,
   changeUsername,
   deleteUser,
+  getAlluser,
+  _formatDateString,
+
 };

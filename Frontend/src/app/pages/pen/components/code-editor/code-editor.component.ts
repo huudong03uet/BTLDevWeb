@@ -34,13 +34,19 @@ export class CodeEditorComponent implements AfterViewInit {
 
   constructor(private cdRef: ChangeDetectorRef) { }
 
+  @ViewChild('box1') box1!: ElementRef;
+  @ViewChild('box2') box2!: ElementRef;
+
+
+
+
   ngAfterViewInit(): void {
     if(this.data && this.data.pen.type_css) {
       this.stylesheetLanguage = this.data.pen.type_css;
     }
     
     this.initializeEditors();
-    console.log(this.data)
+    // console.log(this.data)
     if(this.data) {
       if(this.data.pen.html_code) {
         this.htmlEditor.setValue(this.data.pen.html_code);
@@ -57,6 +63,43 @@ export class CodeEditorComponent implements AfterViewInit {
       }
       this.clearConsole()
       this.run();
+    }
+
+
+    const boxes = {
+      box1: this.box1.nativeElement,
+      box2: this.box2.nativeElement,
+    };
+
+    const resizers = document.getElementsByClassName('resizer');
+    for (let i = 0; i < resizers.length; i++) {
+      const resizer = resizers[i];
+      resizer.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        document.addEventListener('mousemove', resize);
+        document.addEventListener('mouseup', stopResize);
+
+        function resize(e: MouseEvent) {
+          if (resizer.classList.contains('horizontal')) {
+            resizeY(e);
+          }
+          e.preventDefault();
+        }
+
+            function stopResize() {
+              document.removeEventListener('mousemove', resize);
+            }
+
+
+            function resizeY(e: MouseEvent) {
+              // set the height of box1 to the current mouse positio
+              
+              // set order to %;
+              const height = (e.clientY / window.innerHeight) * 100;
+              boxes.box1.style.height = `${height}%`;
+              boxes.box2.style.height = `${100 - height}%`;
+            }
+      });
     }
   }
 
@@ -83,7 +126,7 @@ export class CodeEditorComponent implements AfterViewInit {
   onLanguageChange() {
     this.stylesheetEditor.setOption('mode', this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
     this.data.pen.type_css = this.stylesheetLanguage;
-    console.log(this.stylesheetLanguage)
+    // console.log(this.stylesheetLanguage)
     this.dataChange.emit(this.data);
     this.run();
   }

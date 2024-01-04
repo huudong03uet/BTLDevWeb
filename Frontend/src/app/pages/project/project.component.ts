@@ -125,11 +125,11 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
           const leftWidth = (parseFloat(getComputedStyle(boxes.box1, '').width) + e.movementX) * bodyWidth ;
           
           
-          console.log("parseFloat", parseFloat(getComputedStyle(boxes.box1, '').width))
-          console.log("e.movementX", e.movementX)
-          console.log("bodyWidth", bodyWidth)
-          console.log("leftWidth", leftWidth)
-          console.log("\n\n\n")
+          // console.log("parseFloat", parseFloat(getComputedStyle(boxes.box1, '').width))
+          // console.log("e.movementX", e.movementX)
+          // console.log("bodyWidth", bodyWidth)
+          // console.log("leftWidth", leftWidth)
+          // console.log("\n\n\n")
 
 
           boxes.box1.style.width = leftWidth + '%';

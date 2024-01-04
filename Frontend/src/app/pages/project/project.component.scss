@@ -32,38 +32,7 @@
       .project-resizer-horizontal {
         height: 26px;
         text-align: center;
-        .preview-bar {
-          height: 100%;
-          align-items: center;
-          justify-content: center;
-          display: flex;
-          label {
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            margin-right: 8px;
-            text-transform: uppercase;
-            display: inline-block;
-            vertical-align: middle;
-            opacity: 0.7;
-            position: relative;
-          }
-          .select-small {
-            position: relative;
-            display: inline-block;
-            color: var(--cp-color-12);
-            vertical-align: top;
-            color: hsl(228deg 12.2% 40.2%);
-            select {
-              height: 100%;
-              display: flex;
-              vertical-align: middle;
-              border: 0;
-              padding: 4px 20px 4px 10px;
-              font-size: 0.7rem;
-              border-radius: 3px;
-            }
-          }
-        }
+        background-color: transparent;
       }
     // }
   }

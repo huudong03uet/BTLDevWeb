@@ -4,7 +4,7 @@
             <div class="left-header-content">
                 <div class="image">
         
-                    <img src="https://assets.codepen.io/9237385/internal/avatars/users/default.png?fit=crop&format=auto&height=80&version=1670773827&width=80">
+                    <img src="https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=80&height=80">
         
                 </div>
                 <h2 class="name-code">
@@ -19,7 +19,7 @@
                 <div class="three-dot button-detail-pen" >
                     <div class="three-dot-list"  (click)="$event.stopPropagation()">
                 
-                        <div class="list-items" >
+                        <div class="list-items {{randomNumber}}" >
                             <ul>
                                 <li>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><rect y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect></svg>
@@ -56,11 +56,32 @@
 
             
         </div>
-        <div class="center-detail-pen">
+        <div class="center-detail-pen" >
+            <div class="header-center-detail">
+                <button class="html-button active" (click)="clickHTML()">HTML</button>
+                <button class="css-button" (click)="clickCSS()">CSS</button>
+                <button class="js-button" (click)="clickJS()">JS</button>
+            </div>
+            <div class="body-center-detail" *ngIf="htmlFile != 'nulls' || cssFile != 'nulls' || jsFile != 'nulls'">
+                <div class="left-content-body-center-detail">
+                    <app-code-box-detail-pen [codeObject]="objectView" [codeHTML]="htmlFile"  [codeCSS]="cssFile" [codeJS]="jsFile" *ngIf="!tinh_nang_vo_dung"
+                    ></app-code-box-detail-pen>
+                    <app-code-box-detail-pen [codeObject]="objectView" [codeHTML]="htmlFile"  [codeCSS]="cssFile" [codeJS]="jsFile" *ngIf="tinh_nang_vo_dung"
+                    ></app-code-box-detail-pen>
+                </div>
+                <div class="right-content-body-center-detail">
+                    <!--   @Input() codeObject!: string;
+  @Input() codeHTML!: string;
+  @Input() codeCSS!: string;
+  @Input() codeJS!: string; -->
+                    <app-code-box-detail-pen [codeObject]="'iframe'" [codeHTML]="htmlFile"  [codeCSS]="cssFile" [codeJS]="jsFile"
+                    ></app-code-box-detail-pen>
+                </div>
 
+            </div>
         </div>
         <div class="comment-detail-pen">
-            <app-comment-area [pen_id]="pen_id" ></app-comment-area>
+            <app-comment-area [id]="pen_id" [type]="'pen'" ></app-comment-area>
         </div>
     </div>
 

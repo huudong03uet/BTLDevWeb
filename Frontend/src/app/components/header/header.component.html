@@ -26,6 +26,9 @@
         <div class="option-setting" *ngIf="!hiddenSetting">
             <div class="option-setting-container">
                 <div class="user-setting">
+                    <a href="/manage" *ngIf="isAdmin">
+                        Manage
+                    </a>
                     <a (click)="clickYourWork()">
                         Your Work
                     </a>
@@ -42,7 +45,7 @@
                     <a (click)="openCreateNewComponent()">New Collection</a>
                     <a (click) = "openCreateNewProject()">New Project</a>
                 </div>
-                <div class="manager-setting">
+                <!-- <div class="manager-setting">
                     <a href="asset-manager">
                         Asset Manager
                     </a>
@@ -61,11 +64,11 @@
                             </g>
                         </svg>
                     </a>
-                </div>
+                </div> -->
                 <div class="document-setting">
-                    <a href="document-setting">
+                    <!-- <a href="document-setting">
                         Document
-                    </a>
+                    </a> -->
                     <a href="support">
                         Support
                     </a>

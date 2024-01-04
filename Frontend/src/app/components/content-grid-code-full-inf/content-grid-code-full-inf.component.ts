@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 import { has, hasIn } from 'lodash';
 
+import { HostService } from 'src/app/host.service';
+
 @Component({
   selector: 'app-content-grid-code-full-inf',
   templateUrl: './content-grid-code-full-inf.component.html',
@@ -20,17 +22,19 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   informationPen = [
     "Add to Collection",
     "Remove from Pins",
-    "Unfollow User"
+    "Make Private",
+    "Delete"
   ]
 
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
     private userData: UserDataService,
+    private myService: HostService,
   ) { }
 
   ngOnInit(): void {
-    const apiUrl = `http://localhost:3000/pen/getInfoPen?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
+    const apiUrl =  this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(apiUrl)
       .then((response) => {
         this.data = response.data;
@@ -57,22 +61,34 @@ export class ContentGridCodeFullInfComponent implements OnInit {
         this.informationPen = [
           "Add to Collection",
           "Remove from Pins",
-          "Unfollow " + this.data.user.user_name
+          // "Unfollow " + this.data.user.user_name
+          "Make Private",
+          "Delete"
         ]
       })
       .catch((error) => {
         console.error('Error:', error);
       });
+
+      const checkStatusUrl = `${this.myService.getApiHost()}/pen/checkStatus?pen_id=${this.pen_id}`;
+      axios.get(checkStatusUrl)
+        .then((response) => {
+          const penStatus = response.data.status;
+          this.informationPen[2] = penStatus === 'public' ? 'Make Private' : 'Make Public';
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
   }
 
   loadPinAndFollow() {
-    const url = `http://localhost:3000/grid/getInfoGrid?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
+    const url =  this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(url)
       .then((response) => {
         this.pined = response.data.pined;
         this.followed = response.data.followed;
         this.informationPen[1] = !this.pined ? "Add to Pins" : "Remove to Pins";
-        this.informationPen[2] = !this.followed ? `Follow ${this.data.user.user_name}` : `Unfollow ${this.data.user.user_name}`;
+        // this.informationPen[2] = !this.followed ? `Follow ${this.data.user.user_name}` : `Unfollow ${this.data.user.user_name}`;
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -80,8 +96,21 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   }
 
   handlePageClick(): void {
-    // console.log(`/pen/${this.pen_id}`);
     this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
+  }
+  handleToggleStatusClick() {
+    const toggleStatusUrl = `${this.myService.getApiHost()}/pen/toggleStatus`;
+    const requestData = {
+      pen_id: this.pen_id,
+    };
+
+    axios.post(toggleStatusUrl, requestData)
+      .then((response) => {
+        this.informationPen[2] = response.data.pen.status === 'public' ? 'Make Private' : 'Make Public';
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 
   random_number = Math.floor(Math.random() * 100000000);
@@ -90,7 +119,6 @@ export class ContentGridCodeFullInfComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
-    // console.log("hasInformationPen: ", this.hasInformationPen)
     if (this.hasInformationPen == true) {
       var x = document.getElementsByClassName("list-items");
       if (x != null) {
@@ -214,10 +242,9 @@ export class ContentGridCodeFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url = `http://localhost:3000/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url =  this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url).then((response) => {
-      console.log(response);
 
       if (response.data.liked) {
         this.data.like++;
@@ -243,7 +270,7 @@ export class ContentGridCodeFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url = `http://localhost:3000/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url =  this.myService.getApiHost() + `/grid/handlePin?id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url)
       .then((response) => {
@@ -260,7 +287,7 @@ export class ContentGridCodeFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     } else {
-      const url = `http://localhost:3000/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
+      const url =  this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
 
       axios.get(url)
         .then((response) => {
@@ -279,5 +306,27 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   }
   handleChildDetailPenClose() {
     this.childDetailPenVisible = false;
+  }
+
+  handleDeleteClick() {
+    const confirmed = confirm("Are you sure you want to delete this pen?");
+    if (confirmed) {
+      const url = this.myService.getApiHost() + `/pen/createOrUpdatePen`;
+      const data = {
+        pen_id: this.pen_id,
+        delete: true
+      };
+  
+      axios.post(url, data)
+        .then(response => {
+          console.log(response);
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([this.router.url]);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
   }
 }

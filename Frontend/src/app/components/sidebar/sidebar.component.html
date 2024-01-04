@@ -25,16 +25,16 @@
                 </svg>
                 Pen
               </a>
-              <button class="toggle-button" (click)="toggle()">
+              <!-- <button class="toggle-button" (click)="toggle()"> -->
                 <!-- <span class="glyphicon glyphicon-chevron-down"></span> -->
-                <svg *ngIf="!isPenOpen" class="open-toggle" viewBox="-122.9 121.1 105.9 61.9"><path d="m-63.2 180.3 43.5-43.5c1.7-1.7 2.7-4 2.7-6.5s-1-4.8-2.7-6.5c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.7L-69.9 161l-37.2-37.2c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.6c-1.9 1.8-2.8 4.2-2.8 6.6 0 2.3.9 4.6 2.6 6.5 11.4 11.5 41 41.2 43 43.3l.2.2c3.6 3.6 10.3 3.6 13.9 0z"></path></svg>
-                <svg *ngIf="isPenOpen" class="open-toggle" style="transform: scaleY(-1); fill: hsl( 196.18deg 100% 52.75% )" viewBox="-122.9 121.1 105.9 61.9"><path d="m-63.2 180.3 43.5-43.5c1.7-1.7 2.7-4 2.7-6.5s-1-4.8-2.7-6.5c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.7L-69.9 161l-37.2-37.2c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.6c-1.9 1.8-2.8 4.2-2.8 6.6 0 2.3.9 4.6 2.6 6.5 11.4 11.5 41 41.2 43 43.3l.2.2c3.6 3.6 10.3 3.6 13.9 0z"></path></svg>
+                <!-- <svg *ngIf="!isPenOpen" class="open-toggle" viewBox="-122.9 121.1 105.9 61.9"><path d="m-63.2 180.3 43.5-43.5c1.7-1.7 2.7-4 2.7-6.5s-1-4.8-2.7-6.5c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.7L-69.9 161l-37.2-37.2c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.6c-1.9 1.8-2.8 4.2-2.8 6.6 0 2.3.9 4.6 2.6 6.5 11.4 11.5 41 41.2 43 43.3l.2.2c3.6 3.6 10.3 3.6 13.9 0z"></path></svg> -->
+                <!-- <svg *ngIf="isPenOpen" class="open-toggle" style="transform: scaleY(-1); fill: hsl( 196.18deg 100% 52.75% )" viewBox="-122.9 121.1 105.9 61.9"><path d="m-63.2 180.3 43.5-43.5c1.7-1.7 2.7-4 2.7-6.5s-1-4.8-2.7-6.5c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.7L-69.9 161l-37.2-37.2c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.6c-1.9 1.8-2.8 4.2-2.8 6.6 0 2.3.9 4.6 2.6 6.5 11.4 11.5 41 41.2 43 43.3l.2.2c3.6 3.6 10.3 3.6 13.9 0z"></path></svg> -->
 
-              </button>
+              <!-- </button> -->
             </div>
           </li>
 
-          <li *ngIf="isPenOpen" class="toggled-content">
+          <!-- <li *ngIf="isPenOpen" class="toggled-content">
             <svg  xmlns="http://www.w3.org/2000/svg" width="2500" height="2500" preserveAspectRatio="xMinYMin meet"
               viewBox="0 0 256 256" id="codepen">
               <path fill="#ccc"
@@ -54,7 +54,7 @@
           <li *ngIf="isPenOpen" class="toggled-content">
             <a>From Template</a>
             
-          </li>
+          </li> -->
           
           <li class="collection">
             <a (click)="openCreateNewComponent()">
@@ -79,25 +79,27 @@
       <div class="menu-your">
         <ul>
           <li class="button-click"><a (click)="clickYourWork()">Your Work</a></li>
-          <li class="button-click"><a (click)="clickYourWork()">Activity</a></li>
-          <li class="button-click"><a (click)="clickYourWork()">Assets</a></li>
-          <li class="button-click"><a (click)="openPinnedComponent()">Pinned Items</a></li>
-
+          <!-- <li class="button-click"><a (click)="clickYourWork()">Activity</a></li> -->
+          <!-- <li class="button-click"><a (click)="clickYourWork()">Assets</a></li> -->
+          <li class="button-click"><a (click)="clickFollowing()">Following</a></li>
+          <li class="button-click"><a (click)="clickTrending()">Trending</a></li>
         </ul>
       </div>
   
       <div class="menu-world">
         <ul>
-          <li class="button-click"><a (click)="clickFollowing()">Following</a></li>
-          <li class="button-click"><a (click)="clickTrending()">Trending</a></li>
-          <li class="button-click"><a (click)="clickYourWork()">Challengers</a></li>
-          <li class="button-click"><a (click)="clickYourWork()">Spark</a></li>
+          <li class="button-click"><a (click)="openPinnedComponent()">Pinned Items</a></li>
+
+          <!-- <li class="button-click"><a (click)="clickYourWork()">Challengers</a></li> -->
+          <!-- <li class="button-click"><a (click)="clickYourWork()">Spark</a></li> -->
           
         </ul>
       </div>
-      <div class="menu-code-pen">
+
+ <div class="menu-code-pen"> 
         <ul>
-          <li class="button-click"><a (click)="clickYourWork()">
+
+          <!-- <li class="button-click"><a (click)="clickYourWork()">
             CODE
             <svg fill="none" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg" title="PRO" style="width: 32px; height: 16px;">
                 <rect fill="#ffdd40" height="16" rx="1.5" width="32">
@@ -107,9 +109,9 @@
                     </path>
                 </g>
             </svg>
-          </a></li>
+          </a></li> -->
         </ul>
-      </div>
+      </div> 
   
       <!-- <div id="carbonads">
         <span class="carbon-wrap">

@@ -3,6 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-trending-center',
@@ -17,6 +18,7 @@ export class TrendingCenterComponent  {
   constructor(
     private route: ActivatedRoute,
     private userData: UserDataService,
+    private myService: HostService,
   ) { }
 
 
@@ -25,23 +27,24 @@ export class TrendingCenterComponent  {
 
       const userId = this.userData.getUserData()?.user_id;
       if (userId) {
-        let apiUrl = `http://localhost:3000/user/getNotFollow/${userId}`;
+        let apiUrl = this.myService.getApiHost() +  `/pen/getTrending`;
 
         axios.get(apiUrl).then((response) => {
-          this.data = response.data;
+          this.pen_ids = response.data;
 
           // get 3 first element      // cái này là lấy 3 cái đầu tiên
-          this.data = this.data.slice(0, 3);
+          // this.data = this.data.slice(0, 3);
 
-          console.log('user not follow', this.data)
+          // console.log('trendding', this.data)
         }).catch((error) => {
           console.error('Error:', error);
         });
 
-        apiUrl = `http://localhost:3000/pen/getFollow/${userId}`;
+        apiUrl = this.myService.getApiHost() + `/user/getNotFollow/${userId}`;
         axios.get(apiUrl).then((response) => {
-          this.pen_ids = response.data;
-          console.log('pen not follow', this.data)
+          this.data = response.data;
+          // get random 3 element
+          this.data = this.data.sort(() => Math.random() - Math.random()).slice(0, 3);
         }).catch((error) => {
           console.error('Error:', error);
         });

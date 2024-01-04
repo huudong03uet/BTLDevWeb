@@ -1,0 +1,16 @@
+<div class="code-box-container">
+    <div class="html-field" [hidden]="codeObject === 'html' ? false : true">
+        <textarea #htmlTextarea>{{codeHTML}}</textarea>
+    </div>
+    <div class="css-field" [hidden]="codeObject === 'css' ? false : true">
+        <textarea #cssTextarea>{{codeCSS}}</textarea>
+    </div>
+
+    <div class="js-field" [hidden]="codeObject === 'js' ? false : true">
+        <textarea #jsTextarea>{{codeJS}}</textarea>
+    </div>
+
+    <div class="result-field" [hidden]="codeObject === 'iframe' ? false : true">
+        <iframe #outputFrame></iframe>
+    </div>
+</div>

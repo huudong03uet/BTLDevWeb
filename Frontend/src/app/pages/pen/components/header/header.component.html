@@ -1,8 +1,8 @@
 <div>
     <section id="header">
         <div class="left">
-            <a href="/following">
-                <h2 class="logo" href="/following"><i class="fa-brands fa-codepen" style="color: #ffffff;"></i></h2>
+            <a href="/">
+                <h2 class="logo" href="/"><i class="fa-brands fa-codepen" style="color: #ffffff;"></i></h2>
 
             </a>
             <!-- ... (trong phần project-details) -->
@@ -22,7 +22,12 @@
                     <button class="follow-button"
                         *ngIf="data?.user?.user_id != user?.user_id  && data.pen.pen_id && !data.followed"
                         (click)="handleFollowClick()">
-                        + Follow
+                        <svg width = 8 height = 8 viewBox="0 0 132.4 132.4" class="FollowButton-module_statusIcon-U62Ef">
+                            <path
+                                d="M75.4 123.1V75.4h47.7c5.1 0 9.2-4.1 9.3-9.3s-4.2-9.3-9.3-9.3H75.4V9.3c0-5.1-4.1-9.2-9.3-9.3-5.2-.1-9.3 4.2-9.3 9.3V57H9.1C4 57-.1 61.1-.2 66.3c-.1 5.2 4.2 9.3 9.3 9.3h47.7v47.7c0 5.1 4.1 9.2 9.3 9.3s9.3-4.4 9.3-9.5z">
+                            </path>
+                        </svg>
+                        Follow
                     </button>
                     <button class="follow-button following" id="follow-button-following"
                         *ngIf="data.user.user_id != user?.user_id && data.pen.pen_id && data.followed"
@@ -51,17 +56,22 @@
                         <i class="fas fa-heart" [style.color]="data?.liked ? 'red' : 'white'"></i>
                     </a>
                 </li>
+
                 <li class="save" *ngIf="user"><a (click)="toggleSave()"><i class="fas fa-cloud"></i> Save</a></li>
-                <li class="settings" *ngIf="user"><a><i class="fas fa-gear"></i> Settings</a></li>
+                <!-- <li class="settings" *ngIf="user"><a><i class="fas fa-gear"></i> Settings</a></li> -->
+
                 <li class="save" *ngIf="!user"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i>
                         Save</a></li>
-                <li class="settings" *ngIf="!user"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i>
-                        Settings</a></li>
-                <li class="view"><a><i class="fas fa-object-group"></i></a></li>
+                <!-- <li class="settings" *ngIf="!user"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i>Settings</a></li> -->
+
+                <!-- <li class="view"><a><i class="fas fa-object-group"></i></a></li> -->
                 <li class="submenu" (click)="toggleMenu()"><a><i class="fas fa-square-caret-down"></i></a></li>
+
                 <li *ngIf="!user"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
                 <li *ngIf="!user"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
-                <li *ngIf="user"><img src="path_to_avatar_image.jpg" alt="User Avatar"></li>
+                <li *ngIf="user"><img style="border-radius: 4px;"
+                        src="https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=36&height=36"
+                        alt="User Avatar"></li>
             </ul>
         </div>
         <ul class="mobile-menu" [style.right]="isMenuOpen ? '75px' : '-400px'" id="side-menu">

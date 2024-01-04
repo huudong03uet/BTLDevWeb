@@ -88,8 +88,18 @@
         grid-gap: 3.5rem 3rem;
         width: 98%;
         overflow-y: auto;
-        app-content-grid-code {
-            height: 75%;
+        div {
+            width: 100%;
+            app-content-grid-code {
+                display: block;
+
+                height: 70%;
+            }
+            app-content-grid-collection {
+                display: block;
+
+                height: 80%;
+            }
         }
         padding-right: 15px;
         padding-top: 40px;

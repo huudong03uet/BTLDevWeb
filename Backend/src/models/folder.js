@@ -37,3 +37,4 @@ Folder.belongsTo(Project, { foreignKey: 'project_id' });
 
 
 module.exports = Folder;
+

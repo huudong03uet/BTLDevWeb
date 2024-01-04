@@ -3,15 +3,16 @@
         <label class="search-label">
             Search
         </label>
-        <input class="search-input" type="text" placeholder="Search for...">
-        <button class="search-button" type="submit">Search</button>
+        <input class="search-input" type="text" placeholder="Search for..." name="search" [(ngModel)]="search">
+        <button class="search-button" type="submit"
+        (click)="changeSearch()">Search</button>
     </form>
     <div class="view-control">
         <label class="view-label">
             View
         </label>
         <div class="control-select-view">
-            <select class="control-select-view-select">
+            <select class="control-select-view-select" (change)="changeSelectPublicPrivate($event)">
                 <option value="all">All</option>
                 <option value="public">Public</option>
                 <option value="private">Private</option>

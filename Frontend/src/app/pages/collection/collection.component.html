@@ -1,5 +1,3 @@
-<!--  file này để + các component với nhau (sidebar, search, body-home, following-center, footer) -->
-
 <div class="full-page">
     <div class="app-sidebar-component">
         <app-sidebar class="app-side-bar-container"></app-sidebar>
@@ -13,96 +11,86 @@
                 <div class="information-control">
                     <div class="user-module">
                         <a class="user-link" href={{user.link_user}}>
-                            <img class="user-avatar" src={{user.avatar}} alt="user.name">
+                            <img class="user-avatar"
+                                src="https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=80&height=80"
+                                alt="user.name">
 
                         </a>
                         <div>
                             <h1 class="collection-name">{{ collectionName }}</h1>
                             <div class="user-name-container">
-                                <span class="user-name">{{userName}}</span>
+                                <span class="user-name" style="color: rgba(255, 255, 255, 0.543);">{{userName}}</span>
                             </div>
                         </div>
                     </div>
                     <div class="control-user-module">
-                        <div class="love-add">
+                        <div class="love-add" (click)="toggleLike()" [@likeAnimation]="likeAnimationState">
                             <svg viewBox="-2 0 105 92" class="LoveButtonIcon-module_root-3tVfn" data-love-level="0">
                                 <path
                                     d="M85.24 2.67C72.29-3.08 55.75 2.67 50 14.9 44.25 2 27-3.8 14.76 2.67 1.1 9.14-5.37 25 5.42 44.38 13.33 58 27 68.11 50 86.81 73.73 68.11 87.39 58 94.58 44.38c10.79-18.7 4.32-35.24-9.34-41.71Z">
                                 </path>
                             </svg>
                         </div>
+
                         <div class="more-action">
-                            <div class="dot-dot-dot-button">
-                                <svg viewBox="0 0 29 7">
-                                    <circle cx="3.5" cy="3.5" r="3.5"></circle>
-                                    <circle cx="14.5" cy="3.5" r="3.5"></circle>
-                                    <circle cx="25.5" cy="3.5" r="3.5"></circle>
-                                </svg>
+                            <div class="three-dot-list" (click)="$event.stopPropagation()">
+
+                                <div class="list-items {{random_number}}">
+                                    <ul>
+                                        <li class="list-collection-li {{random_number}}" (click)="onClickAddCollection()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <rect y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect>
+                                                <rect x="10.36" y="10.36" width="9.64" height="9.64" rx="1" ry="1">
+                                                </rect>
+                                                <rect width="9.64" height="9.64" rx="1" ry="1"></rect>
+                                                <rect x="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect>
+                                            </svg>
+                                            {{informationPen[0]}}
+                                        </li>
+                                        <li (click)="handleToggleStatusClick()" *ngIf=flag>
+                                            <svg viewBox="0 0 100 125" class="ItemActionsPrivacy-module_icon-3Pn-9">
+                                                <path
+                                                    d="M79.244 100H20.757a3.773 3.773 0 0 1-3.774-3.775V58.113a3.773 3.773 0 0 1 3.774-3.773h3.773V38.191c0-14.066 11.403-25.47 25.471-25.47 14.065 0 25.47 11.403 25.47 25.47V54.34h3.773a3.773 3.773 0 0 1 3.773 3.773v38.111A3.773 3.773 0 0 1 79.244 100zM63.482 38.945c0-7.445-6.037-13.48-13.481-13.48-7.446 0-13.481 6.035-13.481 13.48V54.34h26.963V38.945z">
+                                                </path>
+                                            </svg>
+                                            <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><rect y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect></svg> -->
+                                            {{informationPen[1]}}
+                                        </li>
+                                        <li (click)=handleDeleteClick() *ngIf=flag>
+                                            <svg viewBox="0 0 16 19">
+                                                <path
+                                                    d="M.177 7.152A1 1 0 0 1 1.166 6h13.668a1 1 0 0 1 .989 1.152l-1.693 11a1 1 0 0 1-.988.848H2.858a1 1 0 0 1-.988-.848l-1.693-11ZM0 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1Z">
+                                                </path>
+                                                <path
+                                                    d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5Z">
+                                                </path>
+                                            </svg>
+                                            {{informationPen[2]}}
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <span (click)="onClickInformationPen()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                        class="bi bi-three-dots" viewBox="0 0 16 16">
+                                        <path
+                                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                                    </svg>
+
+
+                                </span>
+                            </div>
+                            <div class="list-collection-add {{random_number}}">
+                                <app-list-collection-to-add-pen style="    right: -20px;
+                                top: 440px;
+                                position: absolute;" [currentCollectionID]="this.currentCollectionID"></app-list-collection-to-add-pen>
                             </div>
                         </div>
                     </div>
 
                 </div>
                 <div class="control-module">
-                    <div class="control-row-module">
-                        <div class="grid-list">
-                            <label>GRID</label>
-                            <span>
-                                <button class="grid-button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-60.741 20.407 74.148 45.778"
-                                        xml:space="preserve" width="19">
-                                        <path
-                                            d="M-47.704 20.407h-8.666a4.332 4.332 0 0 0-4.37 4.37v8.742c0 2.37 1.925 4.37 4.37 4.37h8.74c2.37 0 4.37-1.926 4.37-4.37v-8.741c-.073-2.445-2-4.37-4.444-4.37zM-47.704 48.704h-8.666c-2.37 0-4.37 1.926-4.37 4.37v8.74c0 2.371 1.925 4.371 4.37 4.371h8.74c2.37 0 4.37-1.926 4.37-4.37v-8.74c-.073-2.371-2-4.371-4.444-4.371zM-19.333 20.407h-8.741c-2.37 0-4.37 1.926-4.37 4.37v8.742c0 2.37 1.925 4.37 4.37 4.37h8.74c2.371 0 4.371-1.926 4.371-4.37v-8.741c0-2.445-2-4.37-4.37-4.37zM-19.333 48.704h-8.741c-2.37 0-4.37 1.926-4.37 4.37v8.74c0 2.371 1.925 4.371 4.37 4.371h8.74c2.371 0 4.371-1.926 4.371-4.37v-8.74c0-2.371-2-4.371-4.37-4.371zM8.963 20.407H.296c-2.37 0-4.37 1.926-4.37 4.37v8.742c0 2.37 1.926 4.37 4.37 4.37h8.741c2.37 0 4.37-1.926 4.37-4.37v-8.741c-.074-2.445-2-4.37-4.444-4.37zM8.963 48.704H.296c-2.37 0-4.37 1.926-4.37 4.37v8.74c0 2.371 1.926 4.371 4.37 4.371h8.741c2.37 0 4.37-1.926 4.37-4.37v-8.74c-.074-2.371-2-4.371-4.444-4.371z">
-                                        </path>
-                                    </svg>
-                                </button>
-                                <button class="list-button">
-                                    <svg viewBox="0 0 17 13" xmlns="http://www.w3.org/2000/svg" width="16.5">
-                                        <path
-                                            d="M.5 1a1 1 0 0 1 1-1H16a1 1 0 1 1 0 2H1.5a1 1 0 0 1-1-1ZM.5 6.5a1 1 0 0 1 1-1H16a1 1 0 1 1 0 2H1.5a1 1 0 0 1-1-1ZM.5 12a1 1 0 0 1 1-1H16a1 1 0 1 1 0 2H1.5a1 1 0 0 1-1-1Z">
-                                        </path>
-                                    </svg>
-                                </button>
-                            </span>
-                            <label>LIST</label>
-                        </div>
-                        <div class="sort-by">
-                            <label>
-                                Sort By
-                            </label>
-                            <div class="selection-sort">
-                                <select class="choose-sort" id="collectionSortBy">
-                                    <option value="position">Order</option>
-                                    <option value="dateAddedMostRecent">Date Added (Most Recent)
-
-                                    </option>
-                                    <option value="dateAddedLeastRecent">Date Added (Least Recent)
-
-                                    </option>
-                                    <option value="dateCreatedOldest">Date Created (Oldest)
-
-                                    </option>
-                                    <option value="dateCreatedNewest">Date Created (Newest)
-
-                                    </option>
-                                    <option value="lastUpdatedOldest">Last Updated (Oldest)
-
-                                    </option>
-                                    <option value="lastUpdatedNewest">Last Updated (Newest)
-
-                                    </option>
-                                </select>
-                                <div class="icon-selection">
-                                    <svg viewBox="-122.9 121.1 105.9 61.9">
-                                        <path
-                                            d="m-63.2 180.3 43.5-43.5c1.7-1.7 2.7-4 2.7-6.5s-1-4.8-2.7-6.5c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.7L-69.9 161l-37.2-37.2c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.6c-1.9 1.8-2.8 4.2-2.8 6.6 0 2.3.9 4.6 2.6 6.5 11.4 11.5 41 41.2 43 43.3l.2.2c3.6 3.6 10.3 3.6 13.9 0z">
-
-                                        </path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <app-full-option-control-item></app-full-option-control-item>
                 </div>
                 <div class="pen-module">
                     <app-list-item-grid-code [pen_ids]="pen_ids"></app-list-item-grid-code>
@@ -112,7 +100,7 @@
                 <div class="comment-module">
                 </div>
             </div>
-            <app-comment-area></app-comment-area>
+            <app-comment-area [id]="currentCollectionID" [type]="'collection'"></app-comment-area>
         </div>
         <div class="app-footer-component">
             <app-footer></app-footer>

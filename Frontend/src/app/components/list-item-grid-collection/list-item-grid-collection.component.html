@@ -1,0 +1,35 @@
+<div class="item-grid-code-center">
+    <div class="background-item-grid-code prev" *ngIf="!is_start" (click)="onClickPrevGridCode()">
+        <div class="item-grid-code-prev">
+            <app-content-grid-collection *ngFor="let dataItem of pen_ids_prev" [collection]="dataItem"></app-content-grid-collection>    
+            
+        </div>
+        <button class="prev-page button-page">
+            <div class="center-button">
+                <svg viewBox="-100.9 99.1 61.9 105.9" width="14" height="14"><path d="m-98.2 158.8 43.5 43.5c1.7 1.7 4 2.7 6.5 2.7s4.8-1 6.5-2.7c1.7-1.7 2.7-4 2.7-6.5s-1-4.8-2.7-6.5l-37.2-37.2 37.2-37.2c1.7-1.7 2.7-4 2.7-6.5s-1-4.8-2.6-6.5c-1.8-1.9-4.2-2.8-6.6-2.8-2.3 0-4.6.9-6.5 2.6-11.5 11.4-41.2 41-43.3 43l-.2.2c-3.6 3.6-3.6 10.3 0 13.9z"></path></svg>
+            </div>
+    
+        </button>
+    </div>
+    <div class="item-grid-code">
+        <!-- <app-content-grid-code *ngFor="let dataItem of pen_ids_current" [pen_id]="dataItem"></app-content-grid-code> -->
+        <app-content-grid-collection *ngFor="let dataItem of pen_ids_current" [collection]="dataItem"></app-content-grid-collection>
+    </div>
+
+    <div class="background-item-grid-code next" *ngIf="!is_end" (click)="onClickNextGridCode()" >
+        <div class="item-grid-code-next">
+            <!-- <app-content-grid-code *ngFor="let dataItem of pen_ids_next" [pen_id]="dataItem"></app-content-grid-code> -->
+
+            <app-content-grid-collection *ngFor="let dataItem of pen_ids_next" [collection]="dataItem"></app-content-grid-collection>
+        </div>
+    
+        <button class="next-page button-page" >
+            <div class="center-button">
+                <svg viewBox="-100.9 99.1 61.9 105.9" width="14" height="14"><path d="m-41.7 145.3-43.5-43.5c-1.7-1.7-4-2.7-6.5-2.7s-4.8 1-6.5 2.7c-1.7 1.7-2.7 4-2.7 6.5s1 4.8 2.7 6.5L-61 152l-37.2 37.2c-1.7 1.7-2.7 4-2.7 6.5s1 4.8 2.6 6.5c1.8 1.9 4.2 2.8 6.6 2.8 2.3 0 4.6-.9 6.5-2.6 11.5-11.4 41.2-41 43.3-43l.2-.2c3.6-3.6 3.6-10.4 0-13.9z"></path></svg>
+    
+            </div>
+    
+        </button>
+    </div>
+
+</div>

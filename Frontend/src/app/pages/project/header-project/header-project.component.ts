@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { UserDataService } from 'src/app/services/user-data.service';
 import axios from 'axios';
 import { HomeCodeComponent } from '../../pen/home-code.component';
-
+import { HostService } from 'src/app/host.service';
 @Component({
   selector: 'app-header-project',
   templateUrl: './header-project.component.html',
@@ -14,11 +14,10 @@ export class HeaderProjectComponent implements OnInit {
   isEditingTitle = false;
   isMenuOpen = false;
 
-  userData: any = new UserDataService;
+  userData: any = new UserDataService(this.myService);
   @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
 
-  constructor(
-  ){}
+  constructor(private router: Router, private userDataService: UserDataService,private myService: HostService,) { }
 
   ngOnInit(): void {
     console.log(this.data.data_source)

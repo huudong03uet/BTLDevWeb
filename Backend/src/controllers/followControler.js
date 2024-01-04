@@ -3,15 +3,20 @@ const { Op } = require("sequelize");
 
 const Follow = require('../models/followTable');
 
-async function getFollowByUserID(user_id) {
+async function _getFollowByUserID(user_id, attr_sort = "createdAt", sort_by = 'desc') {
     try {
-        const getUser = await Follow.findAll({
+        let getUser = await Follow.findAll({
+            attributes: {
+                include: [
+                    [Sequelize.literal('(SELECT count(pen_id) FROM pen WHERE pen.user_id = follow_table.user_id_2)'), 'numpen'],
+                ]
+            },
             where: { user_id_1: user_id },
+            order: [[attr_sort, sort_by]],
         });
 
-        if (getUser) {
-            const userIDs = getUser.map((user) => user.user_id_2);
-            return userIDs;
+        if (getUser.length > 0) {
+            return getUser;
         } else {
             return []
         }
@@ -22,5 +27,5 @@ async function getFollowByUserID(user_id) {
 }
 
 module.exports = {
-    getFollowByUserID,
+    _getFollowByUserID,
 };
