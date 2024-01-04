@@ -1,45 +1,42 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { HostService } from 'src/app/host.service';
-
 @Component({
-  selector: 'app-your-work',
-  templateUrl: './your-work.component.html',
-  styleUrls: ['./your-work.component.scss']
+  selector: 'app-your-work-projects',
+  templateUrl: './your-work-projects.component.html',
+  styleUrls: ['./your-work-projects.component.scss']
 })
-export class YourWorkComponent implements OnInit, AfterViewChecked {
-  data: any;
+export class YourWorkProjectsComponent {
+  project_ids = []
 
+  // page_now: number = 1;
+  // pen_ids_current: any[] = [];
+  // is_end: boolean = false;
+  // is_start: boolean = true;
+
+
+  // check_is_start_end() {
+  //   if (this.page_now == 1) {
+  //     this.is_start = true;
+  //   } else {
+  //     this.is_start = false;
+  //   }
+
+  //   if (this.page_now * 6 >= this.pen_ids.length) {
+  //     this.is_end = true;
+  //   } else {
+  //     this.is_end = false;
+  //   }
+  // }
+  
   constructor(
     private route: ActivatedRoute,
     private userData: UserDataService,
     private router: Router,
     private myService: HostService,
   ) { }
-
-  currentURL = "";
-
-
-  addClassActive() {
-    const links = document.querySelectorAll('.home-your-work-button');
-    links.forEach(link => {
-      var check_currentURL = this.currentURL.split('/')[4];
-      if (link.classList.contains(check_currentURL + "-button")) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
-    });
-  }
-
-  ngAfterViewChecked() {
-    if (this.currentURL != window.location.href) {
-      this.currentURL = window.location.href;
-      this.addClassActive();
-    }
-  }
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const userId = this.userData.getUserData()?.user_id;
@@ -48,7 +45,10 @@ export class YourWorkComponent implements OnInit, AfterViewChecked {
 
         axios.get(apiUrl)
           .then((response) => {
-            this.data = response.data;
+            this.project_ids = response.data;
+            // this.pen_ids_current = this.pen_ids.slice(0, 6);
+            // this.check_is_start_end();
+            // console.log('pen:', this.project_ids)
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -57,22 +57,9 @@ export class YourWorkComponent implements OnInit, AfterViewChecked {
         console.error('User ID not available.');
       }
     });
+    // this.check_is_start_end();
   }
 
 
-  linkToYourWorkPens() {
-    this.router.navigate(['/your-work/pens']);
-  }
-
-  linkToYourWorkCollections() {
-    this.router.navigate(['/your-work/collections']);
-  }
-
-  linkToYourWorkDeleted() {
-    this.router.navigate(['/your-work/deleted']);
-  }
-
-  linkToYourWorkProjects() {
-    this.router.navigate(['/your-work/projects']);
-  }
+ 
 }
