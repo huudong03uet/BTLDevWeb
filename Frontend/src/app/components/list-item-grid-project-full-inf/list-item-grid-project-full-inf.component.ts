@@ -6,16 +6,10 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./list-item-grid-project-full-inf.component.scss']
 })
 export class ListItemGridProjectFullInfComponent {
-  @Input() project_ids: number[] = [
-    1, 2, 3, 
-    3, 2, 1,
-    1, 2, 3,
-    1, 2, 1,
-    1, 2
-  ];
+  @Input() project_ids: number[] = [];
 
   page_now: number = 1;
-  pen_ids_current: any[] = [];
+  project_ids_current: any[] = [];
   is_end: boolean = false;
   is_start: boolean = true;
 
@@ -36,26 +30,26 @@ export class ListItemGridProjectFullInfComponent {
   
   constructor() { }
   ngOnInit(): void {
-    this.pen_ids_current = this.project_ids.slice(0, 6);
+    this.project_ids_current = this.project_ids.slice(0, 6);
     this.check_is_start_end();
   }
 
   // ngOnChanges() {
     ngOnChanges() {
-      this.pen_ids_current = this.project_ids.slice(0, 6);
+      this.project_ids_current = this.project_ids.slice(0, 6);
       this.check_is_start_end();
   }
 
 
   clickNextPageButton() {
     this.page_now += 1;
-    this.pen_ids_current = this.project_ids.slice((this.page_now - 1) * 6, this.page_now * 6);
+    this.project_ids_current = this.project_ids.slice((this.page_now - 1) * 6, this.page_now * 6);
     this.check_is_start_end();
   }
 
   clickPrevPageButton() {
     this.page_now -= 1;
-    this.pen_ids_current = this.project_ids.slice((this.page_now - 1) * 6, this.page_now * 6);
+    this.project_ids_current = this.project_ids.slice((this.page_now - 1) * 6, this.page_now * 6);
     this.check_is_start_end();
   }
 }
