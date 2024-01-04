@@ -23,7 +23,7 @@ const Comment = sequelize.define('comment_table', {
     deleted: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
-    }, 
+    },
 },
     {
         tableName: 'comment_table',

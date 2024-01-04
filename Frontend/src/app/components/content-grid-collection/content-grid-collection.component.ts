@@ -18,7 +18,9 @@ export class ContentGridCollectionComponent implements OnInit {
   @Input() is_pinned: boolean = false;
   pen_ids = [1, 2, 3];
   collectionName: string = "";
-  iframeContents: SafeHtml[] = ['', '', '', ''];
+  iframeContents: SafeHtml[] = [
+    '', '', '', ''
+  ];
   collection_id: any;
   userName: any;
   data_collection = {
@@ -29,10 +31,7 @@ export class ContentGridCollectionComponent implements OnInit {
   }
 
 
-  constructor(
-    private router: Router,
-    private sanitizer: DomSanitizer,
-    private http: HttpClient,
+  constructor(private router: Router, private sanitizer: DomSanitizer, private http: HttpClient,
     private userData: UserDataService,
     private myService: HostService,
   ) { }
