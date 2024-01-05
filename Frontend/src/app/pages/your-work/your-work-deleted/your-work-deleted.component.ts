@@ -33,7 +33,11 @@ export class YourWorkDeletedComponent implements OnInit {
   }
 
   restoreItem(item: DeletedItem) {
-    const endpoint = item.type === 'pen' ? '/pen/createOrUpdatePen' : '/your-work/collections/restore';
+    let endpoint = item.type === 'pen' ? '/pen/createOrUpdatePen' : '/your-work/collections/restore';
+
+    if(item.type === 'project') {
+      endpoint = `/project/restore`;
+    }
 
     this.http.post<any>(this.myService.getApiHost() + endpoint, {
       [item.type + '_id']: item.id, // Dynamic key based on item type
@@ -47,15 +51,19 @@ export class YourWorkDeletedComponent implements OnInit {
   }
 
   deletePermanently(item: DeletedItem) {
-    const deleteEndpoint = item.type === 'pen'
+    let deleteEndpoint = item.type === 'pen'
       ? '/pen/deletePenPermanently'
       : '/your-work/deleteCollectionPermanently';
+
+      if(item.type === 'project') {
+        deleteEndpoint = `/project/deleteProjectPermanently`;
+      }
 
     const confirmed = confirm(`Are you sure you want to permanently delete ${item.name}?`);
 
     if (confirmed) {
       this.http.post<any>(this.myService.getApiHost() + deleteEndpoint, {
-        [item.type + '_id']: item.id, // Dynamic key based on item type
+        [item.type + '_id']: item.id, 
       }).subscribe(
         response => {
           console.log(response);

@@ -20,7 +20,7 @@ export class ContentGridProjectFullInfComponent implements OnInit {
   pined: any;
   followed: any;
   informationPen = [
-    "Add to Collection",
+    "Delete",
     "Remove from Pins",
     "Unfollow User"
   ]
@@ -36,39 +36,6 @@ export class ContentGridProjectFullInfComponent implements OnInit {
 
   ngOnInit(): void {
     this.iframeImage = this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/project.png');
-    // const apiUrl =  this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${this.project.project_id}&user_id=${this.userData.getUserData()?.user_id}`;
-    // axios.get(apiUrl)
-    //   .then((response) => {
-    //     this.data = response.data;
-    //     this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
-    //     const iframeContent = `
-    //     <html>
-    //       <head>
-    //         <style>${this.data.pen.css_code}
-    //         html, body {
-    //           position: absolute;
-    //           top: 50%;
-    //           left: 50%;
-    //           transform: translate(-50%, -50%);
-    //           overflow: clip;
-    //         } </style>
-    //       </head>
-    //       <body>
-    //         ${this.data.pen.html_code}
-    //         <script>${this.data.pen.js_code}</script>
-    //       </body>
-    //     </html>
-    //   `;
-    //     this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
-    //     this.informationPen = [
-    //       "Add to Collection",
-    //       "Remove from Pins",
-    //       "Unfollow " + this.data.user.user_name
-    //     ]
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //   });
   }
 
   loadPinAndFollow() {
@@ -282,8 +249,36 @@ export class ContentGridProjectFullInfComponent implements OnInit {
   childDetailPenVisible: boolean = false;
   openDetailPen() {
     this.childDetailPenVisible = !this.childDetailPenVisible;
+    // hidden scroll bar body
+    document.body.style.overflow = 'hidden';
+    
+    // remove scroll bar bottom
   }
   handleChildDetailPenClose() {
     this.childDetailPenVisible = false;
   }
+  
+  handleDeleteClick() {
+    const confirmed = confirm("Are you sure you want to delete this project?");
+    if (confirmed) {
+      const url = this.myService.getApiHost() + `/project/remove`;
+      console.log(this.project.project_id);
+      const data = {
+        project_id: this.project.project_id,
+        delete: true
+      };
+  
+      axios.post(url, data)
+        .then(response => {
+          console.log(response);
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([this.router.url]);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  }
+
 }

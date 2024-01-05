@@ -30,7 +30,7 @@ let getInfoProject = async (req, res) => {
     try {
         const project_id = req.query.project_id;
         const project = await Project.findOne({
-            where: { project_id: project_id },
+            where: { project_id: project_id, deleted: false },
         });
         const folder = await Folder.findAll({
             where: { project_id: project_id }
@@ -113,7 +113,7 @@ async function _getProjectByUserID(user_id) {
                     [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE project.project_id = comment_table.project_id)'), 'numcomment'],
                 ]
             },
-            where: { user_id: user_id },
+            where: { user_id: user_id, deleted: false },
         });
 
         return projects;
@@ -150,12 +150,12 @@ async function getProjectByUserSort(req, res) {
                         [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE project.project_id = view_table.project_id)'), 'numview'],
                     ]
                 },
-                where: { user_id: user_id },
+                where: { user_id: user_id, deleted: false },
                 order: [[sortby, 'DESC']],
             })
         } else if (sortby == "private" || sortby == "public") {
             projects = await Project.findAll({
-                where: { user_id: user_id, status: sortby },
+                where: { user_id: user_id, deleted: false, status: sortby },
             })
         }
         
@@ -203,6 +203,43 @@ async function getAllProject(req, res) {
     }
   }
 
+  async function removeProject(req, res) {
+    const project_id = req.body.project_id;
+    try {
+        const project = await Project.findByPk(project_id);
+
+        if (!project) {
+            return res.status(404).json({ error: 'Project not found' });
+        }
+
+        await project.update({ deleted: true });
+
+        res.status(200).json({ message: 'Project removed successfully' });
+    } catch (error) {
+        console.error('Error removing project:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+async function restoreProject(req, res) {
+    const project_id = req.body.project_id;
+
+    try {
+        const project = await Project.findByPk(project_id);
+
+        if (!project) {
+            return res.status(404).json({ error: 'Project not found' });
+        }
+
+        await project.update({ deleted: false });
+
+        res.status(200).json({ message: 'Project restored successfully' });
+    } catch (error) {
+        console.error('Error restoring project:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
 module.exports = {
     createProject,
     getFolderChild,
@@ -211,4 +248,6 @@ module.exports = {
     getProjectByUserID,
     getProjectByUserSort,
     getAllProject,
+    removeProject,
+    restoreProject,
 };
