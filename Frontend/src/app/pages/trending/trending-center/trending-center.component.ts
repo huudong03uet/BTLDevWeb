@@ -40,8 +40,8 @@ export class TrendingCenterComponent  {
           console.error('Error:', error);
         });
 
-        apiUrl = this.myService.getApiHost() + `/user/getNotFollow/${userId}`;
-        axios.get(apiUrl).then((response) => {
+        const apiUrlNotFollow = `${this.myService.getApiHost()}/follow/getNotFollow?user_id=${userId}`;        
+        axios.get(apiUrlNotFollow).then((response) => {
           this.data = response.data;
           // get random 3 element
           this.data = this.data.slice(0, 3);
