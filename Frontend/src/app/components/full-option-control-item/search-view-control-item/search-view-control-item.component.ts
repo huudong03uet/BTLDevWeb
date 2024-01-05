@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FullOptionControlItemService } from 'src/app/services/full-option-control-item.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { FullOptionControlItemService } from 'src/app/services/full-option-contr
   styleUrls: ['./search-view-control-item.component.scss']
 })
 export class SearchViewControlItemComponent {
-
+  @Input() type: string = '';
   publicPrivate: string = '';
   search: string = '';
   // sortDirection: string = '';

@@ -19,7 +19,7 @@ async function savePen(req, res) {
   const user = req.body.user;
   console.log(data)
   try {
-    if (pen_id != null && data.user.user_id == user.user_id) {
+    if (data.pen.pen_id != null && data.user.user_id == user.user_id) {
       const existingPen = await Pen.findOne({ where: { pen_id: data.pen.pen_id } });
 
       existingPen.html_code = data.pen.html_code;
@@ -37,17 +37,17 @@ async function savePen(req, res) {
         html_code: data.pen.html_code,
         js_code: data.pen.js_code,
         css_code: data.pen.css_code,
-        name: data.pen.name || 'Untitled',
-        type_css: data.pen.type_css || 'css',
+        name: data.pen.name,
+        type_css: data.pen.type_css,
         status: data.pen.status,
         deleted: data.pen.deleted,
         user_id: user.user_id,
-      });  
-      return res.status(201).json({ code: 200, pen: newPen, message: "Created a new pen successfully" });
+      });
+      return res.status(201).json({ code: 200, pen: newPen, message: "tạo pen mới thành công" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error while creating or updating pen' });
+    res.status(500).json({ error: 'Lỗi trong quá trình tạo hoặc cập nhật pen' });
   }
 }
 
@@ -498,6 +498,8 @@ async function getAllPen(req, res) {
       ...pen.toJSON(),
       id: pen.pen_id,
       name: (pen.name == null ? "Untitled" : pen.name),
+      createdAtRaw: pen.createdAt,
+      updatedAtRaw: pen.updatedAt,
       createdAt: _formatDateString(pen.createdAt),
       updatedAt: _formatDateString(pen.updatedAt),
     }));
