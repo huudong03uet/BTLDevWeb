@@ -12,8 +12,8 @@ import { HostService } from 'src/app/host.service';
 })
 export class LoginComponent {
   loginError: string | null = null;
-  gmail: string = ''; // Thêm biến email và khởi tạo
-  password: string = ''; // Thêm biến password và khởi tạo
+  gmail: string = '';
+  password: string = ''; 
 
 
   constructor(
@@ -80,5 +80,18 @@ export class LoginComponent {
 
   openForgotPassword() {
     this.forgotPassword = !this.forgotPassword;
+  }
+
+  forgotPass() {
+    const apiUrl = this.myService.getApiHost() + `/send-email/forgotPassword?email=${this.gmail}`;
+
+    axios.post(apiUrl)
+        .then((response) => {
+          alert('Thành công');
+        })
+        .catch((error) => {
+          console.error('Đã xảy ra lỗi:', error);
+          this.loginError = 'Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu';
+        });
   }
 }

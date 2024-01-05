@@ -106,9 +106,27 @@ let updatePassword = async (req, res) => {
   }
 };
 
+async function _checkUserWithGmail(gmail) {
+  try {
+    const x = await User.findOne({
+      where: { gmail: gmail },
+    });
+
+    if (x) {
+      await User.update({ password: 'Abc123456@' }, { where: { user_id: x.dataValues.user_id } });
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    return false;
+  }
+}
+
 module.exports = {
   login,
   signup,
   updatePassword,
+  _checkUserWithGmail
 };
 
