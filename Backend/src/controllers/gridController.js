@@ -23,13 +23,13 @@ let updateView = async (req, res) => {
     });
 
     if (created) {
-      res.status(200).json({ message: "Thành công" });
+      res.status(200).json({ message: "Successful" });
     } else {
-      res.status(200).json({ message: "Đã xem trước đó" });
+      res.status(200).json({ message: "Seen" });
     }
   } catch (error) {
     console.error('Error updating view:', error);
-    res.status(500).json({ error: 'Lỗi khi cập nhật xem trước' });
+    res.status(500).json({ error: 'Error while updating view' });
   }
 }
 
