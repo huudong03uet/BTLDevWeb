@@ -114,14 +114,6 @@ async function getNotFollow(req, res) {
   }
 }
 
-
-
-
-
-
-
-
-
 async function updateProfile(req, res) {
   try {
     const user_id = req.params.id;
