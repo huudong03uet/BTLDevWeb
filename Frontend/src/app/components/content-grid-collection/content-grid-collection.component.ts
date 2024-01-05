@@ -112,7 +112,7 @@ export class ContentGridCollectionComponent implements OnInit {
     }
     this.collection_id = this.collection.collection_id;
 
-    console.log("abc def", this.collection_id)
+    // console.log("abc def", this.collection_id)
     const apiUrl = this.myService.getApiHost() + `/your-work/collections/${this.collection_id}/pens`;
 
     this.http.get(apiUrl).subscribe(
