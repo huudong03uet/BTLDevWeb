@@ -8,6 +8,7 @@ router.get("/getFileChild", projectController.getFileChild);
 router.get("/getInfoProject", projectController.getInfoProject);
 router.get("/getProjectByUserID", projectController.getProjectByUserID);
 router.get("/getProjectByUserSort", projectController.getProjectByUserSort);
+router.get("/getAllProject", projectController.getAllProject);
 
 
 module.exports = router;

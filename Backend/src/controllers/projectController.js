@@ -166,6 +166,43 @@ async function getProjectByUserSort(req, res) {
     }
 }
 
+import { _formatDateString } from "./userController";
+async function getAllProject(req, res) {
+    const attr_sort = req.query.attr_sort
+    const order_by = req.query.order_by;
+    const deleted = req.query.deleted == '' ? false : (req.query.deleted == "true" ? true : false);
+
+    console.log(deleted)
+  
+    try {
+      let projects = await Project.findAll({
+        attributes: {
+          exclude: ['password', 'html_code', 'js_code', 'css_code', 'type_css'],
+          include: [
+            [Sequelize.literal('(SELECT user_name FROM user WHERE user_id = project.user_id)'), 'user_name'],
+            [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE like_table.project_id = project.project_id)'), 'numlike'],
+            [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE view_table.project_id = project.project_id)'), 'numview'],
+            [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.project_id = project.project_id)'), 'numcomment'],
+          ],
+        },
+        where: { deleted: deleted },
+        order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
+      });
+  
+      projects = projects.map(project => ({
+        ...project.toJSON(),
+        id: project.project_id,
+        name: (project.name == null ? "Untitled" : project.name),
+        createdAt: _formatDateString(project.createdAt),
+        updatedAt: _formatDateString(project.updatedAt),
+      }));
+  
+      res.status(200).json(projects);
+    } catch (error) {
+      console.log("chan gai 808", error);
+    }
+  }
+
 module.exports = {
     createProject,
     getFolderChild,
@@ -173,4 +210,5 @@ module.exports = {
     getInfoProject,
     getProjectByUserID,
     getProjectByUserSort,
+    getAllProject,
 };

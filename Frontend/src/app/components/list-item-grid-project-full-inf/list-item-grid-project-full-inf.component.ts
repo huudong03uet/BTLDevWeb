@@ -6,13 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./list-item-grid-project-full-inf.component.scss']
 })
 export class ListItemGridProjectFullInfComponent {
-  @Input() projects: number[] = [
-    1, 2, 3, 
-    3, 2, 1,
-    1, 2, 3,
-    1, 2, 1,
-    1, 2
-  ];
+  @Input() projects: any;
 
   page_now: number = 1;
   pen_ids_current: any[] = [];
