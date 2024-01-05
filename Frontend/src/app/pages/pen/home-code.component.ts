@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { HostService } from 'src/app/host.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home-code',
@@ -23,7 +24,12 @@ export class HomeCodeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private myService: HostService,
-  ) { }
+    private toastr: ToastrService
+  ) {
+//  set time
+// set class for toast
+
+   }
 
   ngOnInit(): void {
     this.route.params.subscribe(async (params) => {
@@ -72,11 +78,13 @@ export class HomeCodeComponent implements OnInit {
       });
       if (response.status === 200) {
         this.data.pen = response.data.pen;
-        alert('Saved successfully!');
+        // alert('Saved successfully!');
+        this.toastr.success('Copy successfully!', '');
       } else if (response.status === 201) {
         const newPenId = response.data.pen.pen_id;
         this.router.navigate([`/pen/${newPenId}`]);
-        alert('Copy successfully!');
+        // alert('Copy successfully!');
+        this.toastr.success('Copy successfully!', '');
       } else {
         console.error('Unexpected status:', response.status);
       }

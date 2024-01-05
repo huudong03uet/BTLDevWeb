@@ -11,8 +11,9 @@
             box-sizing: border-box;
             tr {
                 th {
-                    color: hsl( 0deg 0% 100% );
 
+                    color: hsl( 0deg 0% 100% );
+                    padding: 6px 5px;
                         // padding: 4px;
                         text-align: left;
                 }
@@ -37,7 +38,9 @@
                 margin-bottom: 1px;
                 color: hsl( 233.33deg 9.89% 64.31% );
                 td {
-                    padding: 6px 0px;
+                    padding: 6px 5px;
+                    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+
                 }
 
                 .title-row {

@@ -6,6 +6,7 @@ import { HomeCodeComponent } from '../../home-code.component';
 import {Clipboard} from '@angular/cdk/clipboard';
 import axios from 'axios';
 import { HostService } from 'src/app/host.service';
+import { ToastrService } from 'ngx-toastr';
 // import toastr from 'toastr';
 @Component({
   selector: 'pen-header',
@@ -17,7 +18,8 @@ export class PenHeaderComponent implements OnInit {
   constructor(private router: Router,
     private userData: UserDataService,
     private myService: HostService,
-    private clipboard: Clipboard
+    private clipboard: Clipboard,
+    private toastr: ToastrService
   ) {
     this.user = this.userData.getUserData();
   }
@@ -43,6 +45,11 @@ export class PenHeaderComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    // set toasts position
+    this.toastr.toastrConfig.positionClass = 'toast-top-center';
+    // set height for toast
+
     this.projectTitle = this.data?.pen?.name ? this.data.pen.name : 'Untitled';
     // console.log(this.projectTitle);
   }
@@ -94,8 +101,9 @@ export class PenHeaderComponent implements OnInit {
     // console.log(this.myPen);
     let link = this.myService.getWebHost() + `/pen/${this.data.pen.pen_id}`
     this.clipboard.copy(link);
-    alert('copy clipboard thanh cong! link: ' + link)
+    this.toastr.success('Link copied to clipboard', '');
     // this.clipboard.copy('Alphonso');
+    
   }
 
   toggleFollow(): void {

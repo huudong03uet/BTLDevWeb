@@ -49,7 +49,7 @@ export class FollowingCenterComponent implements OnChanges {
       apiUrl = this.myService.getApiHost() + `/user/getNotFollow/${userId}`;
       axios.get(apiUrl).then((response) => {
         this.data = response.data;
-        this.data = this.data.sort(() => Math.random() - Math.random()).slice(0, 3);
+        this.data = this.data.slice(0, 3);
       }).catch((error) => {
         console.error('Error:', error);
       });

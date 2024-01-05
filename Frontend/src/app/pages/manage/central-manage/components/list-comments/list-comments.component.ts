@@ -23,7 +23,6 @@ export class ListCommentsComponent implements OnInit {
 
     axios.get(apiUrl).then((response) => {
       this.datas = response.data;
-
       this.pen_ids_current = this.datas.slice(0, this.max_item_per_page);
       this.check_is_start_end();
     }).catch((error) => {
