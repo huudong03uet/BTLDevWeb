@@ -37,22 +37,22 @@ async function getInfoUser(req, res) {
   }
 }
 
-async function getUserByID(user_id) {
-  try {
-    const getOneUser = await User.findOne({
-      where: { user_id: user_id },
-    });
+// async function getUserByID(user_id) {
+//   try {
+//     const getOneUser = await User.findOne({
+//       where: { user_id: user_id },
+//     });
 
-    if (getOneUser) {
-      return getOneUser.user_id;
-    } else {
-      return 1;
-    }
-  } catch (error) {
-    console.error('Get user by id error:', error);
-    throw error;
-  }
-}
+//     if (getOneUser) {
+//       return getOneUser.user_id;
+//     } else {
+//       return 1;
+//     }
+//   } catch (error) {
+//     console.error('Get user by id error:', error);
+//     throw error;
+//   }
+// }
 
 async function countPenOfUser(arrUserID) {
   try {
@@ -80,12 +80,18 @@ async function countPenOfUser(arrUserID) {
 async function getAllUserExclude(arrUserID) {
   try {
     let users = await User.findAll({
+      attributes: {
+        exclude: ['gmail', 'password', 'createdAt', "updatedAt", "full_name", "location", "bio", "deleted", "isAdmin"],
+        include: [
+          [Sequelize.literal('(SELECT count(pen_id) FROM pen WHERE pen.user_id = user.user_id)'), 'numpen'],
+        ]
+      },
       where: {
         user_id: {
           [Sequelize.Op.notIn]: arrUserID
         },
       },
-      attributes: ['user_id', 'user_name', 'avatar_path']
+      having: { numpen: { [Op.not]: 0 } },
     });
 
     return users;
@@ -95,24 +101,24 @@ async function getAllUserExclude(arrUserID) {
   }
 }
 
-async function getNotFollow(req, res) {
-  // console.log(1)
-  const user_id = req.params.id;
-  // console.log('abcxyy', user_id);
+// async function getNotFollow(req, res) {
+//   // console.log(1)
+//   const user_id = req.params.id;
+//   // console.log('abcxyy', user_id);
 
-  try {
-    const getOneUser = await getUserByID(user_id);
-    let getFollowUsers = await followController._getFollowByUserID(getOneUser);
-    getFollowUsers = getFollowUsers.map(x => x.user_id_2)
-    const getAllNotFollow = await getAllUserExclude(getFollowUsers, user_id);
-    const uniqueNotFollow = [...new Set(getAllNotFollow)];
+//   try {
+//     const getOneUser = await getUserByID(user_id);
+//     let getFollowUsers = await followController._getFollowByUserID(getOneUser);
+//     // getFollowUsers = getFollowUsers.map(x => x.user_id_2)
+//     const getAllNotFollow = await getAllUserExclude(getFollowUsers, user_id);
+//     const uniqueNotFollow = [...new Set(getAllNotFollow)];
 
-    res.status(200).json(uniqueNotFollow);
-  } catch (error) {
-    console.error('Error fetching pen ids:', error);
-    throw error;
-  }
-}
+//     res.status(200).json(uniqueNotFollow);
+//   } catch (error) {
+//     console.error('Error fetching pen ids:', error);
+//     throw error;
+//   }
+// }
 
 async function updateProfile(req, res) {
   try {
@@ -325,7 +331,7 @@ async function getAlluser(req, res) {
 }
 
 module.exports = {
-  getNotFollow,
+  // getNotFollow,
   getInfoUser,
   updateProfile,
   changeEmail,

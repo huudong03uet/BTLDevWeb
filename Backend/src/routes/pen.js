@@ -15,6 +15,7 @@ router.get("/getPenByUserIdFullOption/:id", penController.getPenByUserIdFullOpti
 router.get("/getAllPen", penController.getAllPen);
 
 router.post('/getPenById', penController.getPenById);
+router.post('/createNewPen', penController.createNewPen);
 router.post("/createOrUpdatePen", penController.createOrUpdatePen);
 router.post("/savePen", penController.savePen);
 router.post('/deletePenPermanently', deletedController.deletePenPermanently); 

@@ -4,8 +4,8 @@ const userController = require('../controllers/userController');
 const router = express.Router();
 
 router.get('/getInfoUser', userController.getInfoUser);
-router.get('/getInfoUser', userController.getInfoUser);
-router.get('/getNotFollow/:id', userController.getNotFollow);
+
+// router.get('/getNotFollow/:id', userController.getNotFollow);
 router.get('/getAlluser', userController.getAlluser);
 
 router.put('/updateProfile/:id', userController.updateProfile);

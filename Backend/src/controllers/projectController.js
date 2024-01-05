@@ -242,6 +242,45 @@ async function restoreProject(req, res) {
     }
 }
 
+async function toggleProjectStatus(req, res) {
+    const { project_id } = req.body;
+  
+    try {
+      const existingProject = await Project.findOne({ where: { project_id: project_id, deleted: false } });
+  
+      if (!existingProject) {
+        return res.status(404).json({ code: 404, message: 'Không tìm thấy project' });
+      }
+  
+      // Toggle the status between 'public' and 'private'
+      existingProject.status = existingProject.status === 'public' ? 'private' : 'public';
+      await existingProject.save();
+  
+      return res.status(200).json({ code: 200, project: existingProject, message: 'Change project status successfully' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ code: 500, error: 'Error during project state transition' });
+    }
+  }
+
+  async function checkProjectStatus(req, res) {
+    const { project_id } = req.body;
+  
+    try {
+      const project = await Project.findByPk(project_id, { where: { deleted: false } });
+  
+      if (!project) {
+        return res.status(404).json({ error: 'Project not found' });
+      }
+  
+      return res.status(200).json({ status: project.status, message: 'Lấy trạng thái project thành công' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+  
+
 module.exports = {
     createProject,
     getFolderChild,
@@ -252,4 +291,6 @@ module.exports = {
     getAllProject,
     removeProject,
     restoreProject,
+    toggleProjectStatus,
+    checkProjectStatus,
 };

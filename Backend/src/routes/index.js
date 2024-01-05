@@ -10,6 +10,7 @@ import project from "./project";
 //import userRoute from "./user";
 import search from "./search";
 import comment from "./comment";
+import follow from './follow'
 
 // vậy nếu muốn gọi đến API của authRouter thì cần gọi đến http://localhost:3000/auth/...
 function route(app) {
@@ -22,6 +23,7 @@ function route(app) {
     app.use("/project", project);
     app.use("/search", search);
     app.use("/comment", comment);
+    app.use("/follow", follow);
     app.use("/collection", collectionRouter); // cai nay DAT them thoi con collection o your-work
 }
 

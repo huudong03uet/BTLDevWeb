@@ -40,7 +40,7 @@ export class FollowingCenterComponent implements OnChanges {
       } else {
         this.x = '';
       }
-      let apiUrl = this.myService.getApiHost() + `/pen/getFollow?user_id=${userId}&x=${this.x}`;
+      let apiUrl = this.myService.getApiHost() + `/follow/getFollow?user_id=${userId}&x=${this.x}`;
 
       axios.get(apiUrl).then((response) => {
         this.pen_ids = response.data;
@@ -49,14 +49,35 @@ export class FollowingCenterComponent implements OnChanges {
       });
 
 
-      apiUrl = this.myService.getApiHost() + `/user/getNotFollow/${userId}`;
+      apiUrl = this.myService.getApiHost() + `/follow/getNotFollow?user_id=${userId}`;
       axios.get(apiUrl).then((response) => {
         this.data = response.data;
-        this.data = this.data.slice(0, 3);
+        this.data = this.data.sort(() => Math.random() - Math.random()).slice(0, 3);
       }).catch((error) => {
         console.error('Error:', error);
       });
-
+      const apiUrlFollow = `${this.myService.getApiHost()}/follow/getFollow?user_id=${userId}&x=${this.recentChecked}`;
+      const apiUrlNotFollow = `${this.myService.getApiHost()}/follow/getNotFollow?user_id${userId}`;
+  
+      // Use Angular HttpClient for HTTP requests
+      this.http.get(apiUrlFollow).subscribe(
+        (followResponse: any) => {
+          this.pen_ids = followResponse;
+        },
+        (followError) => {
+          console.error('Error fetching follow data:', followError);
+        }
+      );
+  
+      this.http.get(apiUrlNotFollow).subscribe(
+        (notFollowResponse: any) => {
+          // Avoid sorting in the component
+          this.data = notFollowResponse.slice(0, 3);
+        },
+        (notFollowError) => {
+          console.error('Error fetching not follow data:', notFollowError);
+        }
+      );
     } else {
       console.error('User ID not available.');
     }

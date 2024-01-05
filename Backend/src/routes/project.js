@@ -14,5 +14,7 @@ router.get("/getAllProject", projectController.getAllProject);
 router.post('/deleteProjectPermanently', deletedController.deleteProjectPermanently);
 router.post('/remove', projectController.removeProject);
 router.post('/restore', projectController.restoreProject);
+router.post("/toggleStatus", projectController.toggleProjectStatus);
+router.post("/checkStatus", projectController.checkProjectStatus);
 
 module.exports = router;

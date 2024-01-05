@@ -17,16 +17,15 @@ export class ContentGridProjectComponent implements OnInit {
   @Input() project_id: any;
   data: any;
   namePen: any;
-    // iframeImage -> assets/images/project.png
-    iframeImage: any;
+  // iframeImage -> assets/images/project.png
+  iframeImage: any;
   pined: any;
   followed: any;
   informationPen = [
     "Delete",
-    "Remove from Pins",
-    "Unfollow User"
+    "Make private"
   ]
-  
+
 
   constructor(
     private router: Router,
@@ -35,27 +34,37 @@ export class ContentGridProjectComponent implements OnInit {
     private myService: HostService,
   ) { }
 
+
   ngOnInit(): void {
     this.iframeImage = this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/project.png');
-    const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${this.project_id}&user_id=${this.userData.getUserData()?.user_id}`;
-    axios.get(apiUrl)
+    const checkStatusUrl = this.myService.getApiHost() + '/project/checkStatus';
+    axios.post(checkStatusUrl, { project_id: this.project_id })
       .then((response) => {
-        this.data = response.data;
-        this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
-
-        this.informationPen = [
-          "Add to Collection",
-          "Remove from Pins",
-          "Unfollow " + this.data.user.user_name
-        ]
+        this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error('Error checking Project status:', error);
       });
   }
 
+  // Function to handle the "Make Private/Make Public" button click
+  handleToggleStatusClick() {
+    const toggleStatusUrl = this.myService.getApiHost() + `/project/toggleStatus`;
+
+    axios.post(toggleStatusUrl, { project_id: this.project_id })
+      .then((response) => {
+        this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([this.router.url]);      })
+      .catch((error) => {
+        console.error('Error toggling collection status:', error);
+      });
+  }
+
+
   loadPinAndFollow() {
-    const url =  this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.project_id}&user_id=${this.userData.getUserData()?.user_id}`;
+    const url = this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.project_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(url)
       .then((response) => {
         this.pined = response.data.pined;
@@ -71,7 +80,7 @@ export class ContentGridProjectComponent implements OnInit {
   handlePageClick(): void {
     this.router.navigate([`/pen/${this.project_id}`], { relativeTo: null });
   }
-  
+
   random_number = Math.floor(Math.random() * 100000000);
 
   hasInformationPen = false;
@@ -106,7 +115,6 @@ export class ContentGridProjectComponent implements OnInit {
   }
 
   onClickInformationPen() {
-    this.loadPinAndFollow();
     var x = document.getElementsByClassName("list-items");
 
     if (x != null) {
@@ -198,68 +206,68 @@ export class ContentGridProjectComponent implements OnInit {
   }
 
   handleLikeClick() {
-    if(this.userData.getUserData == null) {
+    if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url =  this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url = this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url)
-        .then((response) => {
-            console.log(response);
+      .then((response) => {
+        console.log(response);
 
-            if (response.data.liked) {
-                this.data.like++;
-            } else {
-                this.data.like--;
-            }
+        if (response.data.liked) {
+          this.data.like++;
+        } else {
+          this.data.like--;
+        }
 
-            this.data.liked = response.data.liked;
-        })
-        .catch((error) => {
-            console.error('Error:', error);
+        this.data.liked = response.data.liked;
+      })
+      .catch((error) => {
+        console.error('Error:', error);
 
-            // Nếu xảy ra lỗi, đảm bảo đồng bộ lại giá trị 'liked' và 'like'
-            this.data.liked = this.data.liked;
-            if (this.data.liked) {
-                this.data.like++;
-            } else {
-                this.data.like--;
-            }
-        });
+        // Nếu xảy ra lỗi, đảm bảo đồng bộ lại giá trị 'liked' và 'like'
+        this.data.liked = this.data.liked;
+        if (this.data.liked) {
+          this.data.like++;
+        } else {
+          this.data.like--;
+        }
+      });
   }
 
   handlePinClick() {
-    if(this.userData.getUserData == null) {
+    if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url =  this.myService.getApiHost() + `/grid/handlePin?id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url = this.myService.getApiHost() + `/grid/handlePin?id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url)
-        .then((response) => {
-            this.pined = response.data.pinned;
-            this.informationPen[1] = !this.pined ? "Add to Pins" : "Remove to Pins";
-          })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+      .then((response) => {
+        this.pined = response.data.pinned;
+        this.informationPen[1] = !this.pined ? "Add to Pins" : "Remove to Pins";
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
 
   }
 
-  
+
   handleFollowClick() {
-    if(this.userData.getUserData == null) {
+    if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     } else {
-      const url =  this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
+      const url = this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
 
       axios.get(url)
-          .then((response) => {
-              this.followed = response.data.followed;
-              this.informationPen[2] = this.followed ? `Unfollow ${this.data.user.user_name}` : `Follow ${this.data.user.user_name}`;
-            })
-          .catch((error) => {
-              console.error('Error:', error);
-          });  
+        .then((response) => {
+          this.followed = response.data.followed;
+          this.informationPen[2] = this.followed ? `Unfollow ${this.data.user.user_name}` : `Follow ${this.data.user.user_name}`;
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
     }
   }
 
@@ -267,7 +275,7 @@ export class ContentGridProjectComponent implements OnInit {
   openDetailPen() {
     this.childDetailPenVisible = !this.childDetailPenVisible;
     document.body.style.overflow = 'hidden';
-    
+
   }
   handleChildDetailPenClose() {
     this.childDetailPenVisible = false;
@@ -281,7 +289,7 @@ export class ContentGridProjectComponent implements OnInit {
         project_id: this.project_id,
         delete: true
       };
-  
+
       axios.post(url, data)
         .then(response => {
           console.log(response);
