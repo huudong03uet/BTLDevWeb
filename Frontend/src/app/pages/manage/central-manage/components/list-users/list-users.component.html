@@ -1,24 +1,34 @@
+
+<div class="center-full-option" style="position: relative;">
+    <app-full-option-control-item></app-full-option-control-item>
+
+</div>
+
+
 <div class="center-list-item">
+
+
+
     <table>
         <thead>
             <tr>
-                <th style="width: 10%;">User name</th>
-                <th style="width: 15%;">User email</th>
-                <th style="width: 15%;">Location</th>
-                <th style="width: 20%;">Bio</th>
-                <th style="width: 15%;">Create At</th>
-                <th style="width: 15%;">Update At</th>
-                <th style="text-align: center;">Actions</th>
+                <th style="width: 10%; text-overflow: ellipsis;">User name</th>
+                <th style="width: 15%; text-overflow: ellipsis;">User email</th>
+                <th style="width: 10%; text-overflow: ellipsis;">Location</th>
+                <th style="width: 20%; text-overflow: ellipsis;">Bio</th>
+                <th style="width: 15%; text-overflow: ellipsis;">Create At</th>
+                <th style="width: 15%; text-overflow: ellipsis;">Update At</th>
+                <th style="text-align: center; ">Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of pen_ids_current">
-                <td class="title-row"><a [href]="item.link" target="_blank">{{item.user_name}}</a></td>
-                <td class="gmail-row">{{item.gmail}}</td>
-                <td class="location-row">{{item.location}}</td>
-                <td class="bio-row">{{item.bio}}</td>
-                <td class="created-row">{{item.createdAt}}</td>
-                <td class="last-udpated-row">{{item.updatedAt}}</td>
+                <td class="title-row" ><a [href]="item.link" target="_blank">{{item.user_name}}</a></td>
+<td class="gmail-row" >{{item.gmail}}</td>
+<td class="location-row" >{{item.location}}</td>
+<td class="bio-row" >{{item.bio}}</td>
+<td class="created-row" >{{item.createdAt}}</td>
+<td class="last-udpated-row" >{{item.updatedAt}}</td>
 
 
 

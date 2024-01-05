@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HostService } from 'src/app/host.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,16 @@ export class LoginComponent {
     private router: Router,
     private userData: UserDataService,
     private myService: HostService,
-    ) {}
+    private toastr: ToastrService
+    ) {
+      // set top center
+      this.toastr.toastrConfig.positionClass = 'toast-top-center';
+      // set height for toast = 10px
+
+
+
+
+    }
 
   onLoginFormSubmit() {
     // console.log(123432)
@@ -49,7 +59,8 @@ export class LoginComponent {
             this.router.navigate(['/']);
             localStorage.setItem('gmail', this.gmail);
             localStorage.setItem('password', this.password);
-            alert('Logged in successfully!');
+            // alert('Logged in successfully!');
+            this.toastr.success('Login in successfully!', '');
           } else {
             this.loginError = 'Failed to login! Wrong username or password';
           }

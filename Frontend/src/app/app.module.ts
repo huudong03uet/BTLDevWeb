@@ -115,9 +115,11 @@ import { ListPenCollectionProjectSComponent } from './pages/manage/central-manag
 import { ListCommentsComponent } from './pages/manage/central-manage/components/list-comments/list-comments.component';
 import { ListUsersComponent } from './pages/manage/central-manage/components/list-users/list-users.component';
 import { ContentGridProjectComponent } from './components/content-grid-project/content-grid-project.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
+
     AppComponent,
     HomeComponent,
     PenHeaderComponent,
@@ -223,6 +225,8 @@ import { ContentGridProjectComponent } from './components/content-grid-project/c
     ContentGridProjectComponent,
   ],
   imports: [
+    ToastrModule.forRoot(),
+
     FormsModule,
     BrowserModule,
     AppRoutingModule,

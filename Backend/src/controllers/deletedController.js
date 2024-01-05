@@ -53,11 +53,11 @@ async function getDeletedCollectionsAndPens(req, res) {
     return res.status(200).json({
       code: 200,
       deletedItems: result,
-      message: 'Lấy danh sách collection, pen và project đã xóa thành công',
+      message: 'Get a list of successfully deleted collections, pens and projects',
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy danh sách collection, pen và project đã xóa' });
+    res.status(500).json({ code: 500, error: 'Error while retrieving the list of deleted collections, pens and projects' });
   }
 }
 
@@ -80,7 +80,7 @@ async function deletePenPermanently(req, res) {
     return res.status(200).json({ code: 200, message: 'Pen deleted permanently successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa pen' });
+    res.status(500).json({ code: 500, error: 'Error during pen deletion process' });
   }
 }
 
@@ -104,7 +104,7 @@ async function deleteCollectionPermanently(req, res) {
     return res.status(200).json({ code: 200, message: 'Collection deleted permanently successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa collection' });
+    res.status(500).json({ code: 500, error: 'Error while deleting collection' });
   }
 }
 
@@ -129,7 +129,7 @@ async function deleteProjectPermanently(req, res) {
         return res.status(200).json({ code: 200, message: 'Project deleted permanently successfully' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa project' });
+        res.status(500).json({ code: 500, error: 'Error during project deletion' });
     }
 }
 

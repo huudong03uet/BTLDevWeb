@@ -44,7 +44,7 @@ export class TrendingCenterComponent  {
         axios.get(apiUrl).then((response) => {
           this.data = response.data;
           // get random 3 element
-          this.data = this.data.sort(() => Math.random() - Math.random()).slice(0, 3);
+          this.data = this.data.slice(0, 3);
         }).catch((error) => {
           console.error('Error:', error);
         });

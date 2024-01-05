@@ -66,7 +66,7 @@ async function _getAllPensIDInCollection(collection_id) {
         return pens;
     } catch (error) {
         console.error(error);
-        res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy danh sách pen trong collection' });
+        res.status(500).json({ code: 500, error: 'Error while getting the list of pens in the collection' });
     }
 }
 
