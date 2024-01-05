@@ -14,13 +14,12 @@ import { _getViewByPen } from './viewController';
 import { _getLikeByuserID } from "./likeController";
 import { _formatDateString } from "./userController";
 
-
 async function savePen(req, res) {
   const data = req.body.data;
   const user = req.body.user;
   console.log(data)
   try {
-    if (data.pen.pen_id != null && data.user.user_id == user.user_id) {
+    if (pen_id != null && data.user.user_id == user.user_id) {
       const existingPen = await Pen.findOne({ where: { pen_id: data.pen.pen_id } });
 
       existingPen.html_code = data.pen.html_code;
@@ -38,17 +37,50 @@ async function savePen(req, res) {
         html_code: data.pen.html_code,
         js_code: data.pen.js_code,
         css_code: data.pen.css_code,
-        name: data.pen.name,
-        type_css: data.pen.type_css,
+        name: data.pen.name || 'Untitled',
+        type_css: data.pen.type_css || 'css',
         status: data.pen.status,
         deleted: data.pen.deleted,
         user_id: user.user_id,
-      });
+      });  
       return res.status(201).json({ code: 200, pen: newPen, message: "Created a new pen successfully" });
     }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error while creating or updating pen' });
+  }
+}
+
+async function createNewPen(req, res) {
+  const {
+    html_code,
+    js_code,
+    css_code,
+    user_id,
+    name,
+    type_css,
+  } = req.body;
+
+  if (user_id == '') res.status(404).json('loi');
+
+  console.log('abc', user_id)
+
+  try {
+
+    const newPen = await Pen.create({
+      html_code: html_code,
+      js_code: js_code,
+      css_code: css_code,
+      name: name || 'Untitled',
+      type_css: type_css || 'css',
+      status: "public",
+      deleted: false,
+      user_id: user_id,
+    }); 
+
+    res.status(201).json(newPen);
+  } catch (error) {
+    res.status(500).json('loi');
   }
 }
 
@@ -532,5 +564,6 @@ module.exports = {
   checkPenStatus,
   togglePenStatus,
 
-  _getPenByUserID
+  _getPenByUserID,
+  createNewPen,
 };

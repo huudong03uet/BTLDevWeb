@@ -56,8 +56,8 @@ export class FollowingCenterComponent implements OnChanges {
       }).catch((error) => {
         console.error('Error:', error);
       });
-      const apiUrlFollow = `${this.myService.getApiHost()}/pen/getFollow?user_id=${userId}&x=${this.recentChecked}`;
-      const apiUrlNotFollow = `${this.myService.getApiHost()}/user/getNotFollow/${userId}`;
+      const apiUrlFollow = `${this.myService.getApiHost()}/follow/getFollow?user_id=${userId}&x=${this.recentChecked}`;
+      const apiUrlNotFollow = `${this.myService.getApiHost()}/follow/getNotFollow?user_id${userId}`;
   
       // Use Angular HttpClient for HTTP requests
       this.http.get(apiUrlFollow).subscribe(
