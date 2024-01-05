@@ -38,7 +38,7 @@ export class ContentGridCodeComponent implements OnInit {
     const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(apiUrl)
       .then((response) => {
-        this.data = response.data;
+        this.data = response.data || {}; 
         this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
         const iframeContent = `
         <html>
@@ -69,6 +69,8 @@ export class ContentGridCodeComponent implements OnInit {
         console.error('Error:', error);
       });
   }
+
+  
 
   loadPinAndFollow() {
     const url =  this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
@@ -221,7 +223,7 @@ export class ContentGridCodeComponent implements OnInit {
 
     axios.get(url)
         .then((response) => {
-            console.log(response);
+            // console.log(response);
 
             if (response.data.liked) {
                 this.data.like++;
