@@ -65,7 +65,7 @@ export class HomeCodeComponent implements OnInit {
         console.error('Error:', error);
       });
   }
-
+  
   async saveData() {
     if (this.userData.getUserData() == null) {
       this.router.navigate(['/login']);
@@ -83,10 +83,20 @@ export class HomeCodeComponent implements OnInit {
       } else if (response.status === 201) {
         const newPenId = response.data.pen.pen_id;
         this.router.navigate([`/pen/${newPenId}`]);
-        // alert('Copy successfully!');
-        this.toastr.success('Copy successfully!', '');
+        this.toastr.success('Save successfully!', '');
+      }  else if (response.status === 202) {
+        const newPenId = response.data.pen.pen_id;
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.toastr.success('Save successfully!', '');
+
+
+        this.router.navigate([`/pen/${newPenId}`]);
+
+
       } else {
         console.error('Unexpected status:', response.status);
+
       }
 
     } catch (error) {

@@ -24,6 +24,8 @@ export class PenHeaderComponent implements OnInit {
     this.user = this.userData.getUserData();
   }
 
+  @Input() check: boolean = false;
+
   @Input() data: any;
   dataOld: any;
 
@@ -185,7 +187,6 @@ export class PenHeaderComponent implements OnInit {
       })
       .catch((error) => {
         console.error('Error:', error);
-        alert('khong done');
         this.toastr.error('Forked failed', '');
       });
   }

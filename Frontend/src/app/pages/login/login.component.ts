@@ -25,11 +25,6 @@ export class LoginComponent {
     ) {
       // set top center
       this.toastr.toastrConfig.positionClass = 'toast-top-center';
-      // set height for toast = 10px
-
-
-
-
     }
 
   onLoginFormSubmit() {
@@ -43,11 +38,9 @@ export class LoginComponent {
   
       axios.post(apiUrl, requestBody)
         .then((response) => {
-          // console.log(response.data);
 
           if (response.data.statusCode === 200) {
-            // console.log('Đăng nhập thành công');
-            // console.log(response.data.data)
+
             let user: User = {
               user_id: response.data.data.user_id,
               user_name: response.data.data.user_name,
@@ -59,7 +52,6 @@ export class LoginComponent {
             this.router.navigate(['/']);
             localStorage.setItem('gmail', this.gmail);
             localStorage.setItem('password', this.password);
-            // alert('Logged in successfully!');
             this.toastr.success('Login in successfully!', '');
           } else {
             this.loginError = 'Failed to login! Wrong username or password';
@@ -98,10 +90,10 @@ export class LoginComponent {
 
     axios.post(apiUrl)
         .then((response) => {
-          alert('Send email successfully!');
+          this.toastr.success('Send email successfully!');
         })
         .catch((error) => {
-          console.error('Đã xảy ra lỗi:', error);
+          this.toastr.error('Đã xảy ra lỗi:', error);
           this.loginError = 'Failed to login! Wrong username or password.';
         });
   }

@@ -28,7 +28,7 @@ export class SearchPageComponent implements OnInit, OnChanges {
         apiUrl = this.myService.getApiHost() + `/search/pen?q=${search}`
         axios.get(apiUrl).then((response) => {
           this.pen_ids = response.data;
-          console.log(this.pen_ids)
+          // console.log(this.pen_ids)
         }).catch((error) => {
           console.error('Error:', error);
         });
@@ -36,7 +36,7 @@ export class SearchPageComponent implements OnInit, OnChanges {
         apiUrl = this.myService.getApiHost() + `/search/collection?q=${search}`
         axios.get(apiUrl).then((response) => {
           this.collection_ids = response.data;
-          console.log(this.collection_ids)
+          // console.log(this.collection_ids)
         }).catch((error) => {
           console.error('Error:', error);
         });

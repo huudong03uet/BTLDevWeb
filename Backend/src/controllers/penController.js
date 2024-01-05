@@ -19,7 +19,7 @@ async function savePen(req, res) {
   const user = req.body.user;
   console.log(data)
   try {
-    if (pen_id != null && data.user.user_id == user.user_id) {
+    if (data.pen.pen_id != null && data.user.user_id == user.user_id) {
       const existingPen = await Pen.findOne({ where: { pen_id: data.pen.pen_id } });
 
       existingPen.html_code = data.pen.html_code;
@@ -32,25 +32,39 @@ async function savePen(req, res) {
       await existingPen.save();
 
       return res.status(200).json({ code: 200, pen: existingPen, message: "cập nhật pen thành công" });
-    } else {
+    } 
+    else if (data.pen.pen_id == null) {
       const newPen = await Pen.create({
         html_code: data.pen.html_code,
         js_code: data.pen.js_code,
         css_code: data.pen.css_code,
-        name: data.pen.name || 'Untitled',
-        type_css: data.pen.type_css || 'css',
+        name: data.pen.name,
+        type_css: data.pen.type_css,
         status: data.pen.status,
         deleted: data.pen.deleted,
         user_id: user.user_id,
-      });  
-      return res.status(201).json({ code: 200, pen: newPen, message: "Created a new pen successfully" });
+      });
+      return res.status(201).json({ code: 201, pen: newPen, message: "tạo pen mới thành công" });
+    }    
+    
+    else {
+      const newPen = await Pen.create({
+        html_code: data.pen.html_code,
+        js_code: data.pen.js_code,
+        css_code: data.pen.css_code,
+        name: data.pen.name,
+        type_css: data.pen.type_css,
+        status: data.pen.status,
+        deleted: data.pen.deleted,
+        user_id: user.user_id,
+      });
+      return res.status(201).json({ code: 202, pen: newPen, message: "clone pen thành công" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error while creating or updating pen' });
+    res.status(500).json({ error: 'Lỗi trong quá trình tạo hoặc cập nhật pen' });
   }
 }
-
 async function createFromForkPen(req, res) {
   const {
     html_code,
