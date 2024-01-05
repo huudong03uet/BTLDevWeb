@@ -39,19 +39,19 @@ export class SignupComponent {
   async signupWithEmail() {
     //kiểm tra xem có cái nào chưa được nhập không
     if(this.name === '' || this.username === '' || this.email === '' || this.password === '' ) {
-      this.signupError = "Vui lòng nhập đủ thông tin.";
+      this.signupError = "Please fill in all fields.";
       return;
     }
 
     // Kiểm tra các yêu cầu cho mật khẩu
     if (!this.isPasswordValid(this.password)) {
-      this.signupError = 'Mật khẩu của bạn không đáp ứng đủ yêu cầu.';
+      this.signupError = 'Your password is not strong enough.';
       return; // Ngừng xử lý nếu mật khẩu không đủ điều kiện
     }
 
     // Kiểm tra tính hợp lệ của email
     if (!this.isEmailValid(this.email)) {
-      this.signupError = 'Email không tồn tại.';
+      this.signupError = 'Please enter a valid email address.';
       return; // Ngừng xử lý nếu email không hợp lệ
     }
 

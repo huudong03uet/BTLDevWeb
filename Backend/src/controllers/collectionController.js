@@ -18,10 +18,10 @@ async function createOrUpdateCollection(req, res) {
       await CollectionPen.bulkCreate(penIds.map(penId => ({ collection_id: newCollection.collection_id, pen_id: penId })));
     }
 
-    return res.status(201).json({ code: 201, collection: newCollection, message: 'Tạo mới collection thành công' });
+    return res.status(201).json({ code: 201, collection: newCollection, message: 'Created collection successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình tạo hoặc cập nhật collection', detailedError: error.message });
+    res.status(500).json({ code: 500, error: 'Error while creating or updating collection', detailedError: error.message });
   }
 }
 
@@ -33,10 +33,10 @@ async function getCollectionsByUser(req, res) {
       where: { user_id: userId, deleted: false }, // Add condition for deleted: false
     });
 
-    return res.status(200).json({ code: 200, collections, message: 'Lấy danh sách collection thành công' });
+    return res.status(200).json({ code: 200, collections, message: 'Get the collection list successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy danh sách collection' });
+    res.status(500).json({ code: 500, error: 'Error while retrieving collection list' });
   }
 }
 
@@ -71,11 +71,11 @@ async function getPensInCollection(req, res) {
       },
       pen_ids: pens.map(pen => pen.pen_id),
       collectionName: collection.name,
-      message: 'Lấy danh sách pen trong collection thành công',
+      message: 'Get the list of pens in the collection successfully',
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy danh sách pen trong collection' });
+    res.status(500).json({ code: 500, error: 'Error while getting the list of pens in the collection' });
   }
 }
 
@@ -102,7 +102,7 @@ async function addPenToCollection(req, res) {
     return res.status(200).json({ code: 200, message: 'Pen added to collection successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình thêm pen vào collection' });
+    res.status(500).json({ code: 500, error: 'Error while adding pen to collection' });
   }
 }
 
@@ -134,7 +134,7 @@ async function removePenFromCollection(req, res) {
     return res.status(200).json({ code: 200, message: 'Pen removed from collection successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa pen khỏi collection' });
+    res.status(500).json({ code: 500, error: 'Error while deleting pen from collection' });
   }
 }
 
@@ -155,7 +155,7 @@ async function removeCollection(req, res) {
     return res.status(200).json({ code: 200, message: 'Collection deleted successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa collection' });
+    res.status(500).json({ code: 500, error: 'Error while deleting collection' });
   }
 }
 
@@ -179,7 +179,7 @@ async function restoreCollection(req, res) {
     return res.status(200).json({ code: 200, message: 'Collection restored successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình khôi phục collection' });
+    res.status(500).json({ code: 500, error: 'Error while restoring collection' });
   }
 }
 
@@ -261,10 +261,10 @@ async function addCollectionToCollection(req, res) {
       }
     }
 
-    return res.status(200).json({ code: 200, message: 'Thêm các pen từ source collection vào target collection thành công' });
+    return res.status(200).json({ code: 200, message: 'Added pens from source collection to target collection successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình thêm pen từ source collection vào target collection' });
+    res.status(500).json({ code: 500, error: 'Error while adding pen from source collection to target collection' });
   }
 }
 
@@ -301,10 +301,10 @@ async function toggleCollectionStatus(req, res) {
     // Set the 'status' property to the new status
     await collection.update({ status: newStatus });
 
-    return res.status(200).json({ code: 200, message: `Trạng thái của collection đã được chuyển sang ${newStatus}` });
+    return res.status(200).json({ code: 200, message: `The state of the collection has been changed to ${newStatus}` });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình chuyển đổi trạng thái của collection' });
+    res.status(500).json({ code: 500, error: 'Error during collection state transition' });
   }
 }
 
@@ -337,13 +337,13 @@ async function getUserInfoByCollectionId(req, res) {
     return res.status(200).json({
       code: 200,
       user: userInfo,
-      message: 'Lấy thông tin người dùng từ collection thành công',
+      message: 'Retrieve user information from collection successfully',
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       code: 500,
-      error: 'Lỗi trong quá trình lấy thông tin người dùng từ collection',
+      error: 'Error while retrieving user information from collection',
     });
   }
 }

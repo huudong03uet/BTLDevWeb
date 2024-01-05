@@ -102,6 +102,7 @@ export class PenHeaderComponent implements OnInit {
     let link = this.myService.getWebHost() + `/pen/${this.data.pen.pen_id}`
     this.clipboard.copy(link);
     this.toastr.success('Link copied to clipboard', '');
+
     // this.clipboard.copy('Alphonso');
     
   }

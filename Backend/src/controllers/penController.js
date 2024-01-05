@@ -44,11 +44,11 @@ async function savePen(req, res) {
         deleted: data.pen.deleted,
         user_id: user.user_id,
       });
-      return res.status(201).json({ code: 200, pen: newPen, message: "tạo pen mới thành công" });
+      return res.status(201).json({ code: 200, pen: newPen, message: "Created a new pen successfully" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Lỗi trong quá trình tạo hoặc cập nhật pen' });
+    res.status(500).json({ error: 'Error while creating or updating pen' });
   }
 }
 
@@ -101,11 +101,11 @@ async function createOrUpdatePen(req, res) {
         user_id: req.body.user_id,
         deleted: false, // Mặc định là false khi tạo mới
       });
-      return res.status(201).json({ code: 200, pen: newPen, message: "Tạo pen mới thành công" });
+      return res.status(201).json({ code: 200, pen: newPen, message: "Created a new pen successfully" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Lỗi trong quá trình tạo hoặc cập nhật pen' });
+    res.status(500).json({ error: 'Error while creating or updating pen' });
   }
 }
 
@@ -116,13 +116,13 @@ async function getPenById(req, res) {
     const pen = await Pen.findOne({ where: { pen_id: pen_id, deleted: false } });
 
     if (!pen) {
-      return res.status(404).json({ code: 404, message: 'Không tìm thấy pen với id đã cho' });
+      return res.status(404).json({ code: 404, message: 'No pen found with the given id' });
     }
 
-    return res.status(200).json({ code: 200, pen, message: 'Lấy thông tin pen thành công' });
+    return res.status(200).json({ code: 200, pen, message: 'Retrieve pen information successfully' });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy thông tin pen' });
+    return res.status(500).json({ code: 500, error: 'Error while retrieving pen information' });
   }
 }
 
@@ -160,7 +160,7 @@ async function getPenByUser(req, res) {
     return res.status(200).json(pen);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy thông tin pen' });
+    return res.status(500).json({ code: 500, error: 'Error while retrieving pen information' });
   }
 }
 
@@ -438,7 +438,7 @@ async function getPenByUserIdFullOption(req, res) {
     res.status(200).json(pen);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy thông tin pen' });
+    return res.status(500).json({ code: 500, error: 'Error while retrieving pen information' });
   }
 }
 
@@ -508,10 +508,10 @@ async function togglePenStatus(req, res) {
     existingPen.status = existingPen.status === 'public' ? 'private' : 'public';
     await existingPen.save();
 
-    return res.status(200).json({ code: 200, pen: existingPen, message: 'Chuyển đổi trạng thái pen thành công' });
+    return res.status(200).json({ code: 200, pen: existingPen, message: 'Change pen status successfully' });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ code: 500, error: 'Lỗi trong quá trình chuyển đổi trạng thái pen' });
+    return res.status(500).json({ code: 500, error: 'Error during pen state transition' });
   }
 }
 

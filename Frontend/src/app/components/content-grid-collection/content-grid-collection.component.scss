@@ -8,15 +8,14 @@
 
     .link {
       .preview-code {
-        // width: 200px;
+
         height: 172px;
       }
     }
 
     .footer-code-grid-container {
       height: 20px;
-      // button {
-      // }
+
     }
   }
 
@@ -36,13 +35,12 @@
 
 
 .code-grid-container {
-  // width: 350px;
+
   width: 100%;
   height: 80%;
-  // max-width: 500px;
-  // height: 100%;
+
   position: relative;
-  // background-color: black;
+
   border-radius: 10px;
 
 
@@ -60,13 +58,8 @@
 
   .background-code.enter-show {
     transition: all .3s ease .1s;
-    // remove clip-path
     clip-path: inset(0rem 0rem 0rem 0rem round 10px);
-    /* up and down 10%, left 10%, right unchanged */
-    // transform-origin: right center;
-    // transform: translateX(-10%) scaleY(1.1);
-    // opacity: 1;
-    // visibility: visible;
+
 
   }
 
@@ -81,18 +74,16 @@
       align-items: center;
 
       .preview {
-        //   display: inline-block;
+
         display: grid;
-        // 2 x 2
+
         width: 512px;
         height: 240px;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         grid-gap: 0rem 0.5rem;
 
-        //   background-color: white;
-        // border: 1px solid black;
         border-radius: 10px;
-        // background-color: black;
+
         width: 100%;
         overflow: hidden;
         grid-auto-rows: 53%;
@@ -116,7 +107,6 @@
           }
         }
 
-        //  hover -> previewpop: hidden: false
       }
 
       .previewPop {
@@ -128,7 +118,6 @@
         position: absolute;
         top: 20px;
         right: 30px;
-
         text-decoration: none;
 
         button {
@@ -281,7 +270,6 @@
         background-color: #444857;
         color: white;
         border: unset;
-        // border-color: #444857;
         padding: 3px 7px;
 
         display: flex;
