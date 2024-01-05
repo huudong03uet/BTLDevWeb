@@ -1,47 +1,39 @@
 .container {
   z-index: 1;
-  // width: auto;
   font-size: large;
+
   nav {
     background-color: #131417;
-    // padding: 10px 20px;
     margin-left: 5%;
     margin-right: 5%;
-      ul {
-          li.nav-item {
-            cursor: pointer;
-            
-              display: list-item;
-              a {
-                padding: 10px 20px;
-                // font: 'Telefon', Sans-Serif;
-                // font-family: 'Lato', sans-serif, 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;;
-                // bold style
-                font-weight: bold;
-                font-size: 1.6rem;
-                // font-weight: 800;
-                // padding: 0 1.5rem 0.4rem;
-                color: hsl( 228.39deg 12.25% 50.39% );
-                text-decoration: none;
-              }
-              // a:hover {
-              //   color: hsl( 226.67deg 11.84% 70.2% );
-              //   border: unset;
-              // }
-              //  a hover and not has class .active
-              a:hover:not(.active) {
-                color: hsl( 226.67deg 11.84% 70.2% );
-                border: unset;
-              }
 
-              .active {
-                color: white;
-                border-bottom: 4px solid green;
-              }
-          }
+    ul {
+      li.nav-item {
+        cursor: pointer;
 
-          
+        display: list-item;
+
+        a {
+          padding: 10px 20px;
+          font-weight: bold;
+          font-size: 1.6rem;
+          color: hsl(228.39deg 12.25% 50.39%);
+          text-decoration: none;
+        }
+
+        a:hover:not(.active) {
+          color: hsl(226.67deg 11.84% 70.2%);
+          border: unset;
+        }
+
+        .active {
+          color: white;
+          border-bottom: 4px solid green;
+        }
       }
+
+
+    }
   }
 
 }

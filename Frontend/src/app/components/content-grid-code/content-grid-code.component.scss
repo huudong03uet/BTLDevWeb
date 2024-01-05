@@ -1,12 +1,9 @@
 .code-grid-container {
-  // width: 350px;
   width: 100%;
   height: 100%;
-  // max-width: 500px;
-  // height: 100%;
   position: relative;
-  // background-color: black;
   border-radius: 10px;
+
   .background-code {
     position: absolute;
     background-color: hsl(232.5deg 11.76% 13.33%);
@@ -20,22 +17,18 @@
 
 
   }
+
   .background-code.enter-show {
     transition: all .3s ease .1s;
-    // remove clip-path
     clip-path: inset(0rem 0rem 0rem 0rem round 10px);
-    /* up and down 10%, left 10%, right unchanged */
-    // transform-origin: right center;
-    // transform: translateX(-10%) scaleY(1.1);
-    // opacity: 1;
-    // visibility: visible;
-    
-}
+
+  }
 
   .center-container-grid-code {
     position: relative;
     z-index: 1;
     height: 100%;
+
     .link {
       cursor: pointer;
       display: flex;
@@ -45,19 +38,19 @@
       .preview {
         display: inline-block;
         background-color: white;
-        // border: 1px solid black;
         border-radius: 10px;
-        // background-color: black;
         width: 100%;
         overflow: hidden;
         height: 100%;
+
         img {
           width: 100%;
           border-radius: 10px;
         }
 
         .output-field {
-            height: 100%;
+          height: 100%;
+
           iframe {
             height: 100%;
             width: 100%;
@@ -66,8 +59,8 @@
           }
         }
 
-        //  hover -> previewpop: hidden: false
       }
+
       .previewPop {
         display: none;
       }
@@ -85,8 +78,8 @@
           background-color: #444857;
           color: white;
 
-   
-          
+
+
         }
       }
     }
@@ -97,11 +90,13 @@
       display: flex;
       align-items: center;
       padding: 0px 0px;
+
       .image {
         width: 40px;
         height: 40px;
         border-radius: 4px;
         margin-right: 0.75rem;
+
         img {
           border-radius: 4px;
           width: 100%;
@@ -114,6 +109,7 @@
         font-weight: bold;
         align-items: center;
         margin-bottom: 0px;
+
         a {
           display: block;
 
@@ -133,6 +129,7 @@
         position: relative;
         color: white;
         margin-left: auto;
+
         span {
           cursor: pointer;
         }
@@ -169,13 +166,15 @@
             box-shadow: 0 2px 8px hsl(240deg 9.09% 4.31% / 60%);
 
             li {
-            
-            &:hover {
-                    background-color: #444857;
-            }
-            cursor: pointer;
+
+              &:hover {
+                background-color: #444857;
+              }
+
+              cursor: pointer;
               padding: 0.4rem 0.6rem;
-            margin: 0px 3px;
+              margin: 0px 3px;
+
               svg {
                 width: 16px;
                 height: 16px;
@@ -184,6 +183,7 @@
             }
           }
         }
+
         .list-collection-add.show {
 
           transform: translateY(0px);
@@ -211,17 +211,17 @@
     .footer-code-grid-container {
       padding-left: 0px;
       height: 10%;
-        visibility: hidden;
-        transition: all .5s ease;
-        opacity: 0;
-        display: flex;
+      visibility: hidden;
+      transition: all .5s ease;
+      opacity: 0;
+      display: flex;
+
       button {
         margin-right: 5px;
         border-radius: 8px;
         background-color: #444857;
         color: white;
         border: unset;
-        // border-color: #444857;
         padding: 3px 7px;
 
         display: flex;
@@ -229,16 +229,17 @@
         justify-content: center;
 
         &:hover {
-          background-color: hsl( 228deg 12.2% 40.2% );
+          background-color: hsl(228deg 12.2% 40.2%);
           color: white;
         }
 
         svg {
-            width: 12px;
-            height: 12px;
-            margin-right: 8px;
-            fill: white;
+          width: 12px;
+          height: 12px;
+          margin-right: 8px;
+          fill: white;
         }
+
         span {
           margin-right: 2px;
         }
@@ -246,9 +247,9 @@
     }
 
     .footer-code-grid-container.enter-show {
-        opacity: 1;
-        visibility: visible;
-        transition: all .5s ease;
+      opacity: 1;
+      visibility: visible;
+      transition: all .5s ease;
     }
   }
 }
