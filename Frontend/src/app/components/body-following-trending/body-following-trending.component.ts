@@ -13,46 +13,42 @@ export class BodyFollowingTrendingComponent {
     this.addClassActive();
   }
 
-
   addClassActive() {
     const links = document.querySelectorAll('.nav-item a');
     //  run this function in ngAfterViewChecked
     const currentURL = window.location.href.split('/')[3];
     if (currentURL == 'following') {
       links[0].classList.add('active');
-
     }
     if (currentURL == 'trending') {
       links[1].classList.add('active');
-
     }
     if (currentURL == 'your-work') {
       links[2].classList.add('active');
-
     }
   }
 
   goToFollowing() {
     // if (this.activeNavItem !== 'Following') {
     //   this.activeNavItem = 'Following';
-      // link to /following
-      window.location.href = '/following';
+    // link to /following
+    window.location.href = '/following';
     // }
   }
 
   goToTrending() {
     // if (this.activeNavItem !== 'Trending') {
     //   this.activeNavItem = 'Trending';
-      // link to /trending
-      window.location.href = '/trending';
+    // link to /trending
+    window.location.href = '/trending';
     // }
   }
 
   goToYourWork() {
     // if (this.activeNavItem !== 'Your Work') {
     //   this.activeNavItem = 'Your Work';
-      // link to /home
-      window.location.href = '/your-work/pens';
+    // link to /home
+    window.location.href = '/your-work/pens';
     // }
   }
 
