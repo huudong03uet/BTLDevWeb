@@ -103,7 +103,74 @@ let getFolderChild = async (folderId) => {
     }
 };
 
+async function _getProjectByUserID(user_id) {
+    try {
+        let projects = Project.findAll({
+            attributes: {
+                include: [
+                    [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE project.project_id = like_table.project_id)'), 'numlike'],
+                    [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE project.project_id = view_table.project_id)'), 'numview'],
+                    [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE project.project_id = comment_table.project_id)'), 'numcomment'],
+                ]
+            },
+            where: { user_id: user_id },
+        });
+
+        return projects;
+    } catch (error) {
+        throw error
+    }
+}
+
+async function getProjectByUserID(req, res) {
+    const user_id = req.query.user_id;
+
+    console.log(req.query);
+
+    try {
+        let projects = await _getProjectByUserID(user_id);
+
+        res.status(200).json(projects);
+    } catch (error) {
+        console.log("simp gai 808:", error);
+        res.status(500).json("oi gioi oi loi roi cuu pe");
+    }
+}
+
+async function getProjectByUserSort(req, res) {
+    const { user_id, sortby } = req.query;
+
+    try {
+        let projects;
+        if (sortby == "numlike" || sortby == "numview") {
+            projects = await Project.findAll({
+                attributes: {
+                    include: [
+                        [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE project.project_id = like_table.project_id)'), 'numlike'],
+                        [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE project.project_id = view_table.project_id)'), 'numview'],
+                    ]
+                },
+                where: { user_id: user_id },
+                order: [[sortby, 'DESC']],
+            })
+        } else if (sortby == "private" || sortby == "public") {
+            projects = await Project.findAll({
+                where: { user_id: user_id, status: sortby },
+            })
+        }
+        
+        res.status(200).json(projects)
+    } catch (error) {
+        console.log("simp gai 808:", error);
+        console.error(error);
+    }
+}
 
 module.exports = {
-    createProject, getFolderChild, getFileChild, getInfoProject
+    createProject,
+    getFolderChild,
+    getFileChild,
+    getInfoProject,
+    getProjectByUserID,
+    getProjectByUserSort,
 };

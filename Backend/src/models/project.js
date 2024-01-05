@@ -14,25 +14,20 @@ const Project = sequelize.define('project', {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  user_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
   description: {
     type: DataTypes.STRING,
     allowNull: true
   },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+  status: {
+    type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: 'public',
   },
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+  deleted: {
+    type: DataTypes.BOOLEAN,
     allowNull: false,
-    onUpdate: DataTypes.NOW,
-  },
+    defaultValue: false,
+  }
 }, {
   tableName: 'project',
 });

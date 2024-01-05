@@ -77,14 +77,13 @@ async function countPenOfUser(arrUserID) {
 
 
 
-async function getAllUserExclude(arrUserID, user_id) {
+async function getAllUserExclude(arrUserID) {
   try {
     let users = await User.findAll({
       where: {
         user_id: {
           [Sequelize.Op.notIn]: arrUserID
         },
-        [Sequelize.Op.not]: { user_id: user_id },
       },
       attributes: ['user_id', 'user_name', 'avatar_path']
     });
@@ -323,4 +322,5 @@ module.exports = {
   deleteUser,
   getAlluser,
   _formatDateString,
+  getAllUserExclude
 };
