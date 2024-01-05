@@ -57,11 +57,13 @@
                     </a>
                 </li>
 
+                <li class="save" ><a (click)="toggleShare()">Share</a></li>
+
                 <li class="save" *ngIf="user"><a (click)="toggleSave()"><i class="fas fa-cloud"></i> Save</a></li>
+                
                 <!-- <li class="settings" *ngIf="user"><a><i class="fas fa-gear"></i> Settings</a></li> -->
 
-                <li class="save" *ngIf="!user"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i>
-                        Save</a></li>
+                <li class="save" *ngIf="!user"><a (click)="onLoginButtonClick()"><i class="fas fa-cloud"></i>Save</a></li>
                 <!-- <li class="settings" *ngIf="!user"><a (click)="onLoginButtonClick()"><i class="fas fa-gear"></i>Settings</a></li> -->
 
                 <!-- <li class="view"><a><i class="fas fa-object-group"></i></a></li> -->
@@ -69,13 +71,16 @@
 
                 <li *ngIf="!user"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
                 <li *ngIf="!user"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
-                <li *ngIf="user"><img style="border-radius: 4px;"
+                <li *ngIf="user">
+                    <img style="border-radius: 4px;"
                         src="https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=36&height=36"
-                        alt="User Avatar"></li>
+                        alt="User Avatar">
+                    </li>
             </ul>
         </div>
         <ul class="mobile-menu" [style.right]="isMenuOpen ? '75px' : '-400px'" id="side-menu">
             <li class="save" (click)="toggleSave()"><a><i class="fa-solid fa-cloud"></i> Save</a></li>
+            <!-- <li class="save" (click)="toggleSave()"><a><i class="fa-solid fa-cloud"></i> Save</a></li> -->
             <li class="settings"><a><i class="fa-solid fa-gear"></i> Settings</a></li>
             <i class="fa-solid fa-xmark close" (click)="toggleMenu()"></i>
         </ul>
