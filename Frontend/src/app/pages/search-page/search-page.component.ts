@@ -14,6 +14,7 @@ import { HostService } from 'src/app/host.service';
 export class SearchPageComponent implements OnInit, OnChanges {
   pen_ids: any;
   collection_ids: any;
+  project_ids: any=[1, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1, 1,2]
   type: string = 'pen';
   private searchSubscription: Subscription;
 

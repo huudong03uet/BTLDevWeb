@@ -1,82 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserDataService } from 'src/app/services/user-data.service';
+import axios from 'axios';
+import { HostService } from 'src/app/host.service';
 
 @Component({
   selector: 'app-public-c',
   templateUrl: './public-c.component.html',
   styleUrls: ['./public-c.component.scss']
 })
-export class PublicCComponent {
-  collections = [
-    {
-      name: 'em khong biet',
-      status: 'public',
-      createdAt: '2023-12-30T11:09:17.000Z',
-      updatedAt: '2023-12-30T19:20:30.000Z',
-      deleted: false,
-      user_id: 1,
-      collection_id: 1
-    },
-    {
-      name: 'em khong biet',
-      status: 'public',
-      createdAt: '2023-12-30T11:09:17.000Z',
-      updatedAt: '2023-12-30T19:20:30.000Z',
-      deleted: false,
-      user_id: 1,
-      collection_id: 2
-    },
-    {
-      name: 'em khong biet',
-      status: 'public',
-      createdAt: '2023-12-30T11:09:17.000Z',
-      updatedAt: '2023-12-30T19:20:30.000Z',
-      deleted: false,
-      user_id: 1,
-      collection_id: 3
-    },
-    {
-      name: 'em khong biet',
-      status: 'public',
-      createdAt: '2023-12-30T11:09:17.000Z',
-      updatedAt: '2023-12-30T19:20:30.000Z',
-      deleted: false,
-      user_id: 1,
-      collection_id: 4
-    },
-    {
-      name: 'em khong biet',
-      status: 'public',
-      createdAt: '2023-12-30T11:09:17.000Z',
-      updatedAt: '2023-12-30T19:20:30.000Z',
-      deleted: false,
-      user_id: 1,
-      collection_id: 5
-    },
-    {
-      name: 'em khong biet',
-      status: 'public',
-      createdAt: '2023-12-30T11:09:17.000Z',
-      updatedAt: '2023-12-30T19:20:30.000Z',
-      deleted: false,
-      user_id: 1,
-      collection_id: 6
-    },    {
-      name: 'em khong biet',
-      status: 'public',
-      createdAt: '2023-12-30T11:09:17.000Z',
-      updatedAt: '2023-12-30T19:20:30.000Z',
-      deleted: false,
-      user_id: 1,
-      collection_id: 7
-    },
-    {
-      name: 'em khong biet',
-      status: 'public',
-      createdAt: '2023-12-30T11:09:17.000Z',
-      updatedAt: '2023-12-30T19:20:30.000Z',
-      deleted: false,
-      user_id: 1,
-      collection_id: 8
-    },
-  ]
+export class PublicCComponent implements OnInit {
+  collections : any;
+
+  constructor(
+    private userData: UserDataService,
+    private myService: HostService,
+  ) { }
+
+  ngOnInit(): void {
+    const userId = this.userData.getUserData()?.user_id;
+
+    let apiUrl = this.myService.getApiHost() + `/collection/getCollectionByUserSort?user_id=${userId}&sortby=public`;
+
+    axios.get(apiUrl).then((response) => {
+      this.collections = response.data;
+      // console.log("like like like", response.data);
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+  }
 }

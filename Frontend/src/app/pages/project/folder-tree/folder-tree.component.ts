@@ -9,7 +9,7 @@ import { ProjectFileService } from 'src/app/services/project-file.service';
   styleUrls: ['./folder-tree.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class FolderTreeComponent implements OnChanges{
+export class FolderTreeComponent implements OnChanges {
   @Input() project_id: number | undefined;
 
   project_name: string = "File Manager";
@@ -19,7 +19,7 @@ export class FolderTreeComponent implements OnChanges{
   @Input() data: any;
   @Output() dataChange = new EventEmitter();
 
-  
+
   // constructor(private sanitizer: DomSanitizer, private projectFile: ProjectFileService) { }
   constructor(private renderer: Renderer2, private el: ElementRef, private projectFile: ProjectFileService, private sanitizer: DomSanitizer) { }
 
@@ -35,15 +35,15 @@ export class FolderTreeComponent implements OnChanges{
   }
 
   run() {
-    if(this.data) {
+    if (this.data) {
       console.log(this.data, 12345);
       let tree = this.renderTree(this.data.data_key);
       let folderTreeFileElement = this.el.nativeElement.querySelector('#folder-tree-file');
       console.log(folderTreeFileElement)
-      if(folderTreeFileElement.firstChild) {
+      if (folderTreeFileElement.firstChild) {
         this.renderer.removeChild(folderTreeFileElement, folderTreeFileElement.firstChild);
       }
-      this.renderer.appendChild(folderTreeFileElement, tree);  
+      this.renderer.appendChild(folderTreeFileElement, tree);
     }
   }
   // constructor(private sanitizer: DomSanitizer, private projectFile: ProjectFileService) { }
@@ -71,7 +71,7 @@ export class FolderTreeComponent implements OnChanges{
     }
   }
 
- 
+
 
 
   ngOnInit(): void {
@@ -90,13 +90,26 @@ export class FolderTreeComponent implements OnChanges{
       let folder = obj.subfolders[folderName];
       let li = this.renderer.createElement('li');
       this.renderer.addClass(li, 'folder');
+      if (folder.status == 'open') {
+        this.renderer.addClass(li, 'open-folder');
       this.renderer.setProperty(li, 'innerHTML', this.renderSvg('folder') + `<span>${folder.name}</span>`);
-      this.renderer.listen(li, 'click', () => this.folderOpen(folder));
-      if(folder.key == this.data.sidebarChoose) {
+
+      } else {
+        this.renderer.addClass(li, 'close-folder');
+      this.renderer.setProperty(li, 'innerHTML', this.renderSvg('folder-close') + `<span>${folder.name}</span>`);
+
+      }
+      this.renderer.listen(li, 'click', ($event) => { 
+        $event.stopPropagation();
+        this.folderOpen(folder) 
+      });
+      if (folder.key == this.data.sidebarChoose) {
         this.renderer.setStyle(li, 'color', 'red');
+        // this.renderer.setStyle(li, 'opacity', '1')
+        // this.renderer.setStyle(li, 'background-color', '#34363E')
       }
       console.log(li, 123)
-      if(folder.status == 'open') {
+      if (folder.status == 'open') {
         let childUl = this.renderTree(folder);
 
         this.renderer.appendChild(li, childUl);
@@ -106,56 +119,65 @@ export class FolderTreeComponent implements OnChanges{
     for (let i = 0; i < obj.files?.length; i++) {
       let file = obj.files[i];
       console.log(file)
-      let type  = file.name.split('.').pop();
+      let type = file.name.split('.').pop();
       let li = this.renderer.createElement('li');
       this.renderer.addClass(li, type);
       this.renderer.setProperty(li, 'innerHTML', this.renderSvg(type) + `<span>${file.name}</span>`);
-      this.renderer.listen(li, 'click', ($event) => this.fileOpen(file, $event));
-      if(file.key == this.data.sidebarChoose) {
+      // this.renderer.listen(li, 'click', ($event) => this.fileOpen(file, $event));
+      this.renderer.listen(li, 'click', ($event) => {
+        $event.stopPropagation();
+        this.fileOpen(file, $event);
+      });
+
+      if (file.key == this.data.sidebarChoose) {
         this.renderer.setStyle(li, 'color', 'red');
+        // this.renderer.setStyle(li, 'opacity', '1')
+        // this.renderer.setStyle(li, 'background-color', '#34363E')
       }
       this.renderer.appendChild(ul, li);
     }
     return ul;
-}
+  }
 
 
-buildFolderTree(path: any, node: any, tree: any) {
-  if (path.length === 0) return;
+  buildFolderTree(path: any, node: any, tree: any) {
+    if (path.length === 0) return;
 
- let part = path.shift();
+    let part = path.shift();
 
- if (!tree[part]) {
-   tree[part] = {
-     ...node,
-     name: part,
-     subfolders: {},
-     files: []
-   };
- }
+    if (!tree[part]) {
+      tree[part] = {
+        ...node,
+        name: part,
+        subfolders: {},
+        files: []
+      };
+    }
 
- this.buildFolderTree(path, node, tree[part].subfolders);
-}
+    this.buildFolderTree(path, node, tree[part].subfolders);
+  }
 
-addFileToTree(path: any, file: any, tree: any) {
-  console.log(path)
- let part = path.shift();
+  addFileToTree(path: any, file: any, tree: any) {
+    console.log(path)
+    let part = path.shift();
 
- if (path.length === 1) {
-   tree[part].files.push(file);
- } else {
-   if (tree[part]) {
-     this.addFileToTree(path, file, tree[part].subfolders);
-   }
- }
-}
+    if (path.length === 1) {
+      tree[part].files.push(file);
+    } else {
+      if (tree[part]) {
+        this.addFileToTree(path, file, tree[part].subfolders);
+      }
+    }
+  }
 
   renderSvg(obj: string) {
-    
+
     if (obj == "folder") {
       return `<svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path fill="rgb(203, 203, 203)" d="M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z"/></svg>`
 
-    } else if (obj == "html" || obj == "htm") {
+    } else if (obj == "folder-close") {
+      return `<svg class="icon icon-folder" viewBox="0 0 23 15"><path d="M2.004 14.458A1.88 1.88 0 0 1 .125 12.58V1.31C.125.655.656.124 1.31.124h4.964c.452 0 .858.25 1.06.655l.317.635c.245.49.736.793 1.283.793h9.896a1.88 1.88 0 0 1 1.878 1.879v8.493a1.88 1.88 0 0 1-1.878 1.878H2.004z" fill="#CBCBCB"></path><path class="folder-front" d="M2.004 14.458A1.88 1.88 0 0 1 .125 12.58V4.087a1.88 1.88 0 0 1 1.879-1.879H18.83a1.88 1.88 0 0 1 1.878 1.879v8.493a1.88 1.88 0 0 1-1.878 1.878H2.004z" fill="#828282"></path></svg>`
+    }else if (obj == "html" || obj == "htm") {
       return `<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="50" height="50" rx="5" fill="#FF3C41"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M21.325 13.893a1.75 1.75 0 0 0-2.65-2.286l-11 12.75a1.75 1.75 0 0 0 0 2.286l11 12.75a1.75 1.75 0 0 0 2.65-2.286L11.311 25.5l10.014-11.607Zm7.35 0a1.75 1.75 0 0 1 2.65-2.286l11 12.75a1.75 1.75 0 0 1 0 2.286l-11 12.75a1.75 1.75 0 0 1-2.65-2.286L38.689 25.5 28.675 13.893Z" fill="#282828"></path></svg>`
     } else if (obj == "css" || obj == "scss" || obj == "sass") {
       return `<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="50" height="50" rx="5" fill="#0EBEFF"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="m27.175 28.711 7.786 4.565a2.11 2.11 0 0 0 1.604.212 2.143 2.143 0 0 0 1.291-.988 2.203 2.203 0 0 0 .198-1.63 2.17 2.17 0 0 0-.983-1.306L29.285 25l7.787-4.564a2.17 2.17 0 0 0 .982-1.305 2.203 2.203 0 0 0-.198-1.631 2.143 2.143 0 0 0-1.291-.988 2.11 2.11 0 0 0-1.604.212l-7.786 4.565V12.16a2.19 2.19 0 0 0-.621-1.518 2.124 2.124 0 0 0-1.49-.642c-1.13 0-2.11.964-2.11 2.156v9.133l-7.786-4.565a2.11 2.11 0 0 0-1.604-.212c-.54.145-1.005.5-1.291.988a2.202 2.202 0 0 0-.198 1.63c.147.55.5 1.018.983 1.306L20.844 25l-7.786 4.564a2.168 2.168 0 0 0-.983 1.305 2.202 2.202 0 0 0 .198 1.631 2.122 2.122 0 0 0 2.895.776l7.786-4.565v9.129c0 1.161.946 2.16 2.11 2.16 1.132 0 2.11-.964 2.11-2.156v-9.133Z" fill="#282828"></path></svg>`
@@ -187,7 +209,7 @@ addFileToTree(path: any, file: any, tree: any) {
 
   choose_search(id: String) {
     console.log(this.data.data_map)
-    if(this.data.data_map.type == 'file') {
+    if (this.data.data_map.type == 'file') {
 
     }
   }
@@ -219,8 +241,7 @@ addFileToTree(path: any, file: any, tree: any) {
   }
 
   folderOpen(folderOpen: any) {
-    console.log(123)
-    if(folderOpen.status == 'close') {
+    if (folderOpen.status == 'close') {
       folderOpen.status = 'open'
     } else {
       folderOpen.status = 'close'
@@ -229,7 +250,7 @@ addFileToTree(path: any, file: any, tree: any) {
     this.dataChange.emit(this.data);
   }
 
- 
+
 
 
 
@@ -243,7 +264,7 @@ addFileToTree(path: any, file: any, tree: any) {
       }
     }
   }
-  
+
 
 
 
@@ -252,66 +273,66 @@ addFileToTree(path: any, file: any, tree: any) {
    * file open
    */
 
-//   fileOpen(id_file: any) {
+  //   fileOpen(id_file: any) {
 
-//     // find fileOpen in datas
-//     let fileOpen: any = null;
-//     for (let i = 0; i < this.datas.length; i++) {
-//       if (this.datas[i].id == id_file) {
-//         fileOpen = this.datas[i];
-//         break;
-//       }
-//       if (this.datas[i].children.length > 0) {
-//         fileOpen = this.fileOpenChild(this.datas[i].children, id_file);
-//         if (fileOpen != null) {
-//           break;
-//         }
-//       }
-//     }
-
-
-//     if (fileOpen.type != "folder") {
-//       this.projectFile.changeMessage(fileOpen);
-
-//     }
-// >>>>>>> 9bae709592f6976fd2c2ea255cc934e6135ecd1f
-
-//     if (fileOpen.type == "folder") {
-//       let folder = document.getElementById(fileOpen.id);
-
-//       if (folder?.classList.contains("close-folder")) {
-//         this.renderer.removeClass(folder, "close-folder");
-//         this.hiddenAllChildren(folder);
-//         // change icon -> <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" viewBox="0 0 32 32" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M1,5.998l-0,16.002c-0,1.326 0.527,2.598 1.464,3.536c0.938,0.937 2.21,1.464 3.536,1.464c5.322,0 14.678,-0 20,0c1.326,0 2.598,-0.527 3.536,-1.464c0.937,-0.938 1.464,-2.21 1.464,-3.536c0,-3.486 0,-8.514 0,-12c0,-1.326 -0.527,-2.598 -1.464,-3.536c-0.938,-0.937 -2.21,-1.464 -3.536,-1.464c-0,0 -10.586,0 -10.586,0c0,-0 -3.707,-3.707 -3.707,-3.707c-0.187,-0.188 -0.442,-0.293 -0.707,-0.293l-5.002,0c-2.76,0 -4.998,2.238 -4.998,4.998Z"/><g id="Icon"/></svg>
-//         folder?.querySelector('svg')?.setAttribute('viewBox', '0 0 576 512');
-//         folder?.querySelector('path')?.setAttribute('d', 'M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z');
+  //     // find fileOpen in datas
+  //     let fileOpen: any = null;
+  //     for (let i = 0; i < this.datas.length; i++) {
+  //       if (this.datas[i].id == id_file) {
+  //         fileOpen = this.datas[i];
+  //         break;
+  //       }
+  //       if (this.datas[i].children.length > 0) {
+  //         fileOpen = this.fileOpenChild(this.datas[i].children, id_file);
+  //         if (fileOpen != null) {
+  //           break;
+  //         }
+  //       }
+  //     }
 
 
+  //     if (fileOpen.type != "folder") {
+  //       this.projectFile.changeMessage(fileOpen);
+
+  //     }
+  // >>>>>>> 9bae709592f6976fd2c2ea255cc934e6135ecd1f
+
+  //     if (fileOpen.type == "folder") {
+  //       let folder = document.getElementById(fileOpen.id);
+
+  //       if (folder?.classList.contains("close-folder")) {
+  //         this.renderer.removeClass(folder, "close-folder");
+  //         this.hiddenAllChildren(folder);
+  //         // change icon -> <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" viewBox="0 0 32 32" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M1,5.998l-0,16.002c-0,1.326 0.527,2.598 1.464,3.536c0.938,0.937 2.21,1.464 3.536,1.464c5.322,0 14.678,-0 20,0c1.326,0 2.598,-0.527 3.536,-1.464c0.937,-0.938 1.464,-2.21 1.464,-3.536c0,-3.486 0,-8.514 0,-12c0,-1.326 -0.527,-2.598 -1.464,-3.536c-0.938,-0.937 -2.21,-1.464 -3.536,-1.464c-0,0 -10.586,0 -10.586,0c0,-0 -3.707,-3.707 -3.707,-3.707c-0.187,-0.188 -0.442,-0.293 -0.707,-0.293l-5.002,0c-2.76,0 -4.998,2.238 -4.998,4.998Z"/><g id="Icon"/></svg>
+  //         folder?.querySelector('svg')?.setAttribute('viewBox', '0 0 576 512');
+  //         folder?.querySelector('path')?.setAttribute('d', 'M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z');
 
 
-//       } else {
-//         this.renderer.addClass(folder, "close-folder");
-//         this.hiddenAllChildren(folder);
-//         // change icon ->       <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path d="M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z"/></svg>
-//         folder?.querySelector('svg')?.setAttribute('viewBox', '0 0 32 32');
-//         folder?.querySelector('path')?.setAttribute('d', 'M1,5.998l-0,16.002c-0,1.326 0.527,2.598 1.464,3.536c0.938,0.937 2.21,1.464 3.536,1.464c5.322,0 14.678,-0 20,0c1.326,0 2.598,-0.527 3.536,-1.464c0.937,-0.938 1.464,-2.21 1.464,-3.536c0,-3.486 0,-8.514 0,-12c0,-1.326 -0.527,-2.598 -1.464,-3.536c-0.938,-0.937 -2.21,-1.464 -3.536,-1.464c-0,0 -10.586,0 -10.586,0c0,-0 -3.707,-3.707 -3.707,-3.707c-0.187,-0.188 -0.442,-0.293 -0.707,-0.293l-5.002,0c-2.76,0 -4.998,2.238 -4.998,4.998Z');
 
-//       }
 
-//     }
-//     this.file_selected = fileOpen;
-//     // add class active to li tag has id = fileOpen.id, and remove class active to other li
-//     let li = document.querySelectorAll('li');
-//     for (let i = 0; i < li.length; i++) {
-//       if (li[i].classList.contains("active")) {
-//         this.renderer.removeClass(li[i], "active");
-//       }
-//       if (li[i].id == fileOpen.id) {
-//         this.renderer.addClass(li[i], "active");
-//       }
-//     }
+  //       } else {
+  //         this.renderer.addClass(folder, "close-folder");
+  //         this.hiddenAllChildren(folder);
+  //         // change icon ->       <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path d="M572.6 270.3l-96 192C471.2 473.2 460.1 480 447.1 480H64c-35.35 0-64-28.66-64-64V96c0-35.34 28.65-64 64-64h117.5c16.97 0 33.25 6.742 45.26 18.75L275.9 96H416c35.35 0 64 28.66 64 64v32h-48V160c0-8.824-7.178-16-16-16H256L192.8 84.69C189.8 81.66 185.8 80 181.5 80H64C55.18 80 48 87.18 48 96v288l71.16-142.3C124.6 230.8 135.7 224 147.8 224h396.2C567.7 224 583.2 249 572.6 270.3z"/></svg>
+  //         folder?.querySelector('svg')?.setAttribute('viewBox', '0 0 32 32');
+  //         folder?.querySelector('path')?.setAttribute('d', 'M1,5.998l-0,16.002c-0,1.326 0.527,2.598 1.464,3.536c0.938,0.937 2.21,1.464 3.536,1.464c5.322,0 14.678,-0 20,0c1.326,0 2.598,-0.527 3.536,-1.464c0.937,-0.938 1.464,-2.21 1.464,-3.536c0,-3.486 0,-8.514 0,-12c0,-1.326 -0.527,-2.598 -1.464,-3.536c-0.938,-0.937 -2.21,-1.464 -3.536,-1.464c-0,0 -10.586,0 -10.586,0c0,-0 -3.707,-3.707 -3.707,-3.707c-0.187,-0.188 -0.442,-0.293 -0.707,-0.293l-5.002,0c-2.76,0 -4.998,2.238 -4.998,4.998Z');
 
-//   }
+  //       }
+
+  //     }
+  //     this.file_selected = fileOpen;
+  //     // add class active to li tag has id = fileOpen.id, and remove class active to other li
+  //     let li = document.querySelectorAll('li');
+  //     for (let i = 0; i < li.length; i++) {
+  //       if (li[i].classList.contains("active")) {
+  //         this.renderer.removeClass(li[i], "active");
+  //       }
+  //       if (li[i].id == fileOpen.id) {
+  //         this.renderer.addClass(li[i], "active");
+  //       }
+  //     }
+
+  //   }
 
   fileOpenChild(children: { id: number; title: string; type: string; code: string; children: { id: number; title: string; type: string; code: string; children: never[]; }[]; }[], id_file: any): any {
     let fileOpen: any = null;

@@ -29,7 +29,7 @@ const Folder = sequelize.define('folder', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-},{
+}, {
     tableName: 'folder',
 });
 

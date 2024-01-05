@@ -78,7 +78,7 @@ async function createOrUpdatePen(req, res) {
           return res.status(200).json({ code: 200, message: 'Pen is not deleted' });
         }
 
-        existingPen.deleted = false; 
+        existingPen.deleted = false;
         await existingPen.save();
 
         return res.status(200).json({ code: 200, pen: existingPen, message: 'Pen restored successfully' });
@@ -207,44 +207,31 @@ async function _getPenStatusByUserID(user_id, status) {
 async function getPenByUserSort(req, res) {
   const { user_id, sortby } = req.query;
 
-  // console.log(req.query)
-
   try {
-    if (sortby == 'private' || sortby == 'public') {
-      let pen = await _getPenStatusByUserID(user_id, sortby);
-      return res.status(200).json(pen);
-    } else if (sortby == 'view') {
-      let pen = await _getPenByUser(user_id);
+      let pens;
+      if (sortby == "numlike" || sortby == "numview") {
+          pens = await Pen.findAll({
+              attributes: {
+                  include: [
+                      [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE pen.pen_id = like_table.pen_id)'), 'numlike'],
+                      [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE pen.pen_id = view_table.pen_id)'), 'numview'],
+                  ]
+              },
+              where: { user_id: user_id },
+              order: [[sortby, 'DESC']],
+          })
+      } else if (sortby == "private" || sortby == "public") {
+          pens = await Pen.findAll({
+              where: { user_id: user_id, status: sortby },
+          })
+      }
 
-      let arrSort = [];
-
-      await Promise.all(pen.map(async (i) => {
-        let x = (await _getViewByPen(i)).length
-        arrSort.push(x);
-      }));
-
-      const penWithSortValues = pen.map((item, index) => ({
-        pen: item,
-        arrSortValue: arrSort[index],
-      }));
-
-      penWithSortValues.sort((a, b) => b.arrSortValue - a.arrSortValue);
-
-      pen = penWithSortValues.map((item) => item.pen);
-      arrSort = penWithSortValues.map((item) => item.arrSortValue);
-
-      return res.status(200).json(pen);
-
-    } else if (sortby == 'like') {
-      let pen = await _getLikeByuserID(user_id);
-      const penIds = pen.map(pen => pen.pen_id);
-      return res.status(200).json(penIds);
-    }
-
-
+      pens = pens.map(x => x.pen_id);
+      
+      res.status(200).json(pens)
   } catch (error) {
-    console.error(error);
-    throw error;
+      console.log("simp gai 808:", error);
+      console.error(error);
   }
 }
 
@@ -407,12 +394,12 @@ async function getFollow(req, res) {
   let sort_by = 'desc';
 
   if (x != '') {
-    attr_sort='numpen';
+    attr_sort = 'numpen';
     sort_by = 'asc';
   }
 
   try {
-    let followUsers = await followController._getFollowByUserID(user_id, attr_sort=attr_sort, sort_by=sort_by);
+    let followUsers = await followController._getFollowByUserID(user_id, attr_sort = attr_sort, sort_by = sort_by);
 
     followUsers = followUsers.map(x => x.user_id_2);
 
@@ -458,7 +445,7 @@ async function getPenByUserIdFullOption(req, res) {
 async function getAllPen(req, res) {
   const attr_sort = req.query.attr_sort
   const order_by = req.query.order_by;
-  const deleted = req.query.deleted == ''? false: (req.query.deleted == "true"? true: false);
+  const deleted = req.query.deleted == '' ? false : (req.query.deleted == "true" ? true : false);
 
   try {
     let pens = await Pen.findAll({
@@ -471,18 +458,18 @@ async function getAllPen(req, res) {
           [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.pen_id = pen.pen_id)'), 'numcomment'],
         ],
       },
-      where: {deleted: deleted},
+      where: { deleted: deleted },
       order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
     });
 
     pens = pens.map(pen => ({
       ...pen.toJSON(),
       id: pen.pen_id,
-      name: (pen.name == null ? "Untitled": pen.name),
+      name: (pen.name == null ? "Untitled" : pen.name),
       createdAt: _formatDateString(pen.createdAt),
       updatedAt: _formatDateString(pen.updatedAt),
     }));
-    
+
     res.status(200).json(pens);
   } catch (error) {
     console.log("chan gai 808", error);

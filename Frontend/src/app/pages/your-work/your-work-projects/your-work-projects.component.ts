@@ -9,7 +9,7 @@ import { HostService } from 'src/app/host.service';
   styleUrls: ['./your-work-projects.component.scss']
 })
 export class YourWorkProjectsComponent {
-  project_ids = []
+  projects = []
 
   // page_now: number = 1;
   // pen_ids_current: any[] = [];
@@ -41,14 +41,14 @@ export class YourWorkProjectsComponent {
     this.route.params.subscribe((params) => {
       const userId = this.userData.getUserData()?.user_id;
       if (userId) {
-        const apiUrl = this.myService.getApiHost() + `/pen/getPenByUser/${userId}`;
+        const apiUrl = this.myService.getApiHost() + `/project/getProjectByUserID?user_id=${userId}`;
 
         axios.get(apiUrl)
           .then((response) => {
-            this.project_ids = response.data;
+            this.projects = response.data;
             // this.pen_ids_current = this.pen_ids.slice(0, 6);
             // this.check_is_start_end();
-            // console.log('pen:', this.project_ids)
+            console.log('bờ rồ rếch:', this.projects)
           })
           .catch((error) => {
             console.error('Error:', error);

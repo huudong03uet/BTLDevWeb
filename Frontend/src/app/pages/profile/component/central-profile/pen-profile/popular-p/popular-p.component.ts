@@ -19,7 +19,7 @@ export class PopularPComponent implements OnInit {
   ngOnInit(): void {
     const userId = this.userData.getUserData()?.user_id;
 
-    let apiUrl = this.myService.getApiHost() + `/pen/getPenByUserSort?user_id=${userId}&sortby=view`;
+    let apiUrl = this.myService.getApiHost() + `/pen/getPenByUserSort?user_id=${userId}&sortby=numview`;
 
     axios.get(apiUrl).then((response) => {
       this.listItem = response.data;

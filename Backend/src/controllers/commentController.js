@@ -202,8 +202,6 @@ async function createComment(req, res) {
 
     let x = false;
 
-    console.log(req.query)
-
     if (comment == '') {
         res.status(500).json(x);
     }
@@ -289,7 +287,7 @@ async function getAllComment(req, res) {
     let order_by = req.query.order_by;
     const deleted = req.query.deleted == '' ? false : (req.query.deleted == "true" ? true : false);
 
-    if (attr_sort == 'pen' ) {
+    if (attr_sort == 'pen') {
         order_by = 'DESC'
         attr_sort = 'type'
     } else if (attr_sort == 'collection') {
@@ -322,7 +320,7 @@ async function getAllComment(req, res) {
 
         comments = comments.map(comment => ({
             ...comment.toJSON(),
-            name: (comment.pen == null? (comment.collection.name == null? "Untitled": comment.collection.name): (comment.pen.name == null? "Untitled": comment.pen.name)),
+            name: (comment.pen == null ? (comment.collection.name == null ? "Untitled" : comment.collection.name) : (comment.pen.name == null ? "Untitled" : comment.pen.name)),
             createdAt: _formatDateString(comment.createdAt),
             updatedAt: _formatDateString(comment.updatedAt),
         }));
