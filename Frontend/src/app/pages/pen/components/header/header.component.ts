@@ -6,7 +6,7 @@ import { HomeCodeComponent } from '../../home-code.component';
 import {Clipboard} from '@angular/cdk/clipboard';
 import axios from 'axios';
 import { HostService } from 'src/app/host.service';
-
+// import toastr from 'toastr';
 @Component({
   selector: 'pen-header',
   templateUrl: './header.component.html',
