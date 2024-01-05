@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HostService } from 'src/app/host.service';
 import axios from 'axios';
+import { FullOptionControlItemService } from 'src/app/services/full-option-control-item.service';
 
 @Component({
   selector: 'app-list-users',
@@ -12,6 +13,7 @@ export class ListUsersComponent implements OnInit {
   @Input() attr_sort: string = '';
   @Input() order_by: string = '';
   max_item_per_page: number = 10;
+  dataPass: any[] = [];
   @Input() datas: any = [
     {
       "user_id": 1,
@@ -29,20 +31,106 @@ export class ListUsersComponent implements OnInit {
 
   constructor(
     private myService: HostService,
-  ) {}
-
+    private fullOptionControlItemService: FullOptionControlItemService,
+  ) { }
+  searchFor: string = '';
+  sortBy: string = 'date_updated';
+  sortDirection: string = 'asc';
   ngOnInit(): void {
     let apiUrl = this.myService.getApiHost() + `/user/getAlluser?attr_sort=${this.attr_sort}&order_by=${this.order_by}&deleted=${this.deleted}`;
 
     axios.get(apiUrl).then((response) => {
       this.datas = response.data;
+      this.dataPass = response.data;
+      console.log("dataPass", this.dataPass)
 
-      this.pen_ids_current = this.datas.slice(0, this.max_item_per_page);
-      this.check_is_start_end();
+      this.onChangesFinetune();
     }).catch((error) => {
       console.error('Error:', error);
     });
+
+
+    this.fullOptionControlItemService.currentMessageSortBy.subscribe(message => {
+      if (message) {
+        console.log("message", message)
+
+        this.sortBy = message;
+
+        this.dataPass = this.sortByOptions();
+        this.onChangesFinetune();
+      }
+    }
+    );
+
+    this.fullOptionControlItemService.currentMessageSortDirection.subscribe(message => {
+      if (message) {
+        this.sortDirection = message;
+        // revert array
+        this.dataPass.reverse();
+        this.onChangesFinetune();
+      }
+    }
+    );
+
+    this.fullOptionControlItemService.currentMessageSearchFor.subscribe(message => {
+      if (message) {
+
+        if (message === "qwertyuiop") {
+          message = ""
+        }
+
+
+        this.searchFor = message;
+        this.dataPass = this.sortByOptions();
+        this.onChangesFinetune();
+      }
+    }
+    );
   }
+  sortByOptions() {
+    let pen_full_searchFor = this.datas.filter((pen: { user_name: any; }) => {
+      // if name != string, set name = "Chưa đặt tên"
+      if (typeof pen.user_name !== 'string') {
+        pen.user_name = "Chưa đặt tên"
+      }
+      return pen.user_name.toLowerCase().includes(this.searchFor.toLowerCase())
+    });
+    console.log("after searchFor", pen_full_searchFor)
+
+    if (this.sortBy === 'date_created') {
+      // "2023-11-18T09:46:39.000Z" -> is date format
+      pen_full_searchFor.sort((a: { createdAtRaw: string; }, b: { createdAtRaw: string; }) => {
+        let dateA = new Date(a.createdAtRaw);
+        let dateB = new Date(b.createdAtRaw);
+        if (this.sortDirection === 'asc') {
+          return dateA.getTime() - dateB.getTime();
+        } else {
+          return dateB.getTime() - dateA.getTime();
+        }
+      }
+      );
+    } else if (this.sortBy === 'date_updated') {
+      pen_full_searchFor.sort((a: { updatedAtRaw: string; }, b: { updatedAtRaw: string; }) => {
+        let dateA = new Date(a.updatedAtRaw);
+        let dateB = new Date(b.updatedAtRaw);
+        if (this.sortDirection === 'asc') {
+          return dateA.getTime() - dateB.getTime();
+        } else {
+          return dateB.getTime() - dateA.getTime();
+        }
+      });
+    }
+    console.log("after sort", pen_full_searchFor)
+
+    // if (this.publicPrivate === 'public') {
+    //   pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "public");
+    // }
+    // if (this.publicPrivate === 'private') {
+    //   pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "private");
+    // }
+    return pen_full_searchFor;
+  }
+
 
   page_now: number = 1;
   pen_ids_current: any[] = [];
@@ -57,31 +145,33 @@ export class ListUsersComponent implements OnInit {
       this.is_start = false;
     }
 
-    if (this.page_now * this.max_item_per_page >= this.datas.length) {
+    if (this.page_now * this.max_item_per_page >= this.dataPass.length) {
       this.is_end = true;
     } else {
       this.is_end = false;
     }
   }
-  
 
+  onChangesFinetune() {
+    this.pen_ids_current = this.dataPass.slice(0, this.max_item_per_page);
+    this.check_is_start_end();
+  }
 
   // ngOnChanges() {
-    ngOnChanges() {
-      this.pen_ids_current = this.datas.slice(0, this.max_item_per_page);
-      this.check_is_start_end();
-    }
+  ngOnChanges() {
+    this.onChangesFinetune();
+  }
 
 
   clickNextPageButton() {
     this.page_now += 1;
-    this.pen_ids_current = this.datas.slice((this.page_now - 1) * this.max_item_per_page, this.page_now * this.max_item_per_page);
+    this.pen_ids_current = this.dataPass.slice((this.page_now - 1) * this.max_item_per_page, this.page_now * this.max_item_per_page);
     this.check_is_start_end();
   }
 
   clickPrevPageButton() {
     this.page_now -= 1;
-    this.pen_ids_current = this.datas.slice((this.page_now - 1) * this.max_item_per_page, this.page_now * this.max_item_per_page);
+    this.pen_ids_current = this.dataPass.slice((this.page_now - 1) * this.max_item_per_page, this.page_now * this.max_item_per_page);
     this.check_is_start_end();
   }
 }

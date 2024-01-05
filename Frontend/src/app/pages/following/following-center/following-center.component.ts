@@ -35,7 +35,6 @@ export class FollowingCenterComponent implements OnChanges {
   fetchData(): void {
     const userId = this.userData.getUserData()?.user_id;
     if (userId) {
-<<<<<<< HEAD
       if(this.recentChecked == true) {
         this.x = 'true';
       } else {
@@ -57,30 +56,7 @@ export class FollowingCenterComponent implements OnChanges {
       }).catch((error) => {
         console.error('Error:', error);
       });
-=======
-      const apiUrlFollow = `${this.myService.getApiHost()}/pen/getFollow?user_id=${userId}&x=${this.recentChecked}`;
-      const apiUrlNotFollow = `${this.myService.getApiHost()}/user/getNotFollow/${userId}`;
-  
-      // Use Angular HttpClient for HTTP requests
-      this.http.get(apiUrlFollow).subscribe(
-        (followResponse: any) => {
-          this.pen_ids = followResponse;
-        },
-        (followError) => {
-          console.error('Error fetching follow data:', followError);
-        }
-      );
-  
-      this.http.get(apiUrlNotFollow).subscribe(
-        (notFollowResponse: any) => {
-          // Avoid sorting in the component
-          this.data = notFollowResponse.slice(0, 3);
-        },
-        (notFollowError) => {
-          console.error('Error fetching not follow data:', notFollowError);
-        }
-      );
->>>>>>> c509769d648be30cc4a8b32a7c0b1deba1ad0d2e
+
     } else {
       console.error('User ID not available.');
     }

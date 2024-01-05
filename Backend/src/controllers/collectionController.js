@@ -206,6 +206,8 @@ async function getAllCollection(req, res) {
       ...collection.toJSON(),
       id: collection.collection_id,
       name: (collection.name == null ? "Untitled" : collection.name),
+      createdAtRaw: collection.createdAt,
+      updatedAtRaw: collection.updatedAt,
       createdAt: _formatDateString(collection.createdAt),
       updatedAt: _formatDateString(collection.updatedAt),
     }));

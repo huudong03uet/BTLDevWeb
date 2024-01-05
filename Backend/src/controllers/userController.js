@@ -311,6 +311,8 @@ async function getAlluser(req, res) {
 
     users = users.map(user => ({
       ...user.toJSON(),
+      createdAtRaw: user.createdAt,
+      updatedAtRaw: user.updatedAt,
       createdAt: _formatDateString(user.createdAt),
       updatedAt: _formatDateString(user.updatedAt),
     }));
