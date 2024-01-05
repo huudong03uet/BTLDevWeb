@@ -114,6 +114,7 @@ import { CollectionDeletedComponent } from './pages/manage/central-manage/delete
 import { ListPenCollectionProjectSComponent } from './pages/manage/central-manage/components/list-pen-collection-project-s/list-pen-collection-project-s.component';
 import { ListCommentsComponent } from './pages/manage/central-manage/components/list-comments/list-comments.component';
 import { ListUsersComponent } from './pages/manage/central-manage/components/list-users/list-users.component';
+import { ContentGridProjectComponent } from './components/content-grid-project/content-grid-project.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -217,7 +218,8 @@ import { ListUsersComponent } from './pages/manage/central-manage/components/lis
     CollectionDeletedComponent,
     ListPenCollectionProjectSComponent,
     ListCommentsComponent,
-    ListUsersComponent
+    ListUsersComponent,
+    ContentGridProjectComponent
   ],
   imports: [
     FormsModule,
