@@ -156,6 +156,29 @@ export class PenHeaderComponent implements OnInit {
     }
   }
 
+  toggleFork() {
+    const apiUrl = this.myService.getApiHost() + '/pen/createNewpen';
+    
+    const requestData = {
+      html_code: this.data.pen.html_code,
+      js_code: this.data.pen.js_code,
+      css_code: this.data.pen.css_code,
+      type_css: this.data.pen.type_css,
+      name: this.data.pen.name,
+      user_id: this.user.user_id
+    };
+  
+    axios.post(apiUrl, requestData)
+      .then((response) => {
+        console.log(response);
+        alert('done');
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('khong done');
+      });
+  }
+
   changeSvg(isEnter: boolean) {
     const button = document.getElementById('follow-button-following');
     if (button) {
