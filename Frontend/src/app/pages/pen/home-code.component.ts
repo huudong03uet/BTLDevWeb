@@ -72,11 +72,11 @@ export class HomeCodeComponent implements OnInit {
       });
       if (response.status === 200) {
         this.data.pen = response.data.pen;
-        alert('Lưu thành công');
+        alert('Saved successfully!');
       } else if (response.status === 201) {
         const newPenId = response.data.pen.pen_id;
         this.router.navigate([`/pen/${newPenId}`]);
-        alert('Copy thành công');
+        alert('Copy successfully!');
       } else {
         console.error('Unexpected status:', response.status);
       }

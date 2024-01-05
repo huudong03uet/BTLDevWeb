@@ -82,7 +82,7 @@ export class SignupComponent {
           this.router.navigate(['/']);
           localStorage.setItem('gmail', this.email);
           localStorage.setItem('password', this.password);
-          alert('Đăng ký thành công');
+          alert('Signed up successfully!');
         }
         else {
           this.signupError = response.data.error;
