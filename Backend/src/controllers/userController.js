@@ -219,50 +219,67 @@ async function changeEmail(req, res) {
   }
 }
 
+const CommentTable = require('../models/commentTable');
+const CollectionPen = require('../models/collection_pen');
+const FollowTable = require('../models/followTable');
+const LikeTable = require('../models/likeTable');
+const Pin = require('../models/pin');
+const Project = require('../models/project');
+const ViewTable = require('../models/viewTable');
 const Collection = require('../models/collection');
 const Pen = require('../models/pen');
-const ViewTable = require('../models/viewTable');
-const FollowTable = require('../models/followTable');
-const Pin = require('../models/pin');
-const LikeTable = require('../models/likeTable');
-const CommentTable = require('../models/commentTable');
+
 
 async function deleteUser(req, res) {
+  const user_id = req.params.id;
+
   try {
-    const user_id = req.params.id;
-    await FollowTable.destroy({
-      where: {
-        [Sequelize.Op.or]: [
-          { user_id_1: user_id },
-          { user_id_2: user_id },
-        ],
-      },
-    });
-    await CommentTable.destroy({
-      where: { pen_id: user_id },
-    });
-    await LikeTable.destroy({
-      where: { pen_id: user_id },
-    });
-    await Pin.destroy({
-      where: { pen_id: user_id },
-    });
+    // Handle tables with foreign key constraints first
+    await Promise.all([
+      CommentTable.destroy({ where: { [Sequelize.Op.or]: [{ pen_id: user_id }, { collection_id: user_id }, { user_id: user_id }] } }),
+      CollectionPen.destroy({
+        where: {
+          [Sequelize.Op.or]: [
+            { collection_id: user_id },
+            { pen_id: user_id },
+          ],
+        },
+      }),
+      FollowTable.destroy({
+        where: {
+          [Sequelize.Op.or]: [
+            { user_id_1: user_id },
+            { user_id_2: user_id },
+          ],
+        },
+      }),
+      LikeTable.destroy({ where: { user_id } }),
+    ]);
 
-    await ViewTable.destroy({
-      where: { pen_id: user_id },
-    });
-    await Collection.destroy({
+    // Wait for a short period (e.g., 1000 milliseconds) to allow the database to process deletions
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // Delete records in other tables
+    await Promise.all([
+      Pin.destroy({ where: { user_id } }),
+      Project.destroy({ where: { user_id } }),
+      ViewTable.destroy({ where: { user_id } }),
+      Collection.destroy({ where: { user_id } }),
+    ]);
+
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // Delete records in the pen table
+    await Pen.destroy({ where: { user_id } });
+
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // Finally, delete the user
+    const userRowCount = await User.destroy({
       where: { user_id },
     });
-    await Pen.destroy({
-      where: { user_id },
-    });
 
-    const rowCount = await User.destroy({
-      where: { user_id },
-    });
-
-    if (rowCount === 0) {
+    if (userRowCount === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
 
