@@ -26,6 +26,15 @@ async function _getFollowByUserID(user_id, attr_sort = "createdAt", sort_by = 'd
     }
 }
 
+async function getFollow(req, res) {
+    try {
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json("sao lai loi the")
+    }
+}
+
 module.exports = {
     _getFollowByUserID,
 };
