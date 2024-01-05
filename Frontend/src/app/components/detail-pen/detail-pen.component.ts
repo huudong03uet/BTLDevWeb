@@ -13,7 +13,7 @@ import { HostService } from 'src/app/host.service';
 })
 export class DetailPenComponent {
   @Output() closeDetailPen = new EventEmitter<void>();
-
+  @Input() type: string = "pen";
   @Input() pen_id: any = 0;
   data: any;
   namePen: any;

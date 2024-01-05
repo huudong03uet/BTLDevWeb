@@ -266,9 +266,12 @@ export class ContentGridProjectComponent implements OnInit {
   childDetailPenVisible: boolean = false;
   openDetailPen() {
     this.childDetailPenVisible = !this.childDetailPenVisible;
+    document.body.style.overflow = 'hidden';
+    
   }
   handleChildDetailPenClose() {
     this.childDetailPenVisible = false;
+    document.body.style.overflow = 'auto';
   }
   handleDeleteClick() {
     const confirmed = confirm("Are you sure you want to delete this project?");

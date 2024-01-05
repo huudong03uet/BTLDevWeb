@@ -249,6 +249,10 @@ export class ContentGridProjectFullInfComponent implements OnInit {
   childDetailPenVisible: boolean = false;
   openDetailPen() {
     this.childDetailPenVisible = !this.childDetailPenVisible;
+    // hidden scroll bar body
+    document.body.style.overflow = 'hidden';
+    
+    // remove scroll bar bottom
   }
   handleChildDetailPenClose() {
     this.childDetailPenVisible = false;

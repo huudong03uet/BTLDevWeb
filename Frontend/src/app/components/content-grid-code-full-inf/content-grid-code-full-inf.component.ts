@@ -303,9 +303,11 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   childDetailPenVisible: boolean = false;
   openDetailPen() {
     this.childDetailPenVisible = !this.childDetailPenVisible;
+    document.body.style.overflow = 'hidden';
   }
   handleChildDetailPenClose() {
     this.childDetailPenVisible = false;
+    document.body.style.overflow = 'auto';
   }
 
   handleDeleteClick() {
