@@ -1,8 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { HostService } from 'src/app/host.service';
 import axios from 'axios';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { HostService } from 'src/app/host.service';
+import { ToastrService } from 'ngx-toastr';
 import { max } from 'rxjs';
 import { FullOptionControlItemService } from 'src/app/services/full-option-control-item.service';
+
+interface DeletedItem {
+  id: number;
+  name: string;
+  type: string;
+}
 
 @Component({
   selector: 'app-list-pen-collection-project-s',
@@ -21,6 +30,9 @@ export class ListPenCollectionProjectSComponent implements OnInit {
   constructor(
     private myService: HostService,
     private fullOptionControlItemService: FullOptionControlItemService,
+    private router: Router,
+    private http: HttpClient,
+    private toastr: ToastrService,
   ) { }
   // publicPrivate: string = 'all';
   dataPass: any[] = [];
@@ -38,7 +50,6 @@ export class ListPenCollectionProjectSComponent implements OnInit {
     axios.get(apiUrl).then((response) => {
       this.datas = response.data;
       this.dataPass = response.data;
-      console.log("this.datas", this.datas)
       this.onChangesFinetune();
     }).catch((error) => {
       console.error('Error:', error);
@@ -186,5 +197,55 @@ export class ListPenCollectionProjectSComponent implements OnInit {
     this.page_now -= 1;
     this.pen_ids_current = this.dataPass.slice((this.page_now - 1) * this.max_item_per_page, this.page_now * this.max_item_per_page);
     this.check_is_start_end();
+  }
+
+  handleDeleteClick(id: number) {
+    const confirmed = confirm("Are you sure you want to delete this pen?");
+    if (confirmed) {
+      let url = '';
+      let data;
+
+      if (this.type == 'pen') {
+        url = this.myService.getApiHost() + `/pen/createOrUpdatePen`;
+        data = {
+          pen_id: id,
+          delete: true
+        };
+      } else if (this.type == "collection") {
+        url = this.myService.getApiHost() + `/your-work/collections/removeCollection`;
+
+        data = {
+          collection_id: id,
+          delete: true
+        };
+      }
+
+      axios.post(url, data).then(response => {
+        console.log(response);
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([this.router.url]);
+      }).catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  }
+
+  restoreItem(item: number) {
+    let endpoint = this.type === 'pen' ? '/pen/createOrUpdatePen' : '/your-work/collections/restore';
+
+    if (this.type === 'project') {
+      endpoint = `/project/restore`;
+    }
+
+    this.http.post<any>(this.myService.getApiHost() + endpoint, {
+      [this.type + '_id']: item, // Dynamic key based on item type
+      restore: true
+    }).subscribe(response => {
+      this.toastr.success('Item restored successfully!');
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate([this.router.url]);
+    });
   }
 }
