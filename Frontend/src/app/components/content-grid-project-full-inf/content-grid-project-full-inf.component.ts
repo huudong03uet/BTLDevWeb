@@ -4,6 +4,7 @@ import { UserDataService } from './../../services/user-data.service';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { HostService } from 'src/app/host.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-content-grid-project-full-inf',
@@ -19,10 +20,10 @@ export class ContentGridProjectFullInfComponent implements OnInit {
   iframeImage: any;
   pined: any;
   followed: any;
+  project_id: any;
   informationPen = [
     "Delete",
-    "Remove from Pins",
-    "Unfollow User"
+    "Make Private"
   ]
 
   constructor(
@@ -35,8 +36,34 @@ export class ContentGridProjectFullInfComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.project_id = this.project.project_id;
     this.iframeImage = this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/project.png');
+    const checkStatusUrl = this.myService.getApiHost() + '/project/checkStatus';
+    axios.post(checkStatusUrl, { project_id: this.project_id })
+      .then((response) => {
+        this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
+      })
+      .catch((error) => {
+        console.error('Error checking Project status:', error);
+      });
   }
+
+  // Function to handle the "Make Private/Make Public" button click
+  handleToggleStatusClick() {
+    const toggleStatusUrl = this.myService.getApiHost() + `/project/toggleStatus`;
+
+    axios.post(toggleStatusUrl, { project_id: this.project_id })
+      .then((response) => {
+        this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([this.router.url]);      
+      })
+      .catch((error) => {
+        console.error('Error toggling collection status:', error);
+      });
+  }
+
 
   loadPinAndFollow() {
     const url =  this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.project.project_id}&user_id=${this.userData.getUserData()?.user_id}`;
@@ -92,7 +119,6 @@ export class ContentGridProjectFullInfComponent implements OnInit {
   }
 
   onClickInformationPen() {
-    this.loadPinAndFollow();
     var x = document.getElementsByClassName("list-items");
 
     if (x != null) {
