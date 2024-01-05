@@ -28,9 +28,9 @@ const LikeCollection = sequelize.define('likeCollection', {
         allowNull: false,
     },
 },
-{
-    tableName: 'likeCollection',
-});
+    {
+        tableName: 'likeCollection',
+    });
 
 LikeCollection.belongsTo(Collection, { foreignKey: 'collection_id' });
 LikeCollection.belongsTo(User, { foreignKey: 'user_id' });

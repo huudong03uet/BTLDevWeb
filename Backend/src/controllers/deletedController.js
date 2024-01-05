@@ -2,8 +2,8 @@ const CollectionPen = require('../models/collection_pen');
 const Collection = require('../models/collection');
 const Pen = require('../models/pen');
 const commentTable = require('../models/commentTable');
-const LikeCollectionTable = require('../models/likeCollection'); 
-const LikeTable = require('../models/likeTable'); 
+const LikeCollectionTable = require('../models/likeCollection');
+const LikeTable = require('../models/likeTable');
 const viewTable = require('../models/viewTable');
 
 async function getDeletedCollectionsAndPens(req, res) {
@@ -11,7 +11,7 @@ async function getDeletedCollectionsAndPens(req, res) {
     const { user_id } = req.body;
 
     const deletedCollections = await Collection.findAll({
-      where: { deleted: true, user_id }, 
+      where: { deleted: true, user_id },
       attributes: ['collection_id', 'name'],
     });
 

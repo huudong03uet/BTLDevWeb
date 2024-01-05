@@ -32,8 +32,8 @@ const File = sequelize.define('file', {
     allowNull: false,
     onUpdate: DataTypes.NOW,
   },
-},{
-    tableName: 'file',
+}, {
+  tableName: 'file',
 });
 
 
