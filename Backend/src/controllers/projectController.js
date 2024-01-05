@@ -193,6 +193,8 @@ async function getAllProject(req, res) {
         ...project.toJSON(),
         id: project.project_id,
         name: (project.name == null ? "Untitled" : project.name),
+        createdAtRaw: project.createdAt,
+        updatedAtRaw: project.updatedAt,
         createdAt: _formatDateString(project.createdAt),
         updatedAt: _formatDateString(project.updatedAt),
       }));

@@ -7,7 +7,7 @@
         <button class="search-button" type="submit"
         (click)="changeSearch()">Search</button>
     </form>
-    <div class="view-control">
+    <div class="view-control" *ngIf="type != 'comment' && type != 'user'">
         <label class="view-label">
             View
         </label>

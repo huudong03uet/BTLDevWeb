@@ -374,6 +374,8 @@ async function getAllComment(req, res) {
         comments = comments.map(comment => ({
             ...comment.toJSON(),
             name: (comment.pen == null ? (comment.collection.name == null ? "Untitled" : comment.collection.name) : (comment.pen.name == null ? "Untitled" : comment.pen.name)),
+            createdAtRaw: comment.createdAt,
+            updatedAtRaw: comment.updatedAt,
             createdAt: _formatDateString(comment.createdAt),
             updatedAt: _formatDateString(comment.updatedAt),
         }));

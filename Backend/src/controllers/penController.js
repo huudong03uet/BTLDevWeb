@@ -498,6 +498,8 @@ async function getAllPen(req, res) {
       ...pen.toJSON(),
       id: pen.pen_id,
       name: (pen.name == null ? "Untitled" : pen.name),
+      createdAtRaw: pen.createdAt,
+      updatedAtRaw: pen.updatedAt,
       createdAt: _formatDateString(pen.createdAt),
       updatedAt: _formatDateString(pen.updatedAt),
     }));
