@@ -1,17 +1,25 @@
-<div class="container-project" *ngIf="data">
-    <div class="header-project">
+<div class="container-project"  > 
+    <!--  -->
+    <div class="header-project" *ngIf="data">
         <app-header-project [data]="data" (dataChange)="onDataChange($event)"></app-header-project>
     </div>
 
     <div class="body-project" >
         <div #box1 class="folder-tree-project content-box top left">
-            <app-folder-tree [data]="data" (dataChange)="onDataChange($event)" style="   height: 100%;
-            display: grid;"></app-folder-tree>
-            <div class="resizer vertical project-resizer-vertical"></div>
+            <div *ngIf="data" style="width:100%;height:100%">
+                <app-folder-tree [data]="data" (dataChange)="onDataChange($event)" style="   height: 100%;
+                display: grid;"></app-folder-tree>
+            </div>
+
+                <div class="resizer vertical project-resizer-vertical"></div>
+
         </div>
 
         <div #box2 class="screen-code-project content-box top right">
-            <app-screen-code [data]="data" (dataChange)="onDataChange($event)"></app-screen-code>
+            <div *ngIf="data" style="width:100%;height:100%">
+                <app-screen-code [data]="data" (dataChange)="onDataChange($event)"></app-screen-code>
+
+            </div>
         </div>
 
         <div #box3 class="screen-preview-project content-box bottom right">
@@ -19,13 +27,13 @@
 
             </div>
 
-            <div style="display: block; margin-top: 26px; height: 100%;">
+            <div style="display: block; margin-top: 26px; height: 100%;" *ngIf="data">
                 <app-screen-view [data]="data" (dataChange)="onDataChange($event)"></app-screen-view>
             </div>
         </div>
     </div>
 
-    <div class="footer-project">
+    <div class="footer-project" *ngIf="data">
         <app-footer-project [data]="data" (dataChange)="onDataChange($event)"></app-footer-project>
     </div>
 <!-- 

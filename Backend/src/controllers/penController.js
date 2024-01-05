@@ -78,7 +78,7 @@ async function createOrUpdatePen(req, res) {
           return res.status(200).json({ code: 200, message: 'Pen is not deleted' });
         }
 
-        existingPen.deleted = false; 
+        existingPen.deleted = false;
         await existingPen.save();
 
         return res.status(200).json({ code: 200, pen: existingPen, message: 'Pen restored successfully' });
@@ -407,12 +407,12 @@ async function getFollow(req, res) {
   let sort_by = 'desc';
 
   if (x != '') {
-    attr_sort='numpen';
+    attr_sort = 'numpen';
     sort_by = 'asc';
   }
 
   try {
-    let followUsers = await followController._getFollowByUserID(user_id, attr_sort=attr_sort, sort_by=sort_by);
+    let followUsers = await followController._getFollowByUserID(user_id, attr_sort = attr_sort, sort_by = sort_by);
 
     followUsers = followUsers.map(x => x.user_id_2);
 
@@ -458,7 +458,7 @@ async function getPenByUserIdFullOption(req, res) {
 async function getAllPen(req, res) {
   const attr_sort = req.query.attr_sort
   const order_by = req.query.order_by;
-  const deleted = req.query.deleted == ''? false: (req.query.deleted == "true"? true: false);
+  const deleted = req.query.deleted == '' ? false : (req.query.deleted == "true" ? true : false);
 
   try {
     let pens = await Pen.findAll({
@@ -471,18 +471,18 @@ async function getAllPen(req, res) {
           [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.pen_id = pen.pen_id)'), 'numcomment'],
         ],
       },
-      where: {deleted: deleted},
+      where: { deleted: deleted },
       order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
     });
 
     pens = pens.map(pen => ({
       ...pen.toJSON(),
       id: pen.pen_id,
-      name: (pen.name == null ? "Untitled": pen.name),
+      name: (pen.name == null ? "Untitled" : pen.name),
       createdAt: _formatDateString(pen.createdAt),
       updatedAt: _formatDateString(pen.updatedAt),
     }));
-    
+
     res.status(200).json(pens);
   } catch (error) {
     console.log("chan gai 808", error);

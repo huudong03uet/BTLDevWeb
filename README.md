@@ -33,7 +33,7 @@ Bước 7: ```ng serve```
 Bước 8: Truy cập ```http://localhost:4200/```
 
 
-### 2. Cấu trúc Ứng dụng
+### 3. Cấu trúc Ứng dụng
 
 BTLDevWeb
 
@@ -74,4 +74,3 @@ BTLDevWeb
 │ │ ├── Router
 
 │ │ └── server.js
-

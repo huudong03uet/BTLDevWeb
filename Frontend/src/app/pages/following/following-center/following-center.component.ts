@@ -12,7 +12,7 @@ import { HostService } from 'src/app/host.service';
   styleUrls: ['./following-center.component.scss']
 })
 export class FollowingCenterComponent implements OnChanges {
-  @Input() recentChecked: any;
+  @Input() recentChecked: boolean = false;
   x: string = '';
   data = [2, 3, 3]
   pen_ids = [
@@ -26,6 +26,8 @@ export class FollowingCenterComponent implements OnChanges {
     private userData: UserDataService,
     private myService: HostService,
   ) { }
+
+
 
   fetchData(): void {
     const userId = this.userData.getUserData()?.user_id;
@@ -45,7 +47,6 @@ export class FollowingCenterComponent implements OnChanges {
 
 
       apiUrl = this.myService.getApiHost() + `/user/getNotFollow/${userId}`;
-
       axios.get(apiUrl).then((response) => {
         this.data = response.data;
         this.data = this.data.sort(() => Math.random() - Math.random()).slice(0, 3);
@@ -65,6 +66,7 @@ export class FollowingCenterComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    // print changes of recentChecked
     this.fetchData();
   }
 }

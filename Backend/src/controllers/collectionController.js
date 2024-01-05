@@ -2,14 +2,14 @@ const Sequelize = require('sequelize');
 
 const Collection = require('../models/collection');
 const CollectionPen = require('../models/collection_pen');
-const User = require('../models/user'); 
+const User = require('../models/user');
 import { _formatDateString } from "./userController";
 
 async function createOrUpdateCollection(req, res) {
   try {
     const { name, user_id, penIds, isPublic } = req.body;
     const newCollection = await Collection.create({
-      name : name,
+      name: name,
       status: isPublic ? 'public' : 'private',
       user_id: user_id,
     });
@@ -186,7 +186,7 @@ async function restoreCollection(req, res) {
 async function getAllCollection(req, res) {
   const attr_sort = req.query.attr_sort
   const order_by = req.query.order_by;
-  const deleted = req.query.deleted == ''? false: (req.query.deleted == "true"? true: false);
+  const deleted = req.query.deleted == '' ? false : (req.query.deleted == "true" ? true : false);
 
   try {
     let collections = await Collection.findAll({
@@ -198,18 +198,18 @@ async function getAllCollection(req, res) {
           [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.collection_id = collection.collection_id)'), 'numcomment'],
         ],
       },
-      where: {deleted: deleted},
+      where: { deleted: deleted },
       order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
     });
 
     collections = collections.map(collection => ({
       ...collection.toJSON(),
       id: collection.collection_id,
-      name: (collection.name == null ? "Untitled": collection.name),
+      name: (collection.name == null ? "Untitled" : collection.name),
       createdAt: _formatDateString(collection.createdAt),
       updatedAt: _formatDateString(collection.updatedAt),
     }));
-    
+
     res.status(200).json(collections);
   } catch (error) {
     console.log("chan gai 808", error);
@@ -222,7 +222,7 @@ async function addCollectionToCollection(req, res) {
 
     const sourceCollection = await Collection.findByPk(sourceCollectionId, {
       attributes: ['collection_id', 'name'],
-      where: { deleted: false }, 
+      where: { deleted: false },
     });
 
     if (!sourceCollection) {
@@ -231,7 +231,7 @@ async function addCollectionToCollection(req, res) {
 
     const targetCollection = await Collection.findByPk(targetCollectionId, {
       attributes: ['collection_id', 'name'],
-      where: { deleted: false }, 
+      where: { deleted: false },
     });
 
     if (!targetCollection) {
@@ -245,7 +245,7 @@ async function addCollectionToCollection(req, res) {
       include: [{
         model: Collection,
         attributes: [],
-        where: { deleted: false }, 
+        where: { deleted: false },
       }],
     });
 
