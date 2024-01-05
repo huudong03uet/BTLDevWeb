@@ -4,6 +4,7 @@ import axios from 'axios';
 import { User } from 'src/app/models/user';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HostService } from 'src/app/host.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -14,8 +15,11 @@ export class SignupComponent {
   constructor(
     private router: Router,    
     private userData: UserDataService,
-    private myService: HostService,
-    ) {} 
+    private myService: HostService, 
+    private toastr: ToastrService,
+    ) {
+      this.toastr.toastrConfig.positionClass = 'toast-top-center'; // Set toastr position
+    }
 
   hiddenRegisterEmail: boolean = false;
   signupError: string | null = null;
@@ -30,12 +34,9 @@ export class SignupComponent {
 
   changeStatusHiddenRegisterEmail() {
     this.hiddenRegisterEmail = false;
-    // to -> login
     this.router.navigate(['/login']);
-    // console.log(this.hiddenRegisterEmail)
   }
   
-  // Hàm xử lý khi người dùng gửi biểu mẫu đăng ký qua email
   async signupWithEmail() {
     //kiểm tra xem có cái nào chưa được nhập không
     if(this.name === '' || this.username === '' || this.email === '' || this.password === '' ) {
@@ -46,7 +47,7 @@ export class SignupComponent {
     // Kiểm tra các yêu cầu cho mật khẩu
     if (!this.isPasswordValid(this.password)) {
       this.signupError = 'Your password is not strong enough.';
-      return; // Ngừng xử lý nếu mật khẩu không đủ điều kiện
+      return; 
     }
 
     // Kiểm tra tính hợp lệ của email
@@ -68,9 +69,7 @@ export class SignupComponent {
 
       if (response.status === 200) {
         if(response.data.code == 200) {
-          // console.log('Registration successful:', response.data);
-          // Chuyển hướng người dùng đến trang chủ hoặc thực hiện hành động sau khi đăng ký thành công
-          // Ví dụ: chuyển hướng đến trang chủ
+         
           let user: User = {
             user_id: response.data.data.user_id,
             user_name: response.data.data.user_name,
@@ -82,13 +81,13 @@ export class SignupComponent {
           this.router.navigate(['/']);
           localStorage.setItem('gmail', this.email);
           localStorage.setItem('password', this.password);
-          alert('Signed up successfully!');
+          this.toastr.success('Signed up successfully!');
         }
         else {
           this.signupError = response.data.error;
         }
       } else {
-        console.error('Registration failed:', response.data);
+        this.toastr.error('Registration failed:', response.data);
       }
     } catch (error) {
       console.error('Error registering:', error);

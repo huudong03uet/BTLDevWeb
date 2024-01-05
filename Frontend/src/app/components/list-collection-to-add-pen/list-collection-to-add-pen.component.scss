@@ -184,3 +184,8 @@
     }
   }
 }
+.toast-single-line {
+  white-space: nowrap; // Prevent line breaks
+  overflow: hidden;    // Hide overflow content
+  text-overflow: ellipsis; // Display an ellipsis (...) for overflowed content
+}
