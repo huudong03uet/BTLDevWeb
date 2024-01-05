@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import axios from 'axios';
 import { HostService } from 'src/app/host.service';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-profile-settings',
   templateUrl: './profile-settings.component.html',
@@ -12,10 +14,13 @@ export class ProfileSettingsComponent implements OnInit {
   maxBioCharacterLimit = 100;
   bioCharacterCount = 0;
 
-  constructor(private myService: HostService,private userDataService: UserDataService) { }
+  constructor(private myService: HostService,private userDataService: UserDataService, private toastr: ToastrService,
+
+    ) {
+      this.toastr.toastrConfig.positionClass = 'toast-top-center'; // Set toastr position
+    }
 
   ngOnInit(): void {
-    // Load user data on component initialization
     const user_id = this.userDataService.getUserData()?.user_id;
     if (user_id) {
       this.userDataService.getUserInfoFromBackend(user_id)
@@ -24,7 +29,7 @@ export class ProfileSettingsComponent implements OnInit {
           this.updateBioCharacterCount();
         })
         .catch(error => {
-          console.error('Error fetching user information:', error);
+          this.toastr.error('Error fetching user information:', error);
         });
     }
   }
@@ -46,28 +51,16 @@ export class ProfileSettingsComponent implements OnInit {
       full_name: this.userData.full_name,
       location: this.userData.location,
       bio: this.userData.bio,
-      // Add other profile fields based on your backend model
     };
 
-    // console.log(profileData);
 
     axios.put(this.myService.getApiHost() + `/user/updateProfile/${user_id}`, profileData).then(response => {
-        alert('Profile updated successfully!');
+      this.toastr.success('Profile updated successfully!');
       }).catch(error => {
-        console.error('Error updating profile:', error);
-        alert('Error updating profile!');
+        this.toastr.error('Error updating profile:', error);
       });
 
-    // Call the updateProfile function from the service
-    // this.userDataService.updateProfile(user_id, profileData)
-    //   .then((updatedUser: any) => {
-    //     // Handle successful profile update
-    //     console.log('Profile updated successfully:', updatedUser);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error updating user profile:', error);
-    //     // Handle error
-    //   });
+
   }
 
   organizeShowcase() {

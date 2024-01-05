@@ -171,11 +171,10 @@ export class PenHeaderComponent implements OnInit {
     axios.post(apiUrl, requestData)
       .then((response) => {
         console.log(response);
-        alert('done');
+        this.toastr.success('Fork successfully');
       })
       .catch((error) => {
-        console.error('Error:', error);
-        alert('khong done');
+        this.toastr.error('Error:', error);
       });
   }
 

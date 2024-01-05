@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { HostService } from 'src/app/host.service';
 
@@ -21,14 +22,19 @@ export class ListCollectionToAddPenComponent implements OnInit {
   @Input() pen_id: any;
   collection_ids: any[] = [];
   data_views: any[] = [];
-  pen_name: string = ""; // Thêm biến để lưu trữ pen_name
+  pen_name: string = ""; 
 
   constructor(
     private http: HttpClient,
     private userData: UserDataService,
     private router: Router,
     private myService: HostService,
-  ) { }
+    private toastr: ToastrService,
+    
+  ) {
+    this.toastr.toastrConfig.positionClass = 'toast-top-center'; // Set toastr position
+  }
+
 
   async getPenName(penId: number): Promise<string> {
     try {
@@ -92,17 +98,16 @@ export class ListCollectionToAddPenComponent implements OnInit {
 
       // Check the response and perform any additional actions if needed
       if (response.data.code === 200) {
-        console.log('Pen added to collection successfully.');
-        alert('Pen added to collection successfully!');
+        this.toastr.success('Pen added to collection successfully!', 'Success');
         // Reload the current route to reflect the changes
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
         this.router.navigate([this.router.url]);
       } else {
-        console.error('Error adding pen to collection:', response.data.error);
+        this.toastr.error('Error adding pen to collection: ' + response.data.error, 'Error');
       }
     } catch (error) {
-      console.error('Error adding pen to collection:', error);
+      this.toastr.error('Error adding pen to collection: ' + error, 'Error');
     }
   }
 
@@ -112,16 +117,15 @@ export class ListCollectionToAddPenComponent implements OnInit {
       const response = await axios.post(apiUrl, { collection_id, pen_id: this.pen_id });
 
       if (response.data.code === 200) {
-        console.log('Pen removed from collection successfully.');
-        alert('Pen removed from collection successfully!');
+        this.toastr.success('Pen removed from collection successfully!', 'Success');
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
         this.router.navigate([this.router.url]);
       } else {
-        console.error('Error removing pen from collection:', response.data.error);
+        this.toastr.success('Pen removed from collection successfully!', 'Success');
       }
     } catch (error) {
-      console.error('Error removing pen from collection:', error);
+      this.toastr.success('Pen removed from collection successfully!', 'Success');
     }
   }
 
@@ -134,16 +138,15 @@ export class ListCollectionToAddPenComponent implements OnInit {
       const apiUrl = this.myService.getApiHost() + `/your-work/collections/addCollectionToCollection`;
       const response = await axios.post(apiUrl, { sourceCollectionId: this.currentCollectionID, targetCollectionId });
       if (response.data.code === 200) {
-        console.log('Collection added to collection successfully.');
-        alert('Collection added to collection successfully!');
+        this.toastr.success('Collection added to collection successfully!', 'Success');
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
         this.router.navigate([this.router.url]);
       } else {
-        console.error('Error adding collection to collection:', response.data.error);
+        this.toastr.error('Error adding collection to collection: ' + response.data.error, 'Error');
       }
     } catch (error) {
-      console.error('Error adding collection to collection:', error);
+      this.toastr.error('Error adding collection to collection: ' + error, 'Error');
     }
   }
 
