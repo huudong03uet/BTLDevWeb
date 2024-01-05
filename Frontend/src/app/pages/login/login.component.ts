@@ -49,17 +49,17 @@ export class LoginComponent {
             this.router.navigate(['/']);
             localStorage.setItem('gmail', this.gmail);
             localStorage.setItem('password', this.password);
-            alert('Đăng nhập thành công');
+            alert('Logged in successfully!');
           } else {
-            this.loginError = 'Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu';
+            this.loginError = 'Failed to login! Wrong username or password';
           }
         })
         .catch((error) => {
-          console.error('Đã xảy ra lỗi:', error);
-          this.loginError = 'Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu';
+          console.error('Error:', error);
+          this.loginError = 'Failed to login! Wrong username or password';
         });
     } else {
-      this.loginError = 'Vui lòng điền đủ thông tin đăng nhập.';
+      this.loginError = 'Please enter your username and password';
     }
   }
 
@@ -87,11 +87,11 @@ export class LoginComponent {
 
     axios.post(apiUrl)
         .then((response) => {
-          alert('Thành công');
+          alert('Send email successfully!');
         })
         .catch((error) => {
           console.error('Đã xảy ra lỗi:', error);
-          this.loginError = 'Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu';
+          this.loginError = 'Failed to login! Wrong username or password.';
         });
   }
 }

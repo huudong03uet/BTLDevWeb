@@ -75,7 +75,7 @@ export class AccountSettingsComponent {
         this.userDataService.deleteAccount(user_id)
           .then(response => {
             console.log('Account deleted successfully:', response);
-            alert('Tài khoản đã được xóa khỏi CODE!');
+            alert('Account has been removed from CODE!');
             this.router.navigate(['/login']);
           })
           .catch(error => {
