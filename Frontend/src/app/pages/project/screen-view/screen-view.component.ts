@@ -85,14 +85,18 @@ export class ScreenViewComponent implements OnInit {
     let match = regex.exec(content);
     while (match !== null) {
       // const tag = match[1];
-      const href = match[1];
-      // Kiểm tra xem href có nằm trong key_file_html hay không
-      if (this.key_file_html.includes(href)) {
-        // Thêm sự kiện onclick vào thẻ
-        const replacement = `<a href="${href}" onclick="handleClick('${href}')">`
-        content = content.replace(match[0], replacement);
+      let href = match[1];
+      if(href!=null) {
+          const file_name = this.toAbsolutePath(this.screen_choose, href);
+        
+
+        // Kiểm tra xem href có nằm trong key_file_html hay không
+        if (this.key_file_html.includes(file_name)) {
+          // Thêm sự kiện onclick vào thẻ
+          const replacement = `<a href="${file_name}" onclick="handleClick('${file_name}')">`
+          content = content.replace(match[0], replacement);
+        }
       }
-      
       match = regex.exec(content);
     }
   
@@ -106,7 +110,39 @@ export class ScreenViewComponent implements OnInit {
   
     return content;
   }
-  
+
+  addIframeHtml(content: string): string {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, 'text/html');
+
+    // Chuyển NodeList thành mảng
+    const iframeElements = Array.from(doc.querySelectorAll('iframe[src]'));
+    console.log('iframe', iframeElements);
+
+    for (const iframeElement of iframeElements) {
+      let src = iframeElement.getAttribute('src');
+
+      if(src != null) {
+        src = this.toAbsolutePath(this.screen_choose, src);
+      }
+      // Kiểm tra xem src có nằm trong key_file_html hay không
+      if (src && this.data.data_map[src] != null) {
+        
+        // Lấy nội dung từ this.data.data_map[key].content thay vì fetch từ server
+        const htmlContent = this.data.data_map[src]?.content || '';
+
+        // Tạo một thẻ <div> mới với nội dung HTML
+        const newDivElement = doc.createElement('div');
+        newDivElement.innerHTML = htmlContent;
+
+        // Thay thế thẻ <iframe> cũ bằng thẻ <div> mới
+        if (iframeElement.parentNode) {
+          iframeElement.parentNode.replaceChild(newDivElement, iframeElement);
+        }      
+      }
+    }
+    return content;
+  }
 
   addCssJs(content: string): string {
     const parser = new DOMParser();
