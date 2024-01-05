@@ -204,8 +204,7 @@ async function getAllProject(req, res) {
   }
 
   async function removeProject(req, res) {
-    const project_id = req.params.project_id; 
-
+    const project_id = req.body.project_id;
     try {
         const project = await Project.findByPk(project_id);
 
@@ -223,7 +222,7 @@ async function getAllProject(req, res) {
 }
 
 async function restoreProject(req, res) {
-    const project_id = req.params.project_id; 
+    const project_id = req.body.project_id;
 
     try {
         const project = await Project.findByPk(project_id);

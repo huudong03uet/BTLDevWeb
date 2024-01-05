@@ -11,8 +11,8 @@ router.get("/getInfoProject", projectController.getInfoProject);
 router.get("/getProjectByUserID", projectController.getProjectByUserID);
 router.get("/getProjectByUserSort", projectController.getProjectByUserSort);
 router.get("/getAllProject", projectController.getAllProject);
-router.post('/deletePenPermanently', deletedController.deleteProjectPermanently); 
-router.post('remove', projectController.removeProject);
+router.post('/deleteProjectPermanently', deletedController.deleteProjectPermanently);
+router.post('/remove', projectController.removeProject);
 router.post('/restore', projectController.restoreProject);
 
 module.exports = router;

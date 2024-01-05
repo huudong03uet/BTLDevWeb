@@ -22,7 +22,7 @@ export class ContentGridProjectComponent implements OnInit {
   pined: any;
   followed: any;
   informationPen = [
-    "Add to Collection",
+    "Delete",
     "Remove from Pins",
     "Unfollow User"
   ]
@@ -270,8 +270,26 @@ export class ContentGridProjectComponent implements OnInit {
   handleChildDetailPenClose() {
     this.childDetailPenVisible = false;
   }
-
-
-
+  handleDeleteClick() {
+    const confirmed = confirm("Are you sure you want to delete this project?");
+    if (confirmed) {
+      const url = this.myService.getApiHost() + `/project/remove`;
+      const data = {
+        project_id: this.project_id,
+        delete: true
+      };
+  
+      axios.post(url, data)
+        .then(response => {
+          console.log(response);
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([this.router.url]);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  }
 
 }

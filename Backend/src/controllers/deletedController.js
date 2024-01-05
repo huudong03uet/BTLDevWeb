@@ -109,30 +109,29 @@ async function deleteCollectionPermanently(req, res) {
 }
 
 async function deleteProjectPermanently(req, res) {
-  try {
-    const { project_id } = req.body;
-    const project = await Project.findOne({ where: { project_id, deleted: true } });
+    try {
+        const { project_id } = req.body;
+        const project = await Project.findOne({ where: { project_id, deleted: true } });
 
-    if (!project) {
-      return res.status(404).json({ code: 404, message: 'Không tìm thấy project hoặc project chưa bị xóa' });
+        if (!project) {
+            return res.status(404).json({ code: 404, message: 'Không tìm thấy project hoặc project chưa bị xóa' });
+        }
+
+        await commentTable.destroy({ where: { project_id } });
+        await LikeTable.destroy({ where: { project_id } });
+        await viewTable.destroy({ where: { project_id } });
+        await fileTable.destroy({ where: { project_id } });
+        await folderTable.destroy({ where: { project_id } });
+
+        // Use the destroy method with the correct condition
+        await project.destroy();
+
+        return res.status(200).json({ code: 200, message: 'Project deleted permanently successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa project' });
     }
-
-    await commentTable.destroy({ where: { project_id } });
-    await LikeTable.destroy({ where: { project_id } });
-    await viewTable.destroy({ where: { project_id } });
-    await fileTable.destroy({ where: { project_id } });
-    await folderTable.destroy({ where: { project_id } });
-    await pinTable.destroy({ where: { project_id } });
-
-    await Project.destroy();
-
-    return res.status(200).json({ code: 200, message: 'project deleted permanently successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ code: 500, error: 'Lỗi trong quá trình xóa project' });
-  }
 }
-
 
 module.exports = {
   getDeletedCollectionsAndPens,
