@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('./sequelize'); 
+const sequelize = require('./sequelize');
 
 const User = require('./user');
 const Pen = require('./pen');
@@ -17,7 +17,7 @@ const Pin = sequelize.define('pin', {
   },
 
 }, {
-    tableName: "pin",
+  tableName: "pin",
 });
 
 Pin.belongsTo(User, { foreignKey: 'user_id' });

@@ -10,19 +10,19 @@ import Project from '../models/project';
 let createProject = async (req, res) => {
     try {
         const { project_name, project_description, user_id } = req.body;
-        
+
         // Create a Project with the given description and associate it with the Folder
         const project = await Project.create({
-          description: project_description,
-          name: project_name,
-          user_id: user_id,
+            description: project_description,
+            name: project_name,
+            user_id: user_id,
         });
-    
+
         res.status(201).json({ message: 'Project created successfully', project });
-      } catch (error) {
+    } catch (error) {
         console.error('Error creating project:', error);
         res.status(500).json({ error: 'Internal server error' });
-      }
+    }
 }
 
 
@@ -33,10 +33,10 @@ let getInfoProject = async (req, res) => {
             where: { project_id: project_id },
         });
         const folder = await Folder.findAll({
-            where: {project_id: project_id}
+            where: { project_id: project_id }
         })
         const file = await File.findAll({
-            where: {project_id: project_id}
+            where: { project_id: project_id }
         })
 
         res.status(200).json({ project, folder, file });
@@ -51,13 +51,13 @@ let getInfoFolder = async (folderId) => {
     const foldersInFolder = await Folder.findAll({
         where: { folder_id: folderId },
     });
-    
+
     let fileChild = await getFileChild(folderId);
     let folderChild = await getFolderChild(folderId);
 
     let child = [];
 
-    for(let i = 0; i < folderChild.length; i++) {
+    for (let i = 0; i < folderChild.length; i++) {
         child[i] = await getInfoFolder(folderChild[i].folder_id);
         folderChild[i].add(child[i]);
     }

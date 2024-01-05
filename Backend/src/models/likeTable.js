@@ -14,7 +14,7 @@ const Like = sequelize.define('like_table', {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: "pen",
-      }
+    }
 },
     {
         tableName: 'like_table',

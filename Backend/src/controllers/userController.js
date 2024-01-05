@@ -25,8 +25,8 @@ async function getInfoUser(req, res) {
       user_name: user.user_name,
       full_name: user.full_name,
       avatar_path: user.avatar_path,
-      location: user.location,  
-      bio: user.bio, 
+      location: user.location,
+      bio: user.bio,
       followers_count,
       following_count,
     });
@@ -81,7 +81,7 @@ async function getAllUserExclude(arrUserID, user_id) {
         user_id: {
           [Sequelize.Op.notIn]: arrUserID
         },
-        [Sequelize.Op.not]: { user_id: user_id }, 
+        [Sequelize.Op.not]: { user_id: user_id },
       },
       attributes: ['user_id', 'user_name', 'avatar_path']
     });
@@ -213,8 +213,8 @@ async function changeEmail(req, res) {
 }
 
 const Collection = require('../models/collection');
-const Pen = require('../models/pen'); 
-const ViewTable = require('../models/viewTable'); 
+const Pen = require('../models/pen');
+const ViewTable = require('../models/viewTable');
 const FollowTable = require('../models/followTable');
 const Pin = require('../models/pin');
 const LikeTable = require('../models/likeTable');
@@ -240,7 +240,7 @@ async function deleteUser(req, res) {
     await Pin.destroy({
       where: { pen_id: user_id },
     });
-    
+
     await ViewTable.destroy({
       where: { pen_id: user_id },
     });
@@ -283,14 +283,14 @@ const _formatDateString = (dateString) => {
 async function getAlluser(req, res) {
   const attr_sort = req.query.attr_sort
   const order_by = req.query.order_by;
-  const deleted = req.query.deleted == ''? false: (req.query.deleted == "true"? true: false);
+  const deleted = req.query.deleted == '' ? false : (req.query.deleted == "true" ? true : false);
 
   try {
     let users = await User.findAll({
       attributes: {
         exclude: ['password',]
       },
-      where: {deleted: deleted},
+      where: { deleted: deleted },
       order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
     });
 
@@ -299,7 +299,7 @@ async function getAlluser(req, res) {
       createdAt: _formatDateString(user.createdAt),
       updatedAt: _formatDateString(user.updatedAt),
     }));
-    
+
     res.status(200).json(users);
   } catch (error) {
     console.log("chan gai 808", error);
