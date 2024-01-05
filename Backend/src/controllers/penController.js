@@ -51,7 +51,7 @@ async function savePen(req, res) {
   }
 }
 
-async function createNewPen(req, res) {
+async function createFromForkPen(req, res) {
   const {
     html_code,
     js_code,
@@ -63,7 +63,7 @@ async function createNewPen(req, res) {
 
   if (user_id == '') res.status(404).json('loi');
 
-  console.log('abc', user_id)
+  console.log('abc', name)
 
   try {
 
@@ -71,7 +71,7 @@ async function createNewPen(req, res) {
       html_code: html_code,
       js_code: js_code,
       css_code: css_code,
-      name: name || 'Untitled',
+      name: name + ' - copy' || 'Untitled',
       type_css: type_css || 'css',
       status: "public",
       deleted: false,
@@ -567,5 +567,5 @@ module.exports = {
   togglePenStatus,
 
   _getPenByUserID,
-  createNewPen,
+  createFromForkPen,
 };

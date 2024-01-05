@@ -38,7 +38,7 @@ export class ContentGridCodeFullInfComponent implements OnInit {
     axios.get(apiUrl)
       .then((response) => {
         this.data = response.data;
-        this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
+        this.namePen = (this.data.pen.name == null) ? "Untitled" : this.data.pen.name;
         const iframeContent = `
         <html>
           <head>

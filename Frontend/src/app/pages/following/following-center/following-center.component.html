@@ -2,9 +2,10 @@
     <!-- <div class="item-grid-code">
         <app-content-grid-code *ngFor="let dataItem of pen_ids" [pen_id]="dataItem"></app-content-grid-code>
     </div> -->
-    <app-list-item-grid-code [pen_ids]="pen_ids" style="      display: block;
-    min-height: 600px;  "></app-list-item-grid-code>
-    <h2 class="HomepageInterestingPeopleToFollow heading">
+    <app-list-item-grid-code [pen_ids]="pen_ids" *ngIf="pen_ids.length != 0" style="display: block;
+    min-height: 600px;  ">
+    </app-list-item-grid-code>
+    <h2 class="HomepageInterestingPeopleToFollow heading" [ngStyle]="{'margin-top': pen_ids.length == 0 ? '60px' : '120px'}">
         Interesting People to Follow
     </h2>
     <div class="item-grid">

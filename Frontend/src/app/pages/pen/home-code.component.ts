@@ -79,7 +79,7 @@ export class HomeCodeComponent implements OnInit {
       if (response.status === 200) {
         this.data.pen = response.data.pen;
         // alert('Saved successfully!');
-        this.toastr.success('Copy successfully!', '');
+        this.toastr.success('Save successfully!', '');
       } else if (response.status === 201) {
         const newPenId = response.data.pen.pen_id;
         this.router.navigate([`/pen/${newPenId}`]);

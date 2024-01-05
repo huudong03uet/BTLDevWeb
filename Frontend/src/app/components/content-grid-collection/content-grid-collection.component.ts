@@ -25,7 +25,7 @@ export class ContentGridCollectionComponent implements OnInit {
   userName: any;
   data_collection = {
     "like": 0,
-    "name": "Chưa đặt tên",
+    "name": "Untitled",
     "comment": 0,
     "view": 0,
   }

@@ -27,9 +27,9 @@ export class ListCommentsComponent implements OnInit {
   sortDirection: string = 'asc';
   sortByOptions() {
     let pen_full_searchFor = this.datas.filter((pen: { comment: any; }) => {
-      // if name != string, set name = "Chưa đặt tên"
+
       if (typeof pen.comment !== 'string') {
-        pen.comment = "Chưa đặt tên"
+        pen.comment = "Untitled"
       }
       return pen.comment.toLowerCase().includes(this.searchFor.toLowerCase())
     });

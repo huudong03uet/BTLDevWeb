@@ -35,7 +35,7 @@ export class DetailPenComponent {
         this.jsFile = this.data.pen.js_code;
         // console.log('vai o:', this.htmlFile);
 
-        this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
+        this.namePen = (this.data.pen.name == null) ? "Untitled" : this.data.pen.name;
         const iframeContent = `
         <html>
           <head>

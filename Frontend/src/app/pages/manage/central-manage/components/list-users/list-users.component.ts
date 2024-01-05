@@ -89,9 +89,9 @@ export class ListUsersComponent implements OnInit {
   }
   sortByOptions() {
     let pen_full_searchFor = this.datas.filter((pen: { user_name: any; }) => {
-      // if name != string, set name = "Chưa đặt tên"
+
       if (typeof pen.user_name !== 'string') {
-        pen.user_name = "Chưa đặt tên"
+        pen.user_name = "Untitled"
       }
       return pen.user_name.toLowerCase().includes(this.searchFor.toLowerCase())
     });

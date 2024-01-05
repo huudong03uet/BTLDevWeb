@@ -99,9 +99,9 @@ export class ListPenCollectionProjectSComponent implements OnInit {
   publicPrivate: string = 'all';
   sortByOptions() {
     let pen_full_searchFor = this.datas.filter((pen: { name: any; }) => {
-      // if name != string, set name = "Chưa đặt tên"
+   
       if (typeof pen.name !== 'string') {
-        pen.name = "Chưa đặt tên"
+        pen.name = "Untitled"
       }
       return pen.name.toLowerCase().includes(this.searchFor.toLowerCase())
     });

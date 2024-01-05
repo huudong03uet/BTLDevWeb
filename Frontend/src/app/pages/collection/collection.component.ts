@@ -202,7 +202,7 @@ export class CollectionComponent implements OnInit, AfterViewInit {
   sortByOptions() {
     let pen_full_searchFor = this.pen_full.filter((pen: { name: any; }) => {
       if (typeof pen.name !== 'string') {
-        pen.name = "Chưa đặt tên"
+        pen.name = "Untitled"
       }
       return pen.name.toLowerCase().includes(this.searchFor.toLowerCase())
     });
