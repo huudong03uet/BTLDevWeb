@@ -202,8 +202,6 @@ async function createComment(req, res) {
 
     let x = false;
 
-    console.log(req.query)
-
     if (comment == '') {
         res.status(500).json(x);
     }
