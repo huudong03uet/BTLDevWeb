@@ -11,7 +11,7 @@ import { UserDataService } from 'src/app/services/user-data.service';
 export class CommentAreaComponent implements OnInit, OnChanges {
   data_loved = 0;
   data_view = 0;
-  defaultAvatar: String = "https://i.pravatar.cc/150?img=1";
+  defaultAvatar: String = "https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=80&height=80";
   @Input() id: number = 1;
   @Input() type: string = 'pen';
 
@@ -59,7 +59,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
         ...comment,
         user: {
           ...comment.user,
-          avatar_path: comment.user.avatar_path || "https://i.pravatar.cc/150?img=1",
+          avatar_path: comment.user.avatar_path || "https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=80&height=80",
         }
       }));
 

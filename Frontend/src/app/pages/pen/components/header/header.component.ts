@@ -63,7 +63,7 @@ export class PenHeaderComponent implements OnInit {
   }
 
   onSigninButtonClick(): void {
-    this.router.navigate(['/signin']);
+    this.router.navigate(['/signup']);
   }
 
   startEditingTitle(): void {

@@ -1,6 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef, EventEmitter, Output, OnInit, Input } from '@angular/core';
 import { debounce } from 'lodash';
-import { Pen } from 'src/app/models/pen';
 
 declare let CodeMirror: any;
 declare let Sass: any;

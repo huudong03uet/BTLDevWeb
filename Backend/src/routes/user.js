@@ -14,5 +14,4 @@ router.post('/changeUsername/:id', userController.changeUsername);
 router.post('/changeEmail/:id', userController.changeEmail);
 
 router.delete('/deleteUser/:id', userController.deleteUser);
-
 module.exports = router;

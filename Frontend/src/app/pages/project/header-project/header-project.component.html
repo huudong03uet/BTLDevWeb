@@ -27,7 +27,7 @@
                 <li class="submenu" (click)="toggleMenu()"><a><i class="fas fa-square-caret-down"></i></a></li>
                 <li *ngIf="!this.userData"><a class="signup" (click)="onSigninButtonClick()">Sign Up</a></li>
                 <li *ngIf="!this.userData"><a class="login" (click)="onLoginButtonClick()">Log In</a></li>
-                <li *ngIf="this.userData"><img src="path_to_avatar_image.jpg" alt="User Avatar"></li>
+                <li *ngIf="this.userData"><img style="border-radius: 4px; margin-bottom: 3px;" src="https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=32&height=32" alt="User Avatar"></li>
 
             </ul>
         </div>

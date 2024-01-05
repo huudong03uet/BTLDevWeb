@@ -191,10 +191,6 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
     // Sort files
     data.file.sort((a: any, b: any) => a.name.localeCompare(b.name));    
   }
-  
-
-
-
 
   
   // dayLaTinhNang() {

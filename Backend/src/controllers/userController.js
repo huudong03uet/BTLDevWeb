@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 import followController from './followControler';
 import User from '../models/user';
 import Follow from '../models/followTable';
+import penController from './penController';
 
 async function getInfoUser(req, res) {
   try {
@@ -74,6 +75,8 @@ async function countPenOfUser(arrUserID) {
   }
 }
 
+
+
 async function getAllUserExclude(arrUserID, user_id) {
   try {
     let users = await User.findAll({
@@ -100,13 +103,9 @@ async function getNotFollow(req, res) {
 
   try {
     const getOneUser = await getUserByID(user_id);
-
     let getFollowUsers = await followController._getFollowByUserID(getOneUser);
-
     getFollowUsers = getFollowUsers.map(x => x.user_id_2)
-
     const getAllNotFollow = await getAllUserExclude(getFollowUsers, user_id);
-
     const uniqueNotFollow = [...new Set(getAllNotFollow)];
 
     res.status(200).json(uniqueNotFollow);
@@ -115,6 +114,14 @@ async function getNotFollow(req, res) {
     throw error;
   }
 }
+
+
+
+
+
+
+
+
 
 async function updateProfile(req, res) {
   try {
@@ -316,5 +323,4 @@ module.exports = {
   deleteUser,
   getAlluser,
   _formatDateString,
-
 };
