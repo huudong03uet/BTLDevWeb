@@ -19,7 +19,7 @@ export class LovedPComponent implements OnInit {
   ngOnInit(): void {
     const userId = this.userData.getUserData()?.user_id;
 
-    let apiUrl = this.myService.getApiHost() + `/pen/getPenByUserSort?user_id=${userId}&sortby=like`;
+    let apiUrl = this.myService.getApiHost() + `/pen/getPenByUserSort?user_id=${userId}&sortby=numlike`;
 
     axios.get(apiUrl).then((response) => {
       this.pen_ids = response.data;

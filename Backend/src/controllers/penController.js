@@ -207,44 +207,31 @@ async function _getPenStatusByUserID(user_id, status) {
 async function getPenByUserSort(req, res) {
   const { user_id, sortby } = req.query;
 
-  // console.log(req.query)
-
   try {
-    if (sortby == 'private' || sortby == 'public') {
-      let pen = await _getPenStatusByUserID(user_id, sortby);
-      return res.status(200).json(pen);
-    } else if (sortby == 'view') {
-      let pen = await _getPenByUser(user_id);
+      let pens;
+      if (sortby == "numlike" || sortby == "numview") {
+          pens = await Pen.findAll({
+              attributes: {
+                  include: [
+                      [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE pen.pen_id = like_table.pen_id)'), 'numlike'],
+                      [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE pen.pen_id = view_table.pen_id)'), 'numview'],
+                  ]
+              },
+              where: { user_id: user_id },
+              order: [[sortby, 'DESC']],
+          })
+      } else if (sortby == "private" || sortby == "public") {
+          pens = await Pen.findAll({
+              where: { user_id: user_id, status: sortby },
+          })
+      }
 
-      let arrSort = [];
-
-      await Promise.all(pen.map(async (i) => {
-        let x = (await _getViewByPen(i)).length
-        arrSort.push(x);
-      }));
-
-      const penWithSortValues = pen.map((item, index) => ({
-        pen: item,
-        arrSortValue: arrSort[index],
-      }));
-
-      penWithSortValues.sort((a, b) => b.arrSortValue - a.arrSortValue);
-
-      pen = penWithSortValues.map((item) => item.pen);
-      arrSort = penWithSortValues.map((item) => item.arrSortValue);
-
-      return res.status(200).json(pen);
-
-    } else if (sortby == 'like') {
-      let pen = await _getLikeByuserID(user_id);
-      const penIds = pen.map(pen => pen.pen_id);
-      return res.status(200).json(penIds);
-    }
-
-
+      pens = pens.map(x => x.pen_id);
+      
+      res.status(200).json(pens)
   } catch (error) {
-    console.error(error);
-    throw error;
+      console.log("simp gai 808:", error);
+      console.error(error);
   }
 }
 

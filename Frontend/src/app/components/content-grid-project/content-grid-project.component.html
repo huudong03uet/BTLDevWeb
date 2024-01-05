@@ -135,3 +135,6 @@
 </div>
 <!-- <app-detail-pen [pen_id]="pen_id" (closeDetailPen)="handleChildDetailPenClose()"
     *ngIf="childDetailPenVisible"></app-detail-pen> -->
+
+<app-detail-pen [pen_id]="project_id" [type]="'project'" (closeDetailPen)="handleChildDetailPenClose()"
+    *ngIf="childDetailPenVisible"></app-detail-pen>

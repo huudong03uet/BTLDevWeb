@@ -348,6 +348,34 @@ async function getUserInfoByCollectionId(req, res) {
   }
 }
 
+async function getCollectionByUserSort(req, res) {
+  const { user_id, sortby } = req.query;
+
+  try {
+      let collections;
+      if (sortby == "numlike" || sortby == "numview") {
+          collections = await Collection.findAll({
+              attributes: {
+                  include: [
+                      [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE collection.collection_id = like_table.collection_id)'), 'numlike'],
+                      [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE collection.collection_id = view_table.collection_id)'), 'numview'],
+                  ]
+              },
+              where: { user_id: user_id },
+              order: [[sortby, 'DESC']],
+          })
+      } else if (sortby == "private" || sortby == "public") {
+          collections = await Collection.findAll({
+              where: { user_id: user_id, status: sortby },
+          })
+      }
+      
+      res.status(200).json(collections)
+  } catch (error) {
+      console.log("simp gai 808:", error);
+      console.error(error);
+  }
+}
 
 module.exports = {
   createOrUpdateCollection,
@@ -362,4 +390,5 @@ module.exports = {
   addCollectionToCollection,
   checkCollectionStatus,
   toggleCollectionStatus,
+  getCollectionByUserSort,
 }
