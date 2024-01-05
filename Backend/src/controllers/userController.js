@@ -80,12 +80,18 @@ async function countPenOfUser(arrUserID) {
 async function getAllUserExclude(arrUserID) {
   try {
     let users = await User.findAll({
+      attributes: {
+        exclude: ['gmail', 'password', 'createdAt', "updatedAt", "full_name", "location", "bio", "deleted", "isAdmin"],
+        include: [
+          [Sequelize.literal('(SELECT count(pen_id) FROM pen WHERE pen.user_id = user.user_id)'), 'numpen'],
+        ]
+      },
       where: {
         user_id: {
           [Sequelize.Op.notIn]: arrUserID
         },
       },
-      attributes: ['user_id', 'user_name', 'avatar_path']
+      having: { numpen: { [Op.not]: 0 } },
     });
 
     return users;
@@ -103,7 +109,7 @@ async function getNotFollow(req, res) {
   try {
     const getOneUser = await getUserByID(user_id);
     let getFollowUsers = await followController._getFollowByUserID(getOneUser);
-    getFollowUsers = getFollowUsers.map(x => x.user_id_2)
+    // getFollowUsers = getFollowUsers.map(x => x.user_id_2)
     const getAllNotFollow = await getAllUserExclude(getFollowUsers, user_id);
     const uniqueNotFollow = [...new Set(getAllNotFollow)];
 

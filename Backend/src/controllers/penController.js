@@ -401,7 +401,7 @@ async function getFollow(req, res) {
   try {
     let followUsers = await followController._getFollowByUserID(user_id, attr_sort = attr_sort, sort_by = sort_by);
 
-    followUsers = followUsers.map(x => x.user_id_2);
+    // followUsers = followUsers.map(x => x.user_id_2);
 
     followUsers = [...new Set(followUsers)];
 
@@ -415,7 +415,7 @@ async function getFollow(req, res) {
         }
       }
 
-      console.log(pens)
+      // console.log(pens)
 
       res.status(200).json(pens.flat());
     } else {
@@ -531,4 +531,6 @@ module.exports = {
   getAllPen,
   checkPenStatus,
   togglePenStatus,
+
+  _getPenByUserID
 };

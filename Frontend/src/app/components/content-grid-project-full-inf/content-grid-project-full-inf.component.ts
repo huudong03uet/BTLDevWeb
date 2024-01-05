@@ -262,7 +262,7 @@ export class ContentGridProjectFullInfComponent implements OnInit {
     const confirmed = confirm("Are you sure you want to delete this project?");
     if (confirmed) {
       const url = this.myService.getApiHost() + `/project/remove`;
-      console.log(this.project.project_id);
+      // console.log(this.project.project_id);
       const data = {
         project_id: this.project.project_id,
         delete: true

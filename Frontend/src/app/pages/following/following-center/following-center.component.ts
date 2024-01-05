@@ -37,7 +37,7 @@ export class FollowingCenterComponent implements OnChanges {
       } else {
         this.x = '';
       }
-      let apiUrl = this.myService.getApiHost() + `/pen/getFollow?user_id=${userId}&x=${this.x}`;
+      let apiUrl = this.myService.getApiHost() + `/follow/getFollow?user_id=${userId}&x=${this.x}`;
 
       axios.get(apiUrl).then((response) => {
         this.pen_ids = response.data;
@@ -46,9 +46,10 @@ export class FollowingCenterComponent implements OnChanges {
       });
 
 
-      apiUrl = this.myService.getApiHost() + `/user/getNotFollow/${userId}`;
+      apiUrl = this.myService.getApiHost() + `/follow/getNotFollow?user_id=${userId}`;
       axios.get(apiUrl).then((response) => {
         this.data = response.data;
+        console.log("hoi cham:", this.data);
         this.data = this.data.sort(() => Math.random() - Math.random()).slice(0, 3);
       }).catch((error) => {
         console.error('Error:', error);
