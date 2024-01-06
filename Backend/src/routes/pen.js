@@ -18,7 +18,7 @@ router.post('/getPenById', penController.getPenById);
 router.post('/createFromForkPen', penController.createFromForkPen);
 router.post("/createOrUpdatePen", penController.createOrUpdatePen);
 router.post("/savePen", penController.savePen);
-router.post('/deletePenPermanently', deletedController.deletePenPermanently); 
+router.post('/deletePenPermanently', deletedController.deletePenPermanently);
 router.post("/toggleStatus", penController.togglePenStatus);
 
 module.exports = router;

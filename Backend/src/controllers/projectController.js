@@ -6,6 +6,7 @@ import Collection from '../models/collection';
 import Folder from '../models/folder';
 import File from '../models/file';
 import Project from '../models/project';
+import User from '../models/user';
 
 
 let createProject = async (req, res) => {
@@ -419,7 +420,31 @@ let createProjectSample = async (req, res) => {
     }
 }
 
-  
+async function getUserInfoByProjectID(req, res) {
+    const project_id = req.query.project_id;
+
+    try {
+        const project = await Project.findOne({
+            attributes: ['project_id', 'name', 'user_id', 'status'], // Include 'status' here
+            where: { project_id: project_id, deleted: false },
+            include: {
+                model: User,
+                attributes: ['user_id', 'user_name'],
+                where: { user_id: Sequelize.col('project.user_id') }
+            }
+        });
+
+        if (!project) {
+            return res.status(404).json({ error: 'Project not found' });
+        }
+
+        res.status(200).json({ project });
+    } catch (error) {
+        console.error('Error getting project information:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
 
 module.exports = {
     createProject,
@@ -434,5 +459,6 @@ module.exports = {
     toggleProjectStatus,
     checkProjectStatus,
     saveProject,
-    createProjectSample
+    createProjectSample,
+    getUserInfoByProjectID,
 };

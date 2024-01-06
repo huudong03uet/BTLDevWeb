@@ -43,7 +43,6 @@ export class PenHeaderComponent implements OnInit {
   public isMenuOpen = false;
   public projectTitle = 'Untitled';
   public isEditingTitle = false;
-  public isLoggedIn = false;
 
   isFollowing = false;
 
@@ -90,12 +89,6 @@ export class PenHeaderComponent implements OnInit {
     this.isEditingTitle = false;
   }
 
-  toggleFavorite(): void {
-    if (this.myPen && this.myPen.pen_id) {
-      console.log('Toggle favorite', this.myPen);
-    }
-  }
-
   async toggleSave() {
     this.data.pen.name = this.projectTitle;
     this.dataChange.emit(this.data);
@@ -109,13 +102,6 @@ export class PenHeaderComponent implements OnInit {
     this.toastr.success('Link copied to clipboard', '');
     // this.clipboard.copy('Alphonso');
     
-  }
-
-  toggleFollow(): void {
-    if (this.myPen && this.myPen.user && this.myPen.user.id) {
-      // console.log('Toggle follow user:', this.myPen.user.id);
-      this.isFollowing = !this.isFollowing;
-    }
   }
 
   handleLikeClick() {

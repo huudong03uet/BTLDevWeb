@@ -16,14 +16,26 @@
                 </div>
                 <span class="ContentGridUser_minimalPenCount">
                     {{ pens?.length || 0 }} Pens 
-                    <button class="ContentGridUser_followButton" (click)="handleFollowClick()">
-                        <svg viewBox="0 0 132.4 132.4" class="FollowButton-module_statusIcon-U62Ef">
-                            <path
-                                d="M75.4 123.1V75.4h47.7c5.1 0 9.2-4.1 9.3-9.3s-4.2-9.3-9.3-9.3H75.4V9.3c0-5.1-4.1-9.2-9.3-9.3-5.2-.1-9.3 4.2-9.3 9.3V57H9.1C4 57-.1 61.1-.2 66.3c-.1 5.2 4.2 9.3 9.3 9.3h47.7v47.7c0 5.1 4.1 9.2 9.3 9.3s9.3-4.4 9.3-9.5z">
-                            </path>
-                        </svg>
-                        {{ isUser1FollowingUser2 ? 'Following' : 'Follow' }}
-                    </button>
+                    <button class="follow-button"
+                    *ngIf="!this.followed"
+                    (click)="handleFollowClick()">
+                    <svg width = 8 height = 8 viewBox="0 0 132.4 132.4" class="FollowButton-module_statusIcon-U62Ef">
+                        <path
+                            d="M75.4 123.1V75.4h47.7c5.1 0 9.2-4.1 9.3-9.3s-4.2-9.3-9.3-9.3H75.4V9.3c0-5.1-4.1-9.2-9.3-9.3-5.2-.1-9.3 4.2-9.3 9.3V57H9.1C4 57-.1 61.1-.2 66.3c-.1 5.2 4.2 9.3 9.3 9.3h47.7v47.7c0 5.1 4.1 9.2 9.3 9.3s9.3-4.4 9.3-9.5z">
+                        </path>
+                    </svg>
+                    Follow
+                </button>
+                <button class="follow-button following" id="follow-button-following"
+                    *ngIf="this.followed"
+                    (mouseenter)="changeSvg(true)" (mouseleave)="changeSvg(false)" (click)="handleFollowClick()">
+                    <svg viewBox="0 0 100 100" class="FollowButton-module_statusIcon-U62Ef">
+                        <path
+                            d="M34.6 82.4c-2.3 0-4.6-.9-6.3-2.6L8.8 60.7c-3.5-3.5-3.6-9.2-.1-12.7s9.2-3.6 12.7-.1l13.1 12.9L78.3 17c3.5-3.5 9.2-3.5 12.7 0s3.5 9.2 0 12.7L40.9 79.8c-1.7 1.8-4 2.6-6.3 2.6z">
+                        </path>
+                    </svg>
+                    Following
+                </button>
                     
                 </span>
             </div>

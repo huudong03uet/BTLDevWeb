@@ -34,18 +34,20 @@
         </div>
         <div *ngIf="forgotPassword" class="form-login" style="    display: flex;
         justify-content: center;">
-            <form class="module login-form top-label-form" id="forgot-password-form" action="#0" style="display: block;">
+            <form class="module login-form top-label-form" id="forgot-password-form" action="#0"
+                style="display: block;">
                 <h3>Reset Your Password</h3>
                 <div class="field">
                     <label for="forgot-email">Username Or Email</label>
-                    <input type="text" id="forgot-email" name="forgot-email" name="gmail" [(ngModel)]="gmail"  placeholder="your@email.com" required="">
+                    <input type="text" id="forgot-email" name="forgot-email" name="gmail" [(ngModel)]="gmail"
+                        placeholder="your@email.com" required="">
                 </div>
                 <div class="field">
-                    <button id="forgot-email-btn" 
-                        class="button button-medium button-fullwidth" (click)="forgotPass()">Send Password Reset Email</button> 
+                    <button id="forgot-email-btn" class="button button-medium button-fullwidth"
+                        (click)="forgotPass()">Send Password Reset Email</button>
                 </div>
                 <div id="sent-message">
-                    <div id="sent-message-message" ></div>
+                    <div id="sent-message-message"></div>
                 </div>
             </form>
         </div>

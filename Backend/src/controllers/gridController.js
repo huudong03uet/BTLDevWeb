@@ -34,16 +34,16 @@ let updateView = async (req, res) => {
 }
 
 let handleLike = async (req, res) => {
-  const pen_id = req.query.pen_id;
-  const user_id = req.query.user_id;
-  const type = req.query.type;
+  const { pen_id, project_id, user_id, type } = req.query;
+
   try {
-    // Kiểm tra xem người dùng đã like pen đó chưa
+    // Kiểm tra xem người dùng đã like pen hoặc project đó chưa
     const existingLike = await Like.findOne({
       where: {
-        pen_id: pen_id,
-        user_id: user_id,
-        type: type
+        [Op.or]: [
+          (pen_id && { pen_id: pen_id, user_id: user_id, type: type }),
+          (project_id && { project_id: project_id, user_id: user_id, type: type })
+        ].filter(Boolean)
       }
     });
 
@@ -55,6 +55,7 @@ let handleLike = async (req, res) => {
       // Nếu chưa like, thêm mới (like)
       await Like.create({
         pen_id: pen_id,
+        project_id: project_id,
         user_id: user_id,
         type: type
       });
@@ -62,9 +63,10 @@ let handleLike = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    throw new Error('Error handling like');
+    res.status(500).json({ error: 'Error handling like' });
   }
 }
+
 
 let _handlePinPen = async (user_id, pen_id) => {
   try {
@@ -226,7 +228,8 @@ async function getInfoGrid(req, res) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
-let handlePinPen = async (user_id, pen_id) => {
+
+ let handlePinPen = async (user_id, pen_id) => {
   try {
     const existingPin = await Pin.findOne({
       where: {
@@ -282,21 +285,46 @@ let handlePinCollection = async (user_id, collection_id) => {
   }
 }
 
-const isUser1FollowingUser2 = async (user_id_1, user_id_2) => {
+const checkFollowStatus = async (req, res) => {
+  const { user_id_1, user_id_2 } = req.query;
+
   try {
-    const followRecord = await Follow.findOne({
+    const existingFollow = await Follow.findOne({
       where: {
-        user_id_1: user_id_1,
-        user_id_2: user_id_2,
+        [Op.and]: [
+          { user_id_1 },
+          { user_id_2 },
+        ],
       },
     });
 
-    return followRecord !== null;
+    res.status(200).json({ followed: !!existingFollow });
   } catch (error) {
-    console.error('Error checking follow:', error);
-    throw error;
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+const checkLikeStatus = async (req, res) => {
+  const { pen_id, project_id, user_id, type } = req.query;
+
+  try {
+    const existingLike = await Like.findOne({
+      where: {
+        [Op.or]: [
+          (pen_id && { pen_id, user_id, type }),
+          (project_id && { project_id, user_id, type }),
+        ].filter(Boolean),
+      },
+    });
+
+    res.status(200).json({ liked: !!existingLike });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 
 module.exports = {
   updateView,
@@ -306,5 +334,6 @@ module.exports = {
   getInfoGrid,
   handlePinPen,
   handlePinCollection,
-  isUser1FollowingUser2,
+  checkFollowStatus,
+  checkLikeStatus,
 };

@@ -46,8 +46,8 @@ export class CodeBoxComponent {
     });
     this.cssEditor.on('change', () => this.run());
 
-    
-    
+
+
 
     this.jsEditor = CodeMirror.fromTextArea(this.jsTextarea.nativeElement, {
       mode: 'javascript',
@@ -97,6 +97,6 @@ export class CodeBoxComponent {
     output.contentDocument.body.appendChild(scriptTag);
   }
 
-  
+
 
 }
