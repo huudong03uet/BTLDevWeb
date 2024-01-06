@@ -83,11 +83,11 @@ async function _getAllCommentOfPen(pen_id) {
         });
 
         let numlike = await Like.findAll({
-            where: {pen_id: pen_id}
+            where: { pen_id: pen_id }
         })
 
         let numview = await View.findAll({
-            where: {pen_id: pen_id}
+            where: { pen_id: pen_id }
         })
 
         comments = comments.map(comment => ({
@@ -137,11 +137,11 @@ async function _getAllCommentOfCollection(collection_id) {
         }));
 
         let numlike = await LikeCollection.findAll({
-            where: {collection_id: collection_id}
+            where: { collection_id: collection_id }
         })
 
         let numview = await View.findAll({
-            where: {collection_id: collection_id}
+            where: { collection_id: collection_id }
         })
 
         return {
@@ -185,11 +185,11 @@ async function _getAllCommentOfProject(project_id) {
         }));
 
         let numlike = await Like.findAll({
-            where: {project_id: project_id}
+            where: { project_id: project_id }
         })
 
         let numview = await View.findAll({
-            where: {project_id: project_id}
+            where: { project_id: project_id }
         })
 
         return {
@@ -312,31 +312,9 @@ async function createComment(req, res) {
     }
 }
 
-async function _updatecomment(comment_id, updatedCommentText) {
-    try {
-        const updatedComment = await Comment.update(
-            { comment: updatedCommentText },
-            {
-                where: {
-                    comment_id: comment_id
-                }
-            }
-        );
-
-        if (updatedComment[0] > 0) {
-            return { code: 200, success: true }
-        } else {
-            return { code: 404, success: false }
-        }
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
-
 async function editComment(req, res) {
     const comment_id = req.query.comment_id;
-    const updatedCommentText = req.body.updatedCommentText;
+    const updatedCommentText = req.query.updatedCommentText;
 
     if (updatedCommentText == '') {
         res.status(500).json({ success: false, message: 'Internal server error.' });
@@ -344,9 +322,22 @@ async function editComment(req, res) {
     }
 
     try {
-        const updatedComment = await _updatecomment(comment_id, updatedCommentText);
+        let updatedComment = await Comment.update(
+            { comment: updatedCommentText }, 
+            {
+                where: {
+                    comment_id: comment_id
+                },
+            }
+        );
 
-        res.status(updatedComment.code).json(updatedComment);
+        // updatedComment = await Comment.findByPk(comment_id);
+
+        if (updatedComment[0] > 0) {
+            res.status(200).json(updatedComment)
+        } else {
+            res.status(403).json(updatedComment)
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Internal server error.' });

@@ -14,6 +14,8 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   defaultAvatar: String = "https://assets.codepen.io/t-1/user-default-avatar.jpg?format=auto&version=0&width=80&height=80";
   @Input() id: number = 1;
   @Input() type: string = 'pen';
+  isEdit = false;
+  comment_id = 0;
 
   data_comment = [
     {
@@ -32,7 +34,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
       "numcomment": 0,
       "user": {
         "user_name": "User1",
-        "avatar_path": null
+        "avatar_path": null,
       }
     }
   ];
@@ -59,7 +61,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
 
 
     axios.get(apiUrl).then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       let xx = response.data.comments;
       this.data_loved = response.data.numlike;
       this.data_view = response.data.numview;
@@ -78,34 +80,43 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   }
 
   onSubmit() {
-    let apiUrl = this.myService.getApiHost() + `/comment/create?id=${this.id}&type=${this.type}&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&reply=${this.reply}`;
+    let apiUrl;
+    
+    if (this.isEdit == false) {
+      apiUrl = this.myService.getApiHost() + `/comment/create?id=${this.id}&type=${this.type}&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&reply=${this.reply}`;
+      axios.post(apiUrl).then((response) => {
+        // let x = response.data;
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
 
-    console.log(apiUrl);
-    axios.post(apiUrl).then((response) => {
-      let x = response.data;
+    } else {
+      apiUrl = this.myService.getApiHost() + `/comment/update?comment_id=${this.comment_id}&updatedCommentText=${this.commentText}`;
+      axios.put(apiUrl).then((response) => {
+        // let x = response.data;
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
+    }
 
-      this.fetchComments();
-    }).catch((error) => {
-      console.error('Error:', error);
-    });
+    this.fetchComments();
 
     this.commentText = '';
     this.reply = null;
+    this.isEdit = false;
   }
 
-  editComent() {
-    let apiUrl = this.myService.getApiHost() + `/comment/update?id=${this.id}&type=${this.type}&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&`;
+  editComent(comment_id: number, user_id: number, commentText: string) {
 
-    axios.post(apiUrl).then((response) => {
-      let x = response.data;
+    if(this.user.getUserData()?.user_id != user_id) {
+      return;
+    }
 
-      this.fetchComments();
-    }).catch((error) => {
-      console.error('Error:', error);
-    });
+    this.commentText = commentText;
 
-    this.commentText = '';
-    this.reply = null;
+    this.comment_id = comment_id;
+
+    this.isEdit = true;
   }
 
   deleteComent(comment_id: number) {
