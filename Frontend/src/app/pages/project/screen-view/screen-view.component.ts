@@ -10,7 +10,6 @@ import { connect } from 'rxjs';
 export class ScreenViewComponent implements OnInit {
   @Input() data: any;
   @Output() dataChange = new EventEmitter();
-  key_file_html: any;
   screen_choose: any;
   iframeContent: SafeHtml | undefined;
   lastContent: any;
@@ -21,7 +20,7 @@ export class ScreenViewComponent implements OnInit {
     this.updateData();
     window.addEventListener('message', (event) => {
       const href = event.data;
-      if (this.key_file_html.includes(href)) {
+      if (this.data.key_file_html.has(href)) {
         const content = this.getContentByKey(href);
 
         this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(content);
@@ -39,29 +38,14 @@ export class ScreenViewComponent implements OnInit {
   }
 
   updateData() {
-    this.key_file_html = this.getFileNames(this.data.data_map);
-    const hasIndexHtml = this.key_file_html.includes('index.html');
+    const hasIndexHtml = this.data.key_file_html.has('index.html');
 
     // Đặt giá trị cho screen_choose
-    this.screen_choose = hasIndexHtml ? 'index.html' : (this.key_file_html.length > 0 ? this.key_file_html[0] : '');
+    this.screen_choose = hasIndexHtml ? 'index.html' : (this.data.key_file_html.length > 0 ? this.data.key_file_html[0] : '');
 
     this.createIframe();
   }
 
-  getFileNames(dataMap: any): string[] {
-    let fileNames: string[] = [];
-
-    for (const key in dataMap) {
-      const value = dataMap[key];
-
-      // Kiểm tra cả key và status
-      if (value.type === 'file' && value.name.endsWith('.html')) {
-        fileNames.push(key);
-      }
-    }
-
-    return fileNames;
-  }
 
   getContentByKey(key: string): string {
     const file = this.data.data_map[key];
@@ -90,8 +74,8 @@ export class ScreenViewComponent implements OnInit {
           const file_name = this.toAbsolutePath(this.screen_choose, href);
         
 
-        // Kiểm tra xem href có nằm trong key_file_html hay không
-        if (this.key_file_html.includes(file_name)) {
+        // Kiểm tra xem href có nằm trong data.key_file_html hay không
+        if (this.data.key_file_html.has(file_name)) {
           // Thêm sự kiện onclick vào thẻ
           const replacement = `<a href="${file_name}" onclick="handleClick('${file_name}')">`
           content = content.replace(match[0], replacement);
@@ -125,7 +109,7 @@ export class ScreenViewComponent implements OnInit {
       if(src != null) {
         src = this.toAbsolutePath(this.screen_choose, src);
       }
-      // Kiểm tra xem src có nằm trong key_file_html hay không
+      // Kiểm tra xem src có nằm trong data.key_file_html hay không
       if (src && this.data.data_map[src] != null) {
         
         // Lấy nội dung từ this.data.data_map[key].content thay vì fetch từ server
@@ -158,7 +142,7 @@ export class ScreenViewComponent implements OnInit {
         href = this.toAbsolutePath(this.screen_choose, href);
       }
 
-      // Kiểm tra xem href có nằm trong key_file_html hay không
+      // Kiểm tra xem href có nằm trong data.key_file_html hay không
       if (href && this.data.data_map[href] != null) {
         // Lấy nội dung từ this.data.data_map[key].content thay vì fetch từ server
         const cssContent = this.data.data_map[href]?.content || '';
@@ -185,7 +169,7 @@ export class ScreenViewComponent implements OnInit {
       if(src != null) {
         src = this.toAbsolutePath(this.screen_choose, src);
       }
-      // Kiểm tra xem src có nằm trong key_file_html hay không
+      // Kiểm tra xem src có nằm trong data.key_file_html hay không
       if (src&&this.data.data_map[src]!=null) {
         
         // Lấy nội dung từ this.data.data_map[key].content thay vì fetch từ server

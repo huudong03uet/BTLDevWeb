@@ -30,6 +30,7 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
             name: 'root',
             subfolders: {},
             files: [],
+            input: false,
             status: 'open'
           };
           
@@ -42,6 +43,7 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
               name: folderName,
               key: folder.name,
               type: 'folder',
+              input: 'false',
               status: 'close'
     
             }
@@ -55,6 +57,7 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
             let fileNode = {
               name: fileName,
               key: file.name,
+              input: false,
               type: 'file',
             };
             this.addFileToTree(path2, fileNode, root);
@@ -79,9 +82,9 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
           let filesOpened: Set<any> = new Set();
           let fileChoose: any = null;
           let sidebarChoose: any = null;
-
           
-          this.data = {data_key, data_map, data_source, filesOpened, fileChoose, sidebarChoose};
+          let key_file_html: Set<any> = this.getFileNames(data_map);
+          this.data = {data_key, data_map, data_source, filesOpened, fileChoose, sidebarChoose, key_file_html};
           console.log(this.data)
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -92,6 +95,8 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
 
     
   }
+
+  
 
   ngAfterViewInit() {
     const boxes = {
@@ -152,6 +157,21 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
     // this.data = data;
   }
 
+  getFileNames(dataMap: any): Set<string> {
+    let fileNames: Set<string> = new Set();
+
+    for (const key in dataMap) {
+      const value = dataMap[key];
+
+      // Kiểm tra cả key và status
+      if (value.type === 'file' && value.name.endsWith('.html')) {
+        fileNames.add(key);
+      }
+    }
+
+    return fileNames;
+  }
+
  async getData(project_id: any){
   }
 
@@ -164,6 +184,7 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
      tree[part] = {
        ...node,
        name: part,
+       input: false,
        subfolders: {},
        files: []
      };
