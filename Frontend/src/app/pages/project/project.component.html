@@ -1,17 +1,17 @@
-<div class="container-project"  > 
+<div class="container-project">
     <!--  -->
     <div class="header-project" *ngIf="data">
         <app-header-project [data]="data" (dataChange)="onDataChange($event)"></app-header-project>
     </div>
 
-    <div class="body-project" >
+    <div class="body-project">
         <div #box1 class="folder-tree-project content-box top left">
             <div *ngIf="data" style="width:100%;height:100%">
                 <app-folder-tree [data]="data" (dataChange)="onDataChange($event)" style="   height: 100%;
                 display: grid;"></app-folder-tree>
             </div>
 
-                <div class="resizer vertical project-resizer-vertical"></div>
+            <div class="resizer vertical project-resizer-vertical"></div>
 
         </div>
 
@@ -36,7 +36,7 @@
     <div class="footer-project" *ngIf="data">
         <app-footer-project [data]="data" (dataChange)="onDataChange($event)"></app-footer-project>
     </div>
-<!-- 
+    <!-- 
     <div id="day-la-tinh-nang" [hidden]="true" (click)="dayLaTinhNang()">
 
     </div> -->

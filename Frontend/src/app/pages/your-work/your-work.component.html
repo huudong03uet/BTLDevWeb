@@ -1,4 +1,3 @@
-
 <div class="full-page">
     <div class="app-sidebar-component">
         <app-sidebar></app-sidebar>
@@ -11,7 +10,7 @@
             <div class="app-body-home-component">
                 <app-body-following-trending></app-body-following-trending>
             </div>
-<!-- 
+            <!-- 
             <div class="app-body-your-work-component">
                 <app-content-grid-code *ngFor="let dataItem of data" [pen_id]="dataItem"></app-content-grid-code>
             </div> -->
@@ -21,24 +20,27 @@
                         <button class="home-your-work-button pens-button" (click)="linkToYourWorkPens()">Pens</button>
                     </li>
                     <li>
-                        <button class="home-your-work-button collections-button" (click)="linkToYourWorkCollections()">Collections</button>
+                        <button class="home-your-work-button collections-button"
+                            (click)="linkToYourWorkCollections()">Collections</button>
                     </li>
                     <li>
-                        <button class="home-your-work-button projects-button" (click)="linkToYourWorkProjects()">Projects</button>
+                        <button class="home-your-work-button projects-button"
+                            (click)="linkToYourWorkProjects()">Projects</button>
                     </li>
                     <li>
-                        <button class="home-your-work-button deleted-button" (click)="linkToYourWorkDeleted()">Deleted</button>
+                        <button class="home-your-work-button deleted-button"
+                            (click)="linkToYourWorkDeleted()">Deleted</button>
                     </li>
-    
+
                 </ul>
             </nav>
             <router-outlet></router-outlet>
-            
+
         </div>
         <div class="app-footer-component">
             <app-footer></app-footer>
         </div>
     </div>
-    
+
 
 </div>

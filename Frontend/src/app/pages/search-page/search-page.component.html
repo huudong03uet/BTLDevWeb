@@ -30,24 +30,22 @@
                             </path>
                         </svg>Pens</span></a>
                 <a id="collection-button" (click)="clickButton('collection')">
-                    <span data-has-icon="true"><svg
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                        class="SearchControlsType_icon-ZKqgb">
-                        <rect y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect>
-                        <rect x="10.36" y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect>
-                        <rect width="9.64" height="9.64" rx="1" ry="1"></rect>
-                        <rect x="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect>
-                    </svg>Collections</span>
+                    <span data-has-icon="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                            class="SearchControlsType_icon-ZKqgb">
+                            <rect y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect>
+                            <rect x="10.36" y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect>
+                            <rect width="9.64" height="9.64" rx="1" ry="1"></rect>
+                            <rect x="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect>
+                        </svg>Collections</span>
                 </a>
                 <a id="project-button" (click)="clickButton('project')">
-                    
-                        <span data-has-icon="true"><svg
-                            viewBox="0 0 20 20" class="SearchControlsType_icon-ZKqgb">
+
+                    <span data-has-icon="true"><svg viewBox="0 0 20 20" class="SearchControlsType_icon-ZKqgb">
                             <path
                                 d="M7 .995C7 .445 7.447 0 7.999 0H19c.552 0 .999.456.999.995v8.01c0 .55-.447.995-.999.995H8C7.447 10 7 9.544 7 9.005V.995Zm0 11.003c0-.551.447-.998.999-.998H19c.552 0 .999.446.999.998v7.004c0 .551-.447.998-.999.998H8A.998.998 0 0 1 7 19.002v-7.004ZM0 .992C0 .444.451 0 .99 0h4.02c.546 0 .99.455.99.992v18.016a.996.996 0 0 1-.99.992H.99a.999.999 0 0 1-.99-.992V.992Z">
                             </path>
                         </svg>Projects</span>
-                    </a>
+                </a>
             </div>
         </div>
 
@@ -56,8 +54,10 @@
             <app-list-item-grid-code *ngIf="type=='pen'" [pen_ids]="pen_ids"></app-list-item-grid-code>
             <!-- <app-list-item-grid-collection *ngIf="type=='collection'" [collection]="collection_ids"></app-list-item-grid-collection> -->
 
-            <app-list-item-grid-collection *ngIf="type=='collection'" [collection_ids]="collection_ids"></app-list-item-grid-collection>            
-            <app-list-item-grid-project *ngIf="type=='project'" [project_ids]="project_ids"></app-list-item-grid-project>
+            <app-list-item-grid-collection *ngIf="type=='collection'"
+                [collection_ids]="collection_ids"></app-list-item-grid-collection>
+            <app-list-item-grid-project *ngIf="type=='project'"
+                [project_ids]="project_ids"></app-list-item-grid-project>
 
         </div>
         <div class="app-footer-component">

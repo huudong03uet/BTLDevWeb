@@ -245,7 +245,7 @@ import { ToastrModule } from 'ngx-toastr';
       { path: "your-work", component: YourWorkComponent },
       { path: "project/:id", component: ProjectComponent },
       { path: "project/", component: ProjectComponent },
-      {path: "search-page", component: SearchPageComponent},
+      { path: "search-page", component: SearchPageComponent },
       {
         path: "profile", component: ProfileComponent, children: [
           { path: "", redirectTo: "pens", pathMatch: "full" },
@@ -314,9 +314,11 @@ import { ToastrModule } from 'ngx-toastr';
           { path: "", redirectTo: "pens", pathMatch: "full" },
           { path: "pens", component: YourWorkPensComponent },
           { path: "collections", component: YourWorkCollectionsComponent },
-          { path: "projects", component: YourWorkProjectsComponent, children: [
-            // { path: '/:id', component: ProjectCommentInterfaceComponent, data: { title: 'Comment cua project - Nhom XXX' }, },
-          ]},
+          {
+            path: "projects", component: YourWorkProjectsComponent, children: [
+              // { path: '/:id', component: ProjectCommentInterfaceComponent, data: { title: 'Comment cua project - Nhom XXX' }, },
+            ]
+          },
           { path: "deleted", component: YourWorkDeletedComponent },
         ]
       },

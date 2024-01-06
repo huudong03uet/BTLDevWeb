@@ -89,5 +89,5 @@ export class UserDataService {
         console.error('Error deleting account:', error);
         throw error;
       });
-  }  
+  }
 }

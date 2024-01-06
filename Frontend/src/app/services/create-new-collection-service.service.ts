@@ -7,7 +7,7 @@ export class CreateNewCollectionServiceService {
     private componentFactoryResolver: ComponentFactoryResolver,
     private appRef: ApplicationRef,
     private injector: Injector
-  ) {}
+  ) { }
 
   appendComponentToBody() {
     // 1. Create a component reference
