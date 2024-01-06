@@ -59,11 +59,11 @@ export class CommentAreaComponent implements OnInit, OnChanges {
 
 
     axios.get(apiUrl).then((response) => {
-      let x = response.data.comments;
+      console.log(response.data);
+      let xx = response.data.comments;
       this.data_loved = response.data.numlike;
       this.data_view = response.data.numview;
-      this,this.data_comment = response.data.numcomment;
-      this.data_comment = x((comment: any) => ({
+      this.data_comment = xx.map((comment: any) => ({
         ...comment,
         user: {
           ...comment.user,
@@ -80,7 +80,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   onSubmit() {
     let apiUrl = this.myService.getApiHost() + `/comment/create?id=${this.id}&type=${this.type}&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&reply=${this.reply}`;
 
-
+    console.log(apiUrl);
     axios.post(apiUrl).then((response) => {
       let x = response.data;
 
