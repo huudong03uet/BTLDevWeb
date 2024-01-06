@@ -3,6 +3,7 @@
   width: 100%;
   height: 100%;
   background-color: hsl(222.86deg 13.73% 20%);
+
   .no-file-selected {
     overflow: auto;
     width: 100%;
@@ -15,6 +16,7 @@
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     align-items: center;
+
     h2 {
       line-height: 1.2;
       margin: 0 0 10px;
@@ -33,6 +35,7 @@
 
   .has-file-selected {
     height: 100%;
+
     .screen-code-header {
       height: 45px;
 
@@ -51,9 +54,10 @@
 
 
           .file-container {
-          opacity: 0.3333;
+            opacity: 0.3333;
 
             border-top: 3px solid transparent;
+
             span {
               color: white;
               padding: 10px 0 10px 20px;
@@ -67,6 +71,7 @@
               -ms-user-select: none;
               user-select: none;
             }
+
             button {
               width: 11px;
               height: 11px;
@@ -87,11 +92,12 @@
                 position: relative;
                 top: -2px;
 
-            
+
               }
 
               &:hover {
                 opacity: 1;
+
                 svg {
                   opacity: 1;
                 }
@@ -113,6 +119,7 @@
 
           .active {
             opacity: 1 !important;
+
             span {
               color: #fff;
             }

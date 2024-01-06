@@ -2,19 +2,20 @@
     margin: -1.5% 5.5% 0 5.5%;
     position: relative;
     padding-top: 10px;
-    border-top: 2px hsl( 358.46deg 100% 61.76% ) solid;
+    border-top: 2px hsl(358.46deg 100% 61.76%) solid;
 
 
     display: grid;
     grid-template-columns: 1fr 225px;
     grid-gap: 20px;
+
     .list-delete {
-        
+
         .item-delete {
             padding: 10px 0px 5px 0px;
             position: relative;
-        display: flex;
-        border-bottom: hsl( 222.86deg 13.73% 20% ) 1px solid;
+            display: flex;
+            border-bottom: hsl(222.86deg 13.73% 20%) 1px solid;
 
             h2 {
                 color: white;
@@ -28,20 +29,21 @@
                 text-overflow: ellipsis;
                 display: flex;
                 align-items: center;
+
                 svg {
                     width: 1em;
                     height: 1em;
-                    fill: hsl( 226.15deg 12.04% 57.65% );
+                    fill: hsl(226.15deg 12.04% 57.65%);
                     margin-inline-end: .5rem;
                 }
             }
-            
+
 
         }
 
         button {
             color: white;
-            background-color: hsl( 227.37deg 12.26% 30.39% );
+            background-color: hsl(227.37deg 12.26% 30.39%);
             -webkit-appearance: none;
             display: inline-flex;
             align-items: center;
@@ -53,8 +55,8 @@
             line-height: 1.2;
             white-space: nowrap;
             text-overflow: ellipsis;
-            text-decoration: none!important;
-            font-weight: 400!important;
+            text-decoration: none !important;
+            font-weight: 400 !important;
             cursor: pointer;
             padding: 3px 7px;
             margin: 0 4px 0 0;
@@ -73,17 +75,19 @@
             cursor: pointer;
             right: 0;
             position: absolute;
+
             .restore-button:hover {
-                background-color: hsl( 139.41deg 58.62% 54.51% );
+                background-color: hsl(139.41deg 58.62% 54.51%);
                 color: black;
                 transition: .2s ease;
             }
+
             .delete-button:hover {
                 background-color: red;
                 transition: .2s ease;
             }
-        
-        
+
+
         }
     }
 
@@ -91,7 +95,7 @@
         display: block;
         padding: 20px;
         position: relative;
-        background: hsl( 222.86deg 13.73% 20% );
+        background: hsl(222.86deg 13.73% 20%);
         border-radius: 6px;
         margin: 10px 0 20px;
         height: fit-content;
@@ -100,13 +104,13 @@
             color: white;
             font-size: 1.4rem;
             font-weight: 700;
-            border-bottom: 3px solid hsla( 0deg,0%,100%,0.1);
-        padding-bottom: 10px;
-        position: relative;
+            border-bottom: 3px solid hsla(0deg, 0%, 100%, 0.1);
+            padding-bottom: 10px;
+            position: relative;
         }
 
         p {
-            color: hsl( 225.88deg 13.39% 75.1% )
+            color: hsl(225.88deg 13.39% 75.1%)
         }
     }
 }
