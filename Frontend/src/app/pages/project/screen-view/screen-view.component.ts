@@ -34,6 +34,14 @@ export class ScreenViewComponent implements OnInit {
       if (this.lastContent !== this.getContentByKey(this.screen_choose)) {
         this.createIframe();
       }
+      if (!this.data.key_file_html.has(this.screen_choose)) {
+        if(this.data.fileChoose) {
+          this.screen_choose = this.data.fileChoose;
+        } else {
+          this.screen_choose = null;
+        }
+        this.createIframe();
+      } 
     }
   }
 
