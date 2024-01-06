@@ -2,39 +2,34 @@
   background: hsl(227.37deg 12.26% 30.39%);
   position: relative;
   height: 88vh;
+
   .header-project {
     width: 100%;
     height: 65px;
   }
+
   .body-project {
     display: flex;
     width: 100%;
     height: 100%;
     overflow-y: hidden;
     overflow-x: hidden;
+
     .folder-tree-project {
-    //   width: 20%;
       height: 100%;
+
       .project-resizer-vertical {
         width: 5px;
         background: hsl(227.37deg 12.26% 30.39%);
         border-bottom: 1px solid hsl(222.86deg 13.73% 20%);
-        // position: relative;
       }
     }
 
-
-    // .screen-project {
-    //   width: 80%;
-    //   border: 1px solid #e8e8e8;
-    //   height: 100%;
-
-      .project-resizer-horizontal {
-        height: 26px;
-        text-align: center;
-        background-color: transparent;
-      }
-    // }
+    .project-resizer-horizontal {
+      height: 26px;
+      text-align: center;
+      background-color: transparent;
+    }
   }
 
   .footer-project {
@@ -46,82 +41,79 @@
 }
 
 .body-project {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    background-color: #bbb;
-  }
-  
-  .content-box {
-    position: absolute;
-    box-sizing: border-box;
-    height: 50%;
-    color: white;
-    font-size: 2em;
-    font-family: monospace;
-    background-color: #777;
-    min-height: 29px;
-  }
-  
-  .body-project .content-box:first-child {
-    height: 100%;
-    width: 20%;
-    max-width: 50%;
-  }
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: #bbb;
+}
 
-  .body-project .content-box:nth-child(2) {
-    max-height: 54%;
-    width: 80%;
-  }
-  
-  .body-project .content-box:nth-child(3) {
-    max-height: calc(100% - 36px);
-    width: 80%;
-  }
-  
-//   .header {
-//     width: 100%;
-//     height: 30px;
-//     background-color: #575956;
-//     text-align: center;
-//   }
-  
-  .resizer {
-    position: absolute;
-    z-index: 1000;
-  }
-  .vertical {
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 5px;
-  }
-  .horizontal {
-    background-color: #444857;
-    right: 0;
-    top: 0;
-    height: 5px;
-    width: 100%;
-  }
-  .vertical:hover {
-    cursor: e-resize;
-  }
-  .horizontal:hover {
-    cursor: n-resize;
-  }
-  
-  .top {
-    top: 0;
-  }
-  
-  .bottom {
-    bottom: 0;
-  }
-  
-  .left {
-    left: 0;
-  }
-  
-  .right {
-    right: 0;
-  }
+.content-box {
+  position: absolute;
+  box-sizing: border-box;
+  height: 50%;
+  color: white;
+  font-size: 2em;
+  font-family: monospace;
+  background-color: #777;
+  min-height: 29px;
+}
+
+.body-project .content-box:first-child {
+  height: 100%;
+  width: 20%;
+  max-width: 50%;
+}
+
+.body-project .content-box:nth-child(2) {
+  max-height: 54%;
+  width: 80%;
+}
+
+.body-project .content-box:nth-child(3) {
+  max-height: calc(100% - 36px);
+  width: 80%;
+}
+
+.resizer {
+  position: absolute;
+  z-index: 1000;
+}
+
+.vertical {
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 5px;
+}
+
+.horizontal {
+  background-color: #444857;
+  right: 0;
+  top: 0;
+  height: 5px;
+  width: 100%;
+}
+
+.vertical:hover {
+  cursor: e-resize;
+}
+
+.horizontal:hover {
+  cursor: n-resize;
+}
+
+.top {
+  top: 0;
+}
+
+.bottom {
+  bottom: 0;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
