@@ -98,7 +98,7 @@ export class ListCollectionToAddPenComponent implements OnInit {
 
       // Check the response and perform any additional actions if needed
       if (response.data.code === 200) {
-        this.toastr.success('Pen added to collection successfully!', 'Success');
+        this.toastr.success('Pen added to collection successfully!');
         // Reload the current route to reflect the changes
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
@@ -117,15 +117,15 @@ export class ListCollectionToAddPenComponent implements OnInit {
       const response = await axios.post(apiUrl, { collection_id, pen_id: this.pen_id });
 
       if (response.data.code === 200) {
-        this.toastr.success('Pen removed from collection successfully!', 'Success');
+        this.toastr.success('Pen removed from collection successfully!');
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
         this.router.navigate([this.router.url]);
       } else {
-        this.toastr.success('Pen removed from collection successfully!', 'Success');
+        this.toastr.error('Error removed collection to collection: ' + response.data.error, 'Error');
       }
     } catch (error) {
-      this.toastr.success('Pen removed from collection successfully!', 'Success');
+      this.toastr.error('Error removed collection to collection: ' + error, 'Error');
     }
   }
 
