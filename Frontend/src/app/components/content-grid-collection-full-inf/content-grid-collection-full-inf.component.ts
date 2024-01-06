@@ -23,7 +23,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   collection_id: any;
   data_collection = {
     "like": 0,
-    "name": "Chưa đặt tên",
+    "name": "Untitled",
     "comment": 0,
     "view": 0,
   }
@@ -47,7 +47,6 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
     axios.get(apiUrl)
       .then((response) => {
         data_pen = response.data;
-        console.log("data_pen: ", data_pen)
         const iframeContent = `
         <html>
           <head>
@@ -91,8 +90,6 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('abc', this.collection)
-
     if (!this.collection.collection_id) {
       console.error('Collection ID is missing.');
       return;
@@ -104,8 +101,7 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
       (response: any) => {
         this.pen_ids = response.pen_ids || [];
         this.collectionName = response.collectionName || "";
-        console.log(this.collectionName);
-        console.log("this.pen_ids: ", this.pen_ids)
+
         for (let i = 0; i < this.pen_ids.length && i < 4; i++) {
           this.get_data_pen(this.pen_ids[i], i);
         }
@@ -227,7 +223,6 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
 
       axios.post(url, data)
         .then(response => {
-          console.log(response);
           this.router.routeReuseStrategy.shouldReuseRoute = () => false;
           this.router.onSameUrlNavigation = 'reload';
           this.router.navigate([this.router.url]);

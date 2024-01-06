@@ -32,7 +32,8 @@ async function savePen(req, res) {
       await existingPen.save();
 
       return res.status(200).json({ code: 200, pen: existingPen, message: "cập nhật pen thành công" });
-    } else {
+    } 
+    else if (data.pen.pen_id == null) {
       const newPen = await Pen.create({
         html_code: data.pen.html_code,
         js_code: data.pen.js_code,
@@ -43,15 +44,28 @@ async function savePen(req, res) {
         deleted: data.pen.deleted,
         user_id: user.user_id,
       });
-      return res.status(201).json({ code: 200, pen: newPen, message: "tạo pen mới thành công" });
+      return res.status(201).json({ code: 201, pen: newPen, message: "tạo pen mới thành công" });
+    }    
+    
+    else {
+      const newPen = await Pen.create({
+        html_code: data.pen.html_code,
+        js_code: data.pen.js_code,
+        css_code: data.pen.css_code,
+        name: data.pen.name,
+        type_css: data.pen.type_css,
+        status: data.pen.status,
+        deleted: data.pen.deleted,
+        user_id: user.user_id,
+      });
+      return res.status(201).json({ code: 202, pen: newPen, message: "clone pen thành công" });
     }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Lỗi trong quá trình tạo hoặc cập nhật pen' });
   }
 }
-
-async function createNewPen(req, res) {
+async function createFromForkPen(req, res) {
   const {
     html_code,
     js_code,
@@ -63,7 +77,7 @@ async function createNewPen(req, res) {
 
   if (user_id == '') res.status(404).json('loi');
 
-  console.log('abc', user_id)
+  console.log('abc', name)
 
   try {
 
@@ -71,7 +85,7 @@ async function createNewPen(req, res) {
       html_code: html_code,
       js_code: js_code,
       css_code: css_code,
-      name: name || 'Untitled',
+      name: name + ' - copy' || 'Untitled',
       type_css: type_css || 'css',
       status: "public",
       deleted: false,
@@ -567,5 +581,5 @@ module.exports = {
   togglePenStatus,
 
   _getPenByUserID,
-  createNewPen,
+  createFromForkPen,
 };

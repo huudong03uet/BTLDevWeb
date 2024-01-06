@@ -213,7 +213,6 @@ export class ContentGridProjectComponent implements OnInit {
 
     axios.get(url)
       .then((response) => {
-        console.log(response);
 
         if (response.data.liked) {
           this.data.like++;
@@ -292,7 +291,6 @@ export class ContentGridProjectComponent implements OnInit {
 
       axios.post(url, data)
         .then(response => {
-          console.log(response);
           this.router.routeReuseStrategy.shouldReuseRoute = () => false;
           this.router.onSameUrlNavigation = 'reload';
           this.router.navigate([this.router.url]);

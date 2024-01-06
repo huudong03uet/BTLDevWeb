@@ -25,7 +25,7 @@ export class ContentGridCollectionComponent implements OnInit {
   userName: any;
   data_collection = {
     "like": 0,
-    "name": "Chưa đặt tên",
+    "name": "Untitled",
     "comment": 0,
     "view": 0,
   }
@@ -112,7 +112,6 @@ export class ContentGridCollectionComponent implements OnInit {
     }
     this.collection_id = this.collection.collection_id;
 
-    // console.log("abc def", this.collection_id)
     const apiUrl = this.myService.getApiHost() + `/your-work/collections/${this.collection_id}/pens`;
 
     this.http.get(apiUrl).subscribe(

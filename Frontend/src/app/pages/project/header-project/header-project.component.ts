@@ -59,30 +59,23 @@ export class HeaderProjectComponent implements OnInit {
     this.isEditingTitle = false;
   }
 
-  saveData(): void {
+  toggleSave(): void {
     // console.log("header", this.webCodeData)
+    // post api to save the code /project/saveProject
+    const url = this.myService.getApiHost() + `/project/saveProject`;
+    console.log(this.data)
+    axios.post(url, {
+      data: this.data,
+    })
+      .then((response) => {
+        console.log(response);
+        alert("Saved Successfully")
+      }, (error) => {
+        console.log(error);
+      });
   }
 
-  async toggleSave() {
-    // console.log("header", this.webCodeData)
-    // if(this.webCodeData.user_id == null) {
-    //   this.router.navigate(['/login']);
-    //   return;
-    // }
-    // try {
-    //   const response = await axios.post(this.myService.getApiHost() + '/pen/createOrUpdatePen', {
-    //     user_id: this.webCodeData.user_id, 
-    //     pen_id: this.webCodeData.pen_id, 
-    //     html_code: this.webCodeData.html, 
-    //     css_code: this.webCodeData.css, 
-    //     js_code: this.webCodeData.js, 
-    //     name: null
-    //   });
-    //   this.myPen = response.data.pen;
-    // } catch (error) {
-    //   console.error('Error save pen:', error);
-    // }
-  }
+
 
   
 

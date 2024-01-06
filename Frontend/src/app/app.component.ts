@@ -18,9 +18,9 @@ export class AppComponent {
       }
     });
   }
-  
+
   private getRouteData(state: any, key: string): string | null {
     return null || state.snapshot._root.children[0].value.data.title
   }
-  
+
 }

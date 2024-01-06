@@ -24,7 +24,11 @@ export class PenHeaderComponent implements OnInit {
     this.user = this.userData.getUserData();
   }
 
+  @Input() check: boolean = false;
+
   @Input() data: any;
+  dataOld: any;
+
   @Output() dataChange = new EventEmitter();
   @Output() saveData = new EventEmitter()
   @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
@@ -45,7 +49,8 @@ export class PenHeaderComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    // clone this.data
+    this.dataOld = JSON.parse(JSON.stringify(this.data));
     // set toasts position
     this.toastr.toastrConfig.positionClass = 'toast-top-center';
     // set height for toast
@@ -102,7 +107,6 @@ export class PenHeaderComponent implements OnInit {
     let link = this.myService.getWebHost() + `/pen/${this.data.pen.pen_id}`
     this.clipboard.copy(link);
     this.toastr.success('Link copied to clipboard', '');
-
     // this.clipboard.copy('Alphonso');
     
   }
@@ -157,24 +161,32 @@ export class PenHeaderComponent implements OnInit {
   }
 
   toggleFork() {
-    const apiUrl = this.myService.getApiHost() + '/pen/createNewpen';
+    console.log("1234", this.dataOld)
+    const apiUrl = this.myService.getApiHost() + '/pen/createFromForkPen';
     
     const requestData = {
-      html_code: this.data.pen.html_code,
-      js_code: this.data.pen.js_code,
-      css_code: this.data.pen.css_code,
-      type_css: this.data.pen.type_css,
-      name: this.data.pen.name,
+      html_code: this.dataOld.pen.html_code,
+      js_code: this.dataOld.pen.js_code,
+      css_code: this.dataOld.pen.css_code,
+      type_css: this.dataOld.pen.type_css,
+      name: this.dataOld.pen.name,
       user_id: this.user.user_id
     };
   
     axios.post(apiUrl, requestData)
       .then((response) => {
-        console.log(response);
-        this.toastr.success('Fork successfully');
+        // console.log(response);
+        // alert('done');
+        this.toastr.success('Forked successfully', '');
+
+
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([`/pen/${response.data.pen_id}`]);
       })
       .catch((error) => {
-        this.toastr.error('Error:', error);
+        console.error('Error:', error);
+        this.toastr.error('Forked failed', '');
       });
   }
 

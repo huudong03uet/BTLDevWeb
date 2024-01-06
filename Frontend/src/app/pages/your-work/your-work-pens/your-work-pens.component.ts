@@ -23,9 +23,9 @@ export class YourWorkPensComponent {
 
   sortByOptions() {
     let pen_full_searchFor = this.pen_full.filter((pen: { name: any; }) => { 
-      // if name != string, set name = "Chưa đặt tên"
+      // if name != string, set name = "Untitled"
       if (typeof pen.name !== 'string') {
-        pen.name = "Chưa đặt tên"
+        pen.name = "Untitled"
       }
       return pen.name.toLowerCase().includes(this.searchFor.toLowerCase())
     });

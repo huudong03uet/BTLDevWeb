@@ -2,6 +2,7 @@
 import { SidebarComponent } from './../../../components/sidebar/sidebar.component';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, Renderer2, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { isBuffer } from 'lodash';
 import { ProjectFileService } from 'src/app/services/project-file.service';
 @Component({
   selector: 'app-folder-tree',
@@ -29,6 +30,7 @@ export class FolderTreeComponent implements OnChanges {
     if (changes['data']) {
       // Xử lý khi dữ liệu từ cha thay đổi
       console.log('Data from parent changed:', this.data);
+      console.log(this.data.data_map)
       this.run();
       // Thực hiện các hành động khác nếu cần
     }
@@ -74,6 +76,80 @@ export class FolderTreeComponent implements OnChanges {
 
 
 
+
+
+  changeData() {
+    this.data.data_source.file = []
+    this.data.data_source.folder = []
+    console.log(this.data.data_map);
+    for (let [key, value] of Object.entries(this.data.data_map)) {
+      if (typeof value === 'object' && value !== null) {
+        // Kiểm tra kiểu của value
+        if ((value as any).type === "folder") {
+          this.data.data_source.folder.push(value);
+        } else {
+          this.data.data_source.file.push(value);
+        }
+      }
+    }
+    
+    
+    
+    this.sortData(this.data.data_source);
+    let root = {
+      name: 'root',
+      subfolders: {},
+      files: [],
+      input: false,
+      status: 'open'
+    };
+    
+    this.data.data_source.folder.forEach((folder: any) => {
+      let path = folder.name.split('/');
+      let path2 = folder.name.split('/');
+      let folderName = path.pop();
+
+      let folderNode = {
+        name: folderName,
+        key: folder.name,
+        type: 'folder',
+        input: false,
+        status: 'close'
+
+      }
+      this.buildFolderTree(path2, folderNode, root.subfolders);
+    });
+    
+    this.data.data_source.file.forEach((file: any) => {
+      let path = file.name.split('/');
+      let path2 = file.name.split('/');
+      let fileName = path.pop();
+      let fileNode = {
+        name: fileName,
+        key: file.name,
+        input: false,
+        type: 'file',
+      };
+      this.addFileToTree(path2, fileNode, root);
+
+
+    });
+    this.data.data_key = root;
+    console.log(this.data, 111111111231243)
+  }
+
+sortData(data: any) {
+    // Sort folders
+  data.folder.sort((a: any, b: any) => a.name.localeCompare(b.name));
+
+  // Sort files
+  data.file.sort((a: any, b: any) => a.name.localeCompare(b.name));    
+}
+
+
+
+
+
   ngOnInit(): void {
 
   }
@@ -90,28 +166,116 @@ export class FolderTreeComponent implements OnChanges {
       let folder = obj.subfolders[folderName];
       let li = this.renderer.createElement('li');
       this.renderer.addClass(li, 'folder');
-      if (folder.status == 'open') {
-        this.renderer.addClass(li, 'open-folder');
-      this.renderer.setProperty(li, 'innerHTML', this.renderSvg('folder') + `<span>${folder.name}</span>`);
+    
+      if (folder.input) {
+        // Tạo một thẻ input
+        let parentFolder = ''
+        let lastSlashIndex = folder.key.lastIndexOf('/');
+        if(lastSlashIndex != -1) {
+          parentFolder = folder.key.substring(0, lastSlashIndex);
+        }
 
+
+        let inputElement = this.renderer.createElement('input');
+        this.renderer.setProperty(inputElement, 'value', folder.name);
+        this.renderer.listen('document', 'mousedown', (event) => { 
+          if (event.target !== inputElement) {
+            folder.input = false;  
+            console.log(folder.key, 123321)
+            if(inputElement.value !== '' && inputElement.value !== folder.key) {
+              folder.key = (parentFolder ? parentFolder + '/' : '') + inputElement.value;
+              console.log(folder.key)
+              console.log((parentFolder ? parentFolder + '/' : '') + folder.name)
+              console.log(this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name]); 
+  
+              this.data.data_map[folder.key] = this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
+              this.data.data_map[folder.key].name = folder.key; 
+              if((parentFolder ? parentFolder + '/' : '') + folder.name != folder.key) {
+                delete this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
+              }
+              // this.changeData();
+              this.deleteFolderInRoot((parentFolder ? parentFolder + '/' : '') + folder.name);
+              // create new folder
+              let path = folder.key.split('/');
+              let path2 = folder.key.split('/');
+              let folderName = path.pop();
+              let folderNode = {
+                name: folderName,
+                key: folder.key,
+                type: 'folder',
+                input: false,
+                status: 'close'
+              }
+              this.buildFolderTree(path2, folderNode, this.data.data_key.subfolders);
+  
+              console.log("testxys", this.data.data_key)
+  
+              this.data.sidebarChoose = folder.key;
+            }
+            this.dataChange.emit(this.data);    
+          }
+        
+
+        });
+        this.renderer.listen(inputElement, 'keydown', ($event) => {
+          if ($event.key === 'Enter') {
+            folder.input = false;  
+            console.log(folder.key, 123321)
+            if(inputElement.value !== '' && inputElement.value !== folder.key) {
+              folder.key = (parentFolder ? parentFolder + '/' : '') + inputElement.value;
+              console.log(folder.key)
+              console.log((parentFolder ? parentFolder + '/' : '') + folder.name)
+              console.log(this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name]); 
+  
+              this.data.data_map[folder.key] = this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
+              this.data.data_map[folder.key].name = folder.key; 
+              if((parentFolder ? parentFolder + '/' : '') + folder.name != folder.key) {
+                delete this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
+              }
+              // this.changeData();
+              this.deleteFolderInRoot((parentFolder ? parentFolder + '/' : '') + folder.name);
+              // create new folder
+              let path = folder.key.split('/');
+              let path2 = folder.key.split('/');
+              let folderName = path.pop();
+              let folderNode = {
+                name: folderName,
+                key: folder.key,
+                type: 'folder',
+                input: false,
+                status: 'close'
+              }
+              this.buildFolderTree(path2, folderNode, this.data.data_key.subfolders);
+  
+              console.log("testxys", this.data.data_key)
+  
+              this.data.sidebarChoose = folder.key;
+            }
+            this.dataChange.emit(this.data);  
+          }
+          });
+        this.renderer.appendChild(li, inputElement);
+        setTimeout(() => inputElement.focus(), 0);
       } else {
-        this.renderer.addClass(li, 'close-folder');
-      this.renderer.setProperty(li, 'innerHTML', this.renderSvg('folder-close') + `<span>${folder.name}</span>`);
-
+        if (folder.status == 'open') {
+          this.renderer.addClass(li, 'open-folder');
+          this.renderer.setProperty(li, 'innerHTML', this.renderSvg('folder') + `<span>${folder.name}</span>`);
+        } else {
+          this.renderer.addClass(li, 'close-folder');
+          this.renderer.setProperty(li, 'innerHTML', this.renderSvg('folder-close') + `<span>${folder.name}</span>`);
+        }
+        this.renderer.listen(li, 'click', ($event) => { 
+          $event.stopPropagation();
+          this.folderOpen(folder) 
+        });
       }
-      this.renderer.listen(li, 'click', ($event) => { 
-        $event.stopPropagation();
-        this.folderOpen(folder) 
-      });
+    
       if (folder.key == this.data.sidebarChoose) {
         this.renderer.setStyle(li, 'color', 'red');
-        // this.renderer.setStyle(li, 'opacity', '1')
-        // this.renderer.setStyle(li, 'background-color', '#34363E')
       }
       console.log(li, 123)
       if (folder.status == 'open') {
         let childUl = this.renderTree(folder);
-
         this.renderer.appendChild(li, childUl);
       }
       this.renderer.appendChild(ul, li);
@@ -122,13 +286,77 @@ export class FolderTreeComponent implements OnChanges {
       let type = file.name.split('.').pop();
       let li = this.renderer.createElement('li');
       this.renderer.addClass(li, type);
-      this.renderer.setProperty(li, 'innerHTML', this.renderSvg(type) + `<span>${file.name}</span>`);
-      // this.renderer.listen(li, 'click', ($event) => this.fileOpen(file, $event));
-      this.renderer.listen(li, 'click', ($event) => {
-        $event.stopPropagation();
-        this.fileOpen(file, $event);
-      });
+    
+      if (file.input) {
+        let folder = ''
+        let lastSlashIndex = file.key.lastIndexOf('/');
+        if(lastSlashIndex != -1) {
+          folder = file.key.substring(0, lastSlashIndex);
+        } 
 
+        // Tạo một thẻ input
+        let inputElement = this.renderer.createElement('input');
+        this.renderer.setProperty(inputElement, 'value', file.name);
+        this.renderer.listen('document', 'mousedown', (event) => { 
+          if(event.target !== inputElement) {
+            file.input = false; 
+            if(inputElement.value !== '' && inputElement.value !== file.name) {
+              file.key = (folder ? folder + '/' : '') + inputElement.value;
+              console.log(file.key)
+              console.log(this.data.data_map[(folder ? folder + '/' : '') + file.name])
+              this.data.data_map[file.key] = this.data.data_map[(folder ? folder + '/' : '') + file.name];
+              this.data.data_map[file.key].name = file.key; 
+              if((folder ? folder + '/' : '') + file.name != file.key) {
+                delete this.data.data_map[(folder ? folder + '/' : '') + file.name];
+              }
+              file.name = inputElement.value;
+              this.data.fileChoose = file.key;
+              this.data.sidebarChoose = file.key;
+              let type = file.name.split('.').pop();
+              this.data.filesOpened.add(file.name);
+              if(type == 'html') {
+                this.data.key_file_html.add(file.name);
+              }
+              }  
+              this.dataChange.emit(this.data);  
+          }
+          });
+        this.renderer.listen(inputElement, 'keydown', ($event) => {
+          console.log($event.key);
+          if ($event.key === 'Enter') {
+            file.input = false; 
+            console.log(inputElement.value, )
+            if(inputElement.value !== '' && inputElement.value !== file.name) {
+              file.key = (folder ? folder + '/' : '') + inputElement.value;
+              console.log(file.key)
+              console.log(this.data.data_map[(folder ? folder + '/' : '') + file.name])
+              this.data.data_map[file.key] = this.data.data_map[(folder ? folder + '/' : '') + file.name];
+              this.data.data_map[file.key].name = file.key; 
+              if((folder ? folder + '/' : '') + file.name != file.key) {
+                delete this.data.data_map[(folder ? folder + '/' : '') + file.name];
+              }
+              file.name = inputElement.value;
+              this.data.fileChoose = file.key;
+              this.data.sidebarChoose = file.key;
+              let type = file.name.split('.').pop();
+              this.data.filesOpened.add(file.name);
+              if(type == 'html') {
+                this.data.key_file_html.add(file.name);
+              }
+              }  
+              this.dataChange.emit(this.data);
+            }
+        });
+        this.renderer.appendChild(li, inputElement);
+        setTimeout(() => inputElement.focus(), 0);
+      } else {
+        this.renderer.setProperty(li, 'innerHTML', this.renderSvg(type) + `<span>${file.name}</span>`);
+        this.renderer.listen(li, 'click', ($event) => {
+          $event.stopPropagation();
+          this.fileOpen(file, $event);
+        });
+      }
+    
       if (file.key == this.data.sidebarChoose) {
         this.renderer.setStyle(li, 'color', 'red');
         // this.renderer.setStyle(li, 'opacity', '1')
@@ -140,34 +368,119 @@ export class FolderTreeComponent implements OnChanges {
   }
 
 
-  buildFolderTree(path: any, node: any, tree: any) {
-    if (path.length === 0) return;
+  deleteFolderInRoot(pathToFolder: string, root: any = this.data.data_key) {
+    
+    // let root = {
+    //   name: 'root',
+    //   subfolders: {
+    //  folder1: {name: 'folder1', key: 'folder1', type: 'folder', input: false, status: 'open', …}
+    // folder2: {name: 'folder2', key: 'folder2', type: 'folder', input: false, status: 'open', …}
+    //},
+    //   files: [],
+    //   input: false,
+    //   status: 'open'
+    // };
 
-    let part = path.shift();
-
-    if (!tree[part]) {
-      tree[part] = {
-        ...node,
-        name: part,
-        subfolders: {},
-        files: []
-      };
+    //  need remove the item has the key = pathToFolder
+    let path = pathToFolder.split('/');
+    let name = path.pop();
+console.log("testttt", path, name, root)
+    for (let i = 0; i < path.length; i++) {
+      console.log("testttt", i, path[i], root.subfolders[path[i]])
+      root = root.subfolders[path[i]];
     }
-
-    this.buildFolderTree(path, node, tree[part].subfolders);
+    if (name){
+    console.log("testttt2", name, root.subfolders[name])
+    
+    delete root.subfolders[name];  
+    console.log("testttt3", root)
+    console.log("testttt4", this.data.data_key)
+   }
+   
   }
 
-  addFileToTree(path: any, file: any, tree: any) {
-    console.log(path)
-    let part = path.shift();
+  deleteFileInRoot(pathToFolder: string, name: string, root: any = this.data.data_key) {
+    if (pathToFolder == "") {
+      for (let i = 0; i < root.files.length; i++) {
+        if (root.files[i].name == name) {
+          root.files.splice(i, 1);
+          break;
+        }
+      }
+      return;
+    }
+    let path = pathToFolder.split('/');
 
-    if (path.length === 1) {
-      tree[part].files.push(file);
-    } else {
-      if (tree[part]) {
-        this.addFileToTree(path, file, tree[part].subfolders);
+    for (let i = 0; i < path.length; i++) {
+      root = root.subfolders[path[i]];
+    }
+    for (let i = 0; i < root.files.length; i++) {
+      if (root.files[i].name == name) {
+        root.files.splice(i, 1);
+        break;
       }
     }
+  }
+
+  onRemoveFileFolder() {
+    if (this.data.sidebarChoose) {
+      if (this.data.data_map[this.data.sidebarChoose].type === "file") {
+        let lastSlashIndex = this.data.sidebarChoose.lastIndexOf("/");
+
+        if (lastSlashIndex != -1) {
+          let folder = this.data.sidebarChoose.substring(0, lastSlashIndex);
+          let name = this.data.sidebarChoose.substring(lastSlashIndex + 1);
+          delete this.data.data_map[this.data.sidebarChoose];
+          this.deleteFileInRoot(folder, name);
+          this.data.sidebarChoose = folder;
+          this.data.fileChoose = folder;
+          this.dataChange.emit(this.data);
+        } else {
+          delete this.data.data_map[this.data.sidebarChoose];
+          this.deleteFileInRoot("", this.data.sidebarChoose);
+          this.data.sidebarChoose = "";
+          this.data.fileChoose = "";
+          this.dataChange.emit(this.data);
+        }
+      } else {
+        let folder = this.data.sidebarChoose;
+        delete this.data.data_map[this.data.sidebarChoose];
+        this.deleteFolderInRoot(folder);
+        this.data.sidebarChoose = folder;
+        this.data.fileChoose = folder;
+        this.dataChange.emit(this.data);
+      }
+    }
+  }
+ 
+
+  buildFolderTree(path: any, node: any, tree: any) {
+    if (path.length === 0) return;
+  
+   let part = path.shift();
+  console.log(part, tree[part])
+   if (!tree[part]) {
+     tree[part] = {
+       ...node,
+       name: part,
+       subfolders: {},
+       files: []
+     };
+   }
+  
+   this.buildFolderTree(path, node, tree[part].subfolders);
+  }
+  
+  addFileToTree(path: any, file: any, tree: any) {
+   let part = path.shift();
+   console.log(path)
+   if(path.length === 0) {
+    console.log(tree.files.push(file))
+   }
+  else {
+     
+      this.addFileToTree(path, file, tree.subfolders[part]);
+   }
   }
 
   renderSvg(obj: string) {
@@ -210,7 +523,7 @@ export class FolderTreeComponent implements OnChanges {
   choose_search(id: String) {
     console.log(this.data.data_map)
     if (this.data.data_map.type == 'file') {
-
+      
     }
   }
 
@@ -265,7 +578,89 @@ export class FolderTreeComponent implements OnChanges {
     }
   }
 
+  openFolder(key: any, root: any = this.data.data_key): void {
+    let path = key.split('/');
+    for(let i = 0; i < path.length; i++) {
+      root = root.subfolders[path[i]];
+      root.status = "open";
+    }
+  }
 
+
+  onCreateFile() {
+    this.openFolder(this.data.sidebarChoose);
+    
+    let folder = ''
+    let baseName = 'new_file';
+    let extension = '.html';
+    let newFile = {key: '', name: '', type: 'file', input: true};
+    let name;
+    let i = 0;
+    
+    if(this.data.sidebarChoose) {
+      if(this.data.data_map[this.data.sidebarChoose].type === "file") {
+        let lastSlashIndex = this.data.sidebarChoose.lastIndexOf("/");
+        if(lastSlashIndex != -1) {
+          folder = this.data.sidebarChoose.substring(0, lastSlashIndex);
+        }
+      } else {
+        folder = this.data.sidebarChoose;
+      }
+    } 
+
+    do {
+      // Tạo tên file mới bằng cách thêm số vào cuối tên file
+      name = (folder ? folder + '/' : '') + baseName + (i ? `(${i})` : '') + extension;
+      i++;
+    } while (this.data.data_map[name] != null);    
+    newFile.key = name;
+    newFile.name = baseName + (--i > 0 ? `(${i})` : '') + extension;
+    this.addFileToTree(newFile.key.split('/'), newFile, this.data.data_key);
+    this.data.data_map[newFile.key] = {project_id: this.data.data_source.project.project_id, name: newFile.key, type: 'file', content: '' };
+    setTimeout(() => {
+      this.dataChange.emit(this.data)
+    }, 0);
+  }
+
+  onCreateFolder() {
+    this.openFolder(this.data.sidebarChoose);
+    let folder = ''
+    let baseName = 'new_foder';
+    let newFolder = {key: '', name: '', type: 'folder', input: true, status: 'close'};
+    let name;
+    let i = 0;
+    
+    if(this.data.sidebarChoose) {
+      if(this.data.data_map[this.data.sidebarChoose].type === "file") {
+        let lastSlashIndex = this.data.sidebarChoose.lastIndexOf("/");
+        if(lastSlashIndex != -1) {
+          folder = this.data.sidebarChoose.substring(0, lastSlashIndex);
+        }
+      } else {
+        folder = this.data.sidebarChoose;
+      }
+    } 
+
+    console.log(folder, 12333333333321)
+
+    do {
+      // Tạo tên file mới bằng cách thêm số vào cuối tên file
+      name = (folder ? folder + '/' : '' )+ baseName + (i ? `(${i})` : '');
+      i++;
+    } while (this.data.data_map[name] != null);    
+    newFolder.key = name;
+    console.log(newFolder.key)
+    console.log(newFolder.key.split('/'))
+    newFolder.name = baseName + (--i > 0 ? `(${i})` : '');
+    console.log(newFolder.name)
+    this.buildFolderTree(newFolder.key.split('/'), newFolder, this.data.data_key.subfolders);
+    console.log(this.data.data_key)
+    this.data.data_map[newFolder.key] = {project_id: this.data.data_source.project.project_id, name: newFolder.key, type: 'folder'};
+    setTimeout(() => {
+      this.dataChange.emit(this.data)
+    }, 0);
+  }
+  
 
 
   /**
@@ -525,3 +920,79 @@ export class FolderTreeComponent implements OnChanges {
   //   return obj;
   // }
 }
+
+
+  // deleteFolderToTree(path2: string[], folderNode: { name: string | undefined; key: string; type: string; input: boolean; status: string; }, subfolders: any) {
+  //   if (path2.length === 0) return;
+  //   let part = path2.shift();
+  //   if (part === undefined) return;
+  //   if(path2.length === 0 && subfolders[part]) {
+  //     delete subfolders[part];
+  //   } else if (subfolders[part]) {
+  //     this.deleteFolderToTree(path2, folderNode, subfolders[part].subfolders);
+  //   }
+  // }
+  
+  // deleteFileToTree(path2: string[], fileNode: { name: string | undefined; key: string; input: boolean; type: string; }, data_key: any) {
+  //   if (path2.length === 0) return;
+  //   let part = path2.shift();
+  //   if (part === undefined) return;
+  //   if(path2.length === 0 && data_key && data_key.files) {
+  //     for(let i = 0; i < data_key.files.length; i++) {
+  //       if(data_key.files[i].key == fileNode.key) {
+  //         data_key.files.splice(i, 1);
+  //         break;
+  //       }
+  //     }
+  //   } else if (data_key && data_key.subfolders[part]) {
+  //     this.deleteFileToTree(path2, fileNode, data_key.subfolders[part]);
+  //   }
+  // }
+
+  
+  // deleteData(path: string) {
+  //   let lastSlashIndex = path.lastIndexOf('/');
+  //   let parentFolder = path.substring(0, lastSlashIndex);
+  //   let name = path.substring(lastSlashIndex + 1);
+  //   console.log(parentFolder, name)
+  //   if(this.data.data_map[path].type == 'folder') {
+  //     let folder = this.data.data_map[path];
+  //     for (let [key, value] of Object.entries(this.data.data_map)) {
+  //       if (typeof value === 'object' && value !== null) {
+  //         // Kiểm tra kiểu của value
+  //         if ((value as any).type === "folder") {
+  //           if(key.includes(path)) {
+  //             delete this.data.data_map[key];
+  //           }
+  //         } else {
+  //           if(key.includes(path)) {
+  //             delete this.data.data_map[key];
+  //           }
+  //         }
+  //       }
+  //     }
+  //     let path2 = path.split('/');
+  //     let path3 = path.split('/');
+  //     let folderName = path2.pop();
+  //     let folderNode = {
+  //       name: folderName,
+  //       key: path3.join('/'),
+  //       type: 'folder',
+  //       input: false,
+  //       status: 'close'
+  //     }
+  //     this.deleteFolderToTree(path2, folderNode, this.data.data_key.subfolders);
+  //   } else {
+  //     delete this.data.data_map[path];
+  //     let path2 = path.split('/');
+  //     let path3 = path.split('/');
+  //     let fileName = path2.pop();
+  //     let fileNode = {
+  //       name: fileName,
+  //       key: path3.join('/'),
+  //       input: false,
+  //       type: 'file',
+  //     };
+  //     this.deleteFileToTree(path2, fileNode, this.data.data_key);
+  //   }
+  // }

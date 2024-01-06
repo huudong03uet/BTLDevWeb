@@ -38,7 +38,7 @@ export class ContentGridCodeFullInfComponent implements OnInit {
     axios.get(apiUrl)
       .then((response) => {
         this.data = response.data;
-        this.namePen = (this.data.pen.name == null) ? "Chưa đặt tên" : this.data.pen.name;
+        this.namePen = (this.data.pen.name == null) ? "Untitled" : this.data.pen.name;
         const iframeContent = `
         <html>
           <head>
@@ -321,7 +321,7 @@ export class ContentGridCodeFullInfComponent implements OnInit {
   
       axios.post(url, data)
         .then(response => {
-          console.log(response);
+          // console.log(response);
           this.router.routeReuseStrategy.shouldReuseRoute = () => false;
           this.router.onSameUrlNavigation = 'reload';
           this.router.navigate([this.router.url]);

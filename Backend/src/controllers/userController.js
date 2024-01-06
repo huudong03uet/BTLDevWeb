@@ -216,76 +216,89 @@ async function changeEmail(req, res) {
   }
 }
 
-const CommentTable = require('../models/commentTable');
-const CollectionPen = require('../models/collection_pen');
-const FollowTable = require('../models/followTable');
-const LikeTable = require('../models/likeTable');
-const Pin = require('../models/pin');
-const Project = require('../models/project');
-const ViewTable = require('../models/viewTable');
-const Collection = require('../models/collection');
-const Pen = require('../models/pen');
-
-
-async function deleteUser(req, res) {
-  const user_id = req.params.id;
+async function removeOrRestoreUser(req, res) {
+  const { user_id, isDelete } = req.body;
 
   try {
-    // Handle tables with foreign key constraints first
-    await Promise.all([
-      CommentTable.destroy({ where: { [Sequelize.Op.or]: [{ pen_id: user_id }, { collection_id: user_id }, { user_id: user_id }] } }),
-      CollectionPen.destroy({
-        where: {
-          [Sequelize.Op.or]: [
-            { collection_id: user_id },
-            { pen_id: user_id },
-          ],
-        },
-      }),
-      FollowTable.destroy({
-        where: {
-          [Sequelize.Op.or]: [
-            { user_id_1: user_id },
-            { user_id_2: user_id },
-          ],
-        },
-      }),
-      LikeTable.destroy({ where: { user_id } }),
-    ]);
+    // Update deleted status for comments
+    await commentTable.update(
+      { deleted: isDelete },
+      { where: { user_id } }
+    );
 
-    // Wait for a short period (e.g., 1000 milliseconds) to allow the database to process deletions
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Update deleted status for collections
+    await Collection.update(
+      { deleted: isDelete },
+      { where: { user_id } }
+    );
 
-    // Delete records in other tables
-    await Promise.all([
-      Pin.destroy({ where: { user_id } }),
-      Project.destroy({ where: { user_id } }),
-      ViewTable.destroy({ where: { user_id } }),
-      Collection.destroy({ where: { user_id } }),
-    ]);
+    // Update deleted status for pens
+    await Pen.update(
+      { deleted: isDelete },
+      { where: { user_id } }
+    );
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // Update deleted status for projects
+    await Project.update(
+      { deleted: isDelete },
+      { where: { user_id } }
+    );
 
-    // Delete records in the pen table
-    await Pen.destroy({ where: { user_id } });
+    // Update deleted status for likes on pens and projects
+    await LikeTable.update(
+      { deleted: isDelete },
+      { where: { user_id } }
+    );
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // Update deleted status for likes on collections
+    await LikeCollectionTable.update(
+      { deleted: isDelete },
+      { where: { user_id } }
+    );
 
-    // Finally, delete the user
-    const userRowCount = await User.destroy({
-      where: { user_id },
+    // Update deleted status for relationships between collections and pens
+    await CollectionPen.update(
+      { deleted: isDelete },
+      { where: { user_id } }
+    );
+
+    // Update deleted status for views
+    await viewTable.update(
+      { deleted: isDelete },
+      { where: { user_id } }
+    );
+
+    // Update deleted status for pinned items
+    await pinTable.update(
+      { deleted: isDelete },
+      { where: { user_id } }
+    );
+
+    // Update deleted status for the user
+    await User.update(
+      { deleted: isDelete },
+      { where: { user_id } }
+    );
+
+    res.status(200).json({
+      code: 200,
+      message: isDelete
+        ? 'User and associated records deleted successfully'
+        : 'User and associated records restored successfully',
     });
-
-    if (userRowCount === 0) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
-    console.error('Error deleting user:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error removing or restoring user:', error);
+    res.status(500).json({
+      code: 500,
+      error: 'Internal Server Error while removing or restoring user',
+    });
   }
 }
+
+module.exports = {
+  removeOrRestoreUser,
+};
+
 
 const _formatDateString = (dateString) => {
   const date = new Date(dateString);
@@ -336,8 +349,8 @@ module.exports = {
   updateProfile,
   changeEmail,
   changeUsername,
-  deleteUser,
   getAlluser,
   _formatDateString,
-  getAllUserExclude
+  getAllUserExclude,
+  removeOrRestoreUser,
 };

@@ -27,7 +27,7 @@ export class CodeEditorComponent implements AfterViewInit {
 
   stylesheetLanguage: 'css' | 'scss' = 'css';
   debouncedRun = debounce(this.run, 1000);
-  consoleMessages: string[] = [];
+  // consoleMessages: string[] = [];
   showConsole = false;
   projectTitle: any;
 
@@ -35,29 +35,68 @@ export class CodeEditorComponent implements AfterViewInit {
 
   @ViewChild('box1') box1!: ElementRef;
   @ViewChild('box2') box2!: ElementRef;
+  last_log_out: string = "";
+
+  last_log_in: string = "";
+
+  ngOnInit(): void {
+
+  }
+
+  // @ViewChild('consoleInput') consoleInput: ElementRef | undefined;
+  // @ViewChild('historyContainer') historyContainer: ElementRef | undefined;
+
+  // storeCode: string[] = [];
+  // addResult(inputAsString: string, output: any) {
+  //   if (this.last_log_out === output || this.last_log_in == inputAsString) return;
+  //   this.last_log_out = output;
+  //   this.last_log_in = inputAsString;
+
+  //   const outputAsString =
+  //     Array.isArray(output) ? `[${output.join(", ")}]` : output.toString();
+  //   const inputLogElement = document.createElement("div");
+  //   const outputLogElement = document.createElement("div");
+
+  //   inputLogElement.classList.add("console-input-log");
+  //   outputLogElement.classList.add("console-output-log");
 
 
+  //   // set color for input and output
+  //   if (outputAsString.includes("Error:")) {
+  //     outputLogElement.style.backgroundColor = "rgba(255,0,0,.2)"
+  //   } else {
+  //     outputLogElement.style.color = "#00ffcc";
+  //   }    
+  
 
+  //   inputLogElement.textContent = `> ${inputAsString}`;
+  //   outputLogElement.textContent = outputAsString;
+
+  //   if (this.historyContainer && this.historyContainer.nativeElement) {
+  //     this.historyContainer.nativeElement.appendChild(inputLogElement);
+  //     this.historyContainer.nativeElement.appendChild(outputLogElement);
+  //   }
+  // }
 
   ngAfterViewInit(): void {
-    if(this.data && this.data.pen.type_css) {
+    if (this.data && this.data.pen.type_css) {
       this.stylesheetLanguage = this.data.pen.type_css;
     }
-    
+
     this.initializeEditors();
     // console.log(this.data)
-    if(this.data) {
-      if(this.data.pen.html_code) {
+    if (this.data) {
+      if (this.data.pen.html_code) {
         this.htmlEditor.setValue(this.data.pen.html_code);
       }
-      if(this.data.pen.css_code) {
+      if (this.data.pen.css_code) {
         this.stylesheetEditor.setValue(this.data.pen.css_code);
       }
-      if(this.data.pen.js_code) {
+      if (this.data.pen.js_code) {
         this.jsEditor.setValue(this.data.pen.js_code);
       }
       this.projectTitle = this.data.pen.name;
-      if(this.data.pen.type_css) {
+      if (this.data.pen.type_css) {
         this.stylesheetLanguage = this.data.pen.type_css;
       }
       this.clearConsole()
@@ -85,21 +124,46 @@ export class CodeEditorComponent implements AfterViewInit {
           e.preventDefault();
         }
 
-            function stopResize() {
-              document.removeEventListener('mousemove', resize);
-            }
+        function stopResize() {
+          document.removeEventListener('mousemove', resize);
+        }
 
 
-            function resizeY(e: MouseEvent) {
-              // set the height of box1 to the current mouse positio
-              
-              // set order to %;
-              const height = (e.clientY / window.innerHeight) * 100;
-              boxes.box1.style.height = `${height}%`;
-              boxes.box2.style.height = `${100 - height}%`;
-            }
+        function resizeY(e: MouseEvent) {
+          // set the height of box1 to the current mouse positio
+
+          // set order to %;
+          const height = (e.clientY / window.innerHeight) * 100;
+          boxes.box1.style.height = `${height}%`;
+          boxes.box2.style.height = `${100 - height}%`;
+        }
       });
     }
+
+    // this.consoleInput?.nativeElement.addEventListener("keyup", (e: KeyboardEvent) => {
+    //   if (e.key === "Enter") {
+    //     const code = this.consoleInput?.nativeElement.value;
+    //     if (code.length === 0) return;
+    
+    //     try {
+    //       this.addResult(code, eval(code));
+    //     } catch (error: any) {
+    //       this.addResult(code, "Error: " + error.message);
+    //     }
+    //     if (this.consoleInput && this.consoleInput.nativeElement) {
+    //       this.consoleInput.nativeElement.value = "";
+    //     }
+    //     if (this.historyContainer && this.historyContainer.nativeElement) {
+    //       this.historyContainer.nativeElement.scrollTop = this.historyContainer.nativeElement.scrollHeight;
+    //     }
+    //   }
+    // });
+
+
+    /**
+     * 
+     */
+
   }
 
 
@@ -108,6 +172,8 @@ export class CodeEditorComponent implements AfterViewInit {
     this.stylesheetEditor = this.createEditor(this.stylesheetTextarea, this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
     this.jsEditor = this.createEditor(this.jsTextarea, 'javascript');
   }
+
+  
 
   private createEditor(elementRef: ElementRef, mode: string) {
     const editor = CodeMirror.fromTextArea(elementRef.nativeElement, {
@@ -141,8 +207,10 @@ export class CodeEditorComponent implements AfterViewInit {
     const output = this.outputFrame.nativeElement.contentWindow;
     try {
       output.eval(jsCode);
+
+      // this.addResult(jsCode, eval(jsCode));
     } catch (error: any) {
-      this.consoleMessages.push("Error: " + error.message);
+      // this.addResult(jsCode, "Error: " + error.message);
       this.scrollToBottom();
     }
 
@@ -166,32 +234,44 @@ export class CodeEditorComponent implements AfterViewInit {
     console.log = (...args: any[]) => {
       const message = args.join(' ').trim();
       if (message) {
-        this.consoleMessages.push(message);
+        // this.consoleMessages.push(message);
+        // alt with historyContainer
+
+        // this.storeCode.push(args.join(' '));
+
+        // this.addResult(args.join(' '), args.join(' '));
         this.scrollToBottom();
+
+
       }
-      originalConsoleLog.apply(console, args);
+      // originalConsoleLog.apply(console, args);
     };
 
     console.error = (...args: any[]) => {
       const message = ('Error: ' + args.join(' ')).trim();
       if (message) {
-        this.consoleMessages.push(message);
+        // this.addResult(args.join(' '), message);
         this.scrollToBottom();
       }
-      originalConsoleError.apply(console, args);
+      // originalConsoleError.apply(console, args);
     };
   }
 
   private scrollToBottom() {
-    this.cdRef.detectChanges();
-    if (this.consoleBox && this.consoleBox.nativeElement) {
-      const messagesBox = this.consoleBox.nativeElement.querySelector('.messages-box');
-      if (messagesBox) {
-        messagesBox.scrollTop = messagesBox.scrollHeight;
-      }
-    }
+    // this.cdRef.detectChanges();
+    // if (this.consoleBox && this.consoleBox.nativeElement) {
+    //   const messagesBox = this.consoleBox.nativeElement.querySelector('.messages-box');
+    //   if (messagesBox) {
+    //     messagesBox.scrollTop = messagesBox.scrollHeight;
+    //   }
+    // }
+
+    // alt with historyContainer
+    // if (this.historyContainer && this.historyContainer.nativeElement) {
+      // this.historyContainer.nativeElement.scrollTop = this.historyContainer.nativeElement.scrollHeight;
+    // }
   }
-  
+
 
   toggleConsole() {
     this.showConsole = !this.showConsole;
@@ -201,7 +281,11 @@ export class CodeEditorComponent implements AfterViewInit {
   }
 
   clearConsole() {
-    this.consoleMessages = [];
+    // this.consoleMessages = [];
+    // remove all child nodes
+    // if (this.historyContainer && this.historyContainer.nativeElement) {
+      // this.historyContainer.nativeElement.innerHTML = "";
+    // }
   }
 
   private applyStylesAndScript(htmlCode: string, finalCssCode: string, jsCode: string) {
@@ -209,12 +293,17 @@ export class CodeEditorComponent implements AfterViewInit {
     const outputWindow = output.contentWindow;
 
     outputWindow.console.log = (...args: any[]) => {
-      this.consoleMessages.push(args.join(' '));
+      // this.consoleMessages.push(args.join(' '));
+
+      // alt with historyContainer
+      // this.addResult(args.join(' '), args.join(' '));
       window.console.log.apply(console, args);
     };
 
     outputWindow.console.error = (...args: any[]) => {
-      this.consoleMessages.push('Error: ' + args.join(' '));
+      // this.consoleMessages.push('Error: ' + args.join(' '));
+      // alt with historyContainer
+      // this.addResult(args.join(' '), 'Error: ' + args.join(' '));
       window.console.error.apply(console, args);
     };
 
@@ -234,4 +323,10 @@ export class CodeEditorComponent implements AfterViewInit {
     this.data.pen.js_code = jsCode;
     this.dataChange.emit(this.data);
   }
+
+
+
+
+
+
 }

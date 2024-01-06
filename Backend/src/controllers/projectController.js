@@ -7,6 +7,7 @@ import Folder from '../models/folder';
 import File from '../models/file';
 import Project from '../models/project';
 
+
 let createProject = async (req, res) => {
     try {
         const { project_name, project_description, user_id } = req.body;
@@ -279,6 +280,145 @@ async function toggleProjectStatus(req, res) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
+
+
+let saveProject = async (req, res) => {
+    try {
+        const data = req.body.data;
+        console.log("ddddddddđ", data)
+        const project_id = data.data_source.project.project_id;
+        const project = await Project.findByPk(project_id);
+
+        // get all folder and file in project
+        const folders = await Folder.findAll({
+            where: { project_id: project_id },
+        });
+        const files = await File.findAll({
+            where: { project_id: project_id },
+        });
+
+        // delete all folder and file in project
+        for (let i = 0; i < folders.length; i++) {
+            await folders[i].destroy();
+        }
+        for (let i = 0; i < files.length; i++) {
+            await files[i].destroy();
+        }
+
+
+
+        // update project
+        await project.update({
+            name: data.data_source.project.name,
+            description: data.data_source.project.description,
+            status: data.data_source.project.status,
+            deleted: data.data_source.project.deleted,
+            user_id: data.data_source.project.user_id,
+        });
+
+        console.log("data.data_map", data.data_map)
+        for (let key in data.data_map) {
+            if (data.data_map[key].type == "folder") {
+                
+                // const folder = await Folder.findByPk(data.data_map[key].folder_id);
+                // if (data.data_map[key].folder_id == null) {
+                    const folder = await Folder.create({
+                        name: data.data_map[key].name,
+                        project_id: project_id,
+                    });
+                // }
+                // else {
+                //     await folder.update({
+                //         name: data.data_map[key].name,
+                //         project_id: project_id,
+                //     });
+                // }
+         
+               
+            } else if (data.data_map[key].type == "file") {
+                // if (data.data_map[key].file_id == null) {
+                    const file = await File.create({
+                        name: data.data_map[key].name,
+                        project_id: project_id,
+                        content: data.data_map[key].content,
+                    });
+                // } 
+                // else {
+                //     const file = await File.findByPk(data.data_map[key].file_id);
+                //     await file.update({
+                //         name: data.data_map[key].name,
+                //         project_id: project_id,
+                //         content: data.data_map[key].content,
+                //     });
+                // }
+                
+            }
+        }
+
+        res.status(200).json({ message: 'Project saved successfully' });
+
+
+
+    } catch (error) {
+        console.error('Error saving project:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+// 
+let createProjectSample = async (req, res) => {
+    // create project 
+    // -> create index.html, foldel style/style.css, script/script.js
+
+    try {
+        const { project_name, project_description, user_id } = req.body;
+
+        // Create a Project with the given description and associate it with the Folder
+        const project = await Project.create({
+            description: project_description,
+            name: project_name,
+            user_id: user_id,
+        });
+
+        // Create a Folder with the given name and associate it with the Project
+        const folder = await Folder.create({
+            name: 'style',
+            project_id: project.project_id,
+        });
+
+        // Create a File with the given name and associate it with the Project
+        const file = await File.create({
+            name: 'style/style.css',
+            project_id: project.project_id,
+            content: 'body {\n\tbackground-color: yellow;\n}',
+        });
+
+        // Create a Folder with the given name and associate it with the Project
+        const folder2 = await Folder.create({
+            name: 'script',
+            project_id: project.project_id,
+        });
+
+        // Create a File with the given name and associate it with the Project
+        const file2 = await File.create({
+            name: 'script/script.js',
+            project_id: project.project_id,
+            content: 'console.log("Hello world");',
+        });
+
+        // Create a File with the given name and associate it with the Project
+        const file3 = await File.create({
+            name: 'index.html',
+            project_id: project.project_id,
+            content: '<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<link rel="stylesheet" href="style/style.css">\n\t</head>\n\t<body><h1>Hello World</h1>\n\t\t<script src="script/script.js"></script>\n\t</body>\n</html>',
+        });
+        res.status(201).json({ message: 'Project created successfully', project_id: project.project_id });
+    } catch (error) {
+        console.error('Error creating project:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
   
 
 module.exports = {
@@ -293,4 +433,6 @@ module.exports = {
     restoreProject,
     toggleProjectStatus,
     checkProjectStatus,
+    saveProject,
+    createProjectSample
 };
