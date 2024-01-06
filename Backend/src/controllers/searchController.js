@@ -42,8 +42,6 @@ async function _getAllCollection() {
     try {
         const data = Collection.findAll();
 
-        console.log(data);
-
         return data;
     } catch (error) {
 
@@ -100,8 +98,31 @@ async function getCollectionIDWithSearch(req, res) {
     }
 }
 
+const Project = require('../models/project')
+async function getProjectIDWithSearch(req, res) {
+    const search = req.query.q;
+
+    // console.log(search);
+    try {
+        let projects = await Project.findAll({
+            where: {
+                [Op.or]: [
+                    { name: { [Op.like]: `%${search}%` } },
+                ],
+            },
+        });
+
+        projects = projects.map(x => x.project_id);
+
+        res.status(200).json(projects)
+    } catch (error) {
+        res.status(500).json('loi')
+    }
+}
+
 module.exports = {
     getPenIDWithSearch,
-    getCollectionIDWithSearch
+    getCollectionIDWithSearch,
+    getProjectIDWithSearch,
 };
 
