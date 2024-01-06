@@ -13,11 +13,18 @@ Bước 4: ```npm start```
 Link video demo: https://youtu.be/mt1vxgTYrrY
 
 ### 2. Hướng dẫn Deloy (trên server bất kỳ)
-#### 2.1. Tạo Cơ sở dữ liệu
 
 
-#### 2.2. Tiền xử lý Dự án
+#### 2.1. Tiền xử lý Dự án
+Bước 1: ```git clone https://github.com/huudong03uet\BTLDevWeb```
 
+Bước 2: ```cd Frontend``` -> vào file src/app/host.service.ts -> đổi apiHost sang server cần build
+
+Bước 3: ```ng build```
+
+
+
+#### 2.2. Tạo Cơ sở dữ liệu
 
 
 #### 2.3. Deploy trên hệ thống
