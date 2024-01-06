@@ -34,8 +34,8 @@
 
                 <td class="action-row">
                     <!-- 123 -->
-                    <button *ngIf="deleted==false" class="delete-button"> Delete In System </button>
-                    <button *ngIf="deleted==true" class="restore-button"> Restore </button>
+                    <button *ngIf="deleted==false" class="delete-button" (click) = "toggleRemoveOrRestoreUser(item.user_id, true)"> Delete In System </button>
+                    <button *ngIf="deleted==true" class="restore-button" (click) = "toggleRemoveOrRestoreUser(item.user_id, false)"> Restore </button>
                 
                 </td>
 

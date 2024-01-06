@@ -216,12 +216,21 @@ async function changeEmail(req, res) {
   }
 }
 
+const Comment = require("../models/commentTable")
+const Collection = require("../models/collection")
+const Pen = require("../models/pen")
+const Project = require("../models/project")
+const LikeTable = require("../models/likeTable")
+const LikeCollectionTable = require("../models/likeCollection")
+const CollectionPen = require("../models/collection_pen")
+const ViewTable = require("../models/viewTable")
+const pinTable = require("../models/pin");
 async function removeOrRestoreUser(req, res) {
   const { user_id, isDelete } = req.body;
 
   try {
     // Update deleted status for comments
-    await commentTable.update(
+    await Comment.update(
       { deleted: isDelete },
       { where: { user_id } }
     );
@@ -263,7 +272,7 @@ async function removeOrRestoreUser(req, res) {
     );
 
     // Update deleted status for views
-    await viewTable.update(
+    await ViewTable.update(
       { deleted: isDelete },
       { where: { user_id } }
     );
@@ -294,11 +303,6 @@ async function removeOrRestoreUser(req, res) {
     });
   }
 }
-
-module.exports = {
-  removeOrRestoreUser,
-};
-
 
 const _formatDateString = (dateString) => {
   const date = new Date(dateString);
@@ -352,5 +356,6 @@ module.exports = {
   getAlluser,
   _formatDateString,
   getAllUserExclude,
+  removeOrRestoreUser,
   removeOrRestoreUser,
 };
