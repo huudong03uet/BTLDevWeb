@@ -12,7 +12,7 @@ export class ListItemGridProjectComponent implements OnInit {
   // parent -> child: pen_ids
 
   // @Input() pen_ids: any;
-  @Input() project_ids: any = [1, 2, 1, 2];
+  @Input() project_ids: any;
 
 
   pen_ids_prev: any[] = [];
@@ -23,8 +23,8 @@ export class ListItemGridProjectComponent implements OnInit {
   index_first_current: number = 0;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['pen_ids']) {
-
+    if (changes['project_ids']) {
+      console.log("changes['project_ids']", this.project_ids)
       this.pen_ids_current = [];
       this.pen_ids_next = [];
 

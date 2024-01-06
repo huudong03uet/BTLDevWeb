@@ -85,7 +85,7 @@ export class ContentGridProjectFullInfComponent implements OnInit {
   }
 
   handlePageClick(): void {
-    // this.router.navigate([`/your-work/project/${this.project.project_id}`], { relativeTo: null });
+    this.router.navigate([`/project/${this.project_id}`], { relativeTo: null });
   }
 
   random_number = Math.floor(Math.random() * 100000000);

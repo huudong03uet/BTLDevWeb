@@ -448,18 +448,22 @@ async function getUserInfoByProjectID(req, res) {
 async function getProjectByID(req, res) {
     const project_id = req.query.project_id;
     try {
-        let project = Project.findOne({
+        let project = await Project.findOne({
             attributes: {
-                includes: [
-                    [Sequelize.literal('(SELECT COUNT(like_id) FROM like_table WHERE like_table.project_id = project.project_id and like.type = "project")'), 'numlike'],
-                    [Sequelize.literal('(SELECT COUNT(view_id) FROM like_table WHERE view_table.project_id = project.project_id and view.type = "project")'), 'numview'],
-                    [Sequelize.literal('(SELECT COUNT(comment_id) FROM comment_table WHERE comment_table.project_id = project.project_id and comment.type = "project")'), 'numcomment'],
+                include: [
+                    //  get like, view comment
+                    [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE project.project_id = like_table.project_id AND like_table.type = "project")'), 'numlike'],
+                    [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE project.project_id = view_table.project_id AND view_table.type = "project")'), 'numview'],
+                    [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE project.project_id = comment_table.project_id AND comment_table.type = "project")'), 'numcomment'],
+
                 ]
             },
             where: {project_id: project_id}
         })
+        console.log("project", project)
         if (project != null) {
-            res.status(200).json(project);
+            
+            res.status(200).json(project.dataValues);
         } else {
             res.status(404).json(false);
         }

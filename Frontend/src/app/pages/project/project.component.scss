@@ -1,7 +1,8 @@
 .container-project {
   background: hsl(227.37deg 12.26% 30.39%);
   position: relative;
-  height: 88vh;
+  height: 91.2vh;
+  // overflow-y: hidden;
 
   .header-project {
     width: 100%;
@@ -32,12 +33,12 @@
     }
   }
 
-  .footer-project {
-    height: 30px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-  }
+  // .footer-project {
+  //   height: 30px;
+  //   position: fixed;
+  //   bottom: 0;
+  //   width: 100%;
+  // }
 }
 
 .body-project {

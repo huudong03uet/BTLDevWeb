@@ -37,9 +37,14 @@ export class ContentGridProjectComponent implements OnInit {
 
   ngOnInit(): void {
     this.iframeImage = this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/project.png');
-    const checkStatusUrl = this.myService.getApiHost() + '/project/checkStatus';
-    axios.post(checkStatusUrl, { project_id: this.project_id })
+    // this.data = this.project_id;
+    // console.log("this.data", this.data)
+    
+    const checkStatusUrl = this.myService.getApiHost() + '/project/getProjectByID?project_id=' + this.project_id;
+    // console.log("this.project.projectid", this.project_id.project_id)
+    axios.get(checkStatusUrl)
       .then((response) => {
+        this.data = response.data;
         this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
       })
       .catch((error) => {
@@ -51,7 +56,7 @@ export class ContentGridProjectComponent implements OnInit {
   handleToggleStatusClick() {
     const toggleStatusUrl = this.myService.getApiHost() + `/project/toggleStatus`;
 
-    axios.post(toggleStatusUrl, { project_id: this.project_id })
+    axios.post(toggleStatusUrl, { project_id: this.project_id.project_id })
       .then((response) => {
         this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -64,7 +69,7 @@ export class ContentGridProjectComponent implements OnInit {
 
 
   loadPinAndFollow() {
-    const url = this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.project_id}&user_id=${this.userData.getUserData()?.user_id}`;
+    const url = this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.project_id.project_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(url)
       .then((response) => {
         this.pined = response.data.pined;
@@ -285,7 +290,7 @@ export class ContentGridProjectComponent implements OnInit {
     if (confirmed) {
       const url = this.myService.getApiHost() + `/project/remove`;
       const data = {
-        project_id: this.project_id,
+        project_id: this.project_id.project_id,
         delete: true
       };
 
