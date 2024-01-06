@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HostService } from 'src/app/host.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,11 @@ export class LoginComponent {
     private router: Router,
     private userData: UserDataService,
     private myService: HostService,
-    ) {}
+    private toastr: ToastrService
+    ) {
+      // set top center
+      this.toastr.toastrConfig.positionClass = 'toast-top-center';
+    }
 
   onLoginFormSubmit() {
     // console.log(123432)
@@ -33,11 +38,9 @@ export class LoginComponent {
   
       axios.post(apiUrl, requestBody)
         .then((response) => {
-          // console.log(response.data);
 
           if (response.data.statusCode === 200) {
-            // console.log('Đăng nhập thành công');
-            // console.log(response.data.data)
+
             let user: User = {
               user_id: response.data.data.user_id,
               user_name: response.data.data.user_name,
@@ -49,17 +52,17 @@ export class LoginComponent {
             this.router.navigate(['/']);
             localStorage.setItem('gmail', this.gmail);
             localStorage.setItem('password', this.password);
-            alert('Đăng nhập thành công');
+            this.toastr.success('Login in successfully!', '');
           } else {
-            this.loginError = 'Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu';
+            this.loginError = 'Failed to login! Wrong username or password';
           }
         })
         .catch((error) => {
-          console.error('Đã xảy ra lỗi:', error);
-          this.loginError = 'Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu';
+          console.error('Error:', error);
+          this.loginError = 'Failed to login! Wrong username or password';
         });
     } else {
-      this.loginError = 'Vui lòng điền đủ thông tin đăng nhập.';
+      this.loginError = 'Please enter your username and password';
     }
   }
 
@@ -87,11 +90,11 @@ export class LoginComponent {
 
     axios.post(apiUrl)
         .then((response) => {
-          alert('Thành công');
+          this.toastr.success('Send email successfully!');
         })
         .catch((error) => {
-          console.error('Đã xảy ra lỗi:', error);
-          this.loginError = 'Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu';
+          this.toastr.error('Đã xảy ra lỗi:', error);
+          this.loginError = 'Failed to login! Wrong username or password.';
         });
   }
 }

@@ -10,11 +10,12 @@ export class ListItemGridProjectFullInfComponent {
 
   page_now: number = 1;
   pen_ids_current: any[] = [];
-  is_end: boolean = false;
+  is_end: boolean = true;
   is_start: boolean = true;
 
 
   check_is_start_end() {
+    console.log("this.project", this.projects)
     if (this.page_now == 1) {
       this.is_start = true;
     } else {
@@ -30,14 +31,20 @@ export class ListItemGridProjectFullInfComponent {
   
   constructor() { }
   ngOnInit(): void {
-    this.pen_ids_current = this.projects.slice(0, 6);
-    this.check_is_start_end();
+      if (this.projects != null && this.projects != undefined && this.projects != '') {
+            this.pen_ids_current = this.projects.slice(0, 6);
+            this.check_is_start_end();
+      }
+
+
   }
 
   // ngOnChanges() {
     ngOnChanges() {
-      this.pen_ids_current = this.projects.slice(0, 6);
-      this.check_is_start_end();
+      if (this.projects != null && this.projects != undefined && this.projects != '') {
+        this.pen_ids_current = this.projects.slice(0, 6);
+        this.check_is_start_end();
+      }
   }
 
 

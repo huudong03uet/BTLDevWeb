@@ -63,7 +63,7 @@ export class SupportComponent {
       alert('done');
     }).catch((error) => {
       console.error('Error:', error);
-      alert('Khong done');
+      alert('Not done');
     });
   }
 

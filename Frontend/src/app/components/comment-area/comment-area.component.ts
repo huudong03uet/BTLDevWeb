@@ -54,6 +54,8 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   fetchComments() {
     let apiUrl = this.myService.getApiHost() + `/comment/get?id=${this.id}&type=${this.type}`;
 
+    // console.log("abc def ghi klm", apiUrl);
+
     axios.get(apiUrl).then((response) => {
       this.data_comment = response.data.map((comment: any) => ({
         ...comment,
@@ -70,7 +72,9 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   }
 
   onSubmit() {
-    let apiUrl = this.myService.getApiHost() + `/comment/create?id=${this.id}&type=${this.type}&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&`;
+    let apiUrl = this.myService.getApiHost() + `/comment/create?id=${this.id}&type=${this.type}&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&reply=${this.reply}`;
+
+    // console.log("abcdef", apiUrl);
 
     axios.post(apiUrl).then((response) => {
       let x = response.data;
@@ -100,7 +104,6 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   }
 
   deleteComent(comment_id: number) {
-    // alert -> confirm
 
     let userResponse = confirm("Do you want to delete this comment?");
     if (!userResponse) {
@@ -139,24 +142,24 @@ export class CommentAreaComponent implements OnInit, OnChanges {
 
   copyLink() {
     let currentUrl = '';
-  
+
     if (this.type === 'pen') {
       currentUrl = `${window.location.origin}/pen/${this.id}`;
     } else {
       currentUrl = `${window.location.origin}/collection/${this.id}`;
     }
-  
+
     const tempInput = document.createElement('input');
     tempInput.value = currentUrl;
     document.body.appendChild(tempInput);
-  
+
     tempInput.select();
     tempInput.setSelectionRange(0, 99999); // For mobile devices
-  
+
     document.execCommand('copy');
-  
+
     document.body.removeChild(tempInput);
   }
-  
+
 
 }

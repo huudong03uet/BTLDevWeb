@@ -56,7 +56,7 @@
 
             
         </div>
-        <div class="center-detail-pen" >
+        <div class="center-detail-pen" *ngIf="type == 'pen'">
             <div class="header-center-detail">
                 <button class="html-button active" (click)="clickHTML()">HTML</button>
                 <button class="css-button" (click)="clickCSS()">CSS</button>
@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="comment-detail-pen">
-            <app-comment-area [id]="pen_id" [type]="'pen'" ></app-comment-area>
+            <app-comment-area [id]="pen_id" [type]="type" ></app-comment-area>
         </div>
     </div>
 

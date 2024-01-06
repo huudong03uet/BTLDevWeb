@@ -66,7 +66,7 @@ async function _getAllPensIDInCollection(collection_id) {
         return pens;
     } catch (error) {
         console.error(error);
-        res.status(500).json({ code: 500, error: 'Lỗi trong quá trình lấy danh sách pen trong collection' });
+        res.status(500).json({ code: 500, error: 'Error while getting the list of pens in the collection' });
     }
 }
 
@@ -80,15 +80,18 @@ async function getCollectionIDWithSearch(req, res) {
         let collections = [];
 
         for (let collection of allCollection) {
-            let pen_ids = await _getAllPensIDInCollection(collection.dataValues.collection_id)
+            try {
+                let pen_ids = await _getAllPensIDInCollection(collection.dataValues.collection_id)
 
-            console.log(pen_ids)
+                let pensInSearch = pen_ids.filter(pen_id => searchOfPen.some(pen => pen.pen_id === pen_id.dataValues.pen_id));
 
-            let pensInSearch = pen_ids.filter(pen_id => searchOfPen.some(pen => pen.pen_id === pen_id.dataValues.pen_id));
-
-            if (pensInSearch.length > 0) {
-                collections.push(collection.dataValues);
+                if (pensInSearch.length > 0) {
+                    collections.push(collection.dataValues);
+                }
+            } catch (e) {
+                continue;
             }
+            
         }
 
         res.status(200).json(collections);

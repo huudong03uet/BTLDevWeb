@@ -48,7 +48,7 @@ export class YourWorkProjectsComponent {
             this.projects = response.data;
             // this.pen_ids_current = this.pen_ids.slice(0, 6);
             // this.check_is_start_end();
-            console.log('bờ rồ rếch:', this.projects)
+            // console.log('bờ rồ rếch:', this.projects)
           })
           .catch((error) => {
             console.error('Error:', error);

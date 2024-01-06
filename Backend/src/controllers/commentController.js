@@ -72,18 +72,11 @@ async function _getAllCommentOfPen(pen_id) {
                     attributes: ['user_name', 'avatar_path'],
                 }
             ],
-            attributes: [
-                'comment_id',
-                'comment',
-                'createdAt',
-                'updatedAt',
-                `type`,
-                `pen_id`,
-                `collection_id`,
-                `user_id`,
-                `reply`,
-                [Sequelize.literal('(SELECT user_name FROM user WHERE user_id = comment_table.reply)'), 'replyUser'],
-            ],
+            attributes: {
+                include: [
+                    [Sequelize.literal('(SELECT user_name FROM user WHERE user_id = comment_table.reply)'), 'replyUser'],
+                ],
+            },
         });
 
         comments = comments.map(comment => ({
@@ -112,19 +105,13 @@ async function _getAllCommentOfCollection(collection_id) {
                 {
                     model: User,
                     attributes: ['user_name', 'avatar_path'],
-                },
+                }
             ],
-            attributes: [
-                'comment_id',
-                'comment',
-                'createdAt',
-                'updatedAt',
-                `type`,
-                `pen_id`,
-                `collection_id`,
-                `user_id`,
-                `reply`
-            ],
+            attributes: {
+                include: [
+                    [Sequelize.literal('(SELECT user_name FROM user WHERE user_id = comment_table.reply)'), 'replyUser'],
+                ],
+            },
         });
 
         comments = comments.map(comment => ({
@@ -135,7 +122,42 @@ async function _getAllCommentOfCollection(collection_id) {
 
         return comments;
     } catch (error) {
-        throw error
+        throw error;
+    }
+}
+
+async function _getAllCommentOfProject(project_id) {
+    try {
+        let comments = await Comment.findAll({
+            where: {
+                project_id: project_id,
+                type: "project",
+            },
+            order: [
+                ['createdAt', 'DESC'],
+            ],
+            include: [
+                {
+                    model: User,
+                    attributes: ['user_name', 'avatar_path'],
+                }
+            ],
+            attributes: {
+                include: [
+                    [Sequelize.literal('(SELECT user_name FROM user WHERE user_id = comment_table.reply)'), 'replyUser'],
+                ],
+            },
+        });
+
+        comments = comments.map(comment => ({
+            ...comment.dataValues,
+            "createdAt": _calculateTimeAgo(comment.createdAt),
+            "updatedAt": _calculateTimeAgo(comment.updatedAt),
+        }));
+
+        return comments;
+    } catch (error) {
+        throw error;
     }
 }
 
@@ -143,13 +165,22 @@ async function getAllCommentByID(req, res) {
     const id = req.query.id;
     const type = req.query.type;
 
+    if (id == '') {
+        res.status(404).json("loi");
+    }
+
     let x = false;
     try {
         if (type == 'pen') {
             x = await _getAllCommentOfPen(id);
         } else if (type == "collection") {
             x = await _getAllCommentOfCollection(id);
+        } else if (type == "project") {
+            x = await _getAllCommentOfProject(id);
         }
+
+        console.log(x)
+
         res.status(201).json(x);
     } catch (error) {
         console.log(error);
@@ -193,6 +224,23 @@ async function _setCommentReplyOfPen(pen_id, user_id, comment, reply = null) {
     }
 }
 
+async function _setCommentReplyOfProject(project_id, user_id, comment, reply = null) {
+    try {
+        const newComment = await Comment.create({
+            comment: comment,
+            type: "project",
+            user_id: user_id,
+            project_id: project_id,
+            reply: reply,
+        });
+
+        return newComment;
+
+    } catch (error) {
+        throw error
+    }
+}
+
 async function createComment(req, res) {
     const id = req.query.id;
     const user_id = req.query.user_id;
@@ -202,7 +250,7 @@ async function createComment(req, res) {
 
     let x = false;
 
-    if (comment == '') {
+    if (id == '') {
         res.status(500).json(x);
     }
 
@@ -211,6 +259,8 @@ async function createComment(req, res) {
             x = await _setCommentReplyOfPen(id, user_id, comment, reply);
         } else if (type == "collection") {
             x = await _setCommentReplyOfCollection(id, user_id, comment, reply);
+        } else if (type == "project") {
+            x = await _setCommentReplyOfProject(id, user_id, comment, reply);
         }
 
         res.status(201).json(x);
@@ -293,6 +343,9 @@ async function getAllComment(req, res) {
     } else if (attr_sort == 'collection') {
         order_by = 'ASC'
         attr_sort = 'type'
+    } else if (attr_sort == 'project') {
+        order_by = 'ASC'
+        attr_sort = 'type'
     }
 
     try {
@@ -321,6 +374,8 @@ async function getAllComment(req, res) {
         comments = comments.map(comment => ({
             ...comment.toJSON(),
             name: (comment.pen == null ? (comment.collection.name == null ? "Untitled" : comment.collection.name) : (comment.pen.name == null ? "Untitled" : comment.pen.name)),
+            createdAtRaw: comment.createdAt,
+            updatedAtRaw: comment.updatedAt,
             createdAt: _formatDateString(comment.createdAt),
             updatedAt: _formatDateString(comment.updatedAt),
         }));

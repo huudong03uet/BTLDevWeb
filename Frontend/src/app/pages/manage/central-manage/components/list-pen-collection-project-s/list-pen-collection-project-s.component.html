@@ -1,3 +1,8 @@
+
+<div class="center-full-option" style="position: relative;">
+    <app-full-option-control-item></app-full-option-control-item>
+
+</div>
 <div class="center-list-item">
     <table>
         <thead>
@@ -34,8 +39,8 @@
                 </td>
                 <td class="action-row">
                     <!-- 123 -->
-                    <button *ngIf="deleted==false" class="delete-button"> Delete In System </button>
-                    <button *ngIf="deleted==true" class="restore-button"> Restore </button>
+                    <button *ngIf="deleted==false" class="delete-button" (click) = "handleDeleteClick(item.id)"> Delete In System </button>
+                    <button *ngIf="deleted==true" class="restore-button" (click) = "restoreItem(item.id)"> Restore </button>
                 
                 </td>
 

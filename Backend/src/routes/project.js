@@ -1,5 +1,7 @@
 import express from "express";
 import projectController from "../controllers/projectController";
+import deletedController from "../controllers/deletedController";
+
 const router = express.Router();
 
 router.post("/createProject", projectController.createProject);
@@ -9,6 +11,10 @@ router.get("/getInfoProject", projectController.getInfoProject);
 router.get("/getProjectByUserID", projectController.getProjectByUserID);
 router.get("/getProjectByUserSort", projectController.getProjectByUserSort);
 router.get("/getAllProject", projectController.getAllProject);
-
+router.post('/deleteProjectPermanently', deletedController.deleteProjectPermanently);
+router.post('/remove', projectController.removeProject);
+router.post('/restore', projectController.restoreProject);
+router.post("/toggleStatus", projectController.toggleProjectStatus);
+router.post("/checkStatus", projectController.checkProjectStatus);
 
 module.exports = router;

@@ -3,10 +3,11 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnInit }
 import { Router } from '@angular/router';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HomeCodeComponent } from '../../home-code.component';
-
+import {Clipboard} from '@angular/cdk/clipboard';
 import axios from 'axios';
 import { HostService } from 'src/app/host.service';
-
+import { ToastrService } from 'ngx-toastr';
+// import toastr from 'toastr';
 @Component({
   selector: 'pen-header',
   templateUrl: './header.component.html',
@@ -14,12 +15,14 @@ import { HostService } from 'src/app/host.service';
 })
 export class PenHeaderComponent implements OnInit {
   user: any;
-  constructor(private router: Router, 
+  constructor(private router: Router,
     private userData: UserDataService,
     private myService: HostService,
-    ) { 
-      this.user = this.userData.getUserData();
-    }
+    private clipboard: Clipboard,
+    private toastr: ToastrService
+  ) {
+    this.user = this.userData.getUserData();
+  }
 
   @Input() data: any;
   @Output() dataChange = new EventEmitter();
@@ -41,7 +44,12 @@ export class PenHeaderComponent implements OnInit {
   isFollowing = false;
 
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
+
+    // set toasts position
+    this.toastr.toastrConfig.positionClass = 'toast-top-center';
+    // set height for toast
+
     this.projectTitle = this.data?.pen?.name ? this.data.pen.name : 'Untitled';
     // console.log(this.projectTitle);
   }
@@ -89,62 +97,86 @@ export class PenHeaderComponent implements OnInit {
     this.saveData.emit();
   }
 
+  toggleShare() {
+    // console.log(this.myPen);
+    let link = this.myService.getWebHost() + `/pen/${this.data.pen.pen_id}`
+    this.clipboard.copy(link);
+    this.toastr.success('Link copied to clipboard', '');
+
+    // this.clipboard.copy('Alphonso');
+    
+  }
+
   toggleFollow(): void {
     if (this.myPen && this.myPen.user && this.myPen.user.id) {
-      console.log('Toggle follow user:', this.myPen.user.id);
+      // console.log('Toggle follow user:', this.myPen.user.id);
       this.isFollowing = !this.isFollowing;
     }
   }
+
   handleLikeClick() {
-    if(this.userData.getUserData == null) {
+    if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
     const url = this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
-    axios.get(url)
-        .then((response) => {    
-            this.data.liked = response.data.liked;
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-
-            // Nếu xảy ra lỗi, đảm bảo đồng bộ lại giá trị 'liked' và 'like'
-            this.data.liked = this.data.liked;
-        });
+    axios.get(url).then((response) => {
+      this.data.liked = response.data.liked;
+    }).catch((error) => {
+      console.error('Error:', error);
+      this.data.liked = this.data.liked;
+    });
   }
 
   handlePinClick() {
-    if(this.userData.getUserData == null) {
+    if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
     const url = this.myService.getApiHost() + `/grid/handlePin?id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
-    axios.get(url)
-        .then((response) => {
-            this.data.pined = response.data.pinned;
-          })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+    axios.get(url).then((response) => {
+      this.data.pined = response.data.pinned;
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
 
   }
 
   handleFollowClick() {
-    if(this.userData.getUserData == null) {
+    if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     } else {
       const url = this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
 
-      axios.get(url)
-          .then((response) => {
-              this.data.followed = response.data.followed;
-            })
-          .catch((error) => {
-              console.error('Error:', error);
-          });  
+      axios.get(url).then((response) => {
+        this.data.followed = response.data.followed;
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
     }
   }
 
+  toggleFork() {
+    const apiUrl = this.myService.getApiHost() + '/pen/createNewpen';
+    
+    const requestData = {
+      html_code: this.data.pen.html_code,
+      js_code: this.data.pen.js_code,
+      css_code: this.data.pen.css_code,
+      type_css: this.data.pen.type_css,
+      name: this.data.pen.name,
+      user_id: this.user.user_id
+    };
+  
+    axios.post(apiUrl, requestData)
+      .then((response) => {
+        console.log(response);
+        this.toastr.success('Fork successfully');
+      })
+      .catch((error) => {
+        this.toastr.error('Error:', error);
+      });
+  }
 
   changeSvg(isEnter: boolean) {
     const button = document.getElementById('follow-button-following');

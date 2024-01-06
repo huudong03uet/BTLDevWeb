@@ -37,7 +37,9 @@
                 margin-bottom: 1px;
                 color: hsl( 233.33deg 9.89% 64.31% );
                 td {
-                    padding: 6px 0px;
+                    padding: 6px 5px;
+        
+                    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
                 }
 
                 .title-row {

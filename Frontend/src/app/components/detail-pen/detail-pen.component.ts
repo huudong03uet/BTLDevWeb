@@ -13,7 +13,7 @@ import { HostService } from 'src/app/host.service';
 })
 export class DetailPenComponent {
   @Output() closeDetailPen = new EventEmitter<void>();
-
+  @Input() type: string = "pen";
   @Input() pen_id: any = 0;
   data: any;
   namePen: any;
@@ -25,9 +25,9 @@ export class DetailPenComponent {
 
 
   ngOnInit(): void {
-    const apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?user_id=${null}&pen_id=${this.pen_id}`;
-    axios.get(apiUrl)
-      .then((response) => {
+    if (this.type == 'pen') {
+      let apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?user_id=${null}&pen_id=${this.pen_id}`;
+      axios.get(apiUrl).then((response) => {
         this.data = response.data;
         // console.log('vai o:', this.data);
         this.htmlFile = this.data.pen.html_code;
@@ -48,10 +48,13 @@ export class DetailPenComponent {
         </html>
       `;
         this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(iframeContent);
-      })
-      .catch((error) => {
+      }).catch((error) => {
         console.error('Error:', error);
       });
+    } else if (this.type == 'project') {
+      console.log("project:", this.pen_id)
+    }
+
   }
 
 
@@ -64,7 +67,14 @@ export class DetailPenComponent {
 
   handlePageClick(): void {
     // console.log(`/pen/${this.pen_id}`);
-    this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
+    if (this.type == 'pen') {
+      this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
+    } else if (this.type == 'project') {
+      this.router.navigate([`/project/${this.pen_id}`], { relativeTo: null });
+    } else if (this.type == 'collection') {
+      this.router.navigate([`/collection/${this.pen_id}`], { relativeTo: null });
+    }
+    
   }
 
 

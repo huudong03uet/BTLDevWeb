@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-account-settings',
@@ -13,23 +14,25 @@ export class AccountSettingsComponent {
   newPassword: string = '';
   newEmail: string = '';
 
-  constructor(private userDataService: UserDataService, private router: Router) { }
+  constructor(private userDataService: UserDataService, private router: Router, private toastr: ToastrService,
+
+  ) {
+    this.toastr.toastrConfig.positionClass = 'toast-top-center'; // Set toastr position
+  }
 
   changeUsername() {
     const user_id = this.getUserID();
     if (user_id && this.newUsername.trim() !== '') {
       this.userDataService.updateUsername(user_id, this.newUsername.trim())
         .then(response => {
-          console.log('Username updated successfully:', response);
-          alert('Username updated successfully!');
+          this.toastr.success('Username updated successfully!');
           this.userDataService.setUserDataUsername(this.newUsername.trim());
         })
         .catch(error => {
-          console.error('Error updating username:', error);
-          alert('Error updating username!');
+          this.toastr.error('Error updating username:', error);
         });
     } else {
-      alert('Username is empty!!');
+      this.toastr.error('Username is empty!!');
     }
   }
 
@@ -38,15 +41,13 @@ export class AccountSettingsComponent {
     if (user_id && this.currentPassword.trim() !== '' && this.newPassword.trim() !== '') {
       this.userDataService.updatePassword(user_id, this.currentPassword.trim(), this.newPassword.trim())
         .then(response => {
-          console.log('Password updated successfully:', response);
-          alert('Password updated successfully!');
+          this.toastr.success('Password updated successfully!');
         })
         .catch(error => {
-          console.error('Error updating password:', error);
-          alert('Error updating password!');
+          this.toastr.error('Error updating password:', error);
         });
     } else {
-      alert('Password is empty!!');
+      this.toastr.error('Password is empty!!');
     }
   }
 
@@ -55,15 +56,13 @@ export class AccountSettingsComponent {
     if (user_id && this.newEmail.trim() !== '') {
       this.userDataService.updateEmail(user_id, this.newEmail.trim())
         .then(response => {
-          console.log('Email updated successfully:', response);
-          alert('Email updated successfully');
+          this.toastr.success('Email updated successfully');
         })
         .catch(error => {
-          console.error('Error updating email:', error);
-          alert('Error updating email');
+          this.toastr.error('Error updating email:', error);
         });
     } else {
-      alert('Email is empty!!');
+      this.toastr.error('Email is empty!!');
     }
   }
 
@@ -71,16 +70,13 @@ export class AccountSettingsComponent {
     const user_id = this.getUserID();
     if (user_id) {
       if (confirm('Are you sure you want to delete your account? This action is irreversible.')) {
-        // Call your service method to delete the account and handle the response
         this.userDataService.deleteAccount(user_id)
           .then(response => {
-            console.log('Account deleted successfully:', response);
-            alert('Tài khoản đã được xóa khỏi CODE!');
+            this.toastr.success('Account has been removed from CODE!');
             this.router.navigate(['/login']);
           })
           .catch(error => {
-            console.error('Error deleting account:', error);
-            // Handle errors and display an error message if necessary
+            this.toastr.error('Error deleting account:', error);
           });
       }
     }

@@ -115,8 +115,11 @@ import { ListPenCollectionProjectSComponent } from './pages/manage/central-manag
 import { ListCommentsComponent } from './pages/manage/central-manage/components/list-comments/list-comments.component';
 import { ListUsersComponent } from './pages/manage/central-manage/components/list-users/list-users.component';
 import { ContentGridProjectComponent } from './components/content-grid-project/content-grid-project.component';
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
+
     AppComponent,
     HomeComponent,
     PenHeaderComponent,
@@ -219,9 +222,11 @@ import { ContentGridProjectComponent } from './components/content-grid-project/c
     ListPenCollectionProjectSComponent,
     ListCommentsComponent,
     ListUsersComponent,
-    ContentGridProjectComponent
+    ContentGridProjectComponent,
   ],
   imports: [
+    ToastrModule.forRoot(),
+
     FormsModule,
     BrowserModule,
     AppRoutingModule,
@@ -309,8 +314,10 @@ import { ContentGridProjectComponent } from './components/content-grid-project/c
           { path: "", redirectTo: "pens", pathMatch: "full" },
           { path: "pens", component: YourWorkPensComponent },
           { path: "collections", component: YourWorkCollectionsComponent },
-          { path: "projects", component: YourWorkProjectsComponent},
-          { path: "deleted", component: YourWorkDeletedComponent }
+          { path: "projects", component: YourWorkProjectsComponent, children: [
+            // { path: '/:id', component: ProjectCommentInterfaceComponent, data: { title: 'Comment cua project - Nhom XXX' }, },
+          ]},
+          { path: "deleted", component: YourWorkDeletedComponent },
         ]
       },
       // {path: "settings", component: SettingsComponent}
