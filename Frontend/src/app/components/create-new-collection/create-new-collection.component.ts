@@ -61,7 +61,7 @@ export class CreateNewCollectionComponent {
           isPublic: this.createForm.value.isPublic,
         });
 
-        this.toastr.success('Collection created successfully:', response.data.collection);
+        this.toastr.success('Collection created successfully:');
 
         this.createForm.reset();
         this.onCloseCreateNewCollection();

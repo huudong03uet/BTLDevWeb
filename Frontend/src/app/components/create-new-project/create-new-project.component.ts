@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import axios, { AxiosError } from 'axios';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HostService } from 'src/app/host.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-new-project',
@@ -19,6 +20,7 @@ export class CreateNewProjectComponent {
     private fb: FormBuilder, 
     private userData: UserDataService,
     private myService: HostService,
+    private router: Router
   ) 
   {
     this.createForm = this.fb.group({
@@ -32,45 +34,31 @@ export class CreateNewProjectComponent {
   }
 
   async onSubmit() {
-    // -> to localhost:3000/project/123
-    // console.log(this.createForm.value.projectTitle);
-    // if(this.userData.getUserData)
-    // const data = await axios.post('http://localhost:3000/project/createProject', {project_name: this.createForm.value.projectTitle, project_description: this.createForm.value.project_description, user_id: this.userData.getUserData()?.user_id})
-    window.location.href = 'http://localhost:4200/project/123';
+    if (this.createForm.valid) {
+      const apiUrl = this.myService.getApiHost() + '/project/createProjectSample';
+      const requestBody = {
+        user_id: this.userData.getUserData()?.user_id,
+        project_name: this.createForm.value.projectTitle,
+        project_description: this.createForm.value.projectDescription,
+
+
+      };
+      try {
+        const response = await axios.post(apiUrl, requestBody);
+        console.log('Response:', response.data);
+        //  link to the project page : /project/:project_id
+
+
+        this.closeProject.emit();
+        this.router.navigate([`/project/${response.data.project_id}`]);
+
+
+        
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        console.error('Error:', axiosError.response?.data);
+      }
+    }
     
-
-    // TODO: Implement this
-  //   if (this.createForm.valid) {
-  //     try {
-  //       const user = this.userData.getUserData();
-  //       const userId = user?.user_id;
-
-  //       if (!userId) {
-  //         console.error('User ID not available.');
-  //         return;
-  //       }
-
-            // let url = this.myService.getApiHost() + "/your-work/projects/"
-
-  //       const response = await axios.post(url, {
-  //         name: this.createForm.value.projectTitle,
-  //         user_id: userId,
-  //         // Add other fields if needed
-  //       });
-
-  //       console.log('project created successfully:', response.data.project);
-
-  //       this.createForm.reset();
-  //       this.onCloseCreateNewproject();
-  //     } catch (error) {
-  //       if (axios.isAxiosError(error) && error.response) {
-  //         console.error('Error creating project:', error);
-  //         const errorMessage = (error as AxiosError<{ error?: string }>).response?.data?.error;
-  //         console.error('Error message:', errorMessage || 'Unknown error');
-  //       } else {
-  //         console.error('Error creating project:', error);
-  //       }
-  //     }
-  //   }
   }
 }

@@ -70,6 +70,8 @@ export class ContentGridCodeComponent implements OnInit {
       });
   }
 
+  
+
   loadPinAndFollow() {
     const url =  this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.pen_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(url)
@@ -221,7 +223,7 @@ export class ContentGridCodeComponent implements OnInit {
 
     axios.get(url)
         .then((response) => {
-            console.log(response);
+            // console.log(response);
 
             if (response.data.liked) {
                 this.data.like++;

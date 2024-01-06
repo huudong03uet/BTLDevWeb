@@ -3,7 +3,7 @@
         <label class="render-choice-label">Preview:</label>
         <div class="select select-small">
             <select id="render-choice" class="render-choice-dropdown" [(ngModel)]="screen_choose" (ngModelChange)="onScreenChooseChange()">
-                <option *ngFor="let key of key_file_html" [value]="key">{{ key }}</option>
+                <option *ngFor="let key of this.data.key_file_html" [value]="key">{{ key }}</option>
             </select>
         </div>
     </div> 
