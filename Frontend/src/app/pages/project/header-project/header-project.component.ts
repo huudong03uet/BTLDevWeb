@@ -37,17 +37,17 @@ export class HeaderProjectComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.user = this.userData?.getUserData();
     const projectId = this.data?.data_source?.project?.project_id;
-  
+
     if (projectId) {
       const url = this.myService.getApiHost() + `/project/getInfoProjectByID?project_id=${projectId}`;
       try {
         const response = await axios.post(url);
         this.projectInfo = response.data.project;
-  
+
         if (!this.user) {
           return;
         }
-  
+
         if (this.projectInfo.status === 'private' && this.user.user_id !== this.projectInfo.user.user_id) {
           this.router.navigate(['/**']);
         }
@@ -55,7 +55,7 @@ export class HeaderProjectComponent implements OnInit {
         console.log('Error fetching projectInfo:', error);
       }
     }
-  
+
     console.log(this.user);
     if (this.user) {
       const isFollowingUrl = this.myService.getApiHost() + `/grid/isUser1FollowingUser2?user_id_1=${this.user?.user_id}&user_id_2=${this.projectInfo.user.user_id}`;
@@ -69,7 +69,7 @@ export class HeaderProjectComponent implements OnInit {
       } catch (error) {
         console.error('Error checking follow:', error);
       }
-  
+
       try {
         const response = await axios.get(this.myService.getApiHost() + `/grid/checkLikeStatus?project_id=${this.data.data_source.project.project_id}&user_id=${this.user?.user_id}&type=project`);
         this.liked = response.data.liked;
@@ -78,7 +78,7 @@ export class HeaderProjectComponent implements OnInit {
       }
     }
   }
-  
+
 
   @Input() data: any;
   @Output() dataChange = new EventEmitter();
@@ -123,15 +123,12 @@ export class HeaderProjectComponent implements OnInit {
   }
 
   toggleSave(): void {
-    // console.log("header", this.webCodeData)
     // post api to save the code /project/saveProject
     const url = this.myService.getApiHost() + `/project/saveProject`;
-    // console.log(this.data)
     axios.post(url, {
       data: this.data,
     })
       .then((response) => {
-        // console.log(response);
         // alert("Saved Successfully")
         this.toastr.success('Saved Successfully', '');
       }, (error) => {
@@ -140,7 +137,6 @@ export class HeaderProjectComponent implements OnInit {
   }
 
   toggleShare() {
-    // console.log(this.myPen);
     let link = this.myService.getWebHost() + `/project/${this.data.data_source.project.project_id}`
     this.clipboard.copy(link);
     this.toastr.success('Link copied to clipboard', '');

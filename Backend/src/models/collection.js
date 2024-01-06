@@ -11,7 +11,7 @@ const Collection = sequelize.define('collection', {
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false,
+    defaultValue: "Untitled",
   },
   status: {
     type: DataTypes.STRING,

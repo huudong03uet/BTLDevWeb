@@ -2,6 +2,8 @@ const Comment = require('../models/commentTable');
 const User = require('../models/user');
 const Pen = require('../models/pen');
 const Collection = require('../models/collection');
+const Project = require('../models/project');
+
 const { DataTypes, literal } = require('sequelize');
 const Sequelize = require('sequelize');
 
@@ -59,6 +61,20 @@ function _calculateTimeAgo(time) {
     }
 }
 
+// function _calculateTime(time) {
+//     const commentDate = new Date(time);
+//     const now = new Date();
+//     const timeDifference = commentDate;
+//     const seconds = Math.floor(timeDifference / 1000);
+//     const minutes = Math.floor(seconds / 60);
+//     const hours = Math.floor(minutes / 60);
+//     const days = Math.floor(hours / 24);
+//     const month = Math.floor(days / 30);
+//     const year = Math.floor(month / 12);
+
+//     return commentDate;
+// }
+
 async function _getAllCommentOfPen(pen_id) {
     try {
         let comments = await Comment.findAll({
@@ -83,12 +99,14 @@ async function _getAllCommentOfPen(pen_id) {
         });
 
         let numlike = await Like.findAll({
-            where: {pen_id: pen_id}
+            where: { pen_id: pen_id }
         })
 
         let numview = await View.findAll({
-            where: {pen_id: pen_id}
+            where: { pen_id: pen_id }
         })
+
+
 
         comments = comments.map(comment => ({
             ...comment.dataValues,
@@ -96,11 +114,15 @@ async function _getAllCommentOfPen(pen_id) {
             "updatedAt": _calculateTimeAgo(comment.updatedAt),
         }));
 
+        let pen = await Pen.findByPk(pen_id);
+
         return {
             comments: comments,
             numlike: numlike.length,
             numview: numview.length,
-            numcomment: comments.length
+            numcomment: comments.length,
+            CreatedOn: pen.dataValues.createdAt,
+            UpdatedOn: pen.dataValues.updatedAt,
         };
     } catch (error) {
         throw error;
@@ -137,18 +159,21 @@ async function _getAllCommentOfCollection(collection_id) {
         }));
 
         let numlike = await LikeCollection.findAll({
-            where: {collection_id: collection_id}
+            where: { collection_id: collection_id }
         })
 
         let numview = await View.findAll({
-            where: {collection_id: collection_id}
+            where: { collection_id: collection_id }
         })
+
+        let collection = await Collection.findByPk(collection_id);
 
         return {
             comments: comments,
             numlike: numlike.length,
             numview: numview.length,
-            numcomment: comments.length
+            CreatedOn: collection.dataValues.createdAt,
+            UpdatedOn: collection.dataValues.updatedAt,
         };
     } catch (error) {
         throw error;
@@ -185,18 +210,22 @@ async function _getAllCommentOfProject(project_id) {
         }));
 
         let numlike = await Like.findAll({
-            where: {project_id: project_id}
+            where: { project_id: project_id }
         })
 
         let numview = await View.findAll({
-            where: {project_id: project_id}
+            where: { project_id: project_id }
         })
+
+        let project = await Project.findByPk(project_id);
 
         return {
             comments: comments,
             numlike: numlike.length,
             numview: numview.length,
-            numcomment: comments.length
+            numcomment: comments.length,
+            CreatedOn: project.dataValues.createdAt,
+            UpdatedOn: project.dataValues.updatedAt,
         };
     } catch (error) {
         throw error;
@@ -312,31 +341,9 @@ async function createComment(req, res) {
     }
 }
 
-async function _updatecomment(comment_id, updatedCommentText) {
-    try {
-        const updatedComment = await Comment.update(
-            { comment: updatedCommentText },
-            {
-                where: {
-                    comment_id: comment_id
-                }
-            }
-        );
-
-        if (updatedComment[0] > 0) {
-            return { code: 200, success: true }
-        } else {
-            return { code: 404, success: false }
-        }
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
-
 async function editComment(req, res) {
     const comment_id = req.query.comment_id;
-    const updatedCommentText = req.body.updatedCommentText;
+    const updatedCommentText = req.query.updatedCommentText;
 
     if (updatedCommentText == '') {
         res.status(500).json({ success: false, message: 'Internal server error.' });
@@ -344,9 +351,20 @@ async function editComment(req, res) {
     }
 
     try {
-        const updatedComment = await _updatecomment(comment_id, updatedCommentText);
+        let updatedComment = await Comment.update(
+            { comment: updatedCommentText }, 
+            {
+                where: {
+                    comment_id: comment_id
+                },
+            }
+        );
 
-        res.status(updatedComment.code).json(updatedComment);
+        if (updatedComment[0] > 0) {
+            res.status(200).json(updatedComment)
+        } else {
+            res.status(403).json(updatedComment)
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Internal server error.' });

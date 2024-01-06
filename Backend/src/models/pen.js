@@ -8,10 +8,20 @@ const Pen = sequelize.define('pen', {
         autoIncrement: true,
         primaryKey: true,
     },
-    html_code: DataTypes.TEXT,
-    js_code: DataTypes.TEXT,
-    css_code: DataTypes.TEXT,
-    name: DataTypes.TEXT,
+    html_code: {
+        type: DataTypes.TEXT('long'),
+    },
+
+    js_code: {
+        type: DataTypes.TEXT('long'),
+    },
+    css_code: {
+        type: DataTypes.TEXT('long'),
+    },
+    name: {
+        type: DataTypes.TEXT,
+        defaultValue: "Untitled",
+    },
     type_css: {
         type: DataTypes.STRING,
         allowNull: false,

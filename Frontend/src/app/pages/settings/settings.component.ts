@@ -18,7 +18,6 @@ export class SettingsComponent {
 
   //  ng after change partial page
   ngAfterViewChecked() {
-    // console.log('ngAfterViewChecked')
     if (this.currentURL != window.location.href) {
       this.currentURL = window.location.href;
 
@@ -30,7 +29,6 @@ export class SettingsComponent {
   
 
   navigateToProfile() {
-    // console.log('profile')
     this.router.navigate(['/settings/profile']);
   }
 
