@@ -7,7 +7,7 @@ import { set } from 'lodash';
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss'],
 })
-export class ProjectComponent  implements OnInit, AfterViewInit{
+export class ProjectComponent implements OnInit, AfterViewInit {
   @ViewChild('box1') box1!: ElementRef;
   @ViewChild('box2') box2!: ElementRef;
   @ViewChild('box3') box3!: ElementRef;
@@ -16,16 +16,16 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
   constructor(
     private router: Router,
     private route: ActivatedRoute
-  ){}
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(async (params) => {
       let project_id = params['id'];
-      if(project_id !== null) {
+      if (project_id !== null) {
         try {
           let data_source = (await axios.get(`http://localhost:3000/project/getInfoProject?project_id=${project_id}`)).data;
           this.sortData(data_source);
-    
+
           let root = {
             name: 'root',
             subfolders: {},
@@ -33,23 +33,23 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
             input: false,
             status: 'open'
           };
-          
+
           data_source.folder.forEach((folder: any) => {
             let path = folder.name.split('/');
             let path2 = folder.name.split('/');
             let folderName = path.pop();
-    
+
             let folderNode = {
               name: folderName,
               key: folder.name,
               type: 'folder',
               input: 'false',
               status: 'close'
-    
+
             }
             this.buildFolderTree(path2, folderNode, root.subfolders);
           });
-          
+
           data_source.file.forEach((file: any) => {
             let path = file.name.split('/');
             let path2 = file.name.split('/');
@@ -61,8 +61,8 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
               type: 'file',
             };
             this.addFileToTree(path2, fileNode, root);
-    
-    
+
+
           });
           let data_key = root;
           console.log(data_key)
@@ -72,7 +72,7 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
             folder.type = 'folder';
             data_map[folder.name] = folder;
           });
-    
+
           // Add files to the map
           data_source.file.forEach((file: any) => {
             file.type = 'file';
@@ -82,21 +82,21 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
           let filesOpened: Set<any> = new Set();
           let fileChoose: any = null;
           let sidebarChoose: any = null;
-          
+
           let key_file_html: Set<any> = this.getFileNames(data_map);
-          this.data = {data_key, data_map, data_source, filesOpened, fileChoose, sidebarChoose, key_file_html};
+          this.data = { data_key, data_map, data_source, filesOpened, fileChoose, sidebarChoose, key_file_html };
           console.log(this.data)
         } catch (error) {
           console.error('Error fetching data:', error);
         }
-    
+
       }
     });
 
-    
+
   }
 
-  
+
 
   ngAfterViewInit() {
     const boxes = {
@@ -127,14 +127,8 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
 
         function resizeX(e: MouseEvent) {
           const bodyWidth = 100 / document.body.clientWidth;
-          const leftWidth = (parseFloat(getComputedStyle(boxes.box1, '').width) + e.movementX) * bodyWidth ;
-          
-          
-          // console.log("parseFloat", parseFloat(getComputedStyle(boxes.box1, '').width))
-          // console.log("e.movementX", e.movementX)
-          // console.log("bodyWidth", bodyWidth)
-          // console.log("leftWidth", leftWidth)
-          // console.log("\n\n\n")
+          const leftWidth = (parseFloat(getComputedStyle(boxes.box1, '').width) + e.movementX) * bodyWidth;
+
 
 
           boxes.box1.style.width = leftWidth + '%';
@@ -172,48 +166,48 @@ export class ProjectComponent  implements OnInit, AfterViewInit{
     return fileNames;
   }
 
- async getData(project_id: any){
+  async getData(project_id: any) {
   }
 
   buildFolderTree(path: any, node: any, tree: any) {
     if (path.length === 0) return;
-  
-   let part = path.shift();
-  
-   if (!tree[part]) {
-     tree[part] = {
-       ...node,
-       name: part,
-       input: false,
-       subfolders: {},
-       files: []
-     };
-   }
-  
-   this.buildFolderTree(path, node, tree[part].subfolders);
+
+    let part = path.shift();
+
+    if (!tree[part]) {
+      tree[part] = {
+        ...node,
+        name: part,
+        input: false,
+        subfolders: {},
+        files: []
+      };
+    }
+
+    this.buildFolderTree(path, node, tree[part].subfolders);
   }
-  
+
   addFileToTree(path: any, file: any, tree: any) {
-   let part = path.shift();
-   console.log(path)
-   if(path.length === 0) {
-    console.log(tree.files.push(file))
-   }
-  else {
-     
+    let part = path.shift();
+    console.log(path)
+    if (path.length === 0) {
+      console.log(tree.files.push(file))
+    }
+    else {
+
       this.addFileToTree(path, file, tree.subfolders[part]);
-   }
+    }
   }
 
   sortData(data: any) {
-        // Sort folders
+    // Sort folders
     data.folder.sort((a: any, b: any) => a.name.localeCompare(b.name));
 
     // Sort files
-    data.file.sort((a: any, b: any) => a.name.localeCompare(b.name));    
+    data.file.sort((a: any, b: any) => a.name.localeCompare(b.name));
   }
 
-  
+
   // dayLaTinhNang() {
   //     console.log("day la tinh nang")
   // }

@@ -23,7 +23,6 @@ export class LovedProjectComponent implements OnInit {
 
     axios.get(apiUrl).then((response) => {
       this.project = response.data;
-      // console.log("like like like", response.data);
     }).catch((error) => {
       console.error('Error:', error);
     });

@@ -21,7 +21,6 @@ export class ProjectProfileComponent {
 
   //  ng after change partial page
   ngAfterViewChecked() {
-    // console.log('ngAfterViewChecked')
     if (this.currentURL != window.location.href) {
       this.currentURL = window.location.href;
 
@@ -32,7 +31,6 @@ export class ProjectProfileComponent {
     this.router.navigate(['/profile/projects/popular']);
   }
   navigateToProjectPrivate() {
-    // console.log('private')
     this.router.navigate(['/profile/projects/private']);
   }
   navigateToProjectPublic(){
