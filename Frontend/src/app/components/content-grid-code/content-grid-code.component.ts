@@ -223,7 +223,6 @@ export class ContentGridCodeComponent implements OnInit {
 
     axios.get(url)
         .then((response) => {
-            // console.log(response);
 
             if (response.data.liked) {
                 this.data.like++;

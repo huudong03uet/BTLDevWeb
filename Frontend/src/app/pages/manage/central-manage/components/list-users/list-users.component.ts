@@ -36,23 +36,26 @@ export class ListUsersComponent implements OnInit {
   searchFor: string = '';
   sortBy: string = 'date_updated';
   sortDirection: string = 'asc';
-  ngOnInit(): void {
+
+  fetchData() {
     let apiUrl = this.myService.getApiHost() + `/user/getAlluser?attr_sort=${this.attr_sort}&order_by=${this.order_by}&deleted=${this.deleted}`;
 
     axios.get(apiUrl).then((response) => {
       this.datas = response.data;
       this.dataPass = response.data;
-      console.log("dataPass", this.dataPass)
 
       this.onChangesFinetune();
     }).catch((error) => {
       console.error('Error:', error);
     });
+  }
+
+  ngOnInit(): void {
+    this.fetchData();
 
 
     this.fullOptionControlItemService.currentMessageSortBy.subscribe(message => {
       if (message) {
-        console.log("message", message)
 
         this.sortBy = message;
 
@@ -95,7 +98,6 @@ export class ListUsersComponent implements OnInit {
       }
       return pen.user_name.toLowerCase().includes(this.searchFor.toLowerCase())
     });
-    console.log("after searchFor", pen_full_searchFor)
 
     if (this.sortBy === 'date_created') {
       // "2023-11-18T09:46:39.000Z" -> is date format
@@ -120,7 +122,6 @@ export class ListUsersComponent implements OnInit {
         }
       });
     }
-    console.log("after sort", pen_full_searchFor)
 
     // if (this.publicPrivate === 'public') {
     //   pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "public");
@@ -129,6 +130,15 @@ export class ListUsersComponent implements OnInit {
     //   pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "private");
     // }
     return pen_full_searchFor;
+  }
+
+  toggleRemoveOrRestoreUser(user_id: number, isDelete: boolean) {
+    axios.put(this.myService.getApiHost() + `/user/removeOrRestoreUser`, { user_id: user_id, isDelete: isDelete }).then((response) => {
+
+      this.fetchData();
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
   }
 
 

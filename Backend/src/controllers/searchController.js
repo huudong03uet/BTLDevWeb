@@ -89,7 +89,7 @@ async function getCollectionIDWithSearch(req, res) {
             } catch (e) {
                 continue;
             }
-            
+
         }
 
         res.status(200).json(collections);
@@ -102,7 +102,6 @@ const Project = require('../models/project')
 async function getProjectIDWithSearch(req, res) {
     const search = req.query.q;
 
-    // console.log(search);
     try {
         let projects = await Project.findAll({
             where: {

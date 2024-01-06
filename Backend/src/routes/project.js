@@ -18,5 +18,6 @@ router.post("/toggleStatus", projectController.toggleProjectStatus);
 router.post("/checkStatus", projectController.checkProjectStatus);
 router.post("/saveProject", projectController.saveProject);
 router.post("/createProjectSample", projectController.createProjectSample);
+router.post('/getInfoProjectByID', projectController.getUserInfoByProjectID);
 
 module.exports = router;

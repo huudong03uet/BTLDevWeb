@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import axios from 'axios';
+import { ToastrService } from 'ngx-toastr';
 import { HostService } from 'src/app/host.service';
 
 @Component({
@@ -29,12 +30,12 @@ export class SupportComponent {
 
   question_answering = [
     {
-      question: "How do I verify my email?",
-      answer: "Click the link in the verification email from verify@code.io (be sure to check your spam folder or other email tabs if it's not in your inbox).\nOr, send an email with the subject \"Verify\" to verify@code.io from the email address you use for your CODE account."
+      question: "How do I sign up on your website?",
+      answer: "To sign up, simply click the 'Register' button at the top corner of the page and fill in the required information."
     },
     {
-      question: "My Pen loads infinitely or crashes the browser.",
-      answer: "It's likely an infinite loop in JavaScript that we could not catch. To fix, add ?turn_off_js=true to the end of the URL (on any page, like the Pen or Project editor, your Profile page, or the Dashboard) to temporarily turn off JavaScript. When you're ready to run the JavaScript again, remove ?turn_off_js=true and refresh the page."
+      question: "How do I share my own code snippet on the website?",
+      answer: "To share your code, you can use the 'Share' feature on the code editing page."
     },
     {
       question: "How do I contact the creator of a Pen?",
@@ -49,21 +50,28 @@ export class SupportComponent {
       answer: "A fork is a complete copy of a Pen or Project that you can save to your own account and modify. Your forked copy comes with everything the original author wrote, including all of the code and any dependencies."
     },
     {
-      question: "Receipts, account cancellation and more",
-      answer: "If you're investigating a charge from CODE, need a receipt or need to cancel your account check out our comprehensive doc at the link below."
+      question: "What should I do if I forget my password?",
+      answer: "If you forget your password, use the password recovery feature on the login page and follow the instructions to reset your password."
     }
   ]
 
-  constructor (private myService: HostService) {}
+  constructor (private myService: HostService, 
+      private toastr: ToastrService,
+    ) {
+      // set top-center position and auto close delay
+      this.toastr.toastrConfig.positionClass = 'toast-top-center';
+
+
+    }
 
   onSubmit() {
 
     axios.post(this.myService.getApiHost() + `/send-email/support?name=${this.name}&email=${this.mail}&message=${this.mess}&subject=${this.subject}`).then((response) => {
       console.log(response.data);
-      alert('done');
+      this.toastr.success('Your message has been sent successfully', '');
     }).catch((error) => {
       console.error('Error:', error);
-      alert('Not done');
+      this.toastr.error('Your message has not been sent', '');
     });
   }
 

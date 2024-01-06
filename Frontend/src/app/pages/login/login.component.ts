@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent {
   loginError: string | null = null;
   gmail: string = '';
-  password: string = ''; 
+  password: string = '';
 
 
   constructor(
@@ -22,20 +22,19 @@ export class LoginComponent {
     private userData: UserDataService,
     private myService: HostService,
     private toastr: ToastrService
-    ) {
-      // set top center
-      this.toastr.toastrConfig.positionClass = 'toast-top-center';
-    }
+  ) {
+    // set top center
+    this.toastr.toastrConfig.positionClass = 'toast-top-center';
+  }
 
   onLoginFormSubmit() {
-    // console.log(123432)
     if (this.gmail && this.password) {
       const apiUrl = this.myService.getApiHost() + '/auth/login';
       const requestBody = {
         gmail: this.gmail,
         password: this.password
       };
-  
+
       axios.post(apiUrl, requestBody)
         .then((response) => {
 
@@ -89,12 +88,12 @@ export class LoginComponent {
     const apiUrl = this.myService.getApiHost() + `/send-email/forgotPassword?email=${this.gmail}`;
 
     axios.post(apiUrl)
-        .then((response) => {
-          this.toastr.success('Send email successfully!');
-        })
-        .catch((error) => {
-          this.toastr.error('Đã xảy ra lỗi:', error);
-          this.loginError = 'Failed to login! Wrong username or password.';
-        });
+      .then((response) => {
+        this.toastr.success('Send email successfully!');
+      })
+      .catch((error) => {
+        this.toastr.error('Đã xảy ra lỗi:', error);
+        this.loginError = 'Failed to login! Wrong username or password.';
+      });
   }
 }

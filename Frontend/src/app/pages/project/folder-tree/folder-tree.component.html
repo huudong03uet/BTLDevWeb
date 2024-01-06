@@ -44,7 +44,7 @@
 
         </div>
     </div>
-    <div class="folder-tree-project">
+    <div class="folder-tree-project" (contextmenu)="openContextMenu($event)"> 
         <div class="header-folder-tree-project">
             <h2>Files</h2>
             <div class="button-controler-file-folder">
@@ -71,7 +71,33 @@
             </div>
 
         </div>
-        <div id="folder-tree-file" (click)="$event.stopPropagation()">
+        <div id="folder-tree-file" (click)="$event.stopPropagation() " >
         </div>
     </div>
+</div>
+
+
+
+<div class="right-click" *ngIf="content_file_folder_selected" [style.left]="mouseX" [style.top]="mouseY">
+    <ul>
+        <li (click)="renameFileFolderSelected()">
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 9H15V15H4V9ZM6 11V13H13V11H6Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M14 2H20V4H18V6H23V18H18V20H20V22H14V20H16V18H1V6H16V4H14V2ZM16 8H3V16H16V8ZM18 16H21V8H18V16Z" fill="white"/></svg>
+            Rename
+        </li>
+        <li (click)="copyPathFileFolderSelected()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" id="copy"><path fill="white" d="M4.00029246,4.08524952 L4,10.5 C4,11.8254834 5.03153594,12.9100387 6.33562431,12.9946823 L6.5,13 L10.9143985,13.000703 C10.7082819,13.5829319 10.1528467,14 9.5,14 L6,14 C4.34314575,14 3,12.6568542 3,11 L3,5.5 C3,4.84678131 3.41754351,4.29108512 4.00029246,4.08524952 Z M11.5,2 C12.3284271,2 13,2.67157288 13,3.5 L13,10.5 C13,11.3284271 12.3284271,12 11.5,12 L6.5,12 C5.67157288,12 5,11.3284271 5,10.5 L5,3.5 C5,2.67157288 5.67157288,2 6.5,2 L11.5,2 Z"></path></svg>
+            Copy path
+        </li>
+        <li (click)="deletedFileFolderSelected()">
+            <svg viewBox="0 0 16 19">
+                <path
+                    d="M.177 7.152A1 1 0 0 1 1.166 6h13.668a1 1 0 0 1 .989 1.152l-1.693 11a1 1 0 0 1-.988.848H2.858a1 1 0 0 1-.988-.848l-1.693-11ZM0 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1Z">
+                </path>
+                <path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5Z">
+                </path>
+            </svg>
+            Delete
+
+        </li>
+    </ul>
 </div>

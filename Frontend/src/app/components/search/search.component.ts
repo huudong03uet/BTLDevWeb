@@ -23,7 +23,6 @@ export class SearchComponent {
   
 
   searchFile(search: string) {
-    // console.log(search)
     // go to search page
     this.router.navigate(['/search-page']);
   }

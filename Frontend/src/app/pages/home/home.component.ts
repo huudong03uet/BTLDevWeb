@@ -16,17 +16,16 @@ export class HomeComponent implements OnInit {
     private offcanvasService: NgbOffcanvas,
     private router: Router,
     private userData: UserDataService
-  ) {}
+  ) { }
   ngOnInit(): void {
-    // console.log(this.userData.getUserData(), 1234135)
-    if(this.userData.getUserData() !== null) {
+    if (this.userData.getUserData() !== null) {
       this.router.navigate(['/following']);
     }
   }
 
   openStaticBackdrop(content: TemplateRef<any>) {
-		this.offcanvasService.open(content, { backdrop: 'static' });
-	}
+    this.offcanvasService.open(content, { backdrop: 'static' });
+  }
 
   onNavbarButtonClick() {
     this.router.navigate(['/pen']).then(() => {

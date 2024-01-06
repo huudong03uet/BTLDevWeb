@@ -32,7 +32,7 @@ async function savePen(req, res) {
       await existingPen.save();
 
       return res.status(200).json({ code: 200, pen: existingPen, message: "cập nhật pen thành công" });
-    } 
+    }
     else if (data.pen.pen_id == null) {
       const newPen = await Pen.create({
         html_code: data.pen.html_code,
@@ -45,8 +45,8 @@ async function savePen(req, res) {
         user_id: user.user_id,
       });
       return res.status(201).json({ code: 201, pen: newPen, message: "tạo pen mới thành công" });
-    }    
-    
+    }
+
     else {
       const newPen = await Pen.create({
         html_code: data.pen.html_code,
@@ -90,7 +90,7 @@ async function createFromForkPen(req, res) {
       status: "public",
       deleted: false,
       user_id: user_id,
-    }); 
+    });
 
     res.status(201).json(newPen);
   } catch (error) {
@@ -254,30 +254,30 @@ async function getPenByUserSort(req, res) {
   const { user_id, sortby } = req.query;
 
   try {
-      let pens;
-      if (sortby == "numlike" || sortby == "numview") {
-          pens = await Pen.findAll({
-              attributes: {
-                  include: [
-                      [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE pen.pen_id = like_table.pen_id)'), 'numlike'],
-                      [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE pen.pen_id = view_table.pen_id)'), 'numview'],
-                  ]
-              },
-              where: { user_id: user_id },
-              order: [[sortby, 'DESC']],
-          })
-      } else if (sortby == "private" || sortby == "public") {
-          pens = await Pen.findAll({
-              where: { user_id: user_id, status: sortby },
-          })
-      }
+    let pens;
+    if (sortby == "numlike" || sortby == "numview") {
+      pens = await Pen.findAll({
+        attributes: {
+          include: [
+            [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE pen.pen_id = like_table.pen_id)'), 'numlike'],
+            [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE pen.pen_id = view_table.pen_id)'), 'numview'],
+          ]
+        },
+        where: { user_id: user_id },
+        order: [[sortby, 'DESC']],
+      })
+    } else if (sortby == "private" || sortby == "public") {
+      pens = await Pen.findAll({
+        where: { user_id: user_id, status: sortby },
+      })
+    }
 
-      pens = pens.map(x => x.pen_id);
-      
-      res.status(200).json(pens)
+    pens = pens.map(x => x.pen_id);
+
+    res.status(200).json(pens)
   } catch (error) {
-      console.log("simp gai 808:", error);
-      console.error(error);
+    console.log("simp gai 808:", error);
+    console.error(error);
   }
 }
 
@@ -336,16 +336,24 @@ async function getTrending(req, res) {
     const penIds = await Like.findAll({
       attributes: [
         'pen_id',
-        [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'numlikes'],
+        [Sequelize.fn('COUNT', Sequelize.col('like_table.user_id')), 'numlikes'],
       ],
+      include: [{
+        model: Pen,
+        where: { deleted: false }
+      }],
       group: ['pen_id'],
     });
 
     const penIds1 = await View.findAll({
       attributes: [
         'pen_id',
-        [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'numview'],
+        [Sequelize.fn('COUNT', Sequelize.col('view_table.user_id')), 'numview'],
       ],
+      include: [{
+        model: Pen,
+        where: { deleted: false }
+      }],
       group: ['pen_id'],
     });
 
@@ -460,8 +468,6 @@ async function getFollow(req, res) {
           pens.push(...userPens);
         }
       }
-
-      // console.log(pens)
 
       res.status(200).json(pens.flat());
     } else {

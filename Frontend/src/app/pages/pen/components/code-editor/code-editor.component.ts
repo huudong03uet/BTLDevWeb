@@ -43,41 +43,68 @@ export class CodeEditorComponent implements AfterViewInit {
 
   }
 
-  // @ViewChild('consoleInput') consoleInput: ElementRef | undefined;
-  // @ViewChild('historyContainer') historyContainer: ElementRef | undefined;
+  @ViewChild('consoleInput') consoleInput: ElementRef | undefined;
+  @ViewChild('historyContainer') historyContainer: ElementRef | undefined;
 
-  // storeCode: string[] = [];
-  // addResult(inputAsString: string, output: any) {
-  //   if (this.last_log_out === output || this.last_log_in == inputAsString) return;
-  //   this.last_log_out = output;
-  //   this.last_log_in = inputAsString;
+  storeCode: string[] = [];
+  addResult(inputAsString: string, output: string) {
+    console.log("1 lan chay", inputAsString, output)
+    if (this.last_log_out === output || this.last_log_in === inputAsString) return;
+    this.last_log_out = output;
+    this.last_log_in = inputAsString;
 
-  //   const outputAsString =
-  //     Array.isArray(output) ? `[${output.join(", ")}]` : output.toString();
-  //   const inputLogElement = document.createElement("div");
-  //   const outputLogElement = document.createElement("div");
+    const outputAsString = Array.isArray(output) ? `[${output.join(", ")}]` : output.toString();
+    const inputLogElement = document.createElement("div");
+    const outputLogElement = document.createElement("div");
 
-  //   inputLogElement.classList.add("console-input-log");
-  //   outputLogElement.classList.add("console-output-log");
+    inputLogElement.classList.add("console-input-log");
+    outputLogElement.classList.add("console-output-log");
 
 
-  //   // set color for input and output
-  //   if (outputAsString.includes("Error:")) {
-  //     outputLogElement.style.backgroundColor = "rgba(255,0,0,.2)"
-  //   } else {
-  //     outputLogElement.style.color = "#00ffcc";
-  //   }    
+    // set color for input and output
+    if (outputAsString.includes("Error:")) {
+      outputLogElement.style.backgroundColor = "rgba(255,0,0,.2)"
+    } else {
+      outputLogElement.style.color = "#00ffcc";
+    }    
   
 
-  //   inputLogElement.textContent = `> ${inputAsString}`;
-  //   outputLogElement.textContent = outputAsString;
+    inputLogElement.textContent = `> ${inputAsString}`;
+    outputLogElement.textContent = outputAsString;
 
-  //   if (this.historyContainer && this.historyContainer.nativeElement) {
-  //     this.historyContainer.nativeElement.appendChild(inputLogElement);
-  //     this.historyContainer.nativeElement.appendChild(outputLogElement);
-  //   }
-  // }
+    if (this.historyContainer && this.historyContainer.nativeElement) {
+      this.historyContainer.nativeElement.appendChild(inputLogElement);
+      this.historyContainer.nativeElement.appendChild(outputLogElement);
+    }
+  }
+  private initializeEditors() {
+    this.htmlEditor = this.createEditor(this.htmlTextarea, 'xml');
+    this.stylesheetEditor = this.createEditor(this.stylesheetTextarea, this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
+    this.jsEditor = this.createEditor(this.jsTextarea, 'javascript');
+  }
 
+  
+
+  private createEditor(elementRef: ElementRef, mode: string) {
+    const editor = CodeMirror.fromTextArea(elementRef.nativeElement, {
+      mode,
+      lineNumbers: true,
+      lineWrapping: true,
+      theme: 'monokai',
+      autoCloseBrackets: true,
+      autoCloseTags: mode === 'xml'
+    });
+    editor.on('keyup', () => this.debouncedRun());
+    return editor;
+  }
+
+  onLanguageChange() {
+    this.stylesheetEditor.setOption('mode', this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
+    this.data.pen.type_css = this.stylesheetLanguage;
+    // console.log(this.stylesheetLanguage)
+    this.dataChange.emit(this.data);
+    this.run();
+  }
   ngAfterViewInit(): void {
     if (this.data && this.data.pen.type_css) {
       this.stylesheetLanguage = this.data.pen.type_css;
@@ -140,24 +167,31 @@ export class CodeEditorComponent implements AfterViewInit {
       });
     }
 
-    // this.consoleInput?.nativeElement.addEventListener("keyup", (e: KeyboardEvent) => {
-    //   if (e.key === "Enter") {
-    //     const code = this.consoleInput?.nativeElement.value;
-    //     if (code.length === 0) return;
+    console.log("123", this.consoleInput)
+    this.consoleInput?.nativeElement.addEventListener("keyup", (e: KeyboardEvent) => {
+
+      if (e.key === "Enter") {
+        const code = this.consoleInput?.nativeElement.value;
+        if (code.length === 0) return;
     
-    //     try {
-    //       this.addResult(code, eval(code));
-    //     } catch (error: any) {
-    //       this.addResult(code, "Error: " + error.message);
-    //     }
-    //     if (this.consoleInput && this.consoleInput.nativeElement) {
-    //       this.consoleInput.nativeElement.value = "";
-    //     }
-    //     if (this.historyContainer && this.historyContainer.nativeElement) {
-    //       this.historyContainer.nativeElement.scrollTop = this.historyContainer.nativeElement.scrollHeight;
-    //     }
-    //   }
-    // });
+        try {
+          // console.log("1 lan chay", code, eval(code))
+          // this.addResult(code, eval(code));
+          
+          
+          this.addResult(code, eval(code));
+          console.log(code);
+        } catch (error: any) {
+          this.addResult(code, "Error: " + error.message);
+        }
+        if (this.consoleInput && this.consoleInput.nativeElement) {
+          this.consoleInput.nativeElement.value = "";
+        }
+        if (this.historyContainer && this.historyContainer.nativeElement) {
+          this.historyContainer.nativeElement.scrollTop = this.historyContainer.nativeElement.scrollHeight;
+        }
+      }
+    });
 
 
     /**
@@ -167,34 +201,7 @@ export class CodeEditorComponent implements AfterViewInit {
   }
 
 
-  private initializeEditors() {
-    this.htmlEditor = this.createEditor(this.htmlTextarea, 'xml');
-    this.stylesheetEditor = this.createEditor(this.stylesheetTextarea, this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
-    this.jsEditor = this.createEditor(this.jsTextarea, 'javascript');
-  }
 
-  
-
-  private createEditor(elementRef: ElementRef, mode: string) {
-    const editor = CodeMirror.fromTextArea(elementRef.nativeElement, {
-      mode,
-      lineNumbers: true,
-      lineWrapping: true,
-      theme: 'monokai',
-      autoCloseBrackets: true,
-      autoCloseTags: mode === 'xml'
-    });
-    editor.on('keyup', () => this.debouncedRun());
-    return editor;
-  }
-
-  onLanguageChange() {
-    this.stylesheetEditor.setOption('mode', this.stylesheetLanguage === 'scss' ? 'sass' : 'css');
-    this.data.pen.type_css = this.stylesheetLanguage;
-    // console.log(this.stylesheetLanguage)
-    this.dataChange.emit(this.data);
-    this.run();
-  }
 
   private run() {
 
@@ -207,11 +214,9 @@ export class CodeEditorComponent implements AfterViewInit {
     const output = this.outputFrame.nativeElement.contentWindow;
     try {
       output.eval(jsCode);
-
-      // this.addResult(jsCode, eval(jsCode));
+      this.addResult(jsCode, eval(jsCode));
     } catch (error: any) {
-      // this.addResult(jsCode, "Error: " + error.message);
-      this.scrollToBottom();
+      this.addResult(jsCode, "Error: " + error.message);
     }
 
     if (this.stylesheetLanguage === 'scss') {
@@ -234,26 +239,23 @@ export class CodeEditorComponent implements AfterViewInit {
     console.log = (...args: any[]) => {
       const message = args.join(' ').trim();
       if (message) {
+        
         // this.consoleMessages.push(message);
         // alt with historyContainer
 
         // this.storeCode.push(args.join(' '));
 
         // this.addResult(args.join(' '), args.join(' '));
-        this.scrollToBottom();
 
 
       }
-      // originalConsoleLog.apply(console, args);
     };
 
     console.error = (...args: any[]) => {
       const message = ('Error: ' + args.join(' ')).trim();
       if (message) {
-        // this.addResult(args.join(' '), message);
-        this.scrollToBottom();
+        this.addResult(args.join(' '), message);
       }
-      // originalConsoleError.apply(console, args);
     };
   }
 
@@ -283,9 +285,9 @@ export class CodeEditorComponent implements AfterViewInit {
   clearConsole() {
     // this.consoleMessages = [];
     // remove all child nodes
-    // if (this.historyContainer && this.historyContainer.nativeElement) {
-      // this.historyContainer.nativeElement.innerHTML = "";
-    // }
+    if (this.historyContainer && this.historyContainer.nativeElement) {
+      this.historyContainer.nativeElement.innerHTML = "";
+    }
   }
 
   private applyStylesAndScript(htmlCode: string, finalCssCode: string, jsCode: string) {

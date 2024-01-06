@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnInit }
 import { Router } from '@angular/router';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { HomeCodeComponent } from '../../home-code.component';
-import {Clipboard} from '@angular/cdk/clipboard';
+import { Clipboard } from '@angular/cdk/clipboard';
 import axios from 'axios';
 import { HostService } from 'src/app/host.service';
 import { ToastrService } from 'ngx-toastr';
@@ -43,7 +43,6 @@ export class PenHeaderComponent implements OnInit {
   public isMenuOpen = false;
   public projectTitle = 'Untitled';
   public isEditingTitle = false;
-  public isLoggedIn = false;
 
   isFollowing = false;
 
@@ -56,7 +55,6 @@ export class PenHeaderComponent implements OnInit {
     // set height for toast
 
     this.projectTitle = this.data?.pen?.name ? this.data.pen.name : 'Untitled';
-    // console.log(this.projectTitle);
   }
 
   toggleMenu(): void {
@@ -90,12 +88,6 @@ export class PenHeaderComponent implements OnInit {
     this.isEditingTitle = false;
   }
 
-  toggleFavorite(): void {
-    if (this.myPen && this.myPen.pen_id) {
-      console.log('Toggle favorite', this.myPen);
-    }
-  }
-
   async toggleSave() {
     this.data.pen.name = this.projectTitle;
     this.dataChange.emit(this.data);
@@ -103,19 +95,11 @@ export class PenHeaderComponent implements OnInit {
   }
 
   toggleShare() {
-    // console.log(this.myPen);
     let link = this.myService.getWebHost() + `/pen/${this.data.pen.pen_id}`
     this.clipboard.copy(link);
     this.toastr.success('Link copied to clipboard', '');
     // this.clipboard.copy('Alphonso');
-    
-  }
 
-  toggleFollow(): void {
-    if (this.myPen && this.myPen.user && this.myPen.user.id) {
-      // console.log('Toggle follow user:', this.myPen.user.id);
-      this.isFollowing = !this.isFollowing;
-    }
   }
 
   handleLikeClick() {
@@ -163,7 +147,7 @@ export class PenHeaderComponent implements OnInit {
   toggleFork() {
     console.log("1234", this.dataOld)
     const apiUrl = this.myService.getApiHost() + '/pen/createFromForkPen';
-    
+
     const requestData = {
       html_code: this.dataOld.pen.html_code,
       js_code: this.dataOld.pen.js_code,
@@ -172,10 +156,9 @@ export class PenHeaderComponent implements OnInit {
       name: this.dataOld.pen.name,
       user_id: this.user.user_id
     };
-  
+
     axios.post(apiUrl, requestData)
       .then((response) => {
-        // console.log(response);
         // alert('done');
         this.toastr.success('Forked successfully', '');
 

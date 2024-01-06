@@ -32,8 +32,8 @@ export class ContentGridProjectFullInfComponent implements OnInit {
     private userData: UserDataService,
     private myService: HostService,
   ) {
-    
-   }
+
+  }
 
   ngOnInit(): void {
     this.project_id = this.project.project_id;
@@ -54,10 +54,15 @@ export class ContentGridProjectFullInfComponent implements OnInit {
 
     axios.post(toggleStatusUrl, { project_id: this.project_id })
       .then((response) => {
-        this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
-        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        this.router.onSameUrlNavigation = 'reload';
-        this.router.navigate([this.router.url]);      
+        this.informationPen[1] = this.informationPen[1] === 'Make Public' ? 'Make Private' : 'Make Public';
+        // refresh information
+
+
+
+
+        // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        // this.router.onSameUrlNavigation = 'reload';
+        // this.router.navigate([this.router.url]);      
       })
       .catch((error) => {
         console.error('Error toggling collection status:', error);
@@ -66,7 +71,7 @@ export class ContentGridProjectFullInfComponent implements OnInit {
 
 
   loadPinAndFollow() {
-    const url =  this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.project.project_id}&user_id=${this.userData.getUserData()?.user_id}`;
+    const url = this.myService.getApiHost() + `/grid/getInfoGrid?pen_id=${this.project.project_id}&user_id=${this.userData.getUserData()?.user_id}`;
     axios.get(url)
       .then((response) => {
         this.pined = response.data.pined;
@@ -80,7 +85,6 @@ export class ContentGridProjectFullInfComponent implements OnInit {
   }
 
   handlePageClick(): void {
-    // console.log(`/pen/${this.pen_id}`);
     // this.router.navigate([`/your-work/project/${this.project.project_id}`], { relativeTo: null });
   }
 
@@ -90,7 +94,6 @@ export class ContentGridProjectFullInfComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
-    // console.log("hasInformationPen: ", this.hasInformationPen)
     if (this.hasInformationPen == true) {
       var x = document.getElementsByClassName("list-items");
       if (x != null) {
@@ -213,7 +216,7 @@ export class ContentGridProjectFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url =  this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url = this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url).then((response) => {
       console.log(response);
@@ -242,7 +245,7 @@ export class ContentGridProjectFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     }
-    const url =  this.myService.getApiHost() + `/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+    const url = this.myService.getApiHost() + `/grid/handlePin?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
 
     axios.get(url)
       .then((response) => {
@@ -259,7 +262,7 @@ export class ContentGridProjectFullInfComponent implements OnInit {
     if (this.userData.getUserData == null) {
       this.router.navigate([`/login`]);
     } else {
-      const url =  this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
+      const url = this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.data.user.user_id}`;
 
       axios.get(url)
         .then((response) => {
@@ -277,23 +280,23 @@ export class ContentGridProjectFullInfComponent implements OnInit {
     this.childDetailPenVisible = !this.childDetailPenVisible;
     // hidden scroll bar body
     document.body.style.overflow = 'hidden';
-    
+
     // remove scroll bar bottom
   }
   handleChildDetailPenClose() {
     this.childDetailPenVisible = false;
+    document.body.style.overflow = 'auto';
   }
-  
+
   handleDeleteClick() {
     const confirmed = confirm("Are you sure you want to delete this project?");
     if (confirmed) {
       const url = this.myService.getApiHost() + `/project/remove`;
-      // console.log(this.project.project_id);
       const data = {
         project_id: this.project.project_id,
         delete: true
       };
-  
+
       axios.post(url, data)
         .then(response => {
           console.log(response);
