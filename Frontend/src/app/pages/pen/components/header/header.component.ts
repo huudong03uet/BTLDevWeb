@@ -51,7 +51,6 @@ export class PenHeaderComponent implements OnInit {
   ngOnInit(): void {
     // clone this.data
     this.dataOld = JSON.parse(JSON.stringify(this.data));
-    console.log("12345", this.dataOld);
     // set toasts position
     this.toastr.toastrConfig.positionClass = 'toast-top-center';
     // set height for toast

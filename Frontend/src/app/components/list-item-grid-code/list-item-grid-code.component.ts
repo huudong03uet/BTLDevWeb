@@ -91,9 +91,8 @@ export class ListItemGridCodeComponent implements OnInit {
     this.check_is_start_end();
 
   }
-
   onClickPrevGridCode() {
-    // console.log('this.index_first_current', this.index_first_current)
+
     this.index_first_current -= 4;
 
     this.pen_ids_prev = [];
@@ -122,6 +121,7 @@ export class ListItemGridCodeComponent implements OnInit {
 
   }
   onClickNextGridCode() {
+
     this.index_first_current += 4;
     // console.log('this.index_first_current', this.index_first_current)
 

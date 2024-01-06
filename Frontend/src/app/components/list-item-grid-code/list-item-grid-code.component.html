@@ -1,8 +1,11 @@
-<div class="item-grid-code-center">
+<div class="item-grid-code-center" >
+
 
 
     <div class="background-item-grid-code prev" *ngIf="!is_start" (click)="onClickPrevGridCode()">
         <div class="item-grid-code-prev">
+
+
             <app-content-grid-code *ngFor="let dataItem of pen_ids_prev" [pen_id]="dataItem"></app-content-grid-code>    
             
         </div>
@@ -35,3 +38,4 @@
     </div>
 
 </div>
+

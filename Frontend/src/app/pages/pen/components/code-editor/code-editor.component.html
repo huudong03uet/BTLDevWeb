@@ -36,18 +36,20 @@
 
 
     <!-- nếu làm cái này thì nên để cái này là position: absolute, bottom = 0 -->
-    <!-- <div class="console-box-log">
-        <div class="console-box" *ngIf="showConsole" #consoleBox>
-            <div class="messages-box">
-                <pre *ngFor="let message of consoleMessages">{{ message }}</pre>
-            </div>
-        </div>    
-        
-        <div class="button-console-log-div">
-            <button class="console-button" (click)="toggleConsole()">Console</button>
     
+    <!-- <div class="console-box-log" style="position: fixed;">
+        <div id="screen-console-log" [hidden]="showConsole == false">
+            <div class="console">
+                <div class="console-history" #historyContainer></div>
+                <input class="console-input" type="text" autofocus spellcheck="false" #consoleInput>
+            </div>
         </div>
-        <button *ngIf="showConsole" (click)="clearConsole()" class="clear-btn">Clear Console</button>
+
+        <div class="button-console-log">
+            <button (click)="toggleConsole()">Console</button>
+            <button *ngIf="showConsole" (click)="clearConsole()" class="clear-btn">Clear Console</button>
+        </div>
+
     </div> -->
    
 
