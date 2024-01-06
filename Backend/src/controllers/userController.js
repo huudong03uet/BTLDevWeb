@@ -102,9 +102,7 @@ async function getAllUserExclude(arrUserID) {
 }
 
 // async function getNotFollow(req, res) {
-//   // console.log(1)
 //   const user_id = req.params.id;
-//   // console.log('abcxyy', user_id);
 
 //   try {
 //     const getOneUser = await getUserByID(user_id);

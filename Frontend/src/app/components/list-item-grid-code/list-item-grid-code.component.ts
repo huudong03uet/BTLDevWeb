@@ -123,7 +123,6 @@ export class ListItemGridCodeComponent implements OnInit {
   onClickNextGridCode() {
 
     this.index_first_current += 4;
-    // console.log('this.index_first_current', this.index_first_current)
 
     this.pen_ids_prev = [];
     this.pen_ids_next = [];

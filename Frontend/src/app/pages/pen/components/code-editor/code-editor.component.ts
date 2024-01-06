@@ -177,7 +177,6 @@ export class CodeEditorComponent implements AfterViewInit {
         try {
           // console.log("1 lan chay", code, eval(code))
           // this.addResult(code, eval(code));
-
           
           
           this.addResult(code, eval(code));

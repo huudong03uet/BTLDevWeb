@@ -22,7 +22,6 @@ export class CollectionsProfileComponent {
 
   //  ng after change partial page
   ngAfterViewChecked() {
-    // console.log('ngAfterViewChecked')
     if (this.currentURL != window.location.href) {
       this.currentURL = window.location.href;
 
@@ -33,7 +32,6 @@ export class CollectionsProfileComponent {
     this.router.navigate(['/profile/collections/popular']);
   }
   navigateToCPrivate() {
-    // console.log('private')
     this.router.navigate(['/profile/collections/private']);
   }
   navigateToCPublic() {

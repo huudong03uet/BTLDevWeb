@@ -26,7 +26,6 @@ export class CentralManageComponent {
 
   //  ng after change partial page
   ngAfterViewChecked() {
-    // console.log('ngAfterViewChecked')
     if (this.currentURL != window.location.href) {
       this.currentURL = window.location.href;
 
@@ -35,7 +34,6 @@ export class CentralManageComponent {
   }
   
   navigateToPens() {
-    // console.log('profile')
     this.router.navigate(['/manage/active']);
   }
 

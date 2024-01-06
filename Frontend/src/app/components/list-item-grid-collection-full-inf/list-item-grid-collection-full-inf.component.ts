@@ -29,16 +29,13 @@ export class ListItemGridCollectionFullInfComponent {
   private updateCollectionData(): void {
     const startIndex = (this.page_now - 1) * 6;
     const endIndex = this.page_now * 6;
-    
+
     const validEndIndex = Math.min(endIndex, this.collections.length);
-    
+
     this.collection_ids_current = this.collections.slice(startIndex, validEndIndex);
-    // console.log("error eorro", this.collection_ids_current)
-    //  = collectionsForCurrentPage;
-    // console.log("error eorro", this.collections)
     this.check_is_start_end();
   }
-  
+
   clickNextPageButton(): void {
     this.page_now += 1;
     this.updateCollectionData();

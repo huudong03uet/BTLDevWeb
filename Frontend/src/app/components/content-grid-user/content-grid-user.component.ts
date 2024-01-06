@@ -31,8 +31,6 @@ export class ContentGridUserComponent implements OnInit {
     const apiUrl = this.myService.getApiHost() + `/pen/getPenByUserIDForFollow/${this.user.user_id}`;
     axios.get(apiUrl).then((response) => {
       this.data = response.data;
-      // console.log('user_id:', this.user[idx].user_id);
-      // console.log('data_pen:', this.data);
       if (this.data == null) {
         return;
       }
@@ -83,7 +81,6 @@ export class ContentGridUserComponent implements OnInit {
 
 
   handlePageClick(): void {
-    // console.log(`/pen/${this.pen_id}`);
     this.router.navigate([`/pen/${this.data.pen_id}`], { relativeTo: null });
   }
 

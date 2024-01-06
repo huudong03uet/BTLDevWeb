@@ -43,7 +43,6 @@ export class ListUsersComponent implements OnInit {
     axios.get(apiUrl).then((response) => {
       this.datas = response.data;
       this.dataPass = response.data;
-      // console.log("dataPass", this.dataPass)
 
       this.onChangesFinetune();
     }).catch((error) => {
@@ -57,7 +56,6 @@ export class ListUsersComponent implements OnInit {
 
     this.fullOptionControlItemService.currentMessageSortBy.subscribe(message => {
       if (message) {
-        // console.log("message", message)
 
         this.sortBy = message;
 
@@ -100,7 +98,6 @@ export class ListUsersComponent implements OnInit {
       }
       return pen.user_name.toLowerCase().includes(this.searchFor.toLowerCase())
     });
-    // console.log("after searchFor", pen_full_searchFor)
 
     if (this.sortBy === 'date_created') {
       // "2023-11-18T09:46:39.000Z" -> is date format
@@ -125,7 +122,6 @@ export class ListUsersComponent implements OnInit {
         }
       });
     }
-    // console.log("after sort", pen_full_searchFor)
 
     // if (this.publicPrivate === 'public') {
     //   pen_full_searchFor = pen_full_searchFor.filter((pen: { status: string; }) => pen.status === "public");
@@ -136,10 +132,8 @@ export class ListUsersComponent implements OnInit {
     return pen_full_searchFor;
   }
 
-  toggleRemoveOrRestoreUser(user_id: number, isDelete:boolean) {
-    // console.log(this.myService.getApiHost() + `/user/removeOrRestoreUser`);
-    axios.put(this.myService.getApiHost() + `/user/removeOrRestoreUser`, {user_id: user_id, isDelete: isDelete}).then((response) => {
-      // console.log("done done done", response)
+  toggleRemoveOrRestoreUser(user_id: number, isDelete: boolean) {
+    axios.put(this.myService.getApiHost() + `/user/removeOrRestoreUser`, { user_id: user_id, isDelete: isDelete }).then((response) => {
 
       this.fetchData();
     }).catch((error) => {
