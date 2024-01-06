@@ -5,6 +5,9 @@ const Collection = require('../models/collection');
 const { DataTypes, literal } = require('sequelize');
 const Sequelize = require('sequelize');
 
+import LikeCollection from "../models/likeCollection";
+import Like from "../models/likeTable";
+import View from "../models/viewTable";
 import { _formatDateString } from "./userController";
 
 function _calculateTimeAgo(time) {
@@ -79,13 +82,26 @@ async function _getAllCommentOfPen(pen_id) {
             },
         });
 
+        let numlike = await Like.findAll({
+            where: {pen_id: pen_id}
+        })
+
+        let numview = await View.findAll({
+            where: {pen_id: pen_id}
+        })
+
         comments = comments.map(comment => ({
             ...comment.dataValues,
             "createdAt": _calculateTimeAgo(comment.createdAt),
             "updatedAt": _calculateTimeAgo(comment.updatedAt),
         }));
 
-        return comments;
+        return {
+            comments: comments,
+            numlike: numlike.length,
+            numview: numview.length,
+            numcomment: comments.length
+        };
     } catch (error) {
         throw error;
     }
@@ -120,7 +136,20 @@ async function _getAllCommentOfCollection(collection_id) {
             "updatedAt": _calculateTimeAgo(comment.updatedAt),
         }));
 
-        return comments;
+        let numlike = await LikeCollection.findAll({
+            where: {collection_id: collection_id}
+        })
+
+        let numview = await View.findAll({
+            where: {collection_id: collection_id}
+        })
+
+        return {
+            comments: comments,
+            numlike: numlike.length,
+            numview: numview.length,
+            numcomment: comments.length
+        };
     } catch (error) {
         throw error;
     }
@@ -155,7 +184,20 @@ async function _getAllCommentOfProject(project_id) {
             "updatedAt": _calculateTimeAgo(comment.updatedAt),
         }));
 
-        return comments;
+        let numlike = await Like.findAll({
+            where: {project_id: project_id}
+        })
+
+        let numview = await View.findAll({
+            where: {project_id: project_id}
+        })
+
+        return {
+            comments: comments,
+            numlike: numlike.length,
+            numview: numview.length,
+            numcomment: comments.length
+        };
     } catch (error) {
         throw error;
     }

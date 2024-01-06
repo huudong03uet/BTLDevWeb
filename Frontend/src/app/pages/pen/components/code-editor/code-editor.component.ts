@@ -53,8 +53,7 @@ export class CodeEditorComponent implements AfterViewInit {
     this.last_log_out = output;
     this.last_log_in = inputAsString;
 
-    const outputAsString =
-      Array.isArray(output) ? `[${output.join(", ")}]` : output.toString();
+    const outputAsString = Array.isArray(output) ? `[${output.join(", ")}]` : output.toString();
     const inputLogElement = document.createElement("div");
     const outputLogElement = document.createElement("div");
 
@@ -176,8 +175,13 @@ export class CodeEditorComponent implements AfterViewInit {
         if (code.length === 0) return;
     
         try {
-          console.log("1 lan chay", code, eval(code))
+          // console.log("1 lan chay", code, eval(code))
+          // this.addResult(code, eval(code));
+
+          
+          
           this.addResult(code, eval(code));
+          console.log(code);
         } catch (error: any) {
           this.addResult(code, "Error: " + error.message);
         }
@@ -236,6 +240,7 @@ export class CodeEditorComponent implements AfterViewInit {
     console.log = (...args: any[]) => {
       const message = args.join(' ').trim();
       if (message) {
+        
         // this.consoleMessages.push(message);
         // alt with historyContainer
 

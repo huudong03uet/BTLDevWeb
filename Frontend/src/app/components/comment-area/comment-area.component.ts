@@ -27,6 +27,9 @@ export class CommentAreaComponent implements OnInit, OnChanges {
       "user_id": 1,
       "reply": 5,
       "replyUser": "User5",
+      "numlike": 0,
+      "numview":0,
+      "numcomment": 0,
       "user": {
         "user_name": "User1",
         "avatar_path": null
@@ -57,7 +60,11 @@ export class CommentAreaComponent implements OnInit, OnChanges {
     // console.log("abc def ghi klm", apiUrl);
 
     axios.get(apiUrl).then((response) => {
-      this.data_comment = response.data.map((comment: any) => ({
+      let x = response.data.comments;
+      this.data_loved = response.data.numlike;
+      this.data_view = response.data.numview;
+      this,this.data_comment = response.data.numcomment;
+      this.data_comment = x((comment: any) => ({
         ...comment,
         user: {
           ...comment.user,
