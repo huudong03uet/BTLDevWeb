@@ -20,48 +20,41 @@
                         </h2>
                         <div class="text-module">
                             <h3>Did you try the documentation?</h3>
-                            <p>We have lots of information available in <a href="/support">our documentation</a> that might help you with your issue. If you don't find your answer there, send us a message. We're happy to help!
+                            <p>We have lots of information available in <a href="/support">our documentation</a> that
+                                might help you with your issue. If you don't find your answer there, send us a message.
+                                We're happy to help!
                             </p>
                         </div>
-                            <div class="change-information">
-                                <div class="button-and-header-settings">
-                                    <div class="header-button">
-                                        <!--space is  &nbsp;-->
-                                        <!-- add * because required -->
-                                        Message  &nbsp;<a style="color: red">*</a>
-                                    </div>
-                                    <textarea class="input-default-settings" name="mess" [(ngModel)]="mess" type="text" style="height: 100px;" required></textarea>
-                                    <div class="header-button">
-                                        Name
-                                    </div>
-                                    <input name="name" class="input-default-settings" [(ngModel)]="name" type="text">
-                                    <div class="header-button">
-                                        Email &nbsp;<a style="color: red">*</a>
-                                    </div>
-                                    <input class="input-default-settings" name="mail" [(ngModel)]="mail" type="email" required>
+                        <div class="change-information">
+                            <div class="button-and-header-settings">
+                                <div class="header-button">
+                                    <!--space is  &nbsp;-->
+                                    <!-- add * because required -->
+                                    Message &nbsp;<a style="color: red">*</a>
+                                </div>
+                                <textarea class="input-default-settings" name="mess" [(ngModel)]="mess" type="text"
+                                    style="height: 100px;" required></textarea>
+                                <div class="header-button">
+                                    Name
+                                </div>
+                                <input name="name" class="input-default-settings" [(ngModel)]="name" type="text">
+                                <div class="header-button">
+                                    Email &nbsp;<a style="color: red">*</a>
+                                </div>
+                                <input class="input-default-settings" name="mail" [(ngModel)]="mail" type="email"
+                                    required>
 
-                                    <div class="header-button">
-                                        Subject &nbsp;<a style="color: red">*</a>
-                                    </div>
-                                    <input class="input-default-settings" name="subject" [(ngModel)]="subject" type="text" required>
-                                </div>    
-                                
-                                
-                                <!-- <div class="selected-file">
-                                    <a class="description" >
-                                        A screenshot or screen recording can be super helpful!
-                                    </a> 
-                                    <div style="display: flex">
-                                        <input type="file" (change)="onFileSelected($event)" />
-                                        <div>{{textFile}}</div>
-                                    </div>
-                                    
-                                </div> -->
-                                <!-- file upload -->
-                                <button class="button-click-settings green-button" (click)="onSubmit()">Submit</button>
+                                <div class="header-button">
+                                    Subject &nbsp;<a style="color: red">*</a>
+                                </div>
+                                <input class="input-default-settings" name="subject" [(ngModel)]="subject" type="text"
+                                    required>
                             </div>
+
+                            <button class="button-click-settings green-button" (click)="onSubmit()">Submit</button>
+                        </div>
                     </div>
-                    
+
                 </div>
 
                 <div class="right-question-answer">
@@ -69,7 +62,7 @@
                         <h2>
                             FAQs
                         </h2>
- 
+
                         <details class="social-information" *ngFor="let qas of question_answering">
                             <summary>
                                 <!-- ::marker -->
@@ -88,6 +81,6 @@
             <app-footer></app-footer>
         </div>
     </div>
-    
+
 
 </div>

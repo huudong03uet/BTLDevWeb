@@ -40,10 +40,16 @@ export class SearchPageComponent implements OnInit, OnChanges {
         }).catch((error) => {
           console.error('Error:', error);
         });
+      } else if (this.type == "project") {
+        apiUrl = this.myService.getApiHost() + `/search/project?q=${search}`
+        // console.log(apiUrl)
+        axios.get(apiUrl).then((response) => {
+          this.project_ids = response.data;
+          console.log(this.project_ids)
+        }).catch((error) => {
+          console.error('Error:', error);
+        });
       }
-
- 
-
     });
 
   }

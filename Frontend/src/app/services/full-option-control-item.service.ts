@@ -11,7 +11,7 @@ export class FullOptionControlItemService {
   constructor() { }
 
 
-  
+
   private messageSourceSearchFor = new BehaviorSubject<any>(null);
   currentMessageSearchFor = this.messageSourceSearchFor.asObservable();
   changeMessageSearchFor(message: any) {
@@ -27,7 +27,7 @@ export class FullOptionControlItemService {
   private messageSourceSortBy = new BehaviorSubject<any>(null);
   currentMessageSortBy = this.messageSourceSortBy.asObservable();
   changeMessageSortBy(message: any) {
-    
+
     this.messageSourceSortBy.next(message)
   }
 
