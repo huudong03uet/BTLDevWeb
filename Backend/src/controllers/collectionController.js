@@ -193,9 +193,9 @@ async function getAllCollection(req, res) {
       attributes: {
         include: [
           [Sequelize.literal('(SELECT user_name FROM user WHERE user.user_id = collection.user_id)'), 'user_name'],
-          [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE like_table.collection_id = collection.collection_id)'), 'numlike'],
-          [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE view_table.collection_id = collection.collection_id)'), 'numview'],
-          [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.collection_id = collection.collection_id)'), 'numcomment'],
+          [Sequelize.literal('(SELECT count(like_id) FROM likeCollection WHERE likeCollection.collection_id = collection.collection_id AND likeCollection.type = "collection")'), 'numlike'],
+          [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE view_table.collection_id = collection.collection_id AND view_table.type = "collection")'), 'numview'],
+          [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.collection_id = collection.collection_id AND comment_table.type = "collection")'), 'numcomment'],
         ],
       },
       where: { deleted: deleted },
@@ -359,8 +359,8 @@ async function getCollectionByUserSort(req, res) {
       collections = await Collection.findAll({
         attributes: {
           include: [
-            [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE collection.collection_id = like_table.collection_id)'), 'numlike'],
-            [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE collection.collection_id = view_table.collection_id)'), 'numview'],
+            [Sequelize.literal('(SELECT count(like_id) FROM likeCollection WHERE collection.collection_id = likeCollection.collection_id)'), 'numlike'],
+            [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE collection.collection_id = view_table.collection_id AND view_table.type = "collection")'), 'numview'],
           ]
         },
         where: { user_id: user_id },
