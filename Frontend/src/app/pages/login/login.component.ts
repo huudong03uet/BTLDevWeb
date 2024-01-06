@@ -28,7 +28,6 @@ export class LoginComponent {
   }
 
   onLoginFormSubmit() {
-    // console.log(123432)
     if (this.gmail && this.password) {
       const apiUrl = this.myService.getApiHost() + '/auth/login';
       const requestBody = {

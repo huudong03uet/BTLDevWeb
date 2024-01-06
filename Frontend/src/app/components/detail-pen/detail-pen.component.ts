@@ -29,11 +29,9 @@ export class DetailPenComponent {
       let apiUrl = this.myService.getApiHost() + `/pen/getInfoPen?user_id=${null}&pen_id=${this.pen_id}`;
       axios.get(apiUrl).then((response) => {
         this.data = response.data;
-        // console.log('vai o:', this.data);
         this.htmlFile = this.data.pen.html_code;
         this.cssFile = this.data.pen.css_code;
         this.jsFile = this.data.pen.js_code;
-        // console.log('vai o:', this.htmlFile);
 
         this.namePen = (this.data.pen.name == null) ? "Untitled" : this.data.pen.name;
         const iframeContent = `
@@ -66,7 +64,6 @@ export class DetailPenComponent {
 
 
   handlePageClick(): void {
-    // console.log(`/pen/${this.pen_id}`);
     if (this.type == 'pen') {
       this.router.navigate([`/pen/${this.pen_id}`], { relativeTo: null });
     } else if (this.type == 'project') {
@@ -74,7 +71,7 @@ export class DetailPenComponent {
     } else if (this.type == 'collection') {
       this.router.navigate([`/collection/${this.pen_id}`], { relativeTo: null });
     }
-    
+
   }
 
 
@@ -113,7 +110,6 @@ export class DetailPenComponent {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
-    // console.log("hasInformationPen: ", this.hasInformationPen)
     if (this.hasInformationPen == true) {
       var x = document.getElementsByClassName("list-items");
       if (x != null) {

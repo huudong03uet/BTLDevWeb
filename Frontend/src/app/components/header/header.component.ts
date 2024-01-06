@@ -49,12 +49,10 @@ export class HeaderComponent {
   }
 
   handleChildPinnedClose() {
-    // console.log('close');
     this.childPinnedVisible = false;
   }
 
   handleChildProjectClose() {
-    // console.log('close');
     this.childProjectVisible = false;
   }
 

@@ -54,7 +54,6 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   fetchComments() {
     let apiUrl = this.myService.getApiHost() + `/comment/get?id=${this.id}&type=${this.type}`;
 
-    // console.log("abc def ghi klm", apiUrl);
 
     axios.get(apiUrl).then((response) => {
       this.data_comment = response.data.map((comment: any) => ({
@@ -74,7 +73,6 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   onSubmit() {
     let apiUrl = this.myService.getApiHost() + `/comment/create?id=${this.id}&type=${this.type}&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&reply=${this.reply}`;
 
-    // console.log("abcdef", apiUrl);
 
     axios.post(apiUrl).then((response) => {
       let x = response.data;

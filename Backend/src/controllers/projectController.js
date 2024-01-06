@@ -160,7 +160,7 @@ async function getProjectByUserSort(req, res) {
                 where: { user_id: user_id, deleted: false, status: sortby },
             })
         }
-        
+
         res.status(200).json(projects)
     } catch (error) {
         console.log("simp gai 808:", error);
@@ -175,39 +175,39 @@ async function getAllProject(req, res) {
     const deleted = req.query.deleted == '' ? false : (req.query.deleted == "true" ? true : false);
 
     console.log(deleted)
-  
-    try {
-      let projects = await Project.findAll({
-        attributes: {
-          exclude: ['password', 'html_code', 'js_code', 'css_code', 'type_css'],
-          include: [
-            [Sequelize.literal('(SELECT user_name FROM user WHERE user_id = project.user_id)'), 'user_name'],
-            [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE like_table.project_id = project.project_id)'), 'numlike'],
-            [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE view_table.project_id = project.project_id)'), 'numview'],
-            [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.project_id = project.project_id)'), 'numcomment'],
-          ],
-        },
-        where: { deleted: deleted },
-        order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
-      });
-  
-      projects = projects.map(project => ({
-        ...project.toJSON(),
-        id: project.project_id,
-        name: (project.name == null ? "Untitled" : project.name),
-        createdAtRaw: project.createdAt,
-        updatedAtRaw: project.updatedAt,
-        createdAt: _formatDateString(project.createdAt),
-        updatedAt: _formatDateString(project.updatedAt),
-      }));
-  
-      res.status(200).json(projects);
-    } catch (error) {
-      console.log("chan gai 808", error);
-    }
-  }
 
-  async function removeProject(req, res) {
+    try {
+        let projects = await Project.findAll({
+            attributes: {
+                exclude: ['password', 'html_code', 'js_code', 'css_code', 'type_css'],
+                include: [
+                    [Sequelize.literal('(SELECT user_name FROM user WHERE user_id = project.user_id)'), 'user_name'],
+                    [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE like_table.project_id = project.project_id)'), 'numlike'],
+                    [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE view_table.project_id = project.project_id)'), 'numview'],
+                    [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.project_id = project.project_id)'), 'numcomment'],
+                ],
+            },
+            where: { deleted: deleted },
+            order: attr_sort != '' ? [[attr_sort, order_by || 'ASC']] : undefined,
+        });
+
+        projects = projects.map(project => ({
+            ...project.toJSON(),
+            id: project.project_id,
+            name: (project.name == null ? "Untitled" : project.name),
+            createdAtRaw: project.createdAt,
+            updatedAtRaw: project.updatedAt,
+            createdAt: _formatDateString(project.createdAt),
+            updatedAt: _formatDateString(project.updatedAt),
+        }));
+
+        res.status(200).json(projects);
+    } catch (error) {
+        console.log("chan gai 808", error);
+    }
+}
+
+async function removeProject(req, res) {
     const project_id = req.body.project_id;
     try {
         const project = await Project.findByPk(project_id);
@@ -246,41 +246,41 @@ async function restoreProject(req, res) {
 
 async function toggleProjectStatus(req, res) {
     const { project_id } = req.body;
-  
-    try {
-      const existingProject = await Project.findOne({ where: { project_id: project_id, deleted: false } });
-  
-      if (!existingProject) {
-        return res.status(404).json({ code: 404, message: 'Không tìm thấy project' });
-      }
-  
-      // Toggle the status between 'public' and 'private'
-      existingProject.status = existingProject.status === 'public' ? 'private' : 'public';
-      await existingProject.save();
-  
-      return res.status(200).json({ code: 200, project: existingProject, message: 'Change project status successfully' });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ code: 500, error: 'Error during project state transition' });
-    }
-  }
 
-  async function checkProjectStatus(req, res) {
-    const { project_id } = req.body;
-  
     try {
-      const project = await Project.findByPk(project_id, { where: { deleted: false } });
-  
-      if (!project) {
-        return res.status(404).json({ error: 'Project not found' });
-      }
-  
-      return res.status(200).json({ status: project.status, message: 'Lấy trạng thái project thành công' });
+        const existingProject = await Project.findOne({ where: { project_id: project_id, deleted: false } });
+
+        if (!existingProject) {
+            return res.status(404).json({ code: 404, message: 'Không tìm thấy project' });
+        }
+
+        // Toggle the status between 'public' and 'private'
+        existingProject.status = existingProject.status === 'public' ? 'private' : 'public';
+        await existingProject.save();
+
+        return res.status(200).json({ code: 200, project: existingProject, message: 'Change project status successfully' });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+        console.error(error);
+        return res.status(500).json({ code: 500, error: 'Error during project state transition' });
     }
-  }
+}
+
+async function checkProjectStatus(req, res) {
+    const { project_id } = req.body;
+
+    try {
+        const project = await Project.findByPk(project_id, { where: { deleted: false } });
+
+        if (!project) {
+            return res.status(404).json({ error: 'Project not found' });
+        }
+
+        return res.status(200).json({ status: project.status, message: 'Lấy trạng thái project thành công' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
 
 let saveProject = async (req, res) => {
@@ -320,13 +320,12 @@ let saveProject = async (req, res) => {
         console.log("data.data_map", data.data_map)
         for (let key in data.data_map) {
             if (data.data_map[key].type == "folder") {
-                
-                // const folder = await Folder.findByPk(data.data_map[key].folder_id);
+
                 // if (data.data_map[key].folder_id == null) {
-                    const folder = await Folder.create({
-                        name: data.data_map[key].name,
-                        project_id: project_id,
-                    });
+                const folder = await Folder.create({
+                    name: data.data_map[key].name,
+                    project_id: project_id,
+                });
                 // }
                 // else {
                 //     await folder.update({
@@ -334,15 +333,15 @@ let saveProject = async (req, res) => {
                 //         project_id: project_id,
                 //     });
                 // }
-         
-               
+
+
             } else if (data.data_map[key].type == "file") {
                 // if (data.data_map[key].file_id == null) {
-                    const file = await File.create({
-                        name: data.data_map[key].name,
-                        project_id: project_id,
-                        content: data.data_map[key].content,
-                    });
+                const file = await File.create({
+                    name: data.data_map[key].name,
+                    project_id: project_id,
+                    content: data.data_map[key].content,
+                });
                 // } 
                 // else {
                 //     const file = await File.findByPk(data.data_map[key].file_id);
@@ -352,7 +351,7 @@ let saveProject = async (req, res) => {
                 //         content: data.data_map[key].content,
                 //     });
                 // }
-                
+
             }
         }
 

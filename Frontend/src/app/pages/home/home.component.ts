@@ -18,7 +18,6 @@ export class HomeComponent implements OnInit {
     private userData: UserDataService
   ) { }
   ngOnInit(): void {
-    // console.log(this.userData.getUserData(), 1234135)
     if (this.userData.getUserData() !== null) {
       this.router.navigate(['/following']);
     }

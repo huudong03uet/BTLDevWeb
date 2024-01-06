@@ -147,10 +147,8 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
       this.router.navigate([`/login`]);
     }
     const url = this.myService.getApiHost() + `/grid/handlePin?id=${this.collection_id}&user_id=${this.userData.getUserData()?.user_id}&type=collection`;
-    // console.log("url: ", url)
     axios.get(url)
       .then((response) => {
-        // console.log("response: ", response.data);
         let pined = response.data.pinned;
         this.informationPen[1] = !pined ? "Add to Pins" : "Remove to Pins";
       })
@@ -174,7 +172,6 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
-    // console.log("hasInformationPen: ", this.hasInformationPen)
     if (this.hasInformationPen == true) {
       var x = document.getElementsByClassName("list-items");
       if (x != null) {

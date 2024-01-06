@@ -469,8 +469,6 @@ async function getFollow(req, res) {
         }
       }
 
-      // console.log(pens)
-
       res.status(200).json(pens.flat());
     } else {
       res.status(200).json([]);

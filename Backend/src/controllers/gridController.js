@@ -12,8 +12,6 @@ import Collection from '../models/collection';
 let updateView = async (req, res) => {
   try {
     const { userId, penId } = req.body;
-    // console.log(userId);
-    // console.log(penId);
     const [view, created] = await View.findOrCreate({
       where: {
         user_id: userId,
@@ -187,7 +185,6 @@ async function getInfoGrid(req, res) {
   const penId = req.query.pen_id;
   const user_id = req.query.user_id;
   try {
-    // console.log(penId);
     const pen = await Pen.findByPk(penId);
 
     if (!pen) {
@@ -229,7 +226,7 @@ async function getInfoGrid(req, res) {
   }
 }
 
- let handlePinPen = async (user_id, pen_id) => {
+let handlePinPen = async (user_id, pen_id) => {
   try {
     const existingPin = await Pin.findOne({
       where: {

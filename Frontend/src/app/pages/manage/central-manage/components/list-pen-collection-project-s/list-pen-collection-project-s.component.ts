@@ -221,7 +221,6 @@ export class ListPenCollectionProjectSComponent implements OnInit {
       }
 
       axios.post(url, data).then(response => {
-        // console.log(response);
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
         this.router.navigate([this.router.url]);
