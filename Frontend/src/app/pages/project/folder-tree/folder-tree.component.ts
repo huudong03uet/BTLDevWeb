@@ -341,7 +341,9 @@ sortData(data: any) {
           });
         this.renderer.listen(inputElement, 'keydown', ($event) => {
           if ($event.key === 'Enter') {
+            console.log(inputElement.value, 1233212312)
             file.input = false; 
+            let old_key = file.key;
             if(inputElement.value !== '' && inputElement.value !== file.name && this.data.data_map[(folder ? folder + '/' : '') + inputElement.value] == null) {
               file.key = (folder ? folder + '/' : '') + inputElement.value;
               this.data.data_map[file.key] = this.data.data_map[(folder ? folder + '/' : '') + file.name];
@@ -357,6 +359,12 @@ sortData(data: any) {
               this.data.filesOpened.add(file.key);
               if(type == 'html') {
                 this.data.key_file_html.add(file.key);
+              }
+              if(this.data.key_file_html.has(old_key)) {
+                this.data.key_file_html.delete(old_key);
+              }
+              if(this.data.filesOpened.has(old_key)) {
+                this.data.filesOpened.delete(old_key);
               }
               this.dataChange.emit(this.data);
             }
@@ -547,6 +555,7 @@ sortData(data: any) {
   addFileToTree(path: any, file: any, tree: any) {
    let part = path.shift();
    if(path.length === 0) {
+    tree.files.push(file);
    }
   else {
      
@@ -554,28 +563,29 @@ sortData(data: any) {
    }
   }
 
-  renameFileFolderSelected() {
-    // first, open input, after that, input and check and rename
-
-    if (this.data.sidebarChoose) {
-      if (this.data.data_map[this.data.sidebarChoose].type === "file") {
-        let lastSlashIndex = this.data.sidebarChoose.lastIndexOf("/");
-
-        if (lastSlashIndex != -1) {
-          let folder = this.data.sidebarChoose.substring(0, lastSlashIndex);
-          let name = this.data.sidebarChoose.substring(lastSlashIndex + 1);
-          this.data.data_map[this.data.sidebarChoose].input = true;
-          this.dataChange.emit(this.data);
-        } else {
-          this.data.data_map[this.data.sidebarChoose].input = true;
-          this.dataChange.emit(this.data);
+  changeInput(key: string, tree: any  = this.data.data_key) {
+    let path = key.split('/');
+    let part = path.pop();
+    for(let i = 0; i < path.length; i++) {
+      tree = tree.subfolders[path[i]];
+    }
+    if(this.data.data_map[key].type === 'file') {
+      for(let i = 0; i < tree.files.length; i++) {
+        if(tree.files[i].key === key) {
+          tree.files[i].input = true;
         }
-      } else {
-        this.data.data_map[this.data.sidebarChoose].input = true;
-        this.dataChange.emit(this.data);
+      }
+    } else {
+      if(part) {
+        tree.subfolders[part].input = true;
       }
     }
+  }
 
+  renameFileFolderSelected() {
+    // first, open input, after that, input and check and rename
+    this.changeInput(this.data.sidebarChoose);
+    this.dataChange.emit(this.data);
   }
 
   renderSvg(obj: string) {
@@ -711,8 +721,10 @@ sortData(data: any) {
     } while (this.data.data_map[name] != null);    
     newFile.key = name;
     newFile.name = baseName + (--i > 0 ? `(${i})` : '') + extension;
+    console.log(newFile);
     this.addFileToTree(newFile.key.split('/'), newFile, this.data.data_key);
     this.data.data_map[newFile.key] = {project_id: this.data.data_source.project.project_id, name: newFile.key, type: 'file', content: '' };
+    console.log(this.data);
     setTimeout(() => {
       this.dataChange.emit(this.data)
     }, 0);
