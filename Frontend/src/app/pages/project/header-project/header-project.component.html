@@ -16,7 +16,7 @@
                     {{ (projectInfo?.user?.user_name && data?.data_source?.project?.project_id) ?
                     projectInfo?.user?.user_name : (user ? user?.user_name : 'Captain Anonymous' )}}
                     <button class="follow-button"
-                    *ngIf="user && projectInfo?.user?.user_id != user?.user_id && data?.data_source?.project?.project_id && !this.followed"
+                    *ngIf="user && projectInfo?.user?.user_id != user?.user_id && data?.data_source?.project?.project_id && this.followed === false"
                     (click)="handleFollowClick()">
                     <svg width=8 height=8 viewBox="0 0 132.4 132.4" class="FollowButton-module_statusIcon-U62Ef">
                         <path
@@ -26,7 +26,7 @@
                     Follow
                 </button>
                 <button class="follow-button following" id="follow-button-following"
-                    *ngIf="user && projectInfo?.user?.user_id != user?.user_id && data?.data_source?.project?.project_id && this.followed"
+                    *ngIf="user && projectInfo?.user?.user_id != user?.user_id && data?.data_source?.project?.project_id && this.followed === true"
                     (mouseenter)="changeSvg(true)" (mouseleave)="changeSvg(false)" (click)="handleFollowClick()">
                     <svg viewBox="0 0 100 100" class="FollowButton-module_statusIcon-U62Ef">
                         <path

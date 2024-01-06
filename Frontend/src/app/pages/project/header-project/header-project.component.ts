@@ -6,7 +6,7 @@ import axios from 'axios';
 import { HomeCodeComponent } from '../../pen/home-code.component';
 import { HostService } from 'src/app/host.service';
 import { ToastrService } from 'ngx-toastr';
-import {Clipboard} from '@angular/cdk/clipboard';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-header-project',
@@ -18,59 +18,67 @@ export class HeaderProjectComponent implements OnInit {
   isMenuOpen = false;
   user: any;
   projectInfo: any;
-  followed: any = false;
-  liked: any = false;
+  followed: boolean = false;
+  liked: boolean = false;
 
   userData: any = new UserDataService(this.myService);
   @ViewChild('projectTitleInput') projectTitleInput!: ElementRef;
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private userDataService: UserDataService,
-    private myService: HostService,     
+    private myService: HostService,
     private clipboard: Clipboard,
     private toastr: ToastrService
-    ) {     
-      this.toastr.toastrConfig.positionClass = 'toast-top-center'; // Set toastr position
+  ) {
+    this.toastr.toastrConfig.positionClass = 'toast-top-center'; // Set toastr position
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.user = this.userData?.getUserData();
     const projectId = this.data?.data_source?.project?.project_id;
-
+  
     if (projectId) {
       const url = this.myService.getApiHost() + `/project/getInfoProjectByID?project_id=${projectId}`;
-      axios.post(url)
-        .then((response) => {
-          this.projectInfo = response.data.project;
-
-          // Check project status and user ID for navigation
-          if (this.projectInfo.status === 'private' && this.user.user_id !== this.projectInfo.user.user_id) {
-            this.router.navigate(['/**']);
-          }
-        })
-        .catch((error) => {
-          console.log('Error fetching projectInfo:', error);
-        });
+      try {
+        const response = await axios.post(url);
+        this.projectInfo = response.data.project;
+  
+        if (!this.user) {
+          return;
+        }
+  
+        if (this.projectInfo.status === 'private' && this.user.user_id !== this.projectInfo.user.user_id) {
+          this.router.navigate(['/**']);
+        }
+      } catch (error) {
+        console.log('Error fetching projectInfo:', error);
+      }
     }
+  
+    console.log(this.user);
+    if (this.user) {
+      const isFollowingUrl = this.myService.getApiHost() + `/grid/isUser1FollowingUser2?user_id_1=${this.user?.user_id}&user_id_2=${this.projectInfo.user.user_id}`;
+      console.log(isFollowingUrl);
 
-    const isFollowingUrl = this.myService.getApiHost() + `/grid/isUser1FollowingUser2?user_id_1=${this.user.user_id}&user_id_2=${this.projectInfo.user.user_id}`;
-    axios.get(isFollowingUrl)
-      .then((response) => {
-        this.followed = response.data.isFollowing;
-      })
-      .catch((error) => {
+      try {
+        const response = await axios.get(isFollowingUrl);
+        this.followed = response.data.followed;
+        console.log("init: ", this.followed);
+
+      } catch (error) {
         console.error('Error checking follow:', error);
-      });
-
-      axios.get(this.myService.getApiHost() + `/grid/checkLikeStatusproject_id=${this.data.data_source.project.project_id}&user_id=${this.user.user_id}&type=project`)
-        .then((response) => {
-          this.liked = response.data.liked;
-        })
-        .catch((error) => {
-          console.error('Error checking follow:', error);
-        });
-}
+      }
+  
+      try {
+        const response = await axios.get(this.myService.getApiHost() + `/grid/checkLikeStatus?project_id=${this.data.data_source.project.project_id}&user_id=${this.user?.user_id}&type=project`);
+        this.liked = response.data.liked;
+      } catch (error) {
+        console.error('Error checking follow:', error);
+      }
+    }
+  }
+  
 
   @Input() data: any;
   @Output() dataChange = new EventEmitter();
@@ -84,7 +92,7 @@ export class HeaderProjectComponent implements OnInit {
   }
 
 
-  
+
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
@@ -136,19 +144,19 @@ export class HeaderProjectComponent implements OnInit {
     this.clipboard.copy(link);
     this.toastr.success('Link copied to clipboard', '');
     // this.clipboard.copy('Alphonso');
-    
+
   }
 
   handleLikeClick() {
     const url = this.myService.getApiHost() + `/grid/handleLike?project_id=${this.data.data_source.project.project_id}&user_id=${this.user.user_id}&type=project`;
-  
+
     axios.get(url).then((response) => {
       this.liked = response.data.liked;
     }).catch((error) => {
       console.error('Error:', error);
     });
   }
-  
+
 
   handleFollowClick() {
     if (this.userData.getUserData == null) {
@@ -157,7 +165,11 @@ export class HeaderProjectComponent implements OnInit {
       const url = this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.user.user_id}&user_id_2=${this.projectInfo.user.user_id}`;
 
       axios.get(url).then((response) => {
+        console.log("before: ", this.followed);
         this.followed = response.data.followed;
+        console.log("response: ", response.data.followed);
+        console.log("after: ", this.followed);
+
       }).catch((error) => {
         console.error('Error:', error);
       });

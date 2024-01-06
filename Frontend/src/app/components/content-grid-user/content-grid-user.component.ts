@@ -17,7 +17,7 @@ export class ContentGridUserComponent implements OnInit {
   pens: any;
   iframeContent_1: SafeHtml | undefined;
   iframeContent_2: SafeHtml | undefined;
-  isUser1FollowingUser2: boolean | undefined;
+  followed: boolean = false;
 
   constructor(
     private router: Router,
@@ -26,18 +26,17 @@ export class ContentGridUserComponent implements OnInit {
     private userData: UserDataService,
   ) { }
 
-  ngOnInit(): void {
-
-      this.name = this.user.user_name;
-      const apiUrl =  this.myService.getApiHost() + `/pen/getPenByUserIDForFollow/${this.user.user_id}`;
-      axios.get(apiUrl).then((response) => {
-        this.data = response.data;
-        // console.log('user_id:', this.user[idx].user_id);
-        // console.log('data_pen:', this.data);
-        if(this.data == null){
-          return;
-        }
-        const iframeContent_1 = `
+  async ngOnInit(): Promise<void> {
+    this.name = this.user.user_name;
+    const apiUrl = this.myService.getApiHost() + `/pen/getPenByUserIDForFollow/${this.user.user_id}`;
+    axios.get(apiUrl).then((response) => {
+      this.data = response.data;
+      // console.log('user_id:', this.user[idx].user_id);
+      // console.log('data_pen:', this.data);
+      if (this.data == null) {
+        return;
+      }
+      const iframeContent_1 = `
         <html>
           <head>
             <style>${this.data[0].css_code}</style>
@@ -48,9 +47,9 @@ export class ContentGridUserComponent implements OnInit {
           </body>
         </html>
       `;
-        this.iframeContent_1 = this.sanitizer.bypassSecurityTrustHtml(iframeContent_1);
+      this.iframeContent_1 = this.sanitizer.bypassSecurityTrustHtml(iframeContent_1);
 
-        const iframeContent_2 = `
+      const iframeContent_2 = `
         <html>
           <head>
             <style>${this.data[1].css_code}</style>
@@ -61,30 +60,28 @@ export class ContentGridUserComponent implements OnInit {
           </body>
         </html>
       `;
-        this.iframeContent_2 = this.sanitizer.bypassSecurityTrustHtml(iframeContent_2);
-      }).catch((error) => {
-        console.error('Error:', error);
-      });
+      this.iframeContent_2 = this.sanitizer.bypassSecurityTrustHtml(iframeContent_2);
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
 
-      axios.get(this.myService.getApiHost() + `/pen/getPenByUser/${this.user.user_id}`).then((response) => {
-        this.pens = response.data;
-      }).catch((error) => {
-        console.error('Error:', error);
-      });
+    axios.get(this.myService.getApiHost() + `/pen/getPenByUser/${this.user.user_id}`).then((response) => {
+      this.pens = response.data;
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
 
-    this.fetchFollowStatus();
-  }
-
-  fetchFollowStatus() {
     const isFollowingUrl = this.myService.getApiHost() + `/grid/isUser1FollowingUser2?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.user.user_id}`;
     axios.get(isFollowingUrl)
       .then((response) => {
-        this.isUser1FollowingUser2 = response.data.isFollowing;
+        this.followed = response.data.followed;
       })
       .catch((error) => {
         console.error('Error checking follow:', error);
       });
   }
+
+
   handlePageClick(): void {
     // console.log(`/pen/${this.pen_id}`);
     this.router.navigate([`/pen/${this.data.pen_id}`], { relativeTo: null });
@@ -96,21 +93,22 @@ export class ContentGridUserComponent implements OnInit {
     } else {
       // Update the follow status through the API
       const url = this.myService.getApiHost() + `/grid/handleFollow?user_id_1=${this.userData.getUserData()?.user_id}&user_id_2=${this.user.user_id}`;
-      
+
       axios.get(url)
         .then((response) => {
-          this.isUser1FollowingUser2 = response.data.followed;
+          this.followed = response.data.followed;
 
           // Reload the current route to reflect the updated follow status
-          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-          this.router.onSameUrlNavigation = 'reload';
-          this.router.navigate([this.router.url]);
+          // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          // this.router.onSameUrlNavigation = 'reload';
+          // this.router.navigate([this.router.url]);
         })
         .catch((error) => {
           console.error('Error:', error);
         });
     }
   }
+
   changeSvg(isEnter: boolean) {
     const button = document.getElementById('follow-button-following');
     if (button) {
