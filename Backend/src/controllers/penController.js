@@ -259,8 +259,8 @@ async function getPenByUserSort(req, res) {
       pens = await Pen.findAll({
         attributes: {
           include: [
-            [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE pen.pen_id = like_table.pen_id)'), 'numlike'],
-            [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE pen.pen_id = view_table.pen_id)'), 'numview'],
+            [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE pen.pen_id = like_table.pen_id AND like_table.type = "pen")'), 'numlike'],
+            [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE pen.pen_id = view_table.pen_id AND view_table.type = "pen")'), 'numview'],
           ]
         },
         where: { user_id: user_id },
@@ -506,9 +506,9 @@ async function getAllPen(req, res) {
         exclude: ['password', 'html_code', 'js_code', 'css_code', 'type_css'],
         include: [
           [Sequelize.literal('(SELECT user_name FROM user WHERE user_id = pen.user_id)'), 'user_name'],
-          [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE like_table.pen_id = pen.pen_id)'), 'numlike'],
-          [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE view_table.pen_id = pen.pen_id)'), 'numview'],
-          [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.pen_id = pen.pen_id)'), 'numcomment'],
+          [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE like_table.pen_id = pen.pen_id AND like_table.type = "pen")'), 'numlike'],
+          [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE view_table.pen_id = pen.pen_id AND view_table.type = "pen")'), 'numview'],
+          [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.pen_id = pen.pen_id AND comment_table.type = "pen")'), 'numcomment'],
         ],
       },
       where: { deleted: deleted },
