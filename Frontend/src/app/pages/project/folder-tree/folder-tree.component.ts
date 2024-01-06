@@ -2,7 +2,8 @@
 import { SidebarComponent } from './../../../components/sidebar/sidebar.component';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, Renderer2, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { isBuffer } from 'lodash';
+import { isBuffer, max } from 'lodash';
+import { ToastrService } from 'ngx-toastr';
 import { ProjectFileService } from 'src/app/services/project-file.service';
 @Component({
   selector: 'app-folder-tree',
@@ -20,17 +21,52 @@ export class FolderTreeComponent implements OnChanges {
   @Input() data: any;
   @Output() dataChange = new EventEmitter();
 
+  content_file_folder_selected: boolean = false;
+  mouseX = '0px';
+  mouseY = '0px';
+  // add click right mouse -> run function openContentFileFolderSelected
+  openContextMenu(event: any) {
+    // when right mouse clicked and have file or folder selected
+    // check if have file or folder selected
+    if (this.data.sidebarChoose) {
+      // if have file or folder selected
+      // check if right mouse clicked
+      if (event.which === 3) {
+        // if right mouse clicked
+        // prevent default
+        event.preventDefault();
+        // get position of mouse
+        this.mouseX = event.clientX + 'px';
+        this.mouseY = max([event.clientY - 40, 0]) + 'px';
+        // open content file folder selected
+        this.content_file_folder_selected = true;
+      }
+    }
+  }
+
+  onBodyClick(event: any) {
+    // if not click inside the #folder-tree-file -> close content file folder selected
+    if (!event.target.closest('#folder-tree-file')) {
+      this.content_file_folder_selected = false;
+    }
+
+  }
+  
+
 
   // constructor(private sanitizer: DomSanitizer, private projectFile: ProjectFileService) { }
-  constructor(private renderer: Renderer2, private el: ElementRef, private projectFile: ProjectFileService, private sanitizer: DomSanitizer) { }
+  constructor(private renderer: Renderer2, private el: ElementRef, private projectFile: ProjectFileService, 
+    private sanitizer: DomSanitizer,
+    private toastr: ToastrService
+    ) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('ngOnChanges is called:', changes);
+    // console.log('ngOnChanges is called:', changes);
 
     if (changes['data']) {
       // Xử lý khi dữ liệu từ cha thay đổi
-      console.log('Data from parent changed:', this.data);
-      console.log(this.data.data_map);
+      // console.log('Data from parent changed:', this.data);
+      // console.log(this.data.data_map);
       this.run();
       // Thực hiện các hành động khác nếu cần
     }
@@ -38,10 +74,10 @@ export class FolderTreeComponent implements OnChanges {
 
   run() {
     if (this.data) {
-      console.log(this.data, 12345);
+      // console.log(this.data, 12345);
       let tree = this.renderTree(this.data.data_key);
       let folderTreeFileElement = this.el.nativeElement.querySelector('#folder-tree-file');
-      console.log(folderTreeFileElement)
+      // console.log(folderTreeFileElement)
       if (folderTreeFileElement.firstChild) {
         this.renderer.removeChild(folderTreeFileElement, folderTreeFileElement.firstChild);
       }
@@ -81,7 +117,6 @@ export class FolderTreeComponent implements OnChanges {
   changeData() {
     this.data.data_source.file = []
     this.data.data_source.folder = []
-    console.log(this.data.data_map);
     for (let [key, value] of Object.entries(this.data.data_map)) {
       if (typeof value === 'object' && value !== null) {
         // Kiểm tra kiểu của value
@@ -135,7 +170,6 @@ export class FolderTreeComponent implements OnChanges {
 
     });
     this.data.data_key = root;
-    console.log(this.data, 111111111231243)
   }
 
 sortData(data: any) {
@@ -151,7 +185,9 @@ sortData(data: any) {
 
 
   ngOnInit(): void {
-
+    this.renderer.listen('body', 'click', (event) => {
+      this.onBodyClick(event);
+    });
   }
 
   getSafeHtml(html: string): SafeHtml {
@@ -160,7 +196,6 @@ sortData(data: any) {
 
 
   renderTree(obj: any) {
-    console.log(obj)
     let ul = this.renderer.createElement('ul');
     for (let folderName in obj.subfolders) {
       let folder = obj.subfolders[folderName];
@@ -181,12 +216,8 @@ sortData(data: any) {
         this.renderer.listen(inputElement, 'mousedown', (event) => { 
           if (event.target !== inputElement) {
             folder.input = false;  
-            console.log(folder.key, 123321)
             if(inputElement.value !== '' && inputElement.value !== folder.name && this.data.data_map[(parentFolder ? parentFolder + '/' : '') + inputElement.value] == null) {
               folder.key = (parentFolder ? parentFolder + '/' : '') + inputElement.value;
-              console.log(folder.key)
-              console.log((parentFolder ? parentFolder + '/' : '') + folder.name)
-              console.log(this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name]); 
   
               this.data.data_map[folder.key] = this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
               this.data.data_map[folder.key].name = folder.key; 
@@ -208,7 +239,6 @@ sortData(data: any) {
               }
               this.buildFolderTree(path2, folderNode, this.data.data_key.subfolders);
   
-              console.log("testxys", this.data.data_key)
   
             }
             this.data.sidebarChoose = folder.key;
@@ -220,12 +250,8 @@ sortData(data: any) {
         this.renderer.listen(inputElement, 'keydown', ($event) => {
           if ($event.key === 'Enter') {
             folder.input = false;  
-            console.log(folder.key, 123321)
             if(inputElement.value !== '' && inputElement.value !== folder.name && this.data.data_map[(parentFolder ? parentFolder + '/' : '') + inputElement.value] == null) {
               folder.key = (parentFolder ? parentFolder + '/' : '') + inputElement.value;
-              console.log(folder.key)
-              console.log((parentFolder ? parentFolder + '/' : '') + folder.name)
-              console.log(this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name]); 
   
               this.data.data_map[folder.key] = this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
               this.data.data_map[folder.key].name = folder.key; 
@@ -267,13 +293,13 @@ sortData(data: any) {
         this.renderer.listen(li, 'click', ($event) => { 
           $event.stopPropagation();
           this.folderOpen(folder) 
+          this.content_file_folder_selected = false;
         });
       }
     
       if (folder.key == this.data.sidebarChoose) {
         this.renderer.setStyle(li, 'color', 'red');
       }
-      console.log(li, 123)
       if (folder.status == 'open') {
         let childUl = this.renderTree(folder);
         this.renderer.appendChild(li, childUl);
@@ -282,7 +308,6 @@ sortData(data: any) {
     }
     for (let i = 0; i < obj.files?.length; i++) {
       let file = obj.files[i];
-      console.log(file)
       let type = file.name.split('.').pop();
       let li = this.renderer.createElement('li');
       this.renderer.addClass(li, type);
@@ -302,8 +327,6 @@ sortData(data: any) {
             file.input = false; 
             if(inputElement.value !== '' && inputElement.value !== file.name && this.data.data_map[(folder ? folder + '/' : '') + inputElement.value] == null) {
               file.key = (folder ? folder + '/' : '') + inputElement.value;
-              console.log(file.key)
-              console.log(this.data.data_map[(folder ? folder + '/' : '') + file.name])
               this.data.data_map[file.key] = this.data.data_map[(folder ? folder + '/' : '') + file.name];
               this.data.data_map[file.key].name = file.key; 
               if((folder ? folder + '/' : '') + file.name != file.key) {
@@ -322,14 +345,10 @@ sortData(data: any) {
           }
           });
         this.renderer.listen(inputElement, 'keydown', ($event) => {
-          console.log($event.key);
           if ($event.key === 'Enter') {
             file.input = false; 
-            console.log(inputElement.value, file.name);
             if(inputElement.value !== '' && inputElement.value !== file.name && this.data.data_map[(folder ? folder + '/' : '') + inputElement.value] == null) {
               file.key = (folder ? folder + '/' : '') + inputElement.value;
-              console.log(file.key)
-              console.log(this.data.data_map[(folder ? folder + '/' : '') + file.name])
               this.data.data_map[file.key] = this.data.data_map[(folder ? folder + '/' : '') + file.name];
               this.data.data_map[file.key].name = file.key; 
               if((folder ? folder + '/' : '') + file.name != file.key) {
@@ -354,6 +373,7 @@ sortData(data: any) {
         this.renderer.listen(li, 'click', ($event) => {
           $event.stopPropagation();
           this.fileOpen(file, $event);
+          this.content_file_folder_selected = false;
         });
       }
     
@@ -367,34 +387,78 @@ sortData(data: any) {
     return ul;
   }
 
+  deletedFileFolderSelected() {
+    if (this.data.sidebarChoose) {
+      if (this.data.data_map[this.data.sidebarChoose].type === "file") {
+        let lastSlashIndex = this.data.sidebarChoose.lastIndexOf("/");
+
+        if (lastSlashIndex != -1) {
+          let folder = this.data.sidebarChoose.substring(0, lastSlashIndex);
+          let name = this.data.sidebarChoose.substring(lastSlashIndex + 1);
+          delete this.data.data_map[this.data.sidebarChoose];
+          this.deleteFileInRoot(folder, name);
+          if(this.data.key_file_html.has(this.data.sidebarChoose)) {
+            this.data.key_file_html.delete(this.data.sidebarChoose);
+          }
+          if(this.data.filesOpened.has(this.data.sidebarChoose)) {
+            this.data.filesOpened.delete(this.data.sidebarChoose);
+          }
+          this.data.sidebarChoose = "";
+          this.data.fileChoose = "";
+          this.dataChange.emit(this.data);
+        } else {
+          delete this.data.data_map[this.data.sidebarChoose];
+          this.deleteFileInRoot("", this.data.sidebarChoose);
+          delete this.data.data_map[this.data.sidebarChoose];
+          if(this.data.key_file_html.has(this.data.sidebarChoose)) {
+            this.data.key_file_html.delete(this.data.sidebarChoose);
+          }
+          if(this.data.filesOpened.has(this.data.sidebarChoose)) {
+            this.data.filesOpened.delete(this.data.sidebarChoose);
+          }
+          this.data.sidebarChoose = "";
+          this.data.fileChoose = "";
+          this.dataChange.emit(this.data);
+        }
+      } else {
+        let folder = this.data.sidebarChoose;
+        delete this.data.data_map[this.data.sidebarChoose];
+        this.deleteFolderInRoot(folder);
+        delete this.data.data_map[this.data.sidebarChoose];
+        this.data.sidebarChoose = folder;
+        this.data.fileChoose = "";
+        this.data.sidebarChoose = "";
+        this.dataChange.emit(this.data);
+      }
+    }
+
+
+  }
+
+
+
+
+
+  copyPathFileFolderSelected() {
+    if (this.data.sidebarChoose) {
+      navigator.clipboard.writeText(this.data.sidebarChoose);
+    }
+
+    this.toastr.success('Copied to clipboard');
+    this.content_file_folder_selected = false;
+
+
+  }
 
   deleteFolderInRoot(pathToFolder: string, root: any = this.data.data_key) {
-    
-    // let root = {
-    //   name: 'root',
-    //   subfolders: {
-    //  folder1: {name: 'folder1', key: 'folder1', type: 'folder', input: false, status: 'open', …}
-    // folder2: {name: 'folder2', key: 'folder2', type: 'folder', input: false, status: 'open', …}
-    //},
-    //   files: [],
-    //   input: false,
-    //   status: 'open'
-    // };
-
-    //  need remove the item has the key = pathToFolder
     let path = pathToFolder.split('/');
     let name = path.pop();
-console.log("testttt", path, name, root)
     for (let i = 0; i < path.length; i++) {
-      console.log("testttt", i, path[i], root.subfolders[path[i]])
       root = root.subfolders[path[i]];
     }
     if (name){
-    console.log("testttt2", name, root.subfolders[name])
     
     delete root.subfolders[name];  
-    console.log("testttt3", root)
-    console.log("testttt4", this.data.data_key)
    }
    
   }
@@ -473,7 +537,6 @@ console.log("testttt", path, name, root)
     if (path.length === 0) return;
   
    let part = path.shift();
-  console.log(part, tree[part])
    if (!tree[part]) {
      tree[part] = {
        ...node,
@@ -488,14 +551,36 @@ console.log("testttt", path, name, root)
   
   addFileToTree(path: any, file: any, tree: any) {
    let part = path.shift();
-   console.log(path)
    if(path.length === 0) {
-    console.log(tree.files.push(file))
    }
   else {
      
       this.addFileToTree(path, file, tree.subfolders[part]);
    }
+  }
+
+  renameFileFolderSelected() {
+    // first, open input, after that, input and check and rename
+
+    if (this.data.sidebarChoose) {
+      if (this.data.data_map[this.data.sidebarChoose].type === "file") {
+        let lastSlashIndex = this.data.sidebarChoose.lastIndexOf("/");
+
+        if (lastSlashIndex != -1) {
+          let folder = this.data.sidebarChoose.substring(0, lastSlashIndex);
+          let name = this.data.sidebarChoose.substring(lastSlashIndex + 1);
+          this.data.data_map[this.data.sidebarChoose].input = true;
+          this.dataChange.emit(this.data);
+        } else {
+          this.data.data_map[this.data.sidebarChoose].input = true;
+          this.dataChange.emit(this.data);
+        }
+      } else {
+        this.data.data_map[this.data.sidebarChoose].input = true;
+        this.dataChange.emit(this.data);
+      }
+    }
+
   }
 
   renderSvg(obj: string) {
@@ -536,7 +621,6 @@ console.log("testttt", path, name, root)
 
 
   choose_search(id: String) {
-    console.log(this.data.data_map)
     if (this.data.data_map.type == 'file') {
       
     }
@@ -658,7 +742,6 @@ console.log("testttt", path, name, root)
       }
     } 
 
-    console.log(folder, 12333333333321)
 
     do {
       // Tạo tên file mới bằng cách thêm số vào cuối tên file
@@ -666,12 +749,8 @@ console.log("testttt", path, name, root)
       i++;
     } while (this.data.data_map[name] != null);    
     newFolder.key = name;
-    console.log(newFolder.key)
-    console.log(newFolder.key.split('/'))
     newFolder.name = baseName + (--i > 0 ? `(${i})` : '');
-    console.log(newFolder.name)
     this.buildFolderTree(newFolder.key.split('/'), newFolder, this.data.data_key.subfolders);
-    console.log(this.data.data_key)
     this.data.data_map[newFolder.key] = {project_id: this.data.data_source.project.project_id, name: newFolder.key, type: 'folder'};
     setTimeout(() => {
       this.dataChange.emit(this.data)
@@ -971,7 +1050,6 @@ console.log("testttt", path, name, root)
   //   let lastSlashIndex = path.lastIndexOf('/');
   //   let parentFolder = path.substring(0, lastSlashIndex);
   //   let name = path.substring(lastSlashIndex + 1);
-  //   console.log(parentFolder, name)
   //   if(this.data.data_map[path].type == 'folder') {
   //     let folder = this.data.data_map[path];
   //     for (let [key, value] of Object.entries(this.data.data_map)) {

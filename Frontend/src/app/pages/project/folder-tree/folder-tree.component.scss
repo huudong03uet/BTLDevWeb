@@ -187,3 +187,65 @@ li.active {
   opacity: 1;
 
 }
+
+
+.right-click.show {
+
+  transform: translateY(0px);
+  opacity: 1;
+  visibility: visible;
+}
+
+.right-click {
+  z-index: 2001;
+  position: absolute;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+
+  opacity: 1;
+  visibility: visible;
+
+  color: white;
+  position: absolute;
+  bottom: 30px;
+  right: 0px;
+  width: max-content;
+
+
+  transform: translateY(-10px);
+  // opacity: 0;
+  // visibility: hidden;
+  transition: transform 0.15s ease-in-out, opacity 0.15s linear,
+    visibility 0s linear;
+
+
+  ul {
+    list-style: none;
+    margin-bottom: 0px;
+    padding: 0.5rem;
+    border-radius: 5px;
+    background-color: hsl(232.5deg 11.76% 13.33%);
+    box-shadow: 0 2px 8px hsl(240deg 9.09% 4.31% / 60%);
+
+    li {
+
+      &:hover {
+        background-color: #444857;
+      }
+
+      cursor: pointer;
+      padding: 0.4rem 0.6rem;
+      margin: 0px 3px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        fill: white;
+      }
+    }
+
+    .delete-li:hover {
+      background-color: red;
+    }
+  }
+}
