@@ -1,5 +1,5 @@
 import { User } from './../../../models/user';
-import { Component, Input, Output, EventEmitter, ViewChild, AfterViewInit, ElementRef, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, AfterViewInit, ElementRef, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDataService } from 'src/app/services/user-data.service';
 import axios from 'axios';
@@ -46,6 +46,12 @@ export class HeaderProjectComponent implements OnInit {
   closeMenu(): void {
     // this.isMenuOpen = false;
   }
+  @HostListener('document:keydown.control.s', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    event.preventDefault();
+    this.toggleSave();
+  }
+
 
   onLoginButtonClick(): void {
     // this.router.navigate(['/login']);
