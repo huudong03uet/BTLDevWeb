@@ -17,6 +17,8 @@ export class CommentAreaComponent implements OnInit, OnChanges {
   @Input() type: string = 'pen';
   isEdit = false;
   comment_id = 0;
+  CreatedOn: string = '';
+  UpdatedOn: string = '';
 
   data_comment = [
     {
@@ -67,10 +69,16 @@ export class CommentAreaComponent implements OnInit, OnChanges {
 
 
     axios.get(apiUrl).then((response) => {
-      // console.log(response.data);
-      let xx = response.data.comments;
       this.data_loved = response.data.numlike;
       this.data_view = response.data.numview;
+
+      this.CreatedOn = response.data.CreatedOn;
+      this.UpdatedOn = response.data.UpdatedOn;
+
+      this.CreatedOn = this.CreatedOn.toString().substring(0, 10);
+      this.UpdatedOn = this.UpdatedOn.toString().substring(0, 10);
+
+      let xx = response.data.comments;
       this.data_comment = xx.map((comment: any) => ({
         ...comment,
         user: {
