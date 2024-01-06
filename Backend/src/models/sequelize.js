@@ -1,10 +1,10 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('fall2324w3g5', 'root', '', {
+const sequelize = new Sequelize('fall2324w3g5', 'root', 'Chouchou.44', {
   host: "localhost", // process.env.MYSQL_SERVICE_HOST
   dialect: 'mysql',
   port: 3306,
-});
+});  
 
 sequelize.authenticate().then(() => {
   console.log('Kết nối cơ sở dữ liệu thành công. ');

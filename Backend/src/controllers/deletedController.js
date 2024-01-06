@@ -66,7 +66,7 @@ async function deleteAssociatedRecords(user_id) {
 
     const projects = await Project.findAll({ where: { user_id } });
     for (const project of projects) {
-      await _deleteProjectPermanently(project.project_id); 
+      await _deleteProjectPermanently(project.project_id);
     }
   } catch (error) {
     console.error('Error deleting associated records:', error);
