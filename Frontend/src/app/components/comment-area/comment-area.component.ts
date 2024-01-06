@@ -2,6 +2,7 @@ import { Component, INJECTOR, Input, OnInit, SimpleChanges, OnChanges } from '@a
 import axios from 'axios';
 import { HostService } from 'src/app/host.service';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-comment-area',
@@ -30,7 +31,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
       "reply": 5,
       "replyUser": "User5",
       "numlike": 0,
-      "numview":0,
+      "numview": 0,
       "numcomment": 0,
       "user": {
         "user_name": "User1",
@@ -44,7 +45,12 @@ export class CommentAreaComponent implements OnInit, OnChanges {
 
   comment_length = this.data_comment.length;
 
-  constructor(private myService: HostService, private user: UserDataService) { }
+  constructor(private myService: HostService, private user: UserDataService,
+    private toastr: ToastrService
+  ) {
+    this.toastr.toastrConfig.positionClass = 'toast-top-center';
+  }
+
 
   ngOnInit(): void {
     this.fetchComments();
@@ -81,7 +87,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
 
   onSubmit() {
     let apiUrl;
-    
+
     if (this.isEdit == false) {
       apiUrl = this.myService.getApiHost() + `/comment/create?id=${this.id}&type=${this.type}&user_id=${this.user.getUserData()?.user_id}&comment=${this.commentText}&reply=${this.reply}`;
       axios.post(apiUrl).then((response) => {
@@ -108,7 +114,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
 
   editComent(comment_id: number, user_id: number, commentText: string) {
 
-    if(this.user.getUserData()?.user_id != user_id) {
+    if (this.user.getUserData()?.user_id != user_id) {
       return;
     }
 
@@ -175,6 +181,7 @@ export class CommentAreaComponent implements OnInit, OnChanges {
     document.execCommand('copy');
 
     document.body.removeChild(tempInput);
+    this.toastr.success('Link copied to clipboard');
   }
 
 
