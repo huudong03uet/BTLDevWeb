@@ -450,9 +450,9 @@ async function getProjectByID(req, res) {
         let project = Project.findOne({
             attributes: {
                 includes: [
-                    [Sequelize.literal('(SELECT COUNT(like_id) FROM like_table WHERE like_table.project_id = project.project_id and like.type = "project")'), 'numlike'],
-                    [Sequelize.literal('(SELECT COUNT(view_id) FROM like_table WHERE view_table.project_id = project.project_id and view.type = "project")'), 'numview'],
-                    [Sequelize.literal('(SELECT COUNT(comment_id) FROM comment_table WHERE comment_table.project_id = project.project_id and comment.type = "project")'), 'numcomment'],
+                    [Sequelize.literal('(SELECT COUNT(like_id) FROM like_table WHERE like_table.project_id = project.project_id and like_table.type = "project")'), 'numlike'],
+                    [Sequelize.literal('(SELECT COUNT(view_id) FROM like_table WHERE view_table.project_id = project.project_id and view_table.type = "project")'), 'numview'],
+                    [Sequelize.literal('(SELECT COUNT(comment_id) FROM comment_table WHERE comment_table.project_id = project.project_id and comment_table.type = "project")'), 'numcomment'],
                 ]
             },
             where: {project_id: project_id}
