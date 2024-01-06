@@ -68,7 +68,7 @@ export class ListItemGridProjectComponent implements OnInit {
 
   ngOnInit(): void {
     //  len pen_ids_current <= 4
-    //  len pen_ids_next <= 4
+    //  len pen_ids_next <= 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
 
     this.pen_ids_current = [];

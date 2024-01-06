@@ -13,7 +13,7 @@ router.put('/updateProfile/:id', userController.updateProfile);
 
 router.post('/changeUsername/:id', userController.changeUsername);
 router.post('/changeEmail/:id', userController.changeEmail);
-router.post('/removeOrRestoreUser', userController.removeOrRestoreUser);
+router.put('/removeOrRestoreUser', userController.removeOrRestoreUser);
 
 router.delete('/deleteUser/:id', deletedController.deleteUserPermanently);
 module.exports = router;

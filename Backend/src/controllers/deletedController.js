@@ -13,6 +13,7 @@ const FollowTable = require('../models/followTable');
 const User = require('../models/user');
 
 const Sequelize = require('sequelize');
+const Follow = require('../models/followTable');
 
 async function _deleteProjectPermanently(project_id) {
 
