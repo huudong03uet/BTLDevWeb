@@ -432,12 +432,25 @@ console.log("testttt", path, name, root)
           let name = this.data.sidebarChoose.substring(lastSlashIndex + 1);
           delete this.data.data_map[this.data.sidebarChoose];
           this.deleteFileInRoot(folder, name);
-          this.data.sidebarChoose = folder;
-          this.data.fileChoose = folder;
+          if(this.data.key_file_html.has(this.data.sidebarChoose)) {
+            this.data.key_file_html.delete(this.data.sidebarChoose);
+          }
+          if(this.data.filesOpened.has(this.data.sidebarChoose)) {
+            this.data.filesOpened.delete(this.data.sidebarChoose);
+          }
+          this.data.sidebarChoose = "";
+          this.data.fileChoose = "";
           this.dataChange.emit(this.data);
         } else {
           delete this.data.data_map[this.data.sidebarChoose];
           this.deleteFileInRoot("", this.data.sidebarChoose);
+          delete this.data.data_map[this.data.sidebarChoose];
+          if(this.data.key_file_html.has(this.data.sidebarChoose)) {
+            this.data.key_file_html.delete(this.data.sidebarChoose);
+          }
+          if(this.data.filesOpened.has(this.data.sidebarChoose)) {
+            this.data.filesOpened.delete(this.data.sidebarChoose);
+          }
           this.data.sidebarChoose = "";
           this.data.fileChoose = "";
           this.dataChange.emit(this.data);
@@ -446,8 +459,10 @@ console.log("testttt", path, name, root)
         let folder = this.data.sidebarChoose;
         delete this.data.data_map[this.data.sidebarChoose];
         this.deleteFolderInRoot(folder);
+        delete this.data.data_map[this.data.sidebarChoose];
         this.data.sidebarChoose = folder;
-        this.data.fileChoose = folder;
+        this.data.fileChoose = "";
+        this.data.sidebarChoose = "";
         this.dataChange.emit(this.data);
       }
     }
