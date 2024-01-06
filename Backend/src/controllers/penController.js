@@ -343,6 +343,7 @@ async function getTrending(req, res) {
         where: { deleted: false }
       }],
       group: ['pen_id'],
+      limit: 30,
     });
 
     const penIds1 = await View.findAll({

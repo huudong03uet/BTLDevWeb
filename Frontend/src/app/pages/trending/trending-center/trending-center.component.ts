@@ -35,7 +35,6 @@ export class TrendingCenterComponent  {
           // get 3 first element      // cái này là lấy 3 cái đầu tiên
           // this.data = this.data.slice(0, 3);
 
-          // console.log('trendding', this.data)
         }).catch((error) => {
           console.error('Error:', error);
         });

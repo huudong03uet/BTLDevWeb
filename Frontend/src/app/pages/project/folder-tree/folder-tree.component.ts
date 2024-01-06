@@ -61,12 +61,9 @@ export class FolderTreeComponent implements OnChanges {
     ) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log('ngOnChanges is called:', changes);
 
     if (changes['data']) {
       // Xử lý khi dữ liệu từ cha thay đổi
-      // console.log('Data from parent changed:', this.data);
-      // console.log(this.data.data_map);
       this.run();
       // Thực hiện các hành động khác nếu cần
     }
@@ -74,10 +71,8 @@ export class FolderTreeComponent implements OnChanges {
 
   run() {
     if (this.data) {
-      // console.log(this.data, 12345);
       let tree = this.renderTree(this.data.data_key);
       let folderTreeFileElement = this.el.nativeElement.querySelector('#folder-tree-file');
-      // console.log(folderTreeFileElement)
       if (folderTreeFileElement.firstChild) {
         this.renderer.removeChild(folderTreeFileElement, folderTreeFileElement.firstChild);
       }
