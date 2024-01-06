@@ -43,7 +43,6 @@ export class YourWorkCollectionsComponent implements OnInit {
 
     axios.get(apiUrl).then((response) => {
       let collections = response.data.collections;
-      // console.log(data);
       // for (let item of data.collections) {
       //   .push(item.collection_id);
       // }

@@ -14,7 +14,7 @@ import { HostService } from 'src/app/host.service';
 export class SearchPageComponent implements OnInit, OnChanges {
   pen_ids: any;
   collection_ids: any;
-  project_ids: any=[1, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1, 1,2]
+  project_ids: any = [1, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1, 1, 2]
   type: string = 'pen';
   private searchSubscription: Subscription;
 
@@ -28,7 +28,6 @@ export class SearchPageComponent implements OnInit, OnChanges {
         apiUrl = this.myService.getApiHost() + `/search/pen?q=${search}`
         axios.get(apiUrl).then((response) => {
           this.pen_ids = response.data;
-          // console.log(this.pen_ids)
         }).catch((error) => {
           console.error('Error:', error);
         });
@@ -36,13 +35,11 @@ export class SearchPageComponent implements OnInit, OnChanges {
         apiUrl = this.myService.getApiHost() + `/search/collection?q=${search}`
         axios.get(apiUrl).then((response) => {
           this.collection_ids = response.data;
-          // console.log(this.collection_ids)
         }).catch((error) => {
           console.error('Error:', error);
         });
       } else if (this.type == "project") {
         apiUrl = this.myService.getApiHost() + `/search/project?q=${search}`
-        // console.log(apiUrl)
         axios.get(apiUrl).then((response) => {
           this.project_ids = response.data;
           console.log(this.project_ids)
