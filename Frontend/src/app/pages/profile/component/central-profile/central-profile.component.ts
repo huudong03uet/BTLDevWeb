@@ -19,7 +19,7 @@ export class CentralProfileComponent {
   constructor(
     private router: Router,
     private myService: HostService,
-    ) {
+  ) {
     //  print when route changes 
     // this.ngAfterViewChecked();
   }
@@ -27,16 +27,14 @@ export class CentralProfileComponent {
 
   //  ng after change partial page
   ngAfterViewChecked() {
-    // console.log('ngAfterViewChecked')
     if (this.currentURL != window.location.href) {
       this.currentURL = window.location.href;
 
       this.addClassActive();
     }
   }
-  
+
   navigateToPens() {
-    // console.log('profile')
     this.router.navigate(['/profile/pens']);
   }
 
@@ -48,9 +46,9 @@ export class CentralProfileComponent {
     this.router.navigate(['/profile/projects']);
   }
 
-  
-  
-  
+
+
+
   addClassActive() {
     const links = document.querySelectorAll('.links-centrals');
     links.forEach(link => {
