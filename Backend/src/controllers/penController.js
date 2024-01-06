@@ -336,16 +336,24 @@ async function getTrending(req, res) {
     const penIds = await Like.findAll({
       attributes: [
         'pen_id',
-        [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'numlikes'],
+        [Sequelize.fn('COUNT', Sequelize.col('like_table.user_id')), 'numlikes'],
       ],
+      include: [{
+        model: Pen,
+        where: { deleted: false }
+      }],
       group: ['pen_id'],
     });
 
     const penIds1 = await View.findAll({
       attributes: [
         'pen_id',
-        [Sequelize.fn('COUNT', Sequelize.col('user_id')), 'numview'],
+        [Sequelize.fn('COUNT', Sequelize.col('view_table.user_id')), 'numview'],
       ],
+      include: [{
+        model: Pen,
+        where: { deleted: false }
+      }],
       group: ['pen_id'],
     });
 
