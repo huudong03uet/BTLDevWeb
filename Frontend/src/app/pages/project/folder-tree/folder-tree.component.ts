@@ -178,59 +178,82 @@ sortData(data: any) {
 
         let inputElement = this.renderer.createElement('input');
         this.renderer.setProperty(inputElement, 'value', folder.name);
-        this.renderer.listen(inputElement, 'blur', () => { 
-          folder.input = false;  
-          console.log(folder.key, 123321)
-          if(inputElement.value !== '' && inputElement.value !== folder.key) {
-            folder.key = (parentFolder ? parentFolder + '/' : '') + inputElement.value;
-            console.log(folder.key)
-            console.log((parentFolder ? parentFolder + '/' : '') + folder.name)
-            console.log(this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name]); 
-
-            this.data.data_map[folder.key] = this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
-            this.data.data_map[folder.key].name = folder.key; 
-            if((parentFolder ? parentFolder + '/' : '') + folder.name != folder.key) {
-              delete this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
-            }
-            // this.changeData();
-            this.deleteFolderInRoot((parentFolder ? parentFolder + '/' : '') + folder.name);
-            // create new folder
-            let path = folder.key.split('/');
-            let path2 = folder.key.split('/');
-            let folderName = path.pop();
-            let folderNode = {
-              name: folderName,
-              key: folder.key,
-              type: 'folder',
-              input: false,
-              status: 'close'
-            }
-            this.buildFolderTree(path2, folderNode, this.data.data_key.subfolders);
-
-            console.log("testxys", this.data.data_key)
-
-            this.data.sidebarChoose = folder.key;
-          }
-          this.dataChange.emit(this.data);  
-
-        });
-        this.renderer.listen(inputElement, 'keydown', ($event) => {
-          if ($event.key === 'Enter') {
-            folder.input = false; 
+        this.renderer.listen('document', 'mousedown', (event) => { 
+          if (event.target !== inputElement) {
+            folder.input = false;  
+            console.log(folder.key, 123321)
             if(inputElement.value !== '' && inputElement.value !== folder.key) {
               folder.key = (parentFolder ? parentFolder + '/' : '') + inputElement.value;
+              console.log(folder.key)
+              console.log((parentFolder ? parentFolder + '/' : '') + folder.name)
+              console.log(this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name]); 
+  
               this.data.data_map[folder.key] = this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
-              this.data.data_map[folder.key].name = folder.key;
+              this.data.data_map[folder.key].name = folder.key; 
               if((parentFolder ? parentFolder + '/' : '') + folder.name != folder.key) {
                 delete this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
               }
               // this.changeData();
               this.deleteFolderInRoot((parentFolder ? parentFolder + '/' : '') + folder.name);
+              // create new folder
+              let path = folder.key.split('/');
+              let path2 = folder.key.split('/');
+              let folderName = path.pop();
+              let folderNode = {
+                name: folderName,
+                key: folder.key,
+                type: 'folder',
+                input: false,
+                status: 'close'
+              }
+              this.buildFolderTree(path2, folderNode, this.data.data_key.subfolders);
+  
+              console.log("testxys", this.data.data_key)
+  
+              this.data.sidebarChoose = folder.key;
+            }
+            this.dataChange.emit(this.data);    
+          }
+        
+
+        });
+        this.renderer.listen(inputElement, 'keydown', ($event) => {
+          if ($event.key === 'Enter') {
+            folder.input = false;  
+            console.log(folder.key, 123321)
+            if(inputElement.value !== '' && inputElement.value !== folder.key) {
+              folder.key = (parentFolder ? parentFolder + '/' : '') + inputElement.value;
+              console.log(folder.key)
+              console.log((parentFolder ? parentFolder + '/' : '') + folder.name)
+              console.log(this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name]); 
+  
+              this.data.data_map[folder.key] = this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
+              this.data.data_map[folder.key].name = folder.key; 
+              if((parentFolder ? parentFolder + '/' : '') + folder.name != folder.key) {
+                delete this.data.data_map[(parentFolder ? parentFolder + '/' : '') + folder.name];
+              }
+              // this.changeData();
+              this.deleteFolderInRoot((parentFolder ? parentFolder + '/' : '') + folder.name);
+              // create new folder
+              let path = folder.key.split('/');
+              let path2 = folder.key.split('/');
+              let folderName = path.pop();
+              let folderNode = {
+                name: folderName,
+                key: folder.key,
+                type: 'folder',
+                input: false,
+                status: 'close'
+              }
+              this.buildFolderTree(path2, folderNode, this.data.data_key.subfolders);
+  
+              console.log("testxys", this.data.data_key)
+  
               this.data.sidebarChoose = folder.key;
             }
             this.dataChange.emit(this.data);  
-          }    
-        });
+          }
+          });
         this.renderer.appendChild(li, inputElement);
         setTimeout(() => inputElement.focus(), 0);
       } else {
@@ -274,29 +297,29 @@ sortData(data: any) {
         // Tạo một thẻ input
         let inputElement = this.renderer.createElement('input');
         this.renderer.setProperty(inputElement, 'value', file.name);
-        this.renderer.listen(inputElement, 'blur', () => { 
-          file.input = false; 
-          console.log(inputElement.value, )
-          if(inputElement.value !== '' && inputElement.value !== file.name) {
-            file.key = (folder ? folder + '/' : '') + inputElement.value;
-            console.log(file.key)
-            console.log(this.data.data_map[(folder ? folder + '/' : '') + file.name])
-            this.data.data_map[file.key] = this.data.data_map[(folder ? folder + '/' : '') + file.name];
-            this.data.data_map[file.key].name = file.key; 
-            if((folder ? folder + '/' : '') + file.name != file.key) {
-              delete this.data.data_map[(folder ? folder + '/' : '') + file.name];
-            }
-            file.name = inputElement.value;
-            this.data.fileChoose = file.key;
-            this.data.sidebarChoose = file.key;
-            let type = file.name.split('.').pop();
-            this.data.filesOpened.add(file.name);
-            if(type == 'html') {
-              this.data.key_file_html.add(file.name);
-            }
-            }  
-            this.dataChange.emit(this.data);
-            
+        this.renderer.listen('document', 'mousedown', (event) => { 
+          if(event.target !== inputElement) {
+            file.input = false; 
+            if(inputElement.value !== '' && inputElement.value !== file.name) {
+              file.key = (folder ? folder + '/' : '') + inputElement.value;
+              console.log(file.key)
+              console.log(this.data.data_map[(folder ? folder + '/' : '') + file.name])
+              this.data.data_map[file.key] = this.data.data_map[(folder ? folder + '/' : '') + file.name];
+              this.data.data_map[file.key].name = file.key; 
+              if((folder ? folder + '/' : '') + file.name != file.key) {
+                delete this.data.data_map[(folder ? folder + '/' : '') + file.name];
+              }
+              file.name = inputElement.value;
+              this.data.fileChoose = file.key;
+              this.data.sidebarChoose = file.key;
+              let type = file.name.split('.').pop();
+              this.data.filesOpened.add(file.name);
+              if(type == 'html') {
+                this.data.key_file_html.add(file.name);
+              }
+              }  
+              this.dataChange.emit(this.data);  
+          }
           });
         this.renderer.listen(inputElement, 'keydown', ($event) => {
           console.log($event.key);
@@ -555,8 +578,18 @@ console.log("testttt", path, name, root)
     }
   }
 
+  openFolder(key: any, root: any = this.data.data_key): void {
+    let path = key.split('/');
+    for(let i = 0; i < path.length; i++) {
+      root = root.subfolders[path[i]];
+      root.status = "open";
+    }
+  }
+
 
   onCreateFile() {
+    this.openFolder(this.data.sidebarChoose);
+    
     let folder = ''
     let baseName = 'new_file';
     let extension = '.html';
@@ -590,6 +623,7 @@ console.log("testttt", path, name, root)
   }
 
   onCreateFolder() {
+    this.openFolder(this.data.sidebarChoose);
     let folder = ''
     let baseName = 'new_foder';
     let newFolder = {key: '', name: '', type: 'folder', input: true, status: 'close'};

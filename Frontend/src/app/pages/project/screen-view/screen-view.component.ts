@@ -22,7 +22,7 @@ export class ScreenViewComponent implements OnInit {
       const href = event.data;
       if (this.data.key_file_html.has(href)) {
         const content = this.getContentByKey(href);
-
+        console.log(content)
         this.iframeContent = this.sanitizer.bypassSecurityTrustHtml(content);
       }
     }, false);
@@ -52,16 +52,17 @@ export class ScreenViewComponent implements OnInit {
     
     // Kiểm tra xem file có tồn tại và có nội dung không
     if (file && file.content) {
+      console.log(file.content);
       let content = file.content;
-      content = this.addHtmlFile(content);
-      content = this.addCssJs(content);
+      content = this.addHtmlFile(content, key);
+      content = this.addCssJs(content, key);
       return content;
     }
     
     return '';
   }
 
-  addHtmlFile(content: string) : string {
+  addHtmlFile(content: string, key: string) : string {
     // Sử dụng biểu thức chính quy để tìm tất cả các thẻ có thuộc tính href
     const regex = /<a\s[^>]*href\s*=\s*['"]([^'"]*)['"][^>]*>/g;
 
@@ -71,7 +72,7 @@ export class ScreenViewComponent implements OnInit {
       // const tag = match[1];
       let href = match[1];
       if(href!=null) {
-          const file_name = this.toAbsolutePath(this.screen_choose, href);
+          const file_name = this.toAbsolutePath(key, href);
         
 
         // Kiểm tra xem href có nằm trong data.key_file_html hay không
@@ -95,7 +96,7 @@ export class ScreenViewComponent implements OnInit {
     return content;
   }
 
-  addIframeHtml(content: string): string {
+  addIframeHtml(content: string, key: string): string {
     const parser = new DOMParser();
     const doc = parser.parseFromString(content, 'text/html');
 
@@ -128,7 +129,7 @@ export class ScreenViewComponent implements OnInit {
     return content;
   }
 
-  addCssJs(content: string): string {
+  addCssJs(content: string, key: string): string {
     const parser = new DOMParser();
     const doc = parser.parseFromString(content, 'text/html');
   
@@ -139,7 +140,7 @@ export class ScreenViewComponent implements OnInit {
     for (const linkElement of linkElements) {
       let href = linkElement.getAttribute('href');
       if(href != null) {
-        href = this.toAbsolutePath(this.screen_choose, href);
+        href = this.toAbsolutePath(key, href);
       }
 
       // Kiểm tra xem href có nằm trong data.key_file_html hay không
@@ -167,7 +168,7 @@ export class ScreenViewComponent implements OnInit {
       let src = scriptElement.getAttribute('src');
   
       if(src != null) {
-        src = this.toAbsolutePath(this.screen_choose, src);
+        src = this.toAbsolutePath(key, src);
       }
       // Kiểm tra xem src có nằm trong data.key_file_html hay không
       if (src&&this.data.data_map[src]!=null) {
