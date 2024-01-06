@@ -43,19 +43,19 @@
     </div>
     <div class="ContentGridUser_popularPenPreviews">
         <a [routerLink]="['/pen', data?.[0]?.pen_id]" *ngIf="data?.[0]">
-            <div data-picture="true" (mousedown)="handlePageClick()" class="border-iframe">
+            <div data-picture="true" (mousedown)="handlePageClick(0)" class="border-iframe">
                 <picture>
                     <div class="output-field">
-                        <iframe [srcdoc]="iframeContent_1" sandbox="allow-scripts"></iframe>
+                        <iframe [srcdoc]="iframeContent_1" sandbox="allow-scripts" style="overflow: clip;"></iframe>
                     </div>
                 </picture>
             </div>
         </a>
         <a [routerLink]="['/pen', data?.[1]?.pen_id]" *ngIf="data?.[1]">
-            <div data-picture="true" (mousedown)="handlePageClick()" class="border-iframe">
+            <div data-picture="true" (mousedown)="handlePageClick(1)" class="border-iframe">
                 <picture>
                     <div class="output-field">
-                        <iframe [srcdoc]="iframeContent_2" sandbox="allow-scripts"></iframe>
+                        <iframe [srcdoc]="iframeContent_2" sandbox="allow-scripts" style="overflow: clip;"></iframe>
                     </div>
                 </picture>
             </div>

@@ -80,8 +80,8 @@ export class ContentGridUserComponent implements OnInit {
   }
 
 
-  handlePageClick(): void {
-    this.router.navigate([`/pen/${this.data.pen_id}`], { relativeTo: null });
+  handlePageClick(id: any): void {
+    this.router.navigate([`/pen/${this.data?.[0]?.pen_id}`], { relativeTo: null });
   }
 
   handleFollowClick() {
