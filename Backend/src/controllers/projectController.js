@@ -403,14 +403,15 @@ let createProjectSample = async (req, res) => {
         const file2 = await File.create({
             name: 'script/script.js',
             project_id: project.project_id,
-            content: 'console.log("Hello world");',
+            content: `document.getElementById('myButton').addEventListener('click', function() {\n\tdocument.getElementById('myWord').innerHTML = "My First JavaScript";\n});`,
         });
 
         // Create a File with the given name and associate it with the Project
         const file3 = await File.create({
             name: 'index.html',
             project_id: project.project_id,
-            content: '<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<link rel="stylesheet" href="style/style.css">\n\t</head>\n\t<body><h1>Hello World</h1>\n\t\t<script src="script/script.js"></script>\n\t</body>\n</html>',
+            content: 
+            `<html>\n\t<head>\n\t\t<link rel="stylesheet" href="style/style.css">\n\t</head>\n\t<body>\n\t\t<h1 id='myWord'>Hello World</h1>\n\t\t\t<button id="myButton">Click me</button>\n\t\t<script src="script/script.js"></script>\n\t</body>\n</html>`,
         });
         res.status(201).json({ message: 'Project created successfully', project_id: project.project_id });
     } catch (error) {
