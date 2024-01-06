@@ -132,7 +132,8 @@ export class HeaderProjectComponent implements OnInit {
     })
       .then((response) => {
         // console.log(response);
-        alert("Saved Successfully")
+        // alert("Saved Successfully")
+        this.toastr.success('Saved Successfully', '');
       }, (error) => {
         console.log(error);
       });
