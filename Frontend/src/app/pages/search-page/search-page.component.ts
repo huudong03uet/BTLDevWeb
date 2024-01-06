@@ -45,7 +45,7 @@ export class SearchPageComponent implements OnInit, OnChanges {
         // console.log(apiUrl)
         axios.get(apiUrl).then((response) => {
           this.project_ids = response.data;
-          console.log(this.project_ids)
+          console.log("123", this.project_ids)
         }).catch((error) => {
           console.error('Error:', error);
         });

@@ -44,7 +44,7 @@
 
         </div>
     </div>
-    <div class="folder-tree-project" (contextmenu)="openContextMenu($event)"> 
+    <div class="folder-tree-project" > 
         <div class="header-folder-tree-project">
             <h2>Files</h2>
             <div class="button-controler-file-folder">
@@ -71,7 +71,7 @@
             </div>
 
         </div>
-        <div id="folder-tree-file" (click)="$event.stopPropagation() " >
+        <div id="folder-tree-file" (click)="$event.stopPropagation() " (contextmenu)="openContextMenu($event)">
         </div>
     </div>
 </div>

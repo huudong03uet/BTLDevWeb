@@ -17,7 +17,7 @@
 
 
     <div class="item-grid-code">
-        <app-content-grid-project style="    height: 248px;" *ngFor="let dataItem of pen_ids_current" [project_id]="dataItem"></app-content-grid-project>
+        <app-content-grid-project style="height: 248px;" *ngFor="let dataItem of pen_ids_current" [project_id]="dataItem"></app-content-grid-project>
     </div>
 
     <div class="background-item-grid-code next" *ngIf="!is_end" (click)="onClickNextGridCode()" >
