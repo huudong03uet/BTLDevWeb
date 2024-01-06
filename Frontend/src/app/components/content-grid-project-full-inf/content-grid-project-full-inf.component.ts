@@ -54,10 +54,15 @@ export class ContentGridProjectFullInfComponent implements OnInit {
 
     axios.post(toggleStatusUrl, { project_id: this.project_id })
       .then((response) => {
-        this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
-        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        this.router.onSameUrlNavigation = 'reload';
-        this.router.navigate([this.router.url]);      
+        this.informationPen[1] = this.informationPen[1] === 'Make Public' ? 'Make Private' : 'Make Public';
+        // refresh information
+
+
+        
+        
+        // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        // this.router.onSameUrlNavigation = 'reload';
+        // this.router.navigate([this.router.url]);      
       })
       .catch((error) => {
         console.error('Error toggling collection status:', error);
@@ -282,6 +287,7 @@ export class ContentGridProjectFullInfComponent implements OnInit {
   }
   handleChildDetailPenClose() {
     this.childDetailPenVisible = false;
+    document.body.style.overflow = 'auto';
   }
   
   handleDeleteClick() {
