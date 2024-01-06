@@ -37,18 +37,19 @@ export class ContentGridProjectComponent implements OnInit {
 
   ngOnInit(): void {
     this.iframeImage = this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/project.png');
-    console.log("this.project_id", this.project_id)
-    this.data = this.project_id;
-    console.log("this.data", this.data)
-    // const checkStatusUrl = this.myService.getApiHost() + '/project/checkStatus';
+    // this.data = this.project_id;
+    // console.log("this.data", this.data)
+    
+    const checkStatusUrl = this.myService.getApiHost() + '/project/getProjectByID?project_id=' + this.project_id;
     // console.log("this.project.projectid", this.project_id.project_id)
-    // axios.post(checkStatusUrl, { project_id: this.project_id.project_id})
-    //   .then((response) => {
-    //     this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error checking Project status:', error);
-    //   });
+    axios.get(checkStatusUrl)
+      .then((response) => {
+        this.data = response.data;
+        this.informationPen[1] = response.data.status === 'public' ? 'Make Private' : 'Make Public';
+      })
+      .catch((error) => {
+        console.error('Error checking Project status:', error);
+      });
   }
 
   // Function to handle the "Make Private/Make Public" button click

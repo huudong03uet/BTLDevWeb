@@ -110,9 +110,9 @@ async function _getProjectByUserID(user_id) {
         let projects = Project.findAll({
             attributes: {
                 include: [
-                    [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE project.project_id = like_table.project_id)'), 'numlike'],
-                    [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE project.project_id = view_table.project_id)'), 'numview'],
-                    [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE project.project_id = comment_table.project_id)'), 'numcomment'],
+                    [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE project.project_id = like_table.project_id AND like_table.type = "project")'), 'numlike'],
+                    [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE project.project_id = view_table.project_id AND view_table.type = "project")'), 'numview'],
+                    [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE project.project_id = comment_table.project_id AND comment_table.type = "project")'), 'numcomment'],
                 ]
             },
             where: { user_id: user_id, deleted: false },
@@ -148,8 +148,8 @@ async function getProjectByUserSort(req, res) {
             projects = await Project.findAll({
                 attributes: {
                     include: [
-                        [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE project.project_id = like_table.project_id)'), 'numlike'],
-                        [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE project.project_id = view_table.project_id)'), 'numview'],
+                        [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE project.project_id = like_table.project_id AND like_table.type = "collection")'), 'numlike'],
+                        [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE project.project_id = view_table.project_id AND view_table.type = "collection")'), 'numview'],
                     ]
                 },
                 where: { user_id: user_id, deleted: false },
@@ -182,9 +182,9 @@ async function getAllProject(req, res) {
                 exclude: ['password', 'html_code', 'js_code', 'css_code', 'type_css'],
                 include: [
                     [Sequelize.literal('(SELECT user_name FROM user WHERE user_id = project.user_id)'), 'user_name'],
-                    [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE like_table.project_id = project.project_id)'), 'numlike'],
-                    [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE view_table.project_id = project.project_id)'), 'numview'],
-                    [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.project_id = project.project_id)'), 'numcomment'],
+                    [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE like_table.project_id = project.project_id AND like_table.type = "collection")'), 'numlike'],
+                    [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE view_table.project_id = project.project_id AND view_table.type = "collection")'), 'numview'],
+                    [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE comment_table.project_id = project.project_id AND comment_table.type = "collection")'), 'numcomment'],
                 ],
             },
             where: { deleted: deleted },
@@ -444,6 +444,34 @@ async function getUserInfoByProjectID(req, res) {
     }
 }
 
+async function getProjectByID(req, res) {
+    const project_id = req.query.project_id;
+    try {
+        let project = await Project.findOne({
+            attributes: {
+                include: [
+                    //  get like, view comment
+                    [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE project.project_id = like_table.project_id AND like_table.type = "project")'), 'numlike'],
+                    [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE project.project_id = view_table.project_id AND view_table.type = "project")'), 'numview'],
+                    [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE project.project_id = comment_table.project_id AND comment_table.type = "project")'), 'numcomment'],
+
+                ]
+            },
+            where: {project_id: project_id}
+        })
+        console.log("project", project)
+        if (project != null) {
+            
+            res.status(200).json(project.dataValues);
+        } else {
+            res.status(404).json(false);
+        }
+        
+    } catch (error) {
+        req.status(500).json(false);
+    }
+}
+
 
 module.exports = {
     createProject,
@@ -460,4 +488,5 @@ module.exports = {
     saveProject,
     createProjectSample,
     getUserInfoByProjectID,
+    getProjectByID,
 };
