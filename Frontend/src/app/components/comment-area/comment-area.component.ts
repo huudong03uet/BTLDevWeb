@@ -133,7 +133,11 @@ export class CommentAreaComponent implements OnInit, OnChanges {
     this.isEdit = true;
   }
 
-  deleteComent(comment_id: number) {
+  deleteComent(comment_id: number, user_id: number) {
+    
+    if (this.user.getUserData()?.user_id != user_id) {
+      return;
+    }
 
     let userResponse = confirm("Do you want to delete this comment?");
     if (!userResponse) {

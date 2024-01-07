@@ -39,7 +39,7 @@ Give the creator a confidence boost!" name="commentText" [(ngModel)]="commentTex
                                 </svg>
                                 Edit
                             </button>
-                            <button class="delete-comment" (click)="deleteComent(comment.comment_id)">
+                            <button class="delete-comment" (click)="deleteComent(comment.comment_id, comment.user_id)">
                                 <svg viewBox="0 0 16 19">
                                     <path
                                         d="M.177 7.152A1 1 0 0 1 1.166 6h13.668a1 1 0 0 1 .989 1.152l-1.693 11a1 1 0 0 1-.988.848H2.858a1 1 0 0 1-.988-.848l-1.693-11ZM0 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1Z">

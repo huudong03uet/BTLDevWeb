@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { HostService } from 'src/app/host.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,14 @@ export class DataServiceService {
   list_file_open = [];
   selected: any = null;
   success = false;
-  constructor() { 
+  constructor(
+    private myService: HostService,
+  ) { 
   }
 
   async getData(project_id: any): Promise<void> {
     try {
-      this.data_source = (await axios.get(`http://localhost:3000/project/getInfoProject?project_id=${project_id}`)).data;
+      this.data_source = (await axios.get(this.myService.getApiHost() + `/project/getInfoProject?project_id=${project_id}`)).data;
       this.sortData();
       console.log(this.data_source)
 
