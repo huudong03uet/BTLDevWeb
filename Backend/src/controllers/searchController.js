@@ -111,7 +111,7 @@ async function getProjectIDWithSearch(req, res) {
             },
         });
 
-        projects = projects.map(x => x.project_id);
+        // projects = projects.map(x => x);
 
         res.status(200).json(projects)
     } catch (error) {

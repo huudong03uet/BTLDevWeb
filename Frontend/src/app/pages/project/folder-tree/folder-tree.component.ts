@@ -342,23 +342,16 @@ sortData(data: any) {
         this.renderer.listen(inputElement, 'keydown', ($event) => {
           if ($event.key === 'Enter') {
             console.log(inputElement.value, 1233212312)
-            file.input = false; 
+            file.input = false;
+            console.log(file.input)
             let old_key = file.key;
             if(inputElement.value !== '' && inputElement.value !== file.name && this.data.data_map[(folder ? folder + '/' : '') + inputElement.value] == null) {
+              console.log(123)
               file.key = (folder ? folder + '/' : '') + inputElement.value;
               this.data.data_map[file.key] = this.data.data_map[(folder ? folder + '/' : '') + file.name];
               this.data.data_map[file.key].name = file.key; 
               if((folder ? folder + '/' : '') + file.name != file.key) {
                 delete this.data.data_map[(folder ? folder + '/' : '') + file.name];
-              }
-              file.name = inputElement.value;
-              }  
-              this.data.fileChoose = file.key;
-              this.data.sidebarChoose = file.key;
-              let type = file.name.split('.').pop();
-              this.data.filesOpened.add(file.key);
-              if(type == 'html') {
-                this.data.key_file_html.add(file.key);
               }
               if(this.data.key_file_html.has(old_key)) {
                 this.data.key_file_html.delete(old_key);
@@ -366,6 +359,16 @@ sortData(data: any) {
               if(this.data.filesOpened.has(old_key)) {
                 this.data.filesOpened.delete(old_key);
               }
+              }
+              file.name = inputElement.value;
+              this.data.fileChoose = file.key;
+              this.data.sidebarChoose = file.key;
+              let type = file.name.split('.').pop();
+              this.data.filesOpened.add(file.key);
+              if(type == 'html') {
+                this.data.key_file_html.add(file.key);
+              }
+
               this.dataChange.emit(this.data);
             }
         });

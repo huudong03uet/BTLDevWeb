@@ -2,6 +2,8 @@ import { Component, ElementRef, ViewChild, AfterViewInit, OnChanges, OnInit, Aft
 import axios from 'axios';
 import { ActivatedRoute, Router } from '@angular/router';
 import { set } from 'lodash';
+import { HostService } from 'src/app/host.service';
+
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
@@ -15,7 +17,8 @@ export class ProjectComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private myService: HostService,
   ) { }
 
   ngOnInit(): void {
@@ -23,7 +26,7 @@ export class ProjectComponent implements OnInit, AfterViewInit {
       let project_id = params['id'];
       if (project_id !== null) {
         try {
-          let data_source = (await axios.get(`http://localhost:3000/project/getInfoProject?project_id=${project_id}`)).data;
+          let data_source = (await axios.get(this.myService.getApiHost() + `/project/getInfoProject?project_id=${project_id}`)).data;
           this.sortData(data_source);
 
           let root = {

@@ -1,6 +1,6 @@
 # Hướng dẫn 
 
-### 1. Cách Deploy (trên hệ thống fall2324g3w5)
+## 1. Hướng dẫn Deploy (trên hệ thống fall2324g3w5)
 
 Bước 1: Từ root: ```cd 123web/testweb/Backend```
 
@@ -12,7 +12,22 @@ Bước 4: ```npm start```
 
 Link video demo: https://youtu.be/mt1vxgTYrrY
 
-### 2. Cách Deploy (trên localhost)
+### 2. Hướng dẫn Deloy (trên server bất kỳ)
+#### 2.1. Tạo Cơ sở dữ liệu
+
+
+#### 2.2. Tiền xử lý Dự án
+
+
+
+#### 2.3. Deploy trên hệ thống
+
+
+
+
+## 3. Hướng dẫn Deploy (trên localhost)
+
+
 
 Bước 1: Mở terminal, chạy câu lệnh: ```git clone https://github.com/huudong03uet/BTLDevWeb.git```
 
@@ -33,7 +48,7 @@ Bước 7: ```ng serve```
 Bước 8: Truy cập ```http://localhost:4200/```
 
 
-### 3. Cấu trúc Ứng dụng
+## 4. Cấu trúc Ứng dụng
 
 BTLDevWeb
 

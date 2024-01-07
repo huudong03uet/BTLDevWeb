@@ -29,55 +29,21 @@
 
             </div>
             <h2 class="name-code">
-                <a class="code-name">{{ namePen }}</a>
-                <a class="code-user">{{data.user.user_name}}</a>
+                <a class="code-name">{{ data.name }}</a>
+                <!-- <a class="code-user">{{data.user.user_name}}</a> -->
             </h2>
-            <div class="three-dot-list" (click)="$event.stopPropagation()">
 
-                <div class="list-items {{random_number}}">
-                    <ul>
-                        <li (click)="handleToggleStatusClick()">
-                            <svg viewBox="0 0 100 125" class="ItemActionsPrivacy-module_icon-3Pn-9"><path d="M79.244 100H20.757a3.773 3.773 0 0 1-3.774-3.775V58.113a3.773 3.773 0 0 1 3.774-3.773h3.773V38.191c0-14.066 11.403-25.47 25.471-25.47 14.065 0 25.47 11.403 25.47 25.47V54.34h3.773a3.773 3.773 0 0 1 3.773 3.773v38.111A3.773 3.773 0 0 1 79.244 100zM63.482 38.945c0-7.445-6.037-13.48-13.481-13.48-7.446 0-13.481 6.035-13.481 13.48V54.34h26.963V38.945z"></path></svg>
-                             <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><rect y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" y="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect><rect width="9.64" height="9.64" rx="1" ry="1"></rect><rect x="10.36" width="9.64" height="9.64" rx="1" ry="1"></rect></svg> -->
-                             {{informationPen[1]}}
-                         </li>
-                        <li class="delete-li" (click)="handleDeleteClick()">
-                            <svg viewBox="0 0 16 19">
-                                <path
-                                    d="M.177 7.152A1 1 0 0 1 1.166 6h13.668a1 1 0 0 1 .989 1.152l-1.693 11a1 1 0 0 1-.988.848H2.858a1 1 0 0 1-.988-.848l-1.693-11ZM0 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1Z">
-                                </path>
-                                <path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5Z">
-                                </path>
-                            </svg>
-                            {{informationPen[0]}}
-                        </li>
-                    </ul>
-
-                </div>
-                <!-- <div class="list-collection-add {{random_number}}">
-                    <app-list-collection-to-add-pen [pen_id]="project_id"></app-list-collection-to-add-pen>
-                </div> -->
-                <span (click)="onClickInformationPen()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                        class="bi bi-three-dots" viewBox="0 0 16 16">
-                        <path
-                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                    </svg>
-
-
-                </span>
-            </div>
 
         </div>
         <footer class="footer-code-grid-container {{random_number}}">
             <button (click)="handleLikeClick()">
 
-                <svg viewBox="-2 0 105 92" data-love-level="0" [style.fill]="data.liked ? 'red' : 'white'">
+                <svg viewBox="-2 0 105 92" data-love-level="0" [style.fill]="data?.liked ? 'red' : 'white'">
                     <path
                         d="M85.24 2.67C72.29-3.08 55.75 2.67 50 14.9 44.25 2 27-3.8 14.76 2.67 1.1 9.14-5.37 25 5.42 44.38 13.33 58 27 68.11 50 86.81 73.73 68.11 87.39 58 94.58 44.38c10.79-18.7 4.32-35.24-9.34-41.71Z">
                     </path>
                 </svg>
-                {{data?.like}}
+                {{data?.numlike}}
             </button>
 
             <button (click)="openDetailPen()">
@@ -93,7 +59,7 @@
                         d="M-391 291.4c0 1.5 1.2 1.7 1.9 1.2 1.8-1.6 15.9-14.6 15.9-14.6h19.3c3.8 0 4.4-.8 4.4-4.5v-31.1c0-3.7-.8-4.5-4.4-4.5h-47.4c-3.6 0-4.4.9-4.4 4.5v31.1c0 3.7.7 4.4 4.4 4.4h10.4v13.5z">
                     </path>
                 </svg>
-                {{data?.comment}}
+                {{data?.numcomment}}
             </button>
 
             <button>
@@ -108,7 +74,7 @@
                         d="M15.3 0C8.9 0 3.3 3.3 0 8.3c3.3 5 8.9 8.3 15.3 8.3s12-3.3 15.3-8.3C27.3 3.3 21.7 0 15.3 0zm0 14.5c-3.4 0-6.2-2.8-6.2-6.2C9 4.8 11.8 2 15.3 2c3.4 0 6.2 2.8 6.2 6.2 0 3.5-2.8 6.3-6.2 6.3z">
                     </path>
                 </svg>
-                {{data?.view}}
+                {{data?.numview}}
             </button>
         </footer>
     </div>
@@ -121,5 +87,5 @@
 <!-- <app-detail-pen [pen_id]="pen_id" (closeDetailPen)="handleChildDetailPenClose()"
     *ngIf="childDetailPenVisible"></app-detail-pen> -->
 
-<app-detail-pen [pen_id]="project_id" [type]="'project'" (closeDetailPen)="handleChildDetailPenClose()"
-    *ngIf="childDetailPenVisible"></app-detail-pen>
+<!-- <app-detail-pen [pen_id]="project_id" [type]="'project'" (closeDetailPen)="handleChildDetailPenClose()"
+    *ngIf="childDetailPenVisible"></app-detail-pen> -->
