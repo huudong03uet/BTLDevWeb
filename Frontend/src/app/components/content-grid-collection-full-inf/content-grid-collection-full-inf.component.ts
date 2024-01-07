@@ -49,13 +49,20 @@ export class ContentGridCollectionFullInfComponent implements OnInit {
         data_pen = response.data;
         const iframeContent = `
         <html>
-          <head>
-            <style>
-            ${data_pen.pen.css_code}</style>
-          </head>
+        <head>
+        <style>${data_pen.pen.css_code}
+        html, body {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          overflow: clip;
+        } </style>
+      </head>
           <body>
+            <div class="inner-div" style="width: 100%; height: 100%; position: relative;">
             ${data_pen.pen.html_code}
             <script>${data_pen.pen.js_code}</script>
+            </div>
           </body>
         </html>
       `;
