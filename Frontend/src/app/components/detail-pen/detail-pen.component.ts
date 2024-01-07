@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 
 import { HostService } from 'src/app/host.service';
+import { UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
   selector: 'app-detail-pen',
@@ -60,6 +61,7 @@ export class DetailPenComponent {
     private router: Router,
     private sanitizer: DomSanitizer,
     private myService: HostService,
+    private userData: UserDataService,
   ) { }
 
 
@@ -76,12 +78,39 @@ export class DetailPenComponent {
 
 
 
-  user_name = "hihihi"
+  user_name = ""
   informationPen = [
     "Add to Collection",
     "Remove from Pins",
     "Unfollow " + this.user_name,
   ]
+  handleLikeClick() {
+    if (this.userData.getUserData() == null) {
+      this.router.navigate([`/login`]);
+    }
+    const url =  this.myService.getApiHost() + `/grid/handleLike?pen_id=${this.data.pen.pen_id}&user_id=${this.userData.getUserData()?.user_id}&type=pen`;
+
+    axios.get(url).then((response) => {
+
+      if (response.data.liked) {
+        this.data.like++;
+      } else {
+        this.data.like--;
+      }
+
+      this.data.liked = response.data.liked;
+    }).catch((error) => {
+      console.error('Error:', error);
+
+      // Nếu xảy ra lỗi, đảm bảo đồng bộ lại giá trị 'liked' và 'like'
+      this.data.liked = this.data.liked;
+      if (this.data.liked) {
+        this.data.like++;
+      } else {
+        this.data.like--;
+      }
+    });
+  }
 
 
   onCloseCreateNewCollection() {
