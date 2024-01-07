@@ -117,7 +117,7 @@ async function _checkUserWithGmail(gmail) {
       return true;
     }
 
-    return false;
+    return true;
   } catch (error) {
     return false;
   }

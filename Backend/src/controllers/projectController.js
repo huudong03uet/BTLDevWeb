@@ -403,15 +403,14 @@ let createProjectSample = async (req, res) => {
         const file2 = await File.create({
             name: 'script/script.js',
             project_id: project.project_id,
-            content: `document.getElementById('myButton').addEventListener('click', function() {\n\tdocument.getElementById('myWord').innerHTML = "My First JavaScript";\n});`,
+            content: 'console.log("Hello world");',
         });
 
         // Create a File with the given name and associate it with the Project
         const file3 = await File.create({
             name: 'index.html',
             project_id: project.project_id,
-            content: 
-            `<html>\n\t<head>\n\t\t<link rel="stylesheet" href="style/style.css">\n\t</head>\n\t<body>\n\t\t<h1 id='myWord'>Hello World</h1>\n\t\t\t<button id="myButton">Click me</button>\n\t\t<script src="script/script.js"></script>\n\t</body>\n</html>`,
+            content: '<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<link rel="stylesheet" href="style/style.css">\n\t</head>\n\t<body><h1>Hello World</h1>\n\t\t<script src="script/script.js"></script>\n\t</body>\n</html>',
         });
         res.status(201).json({ message: 'Project created successfully', project_id: project.project_id });
     } catch (error) {
@@ -448,29 +447,18 @@ async function getUserInfoByProjectID(req, res) {
 async function getProjectByID(req, res) {
     const project_id = req.query.project_id;
     try {
-        let project = await Project.findOne({
+        let project = Project.findOne({
             attributes: {
-<<<<<<< HEAD
-                includes: [
-                    [Sequelize.literal('(SELECT COUNT(like_id) FROM like_table WHERE like_table.project_id = project.project_id and like_table.type = "project")'), 'numlike'],
-                    [Sequelize.literal('(SELECT COUNT(view_id) FROM like_table WHERE view_table.project_id = project.project_id and view_table.type = "project")'), 'numview'],
-                    [Sequelize.literal('(SELECT COUNT(comment_id) FROM comment_table WHERE comment_table.project_id = project.project_id and comment_table.type = "project")'), 'numcomment'],
-=======
                 include: [
-                    //  get like, view comment
-                    [Sequelize.literal('(SELECT count(like_id) FROM like_table WHERE project.project_id = like_table.project_id AND like_table.type = "project")'), 'numlike'],
-                    [Sequelize.literal('(SELECT count(view_id) FROM view_table WHERE project.project_id = view_table.project_id AND view_table.type = "project")'), 'numview'],
-                    [Sequelize.literal('(SELECT count(comment_id) FROM comment_table WHERE project.project_id = comment_table.project_id AND comment_table.type = "project")'), 'numcomment'],
-
->>>>>>> refs/remotes/origin/main
+                    [Sequelize.literal('(SELECT COUNT(like_id) FROM like_table WHERE like_table.project_id = project.project_id and like_table.type = "project")'), 'numlike'],
+                    [Sequelize.literal('(SELECT COUNT(view_id) FROM view_table WHERE view_table.project_id = project.project_id and view_table.type = "project")'), 'numview'],
+                    [Sequelize.literal('(SELECT COUNT(comment_id) FROM comment_table WHERE comment_table.project_id = project.project_id and comment_table.type = "project")'), 'numcomment'],
                 ]
             },
             where: {project_id: project_id}
         })
-        console.log("project", project)
         if (project != null) {
-            
-            res.status(200).json(project.dataValues);
+            res.status(200).json(project);
         } else {
             res.status(404).json(false);
         }

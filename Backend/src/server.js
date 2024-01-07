@@ -94,14 +94,14 @@ app.post('/send-email/forgotPassword', async (req, res) => {
         text: `password = Abc123456@`,
       }, (err) => {
         if (err) {
-          return res.json(err);
+          return res.status(200).json(err);
         } else {
-          return res.json("done");
+          return res.status(404).json("done");
         }
       }
     );
   } catch (error) {
-    
+    res.status(500).json("loi")
   }
 
   
