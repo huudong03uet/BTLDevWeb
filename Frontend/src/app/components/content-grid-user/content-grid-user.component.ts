@@ -36,28 +36,44 @@ export class ContentGridUserComponent implements OnInit {
       }
       const iframeContent_1 = `
         <html>
-          <head>
-            <style>${this.data[0].css_code}</style>
-          </head>
+        <head>
+        <style>${this.data[0].css_code}
+        html, body {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          overflow: clip;
+        } </style>
+      </head>
           <body>
+            <div class="inner-div" style="width: 100%; height: 100%; position: relative;">
             ${this.data[0].html_code}
             <script>${this.data[0].js_code}</script>
+            </div>
           </body>
         </html>
       `;
       this.iframeContent_1 = this.sanitizer.bypassSecurityTrustHtml(iframeContent_1);
 
       const iframeContent_2 = `
-        <html>
-          <head>
-            <style>${this.data[1].css_code}</style>
-          </head>
-          <body>
-            ${this.data[1].html_code}
-            <script>${this.data[1].js_code}</script>
-          </body>
-        </html>
-      `;
+      <html>
+      <head>
+      <style>${this.data[1].css_code}
+      html, body {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: clip;
+      } </style>
+    </head>
+        <body>
+          <div class="inner-div" style="width: 100%; height: 100%; position: relative;">
+          ${this.data[1].html_code}
+          <script>${this.data[1].js_code}</script>
+          </div>
+        </body>
+      </html>
+    `;
       this.iframeContent_2 = this.sanitizer.bypassSecurityTrustHtml(iframeContent_2);
     }).catch((error) => {
       console.error('Error:', error);
